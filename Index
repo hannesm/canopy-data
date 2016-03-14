@@ -20,4 +20,4 @@ repository](https://github.com/hannesm/canopy-data)).
 - Water behind the counter, fruits on the counter.  Help yourself.  If there is none, buy some.
 - Towels can be rented by Kasia, ask her.
 - Use `nuc1 wifi` network, it runs our own dhcp server.
-- Nameserver you can add `nameserver 141.1.1.1` in your `/etc/resolv.conf` (where is a mirage resolver?)
+- Nameserver you can add `nameserver 141.1.1.1` in your `/etc/resolv.conf` (where is a mirage resolver?)  [part 2 of a 3-part series on building one](http://hh360.user.srcf.net/blog/2015/03/part-2-running-your-own-dns-resolver-with-mirageos/) courtesy hh360
