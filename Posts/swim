@@ -1,0 +1,13 @@
+---
+title: Membership protocol for Mirage
+author: andreas (Andreas Garnæs)
+abstract: Membership protocol for Mirage unikernel clusters based on SWIM
+---
+
+Membership management is an important component of distributed systems, where it is the foundation of things like distributed concensus, application layer sharding, log replciation, etc. [SWIM](http://www.cs.cornell.edu/~asdas/research/dsn02-SWIM.pdf) is a scalable membership protocol based on gossip principles that is already seeing adoption in industry (e.g. [Consul](https://www.consul.io/) by Hashicorp and [Ringpop](http://uber.github.io/ringpop/) by Uber).
+
+The aim of this project is to create a Mirage SWIM task that can run alongside an application task and keeps track of cluster state. The application task can then query the SWIM task about the cluster state, e.g. to issue a request to another node.
+
+It's still early days for the implementation, though it does work in small scenarios on localhost.
+
+Repo: [mirage-swim](https://github.com/andreas/mirage-swim)
