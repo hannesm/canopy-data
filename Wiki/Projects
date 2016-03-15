@@ -11,4 +11,4 @@ If you want to work on a specific project/library and are looking for collaborat
 * Irmin-powered community blog
 * ocaml-github-powered mirageos library readme scraper
 * [Git server-side implementation](https://github.com/mirage/ocaml-git/issues/15)
-* Support for [PBKDF](https://github.com/abeaumont/ocaml-pbkdf), scrypt and bcrypt
+* Support for [PBKDF](https://github.com/abeaumont/ocaml-pbkdf), [scrypt](https://github.com/abeaumont/ocaml-scrypto) and bcrypt
