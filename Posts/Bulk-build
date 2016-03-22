@@ -1,0 +1,22 @@
+---
+title: Bulk build all the things
+author: avsm (Anil Madhavapeddy)
+abstract: Get containers for everything
+---
+
+I've been working on the container and bulk building infrastructure so that we test Mirage more easily across all the various distros.
+
+Current status:
+
+- Released a bunch of libraries like [ocaml-dockerfile](https://github.com/avsm/ocaml-dockerfile) to OPAM that make it easier to generate container descriptions via a DSL.
+- Containers building regularly on [https://hub.docker.com/r/ocaml/opam](https://hub.docker.com/r/ocaml/opam/). See the README on that page for the full matrix of supported distributions.
+- Documenting how it all fits together on the [docker-infra](https://github.com/avsm/ocaml-docker-infra/wiki] wiki.
+- Running it experimentally against OPAM repository PRs via some [Makefiles](https://github.com/avsm/opam-pr-build-results) that aggregate the results of a distro build into HTML and push it to the branch named after the PR.  This will be automated soon with some help from Thomas Gazagnaire...
+
+I'm planning to hook in Windows and FreeBSD support to this infrastructure as soon as I get Docker running there, so that we can have a reasonable amount of multidistro testing for all of the Mirage libraries.
+
+Open questions/comments:
+
+- Can/should we maintain a Mirage-only OPAM repository (extracted from the bigger one) to make it easier to run bulk builds quickly on ARM?  This would have to be extracted from the central OPAM repository automatically.
+- We should run this automatically against mirage-dev as well.
+- I could really use a volunteer to help tidy up the HTML and generate proper reports...
