@@ -1,0 +1,19 @@
+---
+author: Engil (Enguerrand Decorne)
+title: Future of Canopy
+abstract: Trying to improve Canopy
+---
+
+Just some random thoughts about the current state of Canopy
+
+- The current Canopy should run under Xen, if the right packages are pinned accordingly to README.md, in the Xen paragraph. This isn't really the best situation but it works. . Thomas suggested that bin_prot was not really necessary anymore and can be removed from Irmin, if I remember correctly, but I'm not sure about the situation of the other pinned branches for do_log and crc. (Mindy and Thomas should know ?)
+
+- There is some kind of problem with the latest version of Decompress, so Canopy is kind of at risk of crashing anytime someone try to push something else than plain text into the data repository. Be careful with that. :-) (Fixes are on the way thanks to dinosaure)
+
+- Date are handled accordingly to the last time a file was updated (and this function is really poorly implemented by myself, it should be rewritten at some point), maybe the date the file was created is a better idea ?
+
+- Tags are on the way, they will just allow content to be classified and searched, probably via some kind of page like /tags/keyword. If anyone have a better idea it would be awesome. :)
+
+- Canopy still doesn't do anything with git branches: This would be a nice possibility to use them in some sort. One idea was using them for drafts: it would be possible to query a page using some sort of parameter (like for example /Posts/Nocamlp4?branch=draft) that displays the content of this branch instead. Some discussions about this would be nice.
+
+- The code need some more documentation, and maybe needs to be a little simpler to modify and extend to satisfy integration needs (for example, making the html templates more modular and easy to change.).
