@@ -1,0 +1,22 @@
+---
+title: Releasing PPX libraries for Mirage core
+author: djs55 (Dave Scott)
+abstract: Making Mirage core ppx based and improving Windows support
+---
+
+I've been going through all the core libraries in Mirage and refreshing them to:
+
+- add Appveyor support based on the [ocaml-ci-scripts](https://github.com/ocaml/ocaml-ci-scripts) so that we test the libraries on Windows
+- removing the use of camlp4 and using ppx, mainly in cstruct and lwt.
+
+Major libraries I did this for include:
+- [mirage-profile](https://github.com/ocaml/opam-repository/pull/5976)
+- [dns](https://github.com/ocaml/opam-repository/pull/5971)
+- [shared-memory-ring](https://github.com/ocaml/opam-repository/pull/5986) and [1.3.0](https://github.com/ocaml/opam-repository/pull/6051)
+- [xenstore](https://github.com/ocaml/opam-repository/pull/5992)
+- [mirage-platform](https://github.com/ocaml/opam-repository/pull/6045)
+- [vmnet](https://github.com/ocaml/opam-repository/pull/6053)
+- [tcpip](https://github.com/ocaml/opam-repository/pull/6092)
+- [mirage-block-unix](https://github.com/ocaml/opam-repository/pull/5890)
+
+And also added lots of upper bounds to [older packages](https://github.com/ocaml/opam-repository/pull/5992) with the top of cstruct.
