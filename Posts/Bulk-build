@@ -10,7 +10,7 @@ Current status:
 
 - Released a bunch of libraries like [ocaml-dockerfile](https://github.com/avsm/ocaml-dockerfile) to OPAM that make it easier to generate container descriptions via a DSL.
 - Containers building regularly on [https://hub.docker.com/r/ocaml/opam](https://hub.docker.com/r/ocaml/opam/). See the README on that page for the full matrix of supported distributions.
-- Documenting how it all fits together on the [docker-infra](https://github.com/avsm/ocaml-docker-infra/wiki] wiki.
+- Documenting how it all fits together on the [docker-infra](https://github.com/avsm/ocaml-docker-infra/wiki) wiki.
 - Running it experimentally against OPAM repository PRs via some [Makefiles](https://github.com/avsm/opam-pr-build-results) that aggregate the results of a distro build into HTML and push it to the branch named after the PR.  This will be automated soon with some help from Thomas Gazagnaire...
 
 I'm planning to hook in Windows and FreeBSD support to this infrastructure as soon as I get Docker running there, so that we can have a reasonable amount of multidistro testing for all of the Mirage libraries.
