@@ -1,0 +1,36 @@
+---
+title: telnet
+author: hannes
+abstract: good old protocols
+---
+
+Telnet - TERminal over NETwork - describes NVT (network virtual terminal) and
+operations on it.  It allows a local client to access a remote terminal
+interface.
+
+I've heard that unikernels are hard to debug and inspect; also I used a lisp
+machine toplevel (see [this video](https://vimeo.com/159946178)) and worked (a
+decade ago) on an interactive shell for a network stack (see [this
+code](https://github.com/dylan-hackers/network-night-vision/blob/master/gui-sniffer/commands.dylan))
+(and screenshots, etc. in the same repository) -- inspired by Cisco IOS / CatOS
+/ Juniper shells.
+
+David implemented a [nice tty library](https://github.com/pqwy/notty) in OCaml,
+which I want to use to develop an interactive adventure game ^W^Wshell for
+MirageOS.  A telnet server will be a backend of notty (David already did a
+mirage branch on notty which defines the interface), the application will be
+something very similar to [ocamlnat](http://benediktmeurer.de/ocamlnat/).
+
+You are concerned about security?  Well, maybe talk telnet over TLS (and use
+X.509 client certificates) :) (a `openssl s_client -key mykey.pem -cert
+mycert.pem -connect mirage | telnet` should be sufficient)
+
+Why not SSH?  Oh, I'd love to have ssh in pure OCaml, but that'll take some
+months (I don't know much of the protocol).  Anil wrote a [partial, slightly
+bitrot ssh](https://github.com/avsm/ocaml-ssh/) several years ago (which is
+a good starting point for volunteers who want to implement ssh).
+
+Current status: partially working telnet implementation (on my hard disk) which
+correctly transmits window size changes and redraws screens, not yet any access
+control library or shell.  I'm lazy (or overloaded with projects) and needed to
+enjoy the sun and chats with friends in Marrakesh.
