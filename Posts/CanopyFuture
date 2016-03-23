@@ -16,4 +16,6 @@ Just some random thoughts about the current state of Canopy
 
 - Canopy still doesn't do anything with git branches: This would be a nice possibility to use them in some sort. One idea was using them for drafts: it would be possible to query a page using some sort of parameter (like for example /Posts/Nocamlp4?branch=draft) that displays the content of this branch instead. Some discussions about this would be nice.
 
+- Needs some improving on caching: Currently using some kind of caching with an hashtable updated each time the repository pull new content. Also, all static assets are re-sent everytime, needs to add some headers somewhere.
+
 - The code need some more documentation, and maybe needs to be a little simpler to modify and extend to satisfy integration needs (for example, making the html templates more modular and easy to change.).
