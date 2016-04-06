@@ -132,15 +132,15 @@ tags: irc,log
 
 `06-04-2016 15:14`   `hannes`   `dbuenzli`: I really appreciate you input, if you've more details to share, please do offline
 
-`06-04-2016 15:14`   `Algebr``   I mentioned two things that I need out of canopy, at least for me to be able to leave haykll. 1. language specific syntax highlighting 2. generation of atom feeds by, filterable by tags.
+`06-04-2016 15:14`   `Algebr`   I mentioned two things that I need out of canopy, at least for me to be able to leave haykll. 1. language specific syntax highlighting 2. generation of atom feeds by, filterable by tags.
 
 `06-04-2016 15:15`   `amirmc`   Overall, I think static-site generation, based on a repo is very cool and ultimately I'd like to move my personal site over to it. However, I don't it's going to be suitable for everything.
 
-`06-04-2016 15:15`   `noddy`   `Algebr``: #1 is down to including https://highlightjs.org/
+`06-04-2016 15:15`   `noddy`   `Algebr`: #1 is down to including https://highlightjs.org/
 
 `06-04-2016 15:15`   `hannes`   I'm keen on closing this topic for this call, we can discuss it in a future call.
 
-`06-04-2016 15:15`   `engil`   `Algebr``: syntax hl is done (not pushed), rss is done (but not by tag yet)
+`06-04-2016 15:15`   `engil`   `Algebr`: syntax hl is done (not pushed), rss is done (but not by tag yet)
 
 `06-04-2016 15:15`   `mort___`   `hannes` `thomasga` `amirmc` `dbuenzli`: agree blog format is ill-suited to general (non-time-ordered) content, but that's relatively simple to add. in general i like that it separates concerns of content from serving which have always been a bit mixed up
 
@@ -396,9 +396,9 @@ tags: irc,log
 
 `06-04-2016 15:46`   `seangrove`   Great
 
-`06-04-2016 15:46`   `Algebr``   fast enough for an http request
+`06-04-2016 15:46`   `Algebr`   fast enough for an http request
 
-`06-04-2016 15:46`   `Algebr``   maybe?
+`06-04-2016 15:46`   `Algebr`   maybe?
 
 `06-04-2016 15:46`   `hannes`   that sounds awesome!
 
