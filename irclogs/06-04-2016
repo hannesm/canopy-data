@@ -1,0 +1,556 @@
+---
+participants: Algebr`,Drup,amirmc,dance-bot,dbuenzli,dinosaure,djs55,djwillia,engil,hannes,lobo,mort___,noddy,seangrove,talex5,thomasga,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 06-04-2016
+tags: irc,log
+---
+`06-04-2016 14:57`   `engil`   (this bot will just log the meeting and put it in Canopy, just ignore it :-°)
+
+`06-04-2016 14:58`   `yomimono`   o hai there
+
+`06-04-2016 14:58`   `yomimono`   `engil`: can I look at its source somewhere? :D
+
+`06-04-2016 14:59`   `yomimono`   hm, maybe https://github.com/Engil/ImaginaryFriend ?
+
+`06-04-2016 14:59`   `engil`   yup
+
+`06-04-2016 15:00`   `engil`   not really great atm, needs some more work, it was done quickly :)
+
+`06-04-2016 15:00`   `yomimono`   hmmmmm, does it respond to any string containing, say, the word help ?
+
+`06-04-2016 15:01`   `engil`   commands needs a hl
+
+`06-04-2016 15:01`   `yomimono`   sorry, I'll quit trying to play with it while we're trying to meet
+
+`06-04-2016 15:01`   `engil`   spammy, sorry
+
+`06-04-2016 15:02`   `djs55`   ACTION waves
+
+`06-04-2016 15:02`   `hannes`   hello!
+
+`06-04-2016 15:03`   `thomasga`   \o/
+
+`06-04-2016 15:03`   `hannes`   since anil is on vacation, I was asked to do something with this meeting...
+
+`06-04-2016 15:03`   `lobo`   hi
+
+`06-04-2016 15:03`   `engil`   hello :)
+
+`06-04-2016 15:03`   `hannes`   we have some sort of agenda at https://github.com/mirage/mirage-www/wiki/Call-Agenda (obviously not strict, feel free to raise other things at the end)
+
+`06-04-2016 15:04`   `dinosaure`   hello
+
+`06-04-2016 15:04`   `hannes`   first item would be "about those calls (information retrieval) http://lists.xenproject.org/archives/html/mirageos-devel/2016-04/msg00006.html"
+
+`06-04-2016 15:05`   `hannes`   the overall question is: adding new websites, such as canopy, distributes the information even further... should we try to reconcile and have an idea where which information is stored (in a way that newcomers can easily find available information)?
+
+`06-04-2016 15:05`   `hannes`   and if so, is there anybody who would like to work on a proposal (or is the current state good, using various github repositories, wikis, mirage.io, ...)?
+
+`06-04-2016 15:06`   `thomasga`   I think canopy greatly simplifies the "push to Git" -> get your website running which is what we already that for mirage.io. In my opinion that's the next logical step.
+
+`06-04-2016 15:07`   `thomasga`   merging canopy and the current deployment workflow makes a lot of sense
+
+`06-04-2016 15:07`   `djwillia`   is canopy meant to replace mirage.io?
+
+`06-04-2016 15:07`   `hannes`   ACTION personally would like to store less information on GitHub wikis in the end, and prefers places we host ourselves (and can easily move away from GitHub if it is down)
+
+`06-04-2016 15:07`   `thomasga`   e.g. you don't want to recompile a new unikernel if you just change some Git-tracked contents
+
+`06-04-2016 15:07`   `amirmc`   Logical step for what though? replacing mirage.io or something else?
+
+`06-04-2016 15:08`   `thomasga`   we don't store anything on Github wikis as far as I know
+
+`06-04-2016 15:08`   `hannes`   `djwillia`: this is an idea, I suspect canopy is not yet ready feature-wise (@`engil` knows more)
+
+`06-04-2016 15:08`   `mort___`   hello!
+
+`06-04-2016 15:08`   `hannes`   `thomasga`: PioneerProjects + CallAgenda
+
+`06-04-2016 15:08`   `thomasga`   ha yes true
+
+`06-04-2016 15:08`   `amirmc`   As I mentioned in my email. Canopy (or any other static site thing) isn't as easy to edit as GH wiki is right now.
+
+`06-04-2016 15:08`   `thomasga`   I think that would be great that mirage.io post and wikis entry are stored in something which looks very much like canopy
+
+`06-04-2016 15:09`   `thomasga`   `amirmc`: that's not true
+
+`06-04-2016 15:09`   `hannes`   (and I agree with amir that we should first have a plan what we want to achieve)
+
+`06-04-2016 15:09`   `dbuenzli`   Hello timezone challenged people.
+
+`06-04-2016 15:09`   `amirmc`   `thomasga`: how so?
+
+`06-04-2016 15:09`   `thomasga`   just click the "Edit" button on Github
+
+`06-04-2016 15:09`   `noddy`   `dbuenzli`: i know, right?
+
+`06-04-2016 15:09`   `djs55`   I don't believe in timezones
+
+`06-04-2016 15:09`   `amirmc`   That's kind of my point. GH wikis are better at that than the edit-in-repo functionality
+
+`06-04-2016 15:10`   `dbuenzli`   I thought everybody was using ptime.
+
+`06-04-2016 15:10`   `amirmc`   Yeah, sorry for the timezone confusion :)
+
+`06-04-2016 15:10`   `thomasga`   `amirmc`: like https://github.com/`hannes`m/canopy-data/edit/master/Posts/Bulk-build
+
+`06-04-2016 15:10`   `dbuenzli`   Tbh canopy feels a  little bit retarded at organising information.
+
+`06-04-2016 15:10`   `thomasga`   canopy just reflects the changes directly
+
+`06-04-2016 15:10`   `mort___`   re canopy and editing: aiui canopy simply serves up the contents of a git repo, such as a GH wiki (which is a repo behind the scenes), responding to pokes from teh GH webhook
+
+`06-04-2016 15:11`   `dbuenzli`   Which seems to be the main problem mirage docs have has at the moment.
+
+`06-04-2016 15:11`   `noddy`   `amirmc`: `thomasga`: github couldn't be any more of a weak link. it's usable, but the company is going through turmoil, we're in other people's hands, and imho we're sending the wrong signal by not dogfooding enough
+
+`06-04-2016 15:11`   `mort___`   editing can still happen in the GH edit panes
+
+`06-04-2016 15:11`   `mort___`   just doesn't have to
+
+`06-04-2016 15:12`   `noddy`   ACTION thinks we should strategically start relying on github less and self-hosting more, even if there's a shadow github presence for people to find the project easily.
+
+`06-04-2016 15:12`   `thomasga`   `noddy`: I'm fine with that. I'm just saying that if people wants to use the Github interface to edit the contents, that's also fine with Canopy. In my mind, we didn't do that before because Irmin was not ready.
+
+`06-04-2016 15:12`   `amirmc`   `thomasga`: The preview pane only shows changes
+
+`06-04-2016 15:12`   `hannes`   `dbuenzli`: could you elaborate by saying what features you miss? or how you'd optimally organise information?
+
+`06-04-2016 15:12`   `mort___`   `hannes`: `dbuenzli` has already put a couple of issues on mirage-www about that i think
+
+`06-04-2016 15:13`   `mort___`   https://github.com/mirage/mirage-www/issues/432
+
+`06-04-2016 15:13`   `hannes`   `mort___`: this was about mirage-www itself, I'm curious what is missing in canopy
+
+`06-04-2016 15:13`   `dbuenzli`   Last time I saw canopy it was just some time of timestamped entries. That certainly not the way of organizing documentation. I feels more people are more like vomitting information on a website.
+
+`06-04-2016 15:13`   `thomasga`   `amirmc`: I don't understand what you said :-)
+
+`06-04-2016 15:13`   `hannes`   `dbuenzli`: it has support for tags now. a tag is a free-form string, you can show all entries for a given tag
+
+`06-04-2016 15:13`   `amirmc`   `thomasga`: I went to look at the link you sent. Then I clicked on preview changes. It didn't show me any (as I hadn't made any).
+
+`06-04-2016 15:14`   `dbuenzli`   Still I found the blog format ill-suited.
+
+`06-04-2016 15:14`   `hannes`   `dbuenzli`: I really appreciate you input, if you've more details to share, please do offline
+
+`06-04-2016 15:14`   `Algebr``   I mentioned two things that I need out of canopy, at least for me to be able to leave haykll. 1. language specific syntax highlighting 2. generation of atom feeds by, filterable by tags.
+
+`06-04-2016 15:15`   `amirmc`   Overall, I think static-site generation, based on a repo is very cool and ultimately I'd like to move my personal site over to it. However, I don't it's going to be suitable for everything.
+
+`06-04-2016 15:15`   `noddy`   `Algebr``: #1 is down to including https://highlightjs.org/
+
+`06-04-2016 15:15`   `hannes`   I'm keen on closing this topic for this call, we can discuss it in a future call.
+
+`06-04-2016 15:15`   `engil`   `Algebr``: syntax hl is done (not pushed), rss is done (but not by tag yet)
+
+`06-04-2016 15:15`   `mort___`   `hannes` `thomasga` `amirmc` `dbuenzli`: agree blog format is ill-suited to general (non-time-ordered) content, but that's relatively simple to add. in general i like that it separates concerns of content from serving which have always been a bit mixed up
+
+`06-04-2016 15:16`   `amirmc`   `hannes`:  :P
+
+`06-04-2016 15:16`   `hannes`   I suspect the next point, build automation, will be deferred since avsm is not here
+
+`06-04-2016 15:16`   `hannes`   or does anyone have news on bytecode-only builders, experiments with mirage on flambda (4.03)?
+
+`06-04-2016 15:17`   `hannes`   I take this as a no.
+
+`06-04-2016 15:17`   `dbuenzli`   Most of the stuff is not compilable because of the ppx cancer.
+
+`06-04-2016 15:17`   `noddy`   +1
+
+`06-04-2016 15:17`   `hannes`   Improving errors and logging: http://canopy.mirage.io/Posts/Errors (@`talex5`)
+
+`06-04-2016 15:17`   `hannes`   Adding Logs support requires changes in Functoria (https://github.com/mirage/functoria/pull/55)
+
+`06-04-2016 15:17`   `hannes`   https://github.com/mirage/mirage-dev/pull/107
+
+`06-04-2016 15:17`   `thomasga`   I think this is blocked on `Drup` :p
+
+`06-04-2016 15:18`   `hannes`   `Drup`, `talex5`, samoht : any plan on this side (I see `talex5` proposed a solution in 55)
+
+`06-04-2016 15:18`   `thomasga`   I'm fine to merge something half-perfect is that solves user-facing problems (which this PR does)
+
+`06-04-2016 15:18`   `yomimono`   +1
+
+`06-04-2016 15:18`   `thomasga`   as long as we don't compromise a future solution which will be better
+
+`06-04-2016 15:18`   `thomasga`   (which seems to be the case)
+
+`06-04-2016 15:19`   `talex5`   I think so. Is `Drup` here?
+
+`06-04-2016 15:20`   `thomasga`   I propose that we get an ack for `Drup` offline and move on
+
+`06-04-2016 15:20`   `Drup`   Well, we will just have one breaking change now and another when I implement the correct thing (which for some reason that is not clear to me, can only be implemented by me)
+
+`06-04-2016 15:20`   `thomasga`   ha great, hi `Drup` :-)
+
+`06-04-2016 15:20`   `Drup`   I don't have time right now :/
+
+`06-04-2016 15:21`   `talex5`   `Drup`: why is it a breaking change?
+
+`06-04-2016 15:21`   `thomasga`   do we require users to change their config.ml?
+
+`06-04-2016 15:22`   `Drup`   `talex5`: rather, you'll need in mirage new things introduced in functoria, so you have very tighlty coupled versions
+
+`06-04-2016 15:22`   `talex5`   `thomasga`: no, although the current patch has logging off by default which we should probably change.
+
+`06-04-2016 15:22`   `talex5`   Currently, you have to change your config.ml if you want to turn on the new logging.
+
+`06-04-2016 15:23`   `thomasga`   breaking internal APIs is fine, it's our problem and doesn't require users to update.
+
+`06-04-2016 15:23`   `Drup`   but, I described the alternative proposal in as much detailed as I could, and nobody really asked me anything about it, everyone just assumed that It had to be done by me :/
+
+`06-04-2016 15:24`   `hannes`   a related item is the EC2 command line options - https://github.com/mirage/mirage/pull/497 (which we wanted to read through after last call and maybe merge, and later move code to functoria)
+
+`06-04-2016 15:25`   `seangrove`   That one is a bit important to me, yes
+
+`06-04-2016 15:25`   `thomasga`   everyone is very busy with things, not having time to implement the perfect solution is a perfectly valid concern.
+
+`06-04-2016 15:25`   `yomimono`   drup: the real time-consuming work is overhauling the connect functions to use result types?
+
+`06-04-2016 15:25`   `yomimono`   sorry, that should have had an "is" up front to make a better english question
+
+`06-04-2016 15:25`   `thomasga`   we can mitigate that by integrating less good solution if that doesn't break user facing code, so I propose that we merge these PRs soon.
+
+`06-04-2016 15:26`   `Drup`   `yomimono`: yes, but that's not functoria work, kind of
+
+`06-04-2016 15:26`   `Drup`   it's mirage-devices work
+
+`06-04-2016 15:27`   `Drup`   we should just add pp_error and result-returning connect everywhere
+
+`06-04-2016 15:27`   `yomimono`   drup: yes, agreed; I think that's within scope for the kind of API overhaul that might justify a 3.0.0 along with some other desired things
+
+`06-04-2016 15:27`   `hannes`   `Drup`: for the record, is your proposal in the same PR or elsewhere?
+
+`06-04-2016 15:27`   `Drup`   https://github.com/mirage/functoria/pull/55#issuecomment-199774173
+
+`06-04-2016 15:27`   `talex5`   The current PR doesn't require devices to be updated to use result types (that can happen separately where it makes sense).
+
+`06-04-2016 15:28`   `hannes`   I agree with `Drup` that devices should have connect returning a result and pp_error
+
+`06-04-2016 15:28`   `Drup`   I disagree with you `talex5`.
+
+`06-04-2016 15:29`   `talex5`   `hannes`: then you have to change everything using mirage in one go.
+
+`06-04-2016 15:29`   `Drup`   your way is basically to fine-tune the device implementation instead of using something completely uniform
+
+`06-04-2016 15:29`   `hannes`   `talex5`: is the error stuff separate from the logging stuff? I'd assume logging is the code which bitrots fast since it touches large amounts of code?
+
+`06-04-2016 15:29`   `hannes`   `talex5`: yes!
+
+`06-04-2016 15:29`   `thomasga`   well the question is when do we get logging and error reporting …
+
+`06-04-2016 15:30`   `talex5`   `hannes`: the changes touch the same code, so I built one on top of the other. They could be separated.
+
+`06-04-2016 15:30`   `thomasga`   it's been in discussion for months without progress. We know have a incremental proposal which improve the current state
+
+`06-04-2016 15:30`   `hannes`   `talex5`: it'll then be a 2.9.0 and in the mirage-dev incubator for a while, but that's life... we're still small enough to push changes through
+
+`06-04-2016 15:30`   `Drup`   `talex5`: they should, they are completely orthogonal
+
+`06-04-2016 15:30`   `Drup`   I told you that already
+
+`06-04-2016 15:30`   `thomasga`   well it's annoying to not have error reporting and logging :-/
+
+`06-04-2016 15:31`   `hannes`   `talex5`: I'd be happy to have the logs stuff separate [and merged now, even with the functoria log stuff drup dislikes], and care about the device connect error handling at a later point, in one go!?
+
+`06-04-2016 15:31`   `talex5`   Sure. Splitting is easy if we have agreement to merge it once I've done it.
+
+`06-04-2016 15:31`   `mort___`   +1 to logging being merged asap
+
+`06-04-2016 15:32`   `Drup`   fair enough
+
+`06-04-2016 15:32`   `talex5`   I don't like forcing connect functions to return errors though, when many of them don't need to.
+
+`06-04-2016 15:32`   `Drup`   `talex5`: then they'll return Ok x
+
+`06-04-2016 15:32`   `hannes`   `talex5`: I don't see anyone is against the logging changes
+
+`06-04-2016 15:32`   `Drup`   that's not a problem
+
+`06-04-2016 15:33`   `Drup`   `hannes`: I dislike the current implemention, see the various tickets for explanations
+
+`06-04-2016 15:33`   `talex5`   `Drup`: but then I have to test for an error that can't happen, and call another function to report it...
+
+`06-04-2016 15:33`   `Drup`   `talex5`: but it's *uniform*
+
+`06-04-2016 15:33`   `hannes`   `thomasga`, `Drup`, `seangrove` the EC2 stuff, can we merge this _now_? https://github.com/mirage/mirage/pull/497 (and make a todo to make it more beautiful)?
+
+`06-04-2016 15:33`   `Drup`   That's a fundamental property for a system like that
+
+`06-04-2016 15:33`   `Drup`   `hannes`: yes
+
+`06-04-2016 15:33`   `seangrove`   `hannes`: That fix allows me to boot on EC2, yes
+
+`06-04-2016 15:33`   `hannes`   closing this topic then.
+
+`06-04-2016 15:34`   `hannes`   since there are plenty of people with various free time, and soon a whole weekend...
+
+`06-04-2016 15:34`   `hannes`   missing strtod https://github.com/mirage/mirage-platform/issues/118
+
+`06-04-2016 15:34`   `seangrove`   Another one I hit pretty early on.
+
+`06-04-2016 15:34`   `hannes`   is a bug which is really annoying... it'd be great if someone would volunteer to fix this...
+
+`06-04-2016 15:35`   `hannes`   it happens in http while parsing some headers, in asn1 when parsing time...
+
+`06-04-2016 15:35`   `dbuenzli`   There may be something in rpi-boot-ocaml, but it may also be sligthly broken.
+
+`06-04-2016 15:35`   `hannes`   `dbuenzli`: oh, a good hint.  I also looked into the FreeBSD source, but they're also using a separate library just for strtod
+
+`06-04-2016 15:36`   `hannes`   anyone eager to fix it? `seangrove`? :)
+
+`06-04-2016 15:36`   `seangrove`   `hannes`: I'm not sure I'm qualified yet. Still working my way up.
+
+`06-04-2016 15:36`   `seangrove`   Otherwise I would certainly volunteer
+
+`06-04-2016 15:36`   `dbuenzli`   https://github.com/`dbuenzli`/rpi-boot-ocaml/blob/master/libc-ocaml/src/strtod.c
+
+`06-04-2016 15:37`   `hannes`   ok, next big topic are the various libraries and status (if we have people around who want to speak up, please do)
+
+`06-04-2016 15:37`   `dbuenzli`   (I think it’s the snprintf stuff that is broken infact, credits for the code can be found here https://github.com/`dbuenzli`/rpi-boot-ocaml/blob/master/libc-ocaml/LICENSE.md)
+
+`06-04-2016 15:37`   `thomasga`   @`dbuenzli`: that looks aweful
+
+`06-04-2016 15:37`   `djwillia`   I'd like to give an update on what's going on with Solo5 at some point
+
+`06-04-2016 15:38`   `hannes`   `djwillia`: shoot!
+
+`06-04-2016 15:38`   `djwillia`   ok, so if you remember, solo5 is a small base kernel that can link with the Mirage stuff to run on KVM/QEMU
+
+`06-04-2016 15:39`   `noddy`   +2
+
+`06-04-2016 15:39`   `dbuenzli`   `noddy` is getting excited
+
+`06-04-2016 15:39`   `seangrove`   `djwillia`: Yes, I also am following along closely
+
+`06-04-2016 15:39`   `djwillia`   i've been a bit distracted lately working on a new monitor that fills a similar role to QEMU
+
+`06-04-2016 15:39`   `djwillia`   I've got IBM permission to release the new monitor :)
+
+`06-04-2016 15:39`   `mort___`   +10 :)
+
+`06-04-2016 15:39`   `amirmc`   Cool :)
+
+`06-04-2016 15:40`   `djwillia`   it allows really fast boot and also a "minimal" interface to the host system
+
+`06-04-2016 15:40`   `djwillia`   it also simplifies a lot of the Solo5 code, including boot and device interaction
+
+`06-04-2016 15:40`   `djwillia`   device interaction == virtio
+
+`06-04-2016 15:40`   `seangrove`   `djwillia`: Dumb question, but will this still enable (via Solo5?) mirage to work onkvm?
+
+`06-04-2016 15:41`   `djwillia`   yes, it works on Linux with KVM
+
+`06-04-2016 15:41`   `seangrove`   Ok
+
+`06-04-2016 15:41`   `djwillia`   the new monitor (called ukvm) runs as a Linux process and talks directly to the KVM module
+
+`06-04-2016 15:41`   `djwillia`   and allocates the memroy, sets up the CPU, etc. to start the Solo5/Mirage unikernel
+
+`06-04-2016 15:41`   `hannes`   `djwillia`: is the repo public somewhere? :)
+
+`06-04-2016 15:41`   `amirmc`   `djwillia`: Curious if you've also been talking to Alfred (of IncludeOS)
+
+`06-04-2016 15:41`   `noddy`   `djwillia`: silly q, but isn't there a uniform pv api, pv_ops or similar, one could target to support kvm, xen and maybe more?
+
+`06-04-2016 15:41`   `thomasga`   `djwillia`: that sounds great!!
+
+`06-04-2016 15:42`   `amirmc`   `djwillia`: and when d'you plan to release?
+
+`06-04-2016 15:42`   `djwillia`   I haven't put it out there yet because I'm trying to fix some update issues
+
+`06-04-2016 15:43`   `Drup`   what's missing to have it in the normal mirage ?
+
+`06-04-2016 15:43`   `djwillia`   i'm in the middle of upgrading the OCaml to 4.02.3
+
+`06-04-2016 15:43`   `djwillia`   i've been modifying the mirage.ml to see Solo5 as a backend (like Xen, Unix, MacOSX)
+
+`06-04-2016 15:43`   `djwillia`   because the mirage.ml changed a lot with functoria
+
+`06-04-2016 15:44`   `Drup`   indeed, but that sounds the right way
+
+`06-04-2016 15:44`   `djwillia`   I think i'm almost done with a "quick fix"
+
+`06-04-2016 15:44`   `djwillia`   but i still don't really understand how OPAM works
+
+`06-04-2016 15:44`   `djwillia`   I'd like to get solo5 in OPAM so the dependencies can work like xen-minios
+
+`06-04-2016 15:44`   `djwillia`   right now the build is a bit of a mess :)
+
+`06-04-2016 15:44`   `thomasga`   `djwillia`: happy to review patches when you share them
+
+`06-04-2016 15:44`   `seangrove`   very nice
+
+`06-04-2016 15:45`   `djwillia`   anyway, really i'm just trying to get things to work even in a non-standard way so that people can start looking at things
+
+`06-04-2016 15:45`   `thomasga`   or shout questions on OPAM/mirage to me or to the mailing list
+
+`06-04-2016 15:45`   `djwillia`   then it's high up on my todo list to get things integrated a bit better to make it easier to stay up to date
+
+`06-04-2016 15:45`   `seangrove`   `djwillia`: That's fantastic, thanks for that
+
+`06-04-2016 15:46`   `seangrove`   You mentioned ukvm allows for really fast boot - how fast?
+
+`06-04-2016 15:46`   `hannes`   `djwillia`: if you push to repos, people will see and help! :) also, it avoids bitrot once mainline
+
+`06-04-2016 15:46`   `djwillia`   between 10 and 20 ms
+
+`06-04-2016 15:46`   `seangrove`   Great
+
+`06-04-2016 15:46`   `Algebr``   fast enough for an http request
+
+`06-04-2016 15:46`   `Algebr``   maybe?
+
+`06-04-2016 15:46`   `hannes`   that sounds awesome!
+
+`06-04-2016 15:46`   `djwillia`   `hannes`: yes, I'm a bit new to an "open" process, but want to learn
+
+`06-04-2016 15:47`   `seangrove`   \o/
+
+`06-04-2016 15:47`   `Drup`   `djwillia`: you can try to add things to the opam-mirage repository before diving in the bigger pool
+
+`06-04-2016 15:47`   `hannes`   are there news on "Dave Tucker working on Alpine-based [arm] image[s]" (mirage-xen-arm-builder-platform-factory)?
+
+`06-04-2016 15:47`   `djwillia`   `Drup`: ok, that sounds like a good place to start once I get there
+
+`06-04-2016 15:47`   `djwillia`   thanks
+
+`06-04-2016 15:48`   `hannes`   `djwillia`: https://github.com/mirage/mirage-dev is the link for that mirage opam repo
+
+`06-04-2016 15:48`   `thomasga`   Dave Tucker said: no progress so far
+
+`06-04-2016 15:48`   `amirmc`   Heh, seems there's some confusion about who's actually doing that :P
+
+`06-04-2016 15:48`   `djwillia`   oh I guess i didn't give a timeline for release: this week hopefully or next otherwise
+
+`06-04-2016 15:48`   `amirmc`   Great!
+
+`06-04-2016 15:49`   `hannes`   any news from martin lucina about potential plans to port mirage-rump to 2.7.0^W2.8.0?
+
+`06-04-2016 15:49`   `djwillia`   `amirmc`: regarding IncludeOS, he asked if I was interested in a shared virtio implementation, but in my new monitor, I've thrown out virtio :)
+
+`06-04-2016 15:49`   `thomasga`   `hannes`: I think he is waiting for feedback on his previous work
+
+`06-04-2016 15:49`   `amirmc`   `djwillia`: Ah, I see.
+
+`06-04-2016 15:50`   `djs55`   are you using something simpler than virtio?
+
+`06-04-2016 15:50`   `djwillia`   `djs55`: yes, the concept behind the monitor is that it can be built out of components to be minimal
+
+`06-04-2016 15:51`   `djwillia`   minimal meaning that it's specialized to the unikernel
+
+`06-04-2016 15:51`   `thomasga`   `hannes`: but I think Martin hasn't started the port yet, I'll poke him and report for the next call
+
+`06-04-2016 15:51`   `hannes`   `thomasga`: feedback in which way? certainly cross-compilation is the red herring there (and solved differently than in xen-minios)..
+
+`06-04-2016 15:51`   `djs55`   interesting
+
+`06-04-2016 15:51`   `djwillia`   we only expose a network interface if the unikenrel needs one
+
+`06-04-2016 15:51`   `hannes`   `thomasga`: I know saite has used mirage-rump-2.6 on FreeBSD, and it worked nicely. would be great to have a forward-port :)
+
+`06-04-2016 15:51`   `djwillia`   this makes the interfaces specialized in some sense, so there is no need for a standardized, general purpose device abstraction like virtio
+
+`06-04-2016 15:52`   `hannes`   and now, 9 minutes before we close...
+
+`06-04-2016 15:52`   `hannes`   and in no particular order: canopy, dashboard, camlp4 (cstruct.syntax gone!?), cow (mort is missing cow.syntax), syslog reporter?
+
+`06-04-2016 15:52`   `djwillia`   `djs55`: i have a draft in submission to hotcloud that i'm happy to share if you are interested
+
+`06-04-2016 15:53`   `thomasga`   `mort___`: for cow.syntax: use tyxml.syntax and read and comment on `Drup` tutorial
+
+`06-04-2016 15:53`   `thomasga`   `djwillia`: yes please!
+
+`06-04-2016 15:53`   `djs55`   `djwillia`: I'm definitely interested :)
+
+`06-04-2016 15:53`   `mort___`   `thomasga`: cool, could you give me a pointer to tyxml please? (and was that documented anywhere…? :)
+
+`06-04-2016 15:54`   `hannes`   `dbuenzli`: is pkg a library yet?
+
+`06-04-2016 15:54`   `dbuenzli`   topkg ? no
+
+`06-04-2016 15:54`   `dbuenzli`   working on that.
+
+`06-04-2016 15:54`   `thomasga`   `mort___`: http://ocsigen.org/tyxml/dev/manual/intro
+
+`06-04-2016 15:55`   `thomasga`   and https://github.com/mirage/ocaml-cow/pull/88#issuecomment-204487570
+
+`06-04-2016 15:55`   `hannes`   `djs55`: I just noticed that vchan still depends on camlp4, but you've a PR.. would be good to have that merged and released..
+
+`06-04-2016 15:55`   `djs55`   ooh, I forgot about that
+
+`06-04-2016 15:55`   `hannes`   (it breaks travis on mirage-skeleton, I pinged)
+
+`06-04-2016 15:55`   `djs55`   the double bank holiday weekend in the UK caused me to forget what I was doing ;)
+
+`06-04-2016 15:55`   `dbuenzli`   `djs55`: I also had a look at ocaml-tar and I suspect it also does.
+
+`06-04-2016 15:55`   `thomasga`   and yes, would be interested to have a list of the remaining librairies using camlp4, I'm happy to help eradicating it
+
+`06-04-2016 15:56`   `Drup`   `mort___`: would be very happy to have opinions on what to improve. :)
+
+`06-04-2016 15:56`   `hannes`   also, we should push with cstruct-2, removing p4
+
+`06-04-2016 15:56`   `djs55`   a list would be very helpful
+
+`06-04-2016 15:56`   `mort___`   drup: ok will try to have a go (unlikely before next week  unforutnately ;(
+
+`06-04-2016 15:57`   `djs55`   btw I also noticed when doing the ppx conversion that lots of libraries define similar cstruct layouts, like ethernet frames, pcap headers, tcp headers that kind of thing
+
+`06-04-2016 15:57`   `lobo`   `hannes`: syslog is still very much work in progress. syslogd writes currently to console and in-mem irmin https://github.com/verbosemode/syslogd-mirage
+
+`06-04-2016 15:57`   `hannes`   `lobo`: cool.  is there code which reports the logs library logs via syslog to a remote server?
+
+`06-04-2016 15:57`   `lobo`   `hannes`: started playing with logs again recently to write a report. but need to learn lwt first. have just some ugly example code laying around :D https://github.com/verbosemode/logs-syslog/blob/playground/src/logs_syslog.ml
+
+`06-04-2016 15:57`   `mort___`   `djs55`: yes, too many. proposal some time back was to split out xxx.format ocamlfind libs from all those packages
+
+`06-04-2016 15:58`   `lobo`   _longines: s/report/reporter/
+
+`06-04-2016 15:58`   `hannes`   `djs55`: pcap-format and tcp/ip, or more? it should be provided by tcp/ip imho
+
+`06-04-2016 15:58`   `thomasga`   also ocaml-git and irmin start to have lots of changes, I'll probably cut a new release of both next week.
+
+`06-04-2016 15:58`   `mort___`   i think i started with dns but ratholed on trying to make sense of where to put libs vs packages
+
+`06-04-2016 15:58`   `yomimono`   `djs55`, `mort___` : see https://github.com/`yomimono`/mirage-tcpip/tree/separate_protocols for work on that
+
+`06-04-2016 15:58`   `djs55`   `hannes`: I think it was mainly networking headers (plus pcap) that I saw several times
+
+`06-04-2016 15:58`   `djs55`   `yomimono`: will check it out!
+
+`06-04-2016 15:58`   `mort___`   tftp shoudl have them separated too
+
+`06-04-2016 15:58`   `hannes`   nice!
+
+`06-04-2016 15:59`   `yomimono`   i'm hoping to PR this soon but it's not ready yet; still tackling tcp
+
+`06-04-2016 15:59`   `djs55`   fair enough
+
+`06-04-2016 15:59`   `thomasga`   (1 minute left)
+
+`06-04-2016 15:59`   `dbuenzli`   less now
+
+`06-04-2016 15:59`   `hannes`   I did some parsing and state machine stuff for pfkeyv2 https://github.com/isakmp/ike .. using logs and rresult
+
+`06-04-2016 15:59`   `hannes`   I'll just claim we're done. still enough to discuss. please use the mailing list in the meantime :)
+
+`06-04-2016 16:00`   `mort___`   thx
+
+`06-04-2016 16:00`   `hannes`   poll: next meeting: irc or voice+video?
+
+`06-04-2016 16:00`   `amirmc`   I gotta go folks. See you next time!
+
+`06-04-2016 16:00`   `dbuenzli`   Au revoir.
+
+`06-04-2016 16:00`   `yomimono`   result + rresult make refactoring parse code very nice btw :)
+
+`06-04-2016 16:00`   `mort___`   `hannes`: poll on mailing list better
+
+`06-04-2016 16:00`   `thomasga`   thanks all! I like IRC meeting :p
+
+`06-04-2016 16:00`   `seangrove`   Thanks everyone!
+
+`06-04-2016 16:00`   `dance-bot`   DANCE: (>^_^)>
+
