@@ -24,8 +24,6 @@ tags: irc,log
 
 `06-04-2016 15:01`   `engil`   spammy, sorry
 
-`06-04-2016 15:02`   `djs55`   ACTION waves
-
 `06-04-2016 15:02`   `hannes`   hello!
 
 `06-04-2016 15:03`   `thomasga`   \o/
@@ -52,7 +50,7 @@ tags: irc,log
 
 `06-04-2016 15:07`   `djwillia`   is canopy meant to replace mirage.io?
 
-`06-04-2016 15:07`   `hannes`   ACTION personally would like to store less information on GitHub wikis in the end, and prefers places we host ourselves (and can easily move away from GitHub if it is down)
+`06-04-2016 15:07`   `hannes`     /me personally would like to store less information on GitHub wikis in the end, and prefers places we host ourselves (and can easily move away from GitHub if it is down)
 
 `06-04-2016 15:07`   `thomasga`   e.g. you don't want to recompile a new unikernel if you just change some Git-tracked contents
 
@@ -108,7 +106,7 @@ tags: irc,log
 
 `06-04-2016 15:11`   `mort___`   just doesn't have to
 
-`06-04-2016 15:12`   `noddy`   ACTION thinks we should strategically start relying on github less and self-hosting more, even if there's a shadow github presence for people to find the project easily.
+`06-04-2016 15:12`   `noddy`     /me thinks we should strategically start relying on github less and self-hosting more, even if there's a shadow github presence for people to find the project easily;
 
 `06-04-2016 15:12`   `thomasga`   `noddy`: I'm fine with that. I'm just saying that if people wants to use the Github interface to edit the contents, that's also fine with Canopy. In my mind, we didn't do that before because Irmin was not ready.
 
