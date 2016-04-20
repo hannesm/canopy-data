@@ -1,0 +1,686 @@
+---
+participants: GemmaG,amirmc,avsm,companion_cube,dbuenzli,dinosaure,djs55,djwillia,engil,lobo,mato,mattg,mort___,nullcat,seangrove,talex5,thomasga,yallop,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 20-04-2016
+tags: irc,log
+---
+`20-04-2016 14:58`   `engil`   ohai o/
+
+`20-04-2016 14:58`   `lobo`   hi
+
+`20-04-2016 14:58`   `GemmaG`   Hi :)
+
+`20-04-2016 14:58`   `avsm`   The git logging bot is alive! Let's hope there isn't a merge conflict!
+
+`20-04-2016 14:59`   `engil`   :)
+
+`20-04-2016 14:59`   `talex5`   Hi
+
+`20-04-2016 15:00`   `djs55`   waves
+
+`20-04-2016 15:01`   `nullcat`   hi
+
+`20-04-2016 15:01`   `avsm`   Alright! Let's begin the IRC meeting. Agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`20-04-2016 15:01`   `avsm`   Who is around? We've had a few waves
+
+`20-04-2016 15:01`   `thomasga`   \o/
+
+`20-04-2016 15:01`   `djwillia`   hi all
+
+`20-04-2016 15:01`   `dbuenzli`   \o/
+
+`20-04-2016 15:01`   `amirmc`   hi
+
+`20-04-2016 15:02`   `avsm`   First port of call is information retrieval. There were a few threads about this on mirageos-devel
+
+`20-04-2016 15:02`   `avsm`   `GemmaG` Hannes, do you want to say anything about this?
+
+`20-04-2016 15:03`   `dbuenzli`   Note if you want to have good documentation, you have to *design* it at some point. These things do not happen magically.
+
+`20-04-2016 15:03`   `avsm`   While they're typing, I'm going to jump ahead to "SSL expiration" as I'm refreshing the mirage.io site: I don't think it's controversial to switch to letsencrypt certificates, so I will go ahead and do that as part of the website refresh
+
+`20-04-2016 15:03`   `mattg`   waves
+
+`20-04-2016 15:04`   `avsm`   Sorry, I realised Hannes is driving to Oxford at the moment. Information retrieval covers a few things: firstly where our individual libraries and contents are, secondly the API documentation, thirdly tool documentation
+
+`20-04-2016 15:04`   `avsm`   the mirage-dashboard project and the TROVE are taking shape, and so we'll start curating a list of projects and libraries soon on the main website.
+
+`20-04-2016 15:05`   `GemmaG`   Is the plan also to separate general mirage content from hackathon content on canopy?
+
+`20-04-2016 15:05`   `avsm`   API documentation is (as `dbuenzli` notes) a mess at the moment, but is due to get better due to the release of a cross-referenced documentation tool. As part of deploying it, we'll need to work through explaining some of the core concepts in the Mirage API better.
+
+`20-04-2016 15:06`   `dbuenzli`   I think people should avoid using the canopy but rather try to improve the mirage website.
+
+`20-04-2016 15:06`   `avsm`   I'm inclined to split this into two sections: the MirageOS website is where curated documentation sits, and the Canopy is the stream-of-consciousness for rapid pushes
+
+`20-04-2016 15:06`   `avsm`   It's a lot easier to edit stuff into the main website if it shows up on Canopy first
+
+`20-04-2016 15:06`   `dbuenzli`   It's not in an entirely bad shape.
+
+`20-04-2016 15:06`   `dbuenzli`   (the mirageos website)
+
+`20-04-2016 15:07`   `dbuenzli`   Remove cruft and make it more user-centered
+
+`20-04-2016 15:07`   `avsm`   Yeah, but it hasn't kept up with all the recent changes. Finding (e.g.) functoria information is an exercise in search.
+
+`20-04-2016 15:07`   `avsm`   I'm curious what the newer contributors such as `djwillia` or `mattg` think about this
+
+`20-04-2016 15:07`   `avsm`   `mattg`: especially with your effort to fix CLOCK
+
+`20-04-2016 15:07`   `thomasga`   well we haven't updated the wiki/doc in mirage.io for a long time
+
+`20-04-2016 15:07`   `amirmc`   I think splitting things across two sites makes it harder for people to find.
+
+`20-04-2016 15:08`   `avsm`   It's not splitting across two sites: the Canopy is where notes get pushed, and then they get edited into the main website. New users go to mirage.io
+
+`20-04-2016 15:08`   `amirmc`   e.g. I'm not sure we have any reference or pointers to canopy fro the current site
+
+`20-04-2016 15:08`   `thomasga`   I'm fine to integrate canopy features in mirage.io (and new style maybe)
+
+`20-04-2016 15:09`   `thomasga`   can't we just replace the blog post stream by canopy?
+
+`20-04-2016 15:09`   `avsm`   that's right -- and there shouldn't be.  But Canopy can reference mirage.io.  A good example is `talex5`'s error handling proposal, which was a PR to mirage-www  (still is), but could have been edited live on Canopy instead
+
+`20-04-2016 15:09`   `avsm`   `thomasga`: yes, we can do that.
+
+`20-04-2016 15:09`   `GemmaG`   Perhaps some necessary changes to mirage.io + a canopy style stream
+
+`20-04-2016 15:09`   `mattg`   `avsm`: I think when I first came across Mirage, I followed the hello world example from mirage.io, and then pretty much went to working from examples in mirage-skeleton and using .mli files for reference
+
+`20-04-2016 15:09`   `GemmaG`   Yes as per above :)
+
+`20-04-2016 15:09`   `avsm`   the big flaw right now is that we don't edit the blog post content back into the docs, so users have to search blog posts for documentation (e.g. functoria)
+
+`20-04-2016 15:09`   `thomasga`   yes, we do terrible job with the wiki/doc
+
+`20-04-2016 15:09`   `avsm`   `mattg`: thanks, that's useful -- so a rough learning curve :)
+
+`20-04-2016 15:09`   `djwillia`   `avsm`: I still haven't wrapped my head around all of the packaging stuff (that I think is really important to understanding Mirage) but I'm not sure that's the website's fault
+
+`20-04-2016 15:10`   `dbuenzli`   I'm sure it is
+
+`20-04-2016 15:10`   `avsm`   `djwillia`: it's an integral part of a library OS, so I think an explanation of OPAM (or least a strong xref to the OPAM site) is appropriate on mirage.io
+
+`20-04-2016 15:11`   `djwillia`   `avsm`: yes, certainly, I think needing to understand packaging is the biggest block to understanding Mirage
+
+`20-04-2016 15:11`   `mattg`   `avsm` : I should also mention I learnt a lot from Mindy's and `talex5`'s blogs
+
+`20-04-2016 15:11`   `thomasga`   me too
+
+`20-04-2016 15:11`   `avsm`   Ok, so `GemmaG` and I will take this on as an action then with help from Eng and mort: work through the website/blog/canopy melange and figure out the workflow we want (blog posts should come out more quickly, and get edited into the main website)
+
+`20-04-2016 15:11`   `dbuenzli`   which is bad (not their prose of course)
+
+`20-04-2016 15:11`   `avsm`   Mindy and `talex5`'s blogs are legendary :)
+
+`20-04-2016 15:12`   `mort___`   (yo)
+
+`20-04-2016 15:12`   `GemmaG`   `avsm`: sounds good :)
+
+`20-04-2016 15:12`   `dbuenzli`   this knowledge should be consolidated in the mirageos website
+
+`20-04-2016 15:12`   `avsm`   Yes, agree with `dbuenzli` -- they did great posts due to the lack of documentation but it should be consolidated by now in the central docs.
+
+`20-04-2016 15:12`   `avsm`   Ok, closing out Information Retrieval. Any last comments?
+
+`20-04-2016 15:12`   `djwillia`   `avsm`: I mostly learned (and am still learning) from doing terrible terrible hacks before understanding packaging :)
+
+`20-04-2016 15:12`   `mato`   Random comment, I think the process of creating the Solo5 port (and integrating it with Mirage) could be good material for writing a blog post.
+
+`20-04-2016 15:13`   `mato`   "How to port Mirage to a new platform"
+
+`20-04-2016 15:13`   `thomasga`   would be great if Engil can help to fix/improve mirage.io CSS
+
+`20-04-2016 15:13`   `avsm`   mata `djwillia` : yes definitely! It also covers the ukvm work which is an area we've not talked about much in the blog (aside from the MiniOS ARM port that `talex5` did)
+
+`20-04-2016 15:13`   `djwillia`   `mato`: yes, that's a great idea because it's forcing us to really understand what a mirage "platform" is
+
+`20-04-2016 15:13`   `engil`   `thomasga`: well why not
+
+`20-04-2016 15:13`   `engil`   :)
+
+`20-04-2016 15:13`   `mattg`   `avsm`: I can offer https://github.com/`mattg`ray/devwinter2016 as some intro material, once i've merged mort__'s fixes
+
+`20-04-2016 15:13`   `thomasga`   cool :p
+
+`20-04-2016 15:13`   `avsm`   `mato`: could you create an issue on github.com/mirage/mirage-www/issues as a reminder to do this blog post...
+
+`20-04-2016 15:14`   `avsm`   Alright, full agenda, so moving onto next topic: Quality and Test
+
+`20-04-2016 15:14`   `mato`   `avsm`: will do.
+
+`20-04-2016 15:14`   `thomasga`   we need more tests :p
+
+`20-04-2016 15:14`   `avsm`   Good news: OCaml 4.03 is due out this week with an incredible new inliner that speeds up some mirageos kernels by 20-30% with a simple recompiler
+
+`20-04-2016 15:14`   `djwillia`   `avsm` `mato`: we may want 2 blog posts one on ukvm, on on porting mirage to new platforms
+
+`20-04-2016 15:14`   `avsm`   bad news: `yallop` keeps finding showstopper bugs in 4.03 ;-)
+
+`20-04-2016 15:14`   `avsm`   `djwillia`: (agree on more small blog posts)
+
+`20-04-2016 15:14`   `mort___`   (that's good news really...)
+
+`20-04-2016 15:15`   `avsm`   however, 4.03 is converging, and we have done really good work collectively on moving to PPX from camlp4
+
+`20-04-2016 15:15`   `avsm`   so aside from a port of the runtime to mirage-platform, we're pretty much set to move to 4.03
+
+`20-04-2016 15:15`   `avsm`   Has anyone taken a look at a 4.03 runtime for mirage-platform/xen? If not I'll take a look soon
+
+`20-04-2016 15:15`   `thomasga`   NO MORE CAMLP4!
+
+`20-04-2016 15:15`   `thomasga`   I've fulfilled my life goal
+
+`20-04-2016 15:15`   `yomimono`   cheers
+
+`20-04-2016 15:15`   `dbuenzli`   NO MORE PPX
+
+`20-04-2016 15:16`   `avsm`   Bulk builds via Docker are in good shape: we have a comprehensive set of containers hosted on the Docker Hub for every conceivable combination of Linux distros at https://hub.docker.com/r/ocaml/opam/ -- read it and weep :)
+
+`20-04-2016 15:16`   `thomasga`   `dbuenzli`: that's my next life goal
+
+`20-04-2016 15:16`   `dbuenzli`   you have a new life goal
+
+`20-04-2016 15:16`   `thomasga`   exactly :-)
+
+`20-04-2016 15:16`   `avsm`   Leave camlp4 alone! It has served us well. A moment of silence for our old friend
+
+`20-04-2016 15:16`   `thomasga`   HAAAAA
+
+`20-04-2016 15:16`   `mort___`   *belch*
+
+`20-04-2016 15:16`   `djs55`   is it really gone? I still feel its presence… somewhere
+
+`20-04-2016 15:17`   `thomasga`   ppx his little brother is now there
+
+`20-04-2016 15:17`   `avsm`   So overall, the last few months of work should pay off very soon -- 4.03 is around the corner, ppx extensions make life easier, and we have an increasing amount of automated build infrastructure.
+
+`20-04-2016 15:17`   `avsm`   But we need to finish the leap as there are still a few stragglers that don't work.
+
+`20-04-2016 15:17`   `avsm`   For example: OASIS
+
+`20-04-2016 15:17`   `avsm`   (with ocaml 4.03)
+
+`20-04-2016 15:17`   `avsm`   is a giant elephant in the room
+
+`20-04-2016 15:17`   `mort___`   what's the elephant?
+
+`20-04-2016 15:17`   `thomasga`   can we just remove oasis instead of porting it to 4.03?
+
+`20-04-2016 15:18`   `dbuenzli`   Let's be realistic what's the actual problem ?
+
+`20-04-2016 15:18`   `djs55`   in the defense of oasis, it does make windows porting easier
+
+`20-04-2016 15:18`   `avsm`   one of the dependencies fails; I'm primarily interested in knowing if someone wants to take fixing it in opam-repository as an action
+
+`20-04-2016 15:18`   `avsm`   I'm sure it wont be hard
+
+`20-04-2016 15:18`   `dbuenzli`   Why not ping the author ?
+
+`20-04-2016 15:18`   `avsm`   no response
+
+`20-04-2016 15:19`   `avsm`   Ok, I'll take on the action then, and either fix it or bug someone else to fix it :P
+
+`20-04-2016 15:19`   `avsm`   Closing out quality and test unless there are any other updates?
+
+`20-04-2016 15:19`   `dbuenzli`   A message to caml-list could do no ?
+
+`20-04-2016 15:19`   `dbuenzli`   It's a pretty important part of the current eco-system
+
+`20-04-2016 15:20`   `avsm`   Sure. I'd rather get it unblocked in the short term though. A patch would be just as good as an email
+
+`20-04-2016 15:20`   `avsm`   And yes, it's very widely used indeed in our libraries.
+
+`20-04-2016 15:20`   `avsm`   Ok, let's take the OASIS topic offline for now.
+
+`20-04-2016 15:20`   `avsm`   Moving onto "Improved Logging and Errors"
+
+`20-04-2016 15:20`   `companion_cube`   in the defense of oasis, it's awfully convenient
+
+`20-04-2016 15:20`   `avsm`   `talex5` has been working on this...
+
+`20-04-2016 15:21`   `talex5`   I split out a logging-only patch to Functoria, which is now merged. The corresponding PR to Mirage isn't merged yet: https://github.com/mirage/mirage/pull/514
+
+`20-04-2016 15:21`   `talex5`   I split out a logging-only patch to Functoria, which is now merged. The corresponding PR to Mirage isn't merged yet: https://github.com/mirage/mirage/pull/514
+
+`20-04-2016 15:21`   `talex5`   I split out a logging-only patch to Functoria, which is now merged. The corresponding PR to Mirage isn't merged yet: https://github.com/mirage/mirage/pull/514
+
+`20-04-2016 15:21`   `talex5`   I split out a logging-only patch to Functoria, which is now merged. The corresponding PR to Mirage isn't merged yet: https://github.com/mirage/mirage/pull/514
+
+`20-04-2016 15:21`   `talex5`   I split out a logging-only patch to Functor, which is now merged.
+
+`20-04-2016 15:21`   `talex5`   It's slightly ugly; if someone can suggest a more elegant solution please do :-)
+
+`20-04-2016 15:21`   `avsm`   is someone cutting and pasting into this meeting??
+
+`20-04-2016 15:21`   `talex5`   :-(
+
+`20-04-2016 15:21`   `dbuenzli`   Stuttering client.
+
+`20-04-2016 15:21`   `talex5`   Sorry. Using OS X cut-and-paste.
+
+`20-04-2016 15:22`   `talex5`   I split out a logging-only patch to Functoria, which is now merged. The corresponding PR to Mirage isn't merged yet: https://github.com/mirage/mirage/pull/514u
+
+`20-04-2016 15:22`   `avsm`   Any blockers to the mirage/mirage merge?
+
+`20-04-2016 15:22`   `avsm`   Someone break `talex5` out of his temporal loop
+
+`20-04-2016 15:22`   `yallop`   mirage/mirage merge is quite difficult to say fast
+
+`20-04-2016 15:22`   `talex5`   Hoping @Drup can suggest an alternative.
+
+`20-04-2016 15:23`   `talex5`   Once that's merged, I'll make PRs to add logging to the various libraries.
+
+`20-04-2016 15:23`   `avsm`   Ok, getting a release out with this next week would be useful to unblock people
+
+`20-04-2016 15:23`   `thomasga`   +1
+
+`20-04-2016 15:23`   `talex5`   Then I'll resubmit the original patches to improve the error reporting and we can discuss that next time.
+
+`20-04-2016 15:23`   `avsm`   Yeah, fixing up libraries is going to take a while so I'm keen to get the mirage/mirage tool sorted
+
+`20-04-2016 15:24`   `avsm`   What would you like to do with your mirage-www PR https://github.com/mirage/mirage-www/pull/274?
+
+`20-04-2016 15:24`   `avsm`   the long standing discussion document about error reporting mechanisms
+
+`20-04-2016 15:24`   `talex5`   Needs updating.
+
+`20-04-2016 15:25`   `GemmaG`   Got some great trip reports on the hackathon: https://github.com/ocamllabs/activity/wiki/MirageOS-Hackathon Just waiting on a couple more details for last entry. Can add to canopy.mirae
+
+`20-04-2016 15:25`   `GemmaG`   bah wrong button
+
+`20-04-2016 15:25`   `talex5`   I don't know if there's full agreement yet, but I'm happy to update it to say that result types should be used for expected runtime errors and exceptions for bugs.
+
+`20-04-2016 15:25`   `avsm`   we appear to have cut and paste issues this week
+
+`20-04-2016 15:25`   `GemmaG`   hahahahahaha
+
+`20-04-2016 15:25`   `yomimono`   I'm very pro-result types & rresult so I'm on board with that
+
+`20-04-2016 15:26`   `dbuenzli`   \o/
+
+`20-04-2016 15:26`   `avsm`   thanks `talex5` -- establishing logging standards across libraries is right at the bottom of the stack, so it feels like a good one for the website refresh as well
+
+`20-04-2016 15:26`   `dbuenzli`   @talex which exceptions ?
+
+`20-04-2016 15:26`   `dbuenzli`   Nevermind we can discuss that there
+
+`20-04-2016 15:26`   `avsm`   yes `yomimono` -- and 4.03 has the Result.t defined in the standard library! This is more amazing than breaking away from camlp4
+
+`20-04-2016 15:27`   `avsm`   Ok, closing out logging -- rest can be discussed on the respective issues, and its making good progress.
+
+`20-04-2016 15:27`   `yomimono`   thanks `talex5` for continuing to push on this :)
+
+`20-04-2016 15:27`   `avsm`   Next onto a slightly random but annoying bug: https://github.com/mirage/mirage-platform/issues/118 the lack of strtod
+
+`20-04-2016 15:27`   `avsm`   a number of libraries are hitting this due to use of floating point, and in particular Cohttp
+
+`20-04-2016 15:27`   `dbuenzli`   We already discussed this last time.
+
+`20-04-2016 15:27`   `yomimono`   Did anyone do anything as a result of that discussion?
+
+`20-04-2016 15:27`   `dbuenzli`   Just use the strod.c file that is boot-rpi-ocaml
+
+`20-04-2016 15:27`   `thomasga`   I remember that Daniel said he wanted to fix this
+
+`20-04-2016 15:27`   `yomimono`   didn't
+
+`20-04-2016 15:28`   `avsm`   Yeah, no progress since 2 weeks ago I believe, except has anyone looked at how important locale dependence is?
+
+`20-04-2016 15:28`   `dbuenzli`   I didn't say I wanted to fix it
+
+`20-04-2016 15:28`   `dbuenzli`   I just told people what to use.
+
+`20-04-2016 15:28`   `thomasga`   tututut I have a perfect memory :p
+
+`20-04-2016 15:28`   `avsm`   It could be significantly easier if we grab a BSD library for this (e.g. OpenBSD's)
+
+`20-04-2016 15:28`   `dbuenzli`   The file there is what used to be used in JavaScript runtime until they switched to grisu
+
+`20-04-2016 15:28`   `thomasga`   (was just joking, you indeed pointed out to the right files)
+
+`20-04-2016 15:28`   `avsm`   `dbuenzli`: ah, that's most useful to know, thanks.
+
+`20-04-2016 15:29`   `avsm`   Ok, let's move discussion of this one to the issue as well. It would be good to bump this up to get fixed in the mirage-platform support for 4.03, so I'll take a look
+
+`20-04-2016 15:29`   `avsm`   it's at least easy to test by running a cohttp server
+
+`20-04-2016 15:29`   `avsm`   or yojson, or most things...
+
+`20-04-2016 15:29`   `yomimono`   or calling float_of_string
+
+`20-04-2016 15:30`   `avsm`   I think we've made progress -- used to crash if we touched the floating point registers in xen mode :)
+
+`20-04-2016 15:30`   `avsm`   Ok, onto the next topic...
+
+`20-04-2016 15:30`   `avsm`   Mirage 2.8.0 released along with new version of TCP/IP, and most important, this was `yomimono`'s first Mirage release!!!
+
+`20-04-2016 15:30`   `avsm`   Three cheers for `yomimono` for doing a full release, and implicitly, by not messing it up!
+
+`20-04-2016 15:30`   `GemmaG`   woop :)
+
+`20-04-2016 15:30`   `thomasga`   \p\ /o/
+
+`20-04-2016 15:30`   `mort___`   cheers
+
+`20-04-2016 15:30`   `engil`   \o\
+
+`20-04-2016 15:30`   `avsm`   What's happening there `yomimono` ?
+
+`20-04-2016 15:30`   `djwillia`   yay
+
+`20-04-2016 15:30`   `yomimono`   I accept plaudits in the form of kitty cuddles
+
+`20-04-2016 15:31`   `yomimono`   2.8.0 was pretty minor but involved a change to mirage-types -- we now have an icmp module type and corresponding separate module implementation in tcpip.
+
+`20-04-2016 15:31`   `yomimono`   you can now easily make unikernels with whatever icmp behavior you want, which will make it quite a bit easier to make routers &c with our tcpip stack.
+
+`20-04-2016 15:31`   `avsm`   Does this make NAT easier?
+
+`20-04-2016 15:31`   `dbuenzli`   superbe
+
+`20-04-2016 15:31`   `yomimono`   potentially, yes.
+
+`20-04-2016 15:32`   `talex5`   Yeah, would be really useful to do NAT of ICMP messages (e.g. ping) for mirage-firewall.
+
+`20-04-2016 15:32`   `yomimono`   nods
+
+`20-04-2016 15:32`   `avsm`   awesome. Hannes informs he is working on the TCP/iP test suite against freebsd as well, so that (combined with the AFL fuzzing work that `yomimono` did at the hackathon) puts us in good shape for more effective tcp/ip testing too
+
+`20-04-2016 15:32`   `dbuenzli`   `avsm` is the tcp/ip problem under embargo ? I saw that you retracted the topic from the call agenda
+
+`20-04-2016 15:32`   `thomasga`   great!
+
+`20-04-2016 15:32`   `avsm`   `dbuenzli`: yes
+
+`20-04-2016 15:33`   `avsm`   One outstanding PR in tcpip is ipv6
+
+`20-04-2016 15:33`   `avsm`   we have the code merged now in the stack, but not exposed to configuration
+
+`20-04-2016 15:33`   `dbuenzli`   (I think this should be made more clear in the future)
+
+`20-04-2016 15:33`   `avsm`   Does anyone have a particular interest in ipv6 and would like to learn more / hack on it?
+
+`20-04-2016 15:33`   `yomimono`   I'm going to have to a bit as part of ongoing tcpip restructuring
+
+`20-04-2016 15:34`   `yomimono`   it's part of pulling all the parsers/printers out and exposing them
+
+`20-04-2016 15:34`   `avsm`   `yomimono`: ack. I have access to public IPv6 addresses on the Rackspace Cloud, so point me if you need a VM that is routable for you to test stuff (or deploy)
+
+`20-04-2016 15:34`   `yomimono`   although if anyone else wants to volunteer I encourage them :)
+
+`20-04-2016 15:34`   `avsm`   we can't deploy Xen unikernels on Rackspace yet, but some tuntap thing should work.
+
+`20-04-2016 15:34`   `yomimono`   it actually should be doable with ec2 as well
+
+`20-04-2016 15:34`   `avsm`   IPv6 on EC2?
+
+`20-04-2016 15:35`   `yomimono`   think so
+
+`20-04-2016 15:35`   `avsm`   I thought they didn't support it except via the load balancer service
+
+`20-04-2016 15:35`   `yomimono`   also I have my own xen machine, so nbd
+
+`20-04-2016 15:35`   `yomimono`   maybe I'm wrong about ec2; irrelevant to most people anyway, sorry
+
+`20-04-2016 15:35`   `avsm`   Ok, please ping `yomimono` or me if you are interested in IPv6!
+
+`20-04-2016 15:35`   `avsm`   Next, onto the hackathon: a roundup blog post is flying around. What's happening `GemmaG`?
+
+`20-04-2016 15:36`   `GemmaG`   Yes! Got some great trip reports on the hackathon: https://github.com/ocamllabs/activity/wiki/MirageOS-Hackathon Just waiting on a couple more details for last entry. Can add to canopy and mirage.io
+
+`20-04-2016 15:36`   `thomasga`   (I've read that before)
+
+`20-04-2016 15:36`   `GemmaG`   hahahaha
+
+`20-04-2016 15:36`   `GemmaG`   I'm proud of that paragraph :P
+
+`20-04-2016 15:36`   `avsm`   deja vu -- I didn't click on the link before, and it's great to see pictures of sunshine and hacking there too :)
+
+`20-04-2016 15:37`   `avsm`   looks great, that'll be our next blog post on the main site hten
+
+`20-04-2016 15:37`   `avsm`   If anyone else does have updates on their trip that aren't there, please do ping soon
+
+`20-04-2016 15:37`   `avsm`   Ok, moving onto libraries then, just to get a check on them
+
+`20-04-2016 15:37`   `avsm`   mirage-dashboard came first: is the author here?
+
+`20-04-2016 15:38`   `avsm`   there was some mailing list traffic, and it's making progress. I'm going to do a unix-socket deployment (as I can do that quickly) next week hopefully
+
+`20-04-2016 15:38`   `avsm`   Having something up describing our libraries is very useful, and the TROVE was a little too low-level and always out of sync
+
+`20-04-2016 15:38`   `avsm`   Moving onto Canopy: `engil`, what's happening with it?
+
+`20-04-2016 15:39`   `engil`   slowly progressing
+
+`20-04-2016 15:39`   `engil`   RSS, tags are here
+
+`20-04-2016 15:39`   `engil`   we still need to handle client caching properly
+
+`20-04-2016 15:39`   `avsm`   I've got a local deployment -- is anyone else using it themselves?
+
+`20-04-2016 15:39`   `engil`   `dinosaure`, hannes
+
+`20-04-2016 15:40`   `avsm`   Ah yes! Hannes has been blogging again -- https://hannes.nqsb.io
+
+`20-04-2016 15:40`   `engil`   hannes has made very good progress on making it run on Xen
+
+`20-04-2016 15:40`   `avsm`   Great stuff -- `mort___` I'm going to move anil.recoil.org over to it as soon as I sort out my build scripts; maybe a target for mort.io too since you also run a unikernel homepage
+
+`20-04-2016 15:41`   `avsm`   Next: ARM images for Alpine Linux to replace the blobs.openmirage.org builds
+
+`20-04-2016 15:41`   `mort___`   yes
+
+`20-04-2016 15:41`   `avsm`   Progress has been made here, but is waiting on a decent build box.
+
+`20-04-2016 15:41`   `mort___`   been slowly workign on dockerising all the random crap i have for mort.io … canopy next
+
+`20-04-2016 15:41`   `avsm`   Good news: we have a fast multicore arm64 machine in the computer Lab that can do the builds.
+
+`20-04-2016 15:41`   `avsm`   `mort___`: what is the bad news? :)
+
+`20-04-2016 15:42`   `mort___`   re arm build box — have (I think) got the new firmware in place on the box and on its BMC
+
+`20-04-2016 15:42`   `mort___`   in doing so, the rootfs got moulinexed
+
+`20-04-2016 15:42`   `mort___`   (thanks avantek "support"!)
+
+`20-04-2016 15:42`   `avsm`   (we have reason to believe that we are in fact the first people in the world to ever buy an ARM64 machine from this particular supplier)
+
+`20-04-2016 15:42`   `mort___`   i've now booted off usb successfully and mounted the old filesystems — the uefi fs and the boot partition
+
+`20-04-2016 15:43`   `mort___`   i've not got further yet in either fixing things up so it boots off its hdd again, or doing a complete reinstall
+
+`20-04-2016 15:43`   `avsm`   thank you for working through all the tedious installation issues `mort___`!  The good news is that one it is up, we have fast builds for both ARM32 and ARM64.
+
+`20-04-2016 15:43`   `mort___`   i will hopefully find time tomorrow morning to spend on that
+
+`20-04-2016 15:43`   `avsm`   Ok, moving onto... camlp4: any remaining libraries?
+
+`20-04-2016 15:44`   `avsm`   aside from the oasis issue, is anyone aware of other blockers for libraries they need that hold them back to <OCaml 4.03?
+
+`20-04-2016 15:44`   `thomasga`   last time I tried, Irmin was not compiling with flambda
+
+`20-04-2016 15:44`   `avsm`   We have fixed URI recently, but Cohttp actually still has a constraint issue for OCaml 4.03 I need to fix (somewhere in the PPX build chain).  I'm compiling right now.
+
+`20-04-2016 15:44`   `thomasga`   hopefully it should be better now
+
+`20-04-2016 15:44`   `avsm`   `thomasga`: woah, when was this?  Many bugs have been fixed in the last 2 months by mshinwell, `yallop`, diml, chambart
+
+`20-04-2016 15:45`   `thomasga`   last compiler hacking meeting
+
+`20-04-2016 15:45`   `thomasga`   the compilation just didn't terminate
+
+`20-04-2016 15:45`   `avsm`   if anyone wants to try out ocaml 4.03, now is an excellent time to do so: `opam switch 4.03.0+trunk` or `docker run -it ocaml/opam:debian-7_ocaml-4.03.0_trunk_flambda` will get you a working environment
+
+`20-04-2016 15:45`   `djs55`   camlp4-free cstruct hasn't been released yet. It looks like ocaml-pcap hasn't been merged and released. Perhaps it's time to merge and release those 2?
+
+`20-04-2016 15:45`   `thomasga`   would be useful to test it with 4.03's candidate if anyone has time
+
+`20-04-2016 15:46`   `avsm`   `djs55`: thanks, added to action items. ocaml-pcap should be straightforward to release.
+
+`20-04-2016 15:46`   `mort___`   i know i have an issue against ocaml-pcap that i need to fix
+
+`20-04-2016 15:46`   `talex5`   Are there any bulk builds for 4.03?
+
+`20-04-2016 15:46`   `avsm`   `thomasga`: I've kicked off a docker build of irmin head on my laptop just now too
+
+`20-04-2016 15:46`   `mort___`   (via `djs55` / `yomimono` i believe)
+
+`20-04-2016 15:46`   `avsm`   `mort___`: do you want to take care of the ocaml-pcap release then?
+
+`20-04-2016 15:46`   `mort___`   sure
+
+`20-04-2016 15:46`   `yomimono`   ocaml-pcap 0.4.0 is a fairly large change from 0.3 FWIW, users will need to make code changes for sure
+
+`20-04-2016 15:46`   `mort___`   is there a document describing release process anywhere? (as a n00b :)
+
+`20-04-2016 15:46`   `avsm`   `mort___`: thanks! `talex5`: I've done partial bulk builds, but they took > 500GB and so I ran out of space
+
+`20-04-2016 15:47`   `mort___`   else i'll bug `yomimono` as the most recent releaser :)
+
+`20-04-2016 15:47`   `avsm`   `mort___`: `yomimono`: just bump up to ocaml-pcap 1.0 then. semantic versions are cheap :)
+
+`20-04-2016 15:47`   `avsm`   ok, if everyone who mentioned libraries could do a refresh that'd be useful. I'll be tracking down the Cohttp one which unblocks a number of libraries. 4.03 will be out real soon now
+
+`20-04-2016 15:48`   `avsm`   Onto mirage-rump, which I believe `mato` has been looking at.
+
+`20-04-2016 15:48`   `avsm`   pinging `mato` pinging `mato`
+
+`20-04-2016 15:49`   `avsm`   also, a semi hijack to congratulate `djwillia` on releasing ukvm as well, as mentioned in last call
+
+`20-04-2016 15:49`   `yomimono`   yaaaaaay! \o/
+
+`20-04-2016 15:49`   `djwillia`   `mato` has been fantastic with helping get solo5 as a proper backend
+
+`20-04-2016 15:49`   `avsm`   `mato` and `djwillia` have been fixing up issues (better CPU portability, better OPAM packaging) which is awesome!
+
+`20-04-2016 15:49`   `thomasga`   yay!
+
+`20-04-2016 15:49`   `djwillia`   yes, a big thank you to `mato`
+
+`20-04-2016 15:49`   `avsm`   full support from me for getting solo5 in-tree, the qemu support is something we've wanted for _years_!
+
+`20-04-2016 15:49`   `thomasga`   +100
+
+`20-04-2016 15:50`   `thomasga`   that's pretty cool work
+
+`20-04-2016 15:50`   `avsm`   `mato` has fallen asleep at his keyboard from his heroic coding efforts, so we'll move onto the next library
+
+`20-04-2016 15:50`   `djwillia`   thanks!
+
+`20-04-2016 15:50`   `avsm`   which is...
+
+`20-04-2016 15:50`   `seangrove`   Thanks you `djwillia`!
+
+`20-04-2016 15:50`   `avsm`   what for it...
+
+`20-04-2016 15:50`   `avsm`   TOPKG!
+
+`20-04-2016 15:50`   `avsm`   how's it going `dbuenzli` ?
+
+`20-04-2016 15:50`   `thomasga`   *drum roll*
+
+`20-04-2016 15:50`   `dbuenzli`   It's going.
+
+`20-04-2016 15:50`   `dbuenzli`   When it's done.
+
+`20-04-2016 15:50`   `avsm`   Background: this is an effort to provide a simple package description format that is "opam native" to avoid duplication of metadata
+
+`20-04-2016 15:51`   `dbuenzli`   But I'm doing only this.
+
+`20-04-2016 15:51`   `dbuenzli`   But I'm slow because of you.
+
+`20-04-2016 15:51`   `thomasga`   of me?
+
+`20-04-2016 15:51`   `djs55`   Would more coffee help?
+
+`20-04-2016 15:51`   `dbuenzli`   no `avsm`
+
+`20-04-2016 15:51`   `avsm`   alright, no more Cambridge formal halls for `dbuenzli` until topkg is released
+
+`20-04-2016 15:51`   `thomasga`   `avsm`: stop slowing down Daniel!
+
+`20-04-2016 15:51`   `dbuenzli`   He got me to join ocaml lab's slack
+
+`20-04-2016 15:52`   `avsm`   but seriously, I'm ready to port Cohttp to topkg whenever you give the signal :)
+
+`20-04-2016 15:52`   `avsm`   Any other libraries of note that anyone would like to highlight that have been released recently?
+
+`20-04-2016 15:52`   `avsm`   `dinosaure` got really nice results from using flambda on Decompress/Zlib
+
+`20-04-2016 15:52`   `dbuenzli`   Yes seriously, I hope to be finished at least at the beginning of may. I'm tired of the build stuff and want to do a little bit of other things
+
+`20-04-2016 15:53`   `avsm`   `dbuenzli`: that sounds like an excellent timeframe to me!
+
+`20-04-2016 15:53`   `thomasga`   yay!
+
+`20-04-2016 15:53`   `dbuenzli`   I also have many other things in the pipeline that are waiting for it (e.g. carcass)
+
+`20-04-2016 15:53`   `dinosaure`   hi all :}
+
+`20-04-2016 15:53`   `thomasga`   I'm really looking forward to change all of my build scrips
+
+`20-04-2016 15:53`   `avsm`   I realised some people don't know this, but you can get the packages sorted by date at https://opam.ocaml.org/packages/index-date.html to find out what has been merged recently
+
+`20-04-2016 15:53`   `dinosaure`   I forget the meeting :d
+
+`20-04-2016 15:53`   `avsm`   `dinosaure`: hello! 5 minutes left :-)
+
+`20-04-2016 15:54`   `avsm`   any updates on your libraries that you'd like everyone to know?
+
+`20-04-2016 15:54`   `thomasga`   `avsm`: i prefer the 2nd "most popular" package in that list
+
+`20-04-2016 15:54`   `avsm`   while `dinosaure` is typing, `thomasga` : any update on new ocaml-git and irmin releases?
+
+`20-04-2016 15:54`   `dinosaure`   yes, I will improve the performance of and after that I will try to compute a gzip content
+
+`20-04-2016 15:55`   `thomasga`   there are few breaking changes
+
+`20-04-2016 15:55`   `thomasga`   and perf improvment
+
+`20-04-2016 15:55`   `avsm`   `dinosaure`: this is a really good test case for the new flambda mode in 4.03, so looking forward to that
+
+`20-04-2016 15:55`   `thomasga`   they now both use logs and rresult
+
+`20-04-2016 15:55`   `thomasga`   and fmt
+
+`20-04-2016 15:55`   `engil`   `thomasga`: you had the time to investigate the stacktraces I gave you ? :}
+
+`20-04-2016 15:55`   `thomasga`   `engil`: no
+
+`20-04-2016 15:55`   `engil`   :}
+
+`20-04-2016 15:56`   `avsm`   We're now also using Irmin in this very meeting to log and push them to Canopy, so I'm glad that Irmin's performance has been improved so it can scale as we type more
+
+`20-04-2016 15:56`   `engil`   ok :)
+
+`20-04-2016 15:56`   `thomasga`   might maybe release them anyway as the API is nicer (even if they are still some issues in `git push/pull` with the smart HTTP protocol)
+
+`20-04-2016 15:56`   `engil`   `avsm`: well to be honest the bot is just keeping everything in memory and will push later
+
+`20-04-2016 15:56`   `avsm`   That concludes the agenda that everyone wanted to discuss.  Any other business people want to discuss in the closing minutes that weren't on there? Things you want tested or otherwise highlighted?
+
+`20-04-2016 15:56`   `thomasga`   @`talex5` did a lot of work, I haven't done anything
+
+`20-04-2016 15:57`   `thomasga`   i want to see unikernels in space
+
+`20-04-2016 15:57`   `dbuenzli`   me in snow
+
+`20-04-2016 15:57`   `dbuenzli`   on my alitmeter
+
+`20-04-2016 15:57`   `avsm`   in that case `thomasga` you should come to this talk today! https://www.eventbrite.co.uk/e/policy-considerations-for-the-continual-advancement-of-space-activity-in-the-xxi-century-tickets-23224409835
+
+`20-04-2016 15:58`   `avsm`   alright, sounds like we're done.
+
+`20-04-2016 15:58`   `thomasga`   bye!
+
+`20-04-2016 15:58`   `yomimono`   "the xxi century" - nice
+
+`20-04-2016 15:58`   `avsm`   In two weeks OCaml 4.03 will be out; have fun trying it out everyone!
+
+`20-04-2016 15:58`   `dbuenzli`   bye
+
+`20-04-2016 15:58`   `GemmaG`   Enjoy the talk!
+
