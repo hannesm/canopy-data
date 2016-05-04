@@ -1,0 +1,682 @@
+---
+participants: aantron,avsm,dbuenzli,dinosaure,djs55,djwillia,dsheets,engil,gemma,hannes,mato,mort___,noddy,raboof,reynir,rudenoise,talex5,thomasga,yallop,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 04-05-2016
+tags: irc,log
+---
+`04-05-2016 14:58`   `yomimono`   :D
+
+`04-05-2016 14:59`   `engil`   looks like the bot is really looking forward to the meeting…
+
+`04-05-2016 14:59`   `avsm`   You're early, unpurecamelbot!
+
+`04-05-2016 14:59`   `gemma`   Haha keeping us in suspense too ...
+
+`04-05-2016 15:00`   `mort___`   breath
+
+`04-05-2016 15:00`   `avsm`   Greetings! Mirage IRC chat starting. Agenda is up at: https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`04-05-2016 15:00`   `avsm`   But first, who is here? Wave for the Irmin logging camera.
+
+`04-05-2016 15:01`   `dbuenzli`   \o/
+
+`04-05-2016 15:01`   `engil`   ~o~
+
+`04-05-2016 15:01`   `thomasga`    /o/
+
+`04-05-2016 15:01`   `yomimono`   waves
+
+`04-05-2016 15:01`   `rudenoise`   \o/
+
+`04-05-2016 15:01`   `djs55`   waves
+
+`04-05-2016 15:01`   `avsm`   We've had quite a few releases in the last couple of weeks: Mirage 2.8.0, followed swiftly by Mirage 2.9.0 to deal with some regressions. `thomasga` and `talex5`, would you like to tell us more?
+
+`04-05-2016 15:01`   `talex5`   \o/
+
+`04-05-2016 15:01`   `dinosaure`   hi
+
+`04-05-2016 15:02`   `yallop`   hello
+
+`04-05-2016 15:02`   `mort___`   .
+
+`04-05-2016 15:02`   `thomasga`   2.9.0 doesn't fix regressions, it adds support for logging
+
+`04-05-2016 15:02`   `avsm`   my bad, 2.8.0 was by `yomimono` to fix up various tcp/ip interface issues
+
+`04-05-2016 15:02`   `talex5`   Yes. We can now start adding logs support to other libraries and users will be able to see it by default.
+
+`04-05-2016 15:03`   `yomimono`   cheers
+
+`04-05-2016 15:03`   `avsm`   The 2.9.0 changelog: https://github.com/mirage/mirage/releases/tag/v2.9.0
+
+`04-05-2016 15:03`   `thomasga`   so basically if you use Logs in your libraries, you can use the mirage tool to configure a simple log reporter
+
+`04-05-2016 15:03`   `thomasga`   either at configuration time or runtime
+
+`04-05-2016 15:03`   `talex5`   I've added support to tcpip and mirage-net-xen so far.
+
+`04-05-2016 15:03`   `thomasga`   and you use simple patterns to turn on/off some log sources
+
+`04-05-2016 15:03`   `avsm`   Quite a few libraries have now started to shift to the logging interface I see. So if you see "printf" or "Console.log", then consider porting that to use Logs instead
+
+`04-05-2016 15:04`   `thomasga`   also, I've fixed the argv parsing issue
+
+`04-05-2016 15:04`   `thomasga`   so that should fix booting on EC2
+
+`04-05-2016 15:04`   `avsm`   This is an example of porting TCP/IP to use Logs: https://github.com/mirage/mirage-tcpip/pull/199/files#diff-e1ef6a8f0e820a5bb3b15e428b5e1bd7L128
+
+`04-05-2016 15:04`   `talex5`   Confirmed: I can boot my Qubes firewall without hacks now :-)
+
+`04-05-2016 15:04`   `avsm`   `thomasga`: awesome!
+
+`04-05-2016 15:05`   `djs55`   @`thomasga` I was just wondering about that. What was the fix?
+
+`04-05-2016 15:05`   `thomasga`   I've added a way to change the default parser for command-line argument
+
+`04-05-2016 15:05`   `thomasga`   and there a new `no_argv` parser which just doesn't care
+
+`04-05-2016 15:05`   `djs55`   ah yes sounds handy
+
+`04-05-2016 15:05`   `avsm`   One quirk of the newer releases it that you may need to pass "--network 0" to mirage configure. Previously we were very permissive about how network interfaces were named, but now they need to be distinct.
+
+`04-05-2016 15:05`   `thomasga`   so it's a configuration-only parameter
+
+`04-05-2016 15:06`   `avsm`   `yomimono`: `thomasga`: `talex5`: is there a short paragraph about these new features we should put somewhere?
+
+`04-05-2016 15:06`   `thomasga`   not yet, I will try to write something before the next meeting
+
+`04-05-2016 15:06`   `avsm`   "how to use logging in a library", "the networking naming situation"
+
+`04-05-2016 15:06`   `avsm`   suggestions for where to put this welcome -- I was thinking expanding CHANGES would be easiest
+
+`04-05-2016 15:06`   `avsm`   to explain the import of new features
+
+`04-05-2016 15:07`   `dbuenzli`   In the documentation !
+
+`04-05-2016 15:07`   `avsm`   yes indeed...
+
+`04-05-2016 15:07`   `talex5`   How to use logging in a library is basically: read the Logs docs - nothing Mirage specific.
+
+`04-05-2016 15:07`   `avsm`   one motivation to do more documentation PRs: the more often we do so, the more often the website is redeployed and we catch bugs in the master branch :-)
+
+`04-05-2016 15:08`   `yomimono`   I think the "how to use" is less compelling than an example of how much nicer it is to deal with problems now that we have logs
+
+`04-05-2016 15:08`   `avsm`   `yomimono`: yeah, that's true
+
+`04-05-2016 15:08`   `djwillia`   is "--network 0" the only change to the configure step with the new release?
+
+`04-05-2016 15:08`   `avsm`   debugging no longer requires grep over console logs
+
+`04-05-2016 15:08`   `yomimono`   for example, one or two of the use cases `talex5` was working on at the hackathon
+
+`04-05-2016 15:08`   `thomasga`   yes, my plan is just to write a small wiki page with an example
+
+`04-05-2016 15:08`   `avsm`   Fantastic. Closing out mirage release topic and moving on shortly...
+
+`04-05-2016 15:08`   `dbuenzli`   Just curious is someone using tags ?
+
+`04-05-2016 15:08`   `avsm`   tags?
+
+`04-05-2016 15:09`   `dbuenzli`   Logs tags
+
+`04-05-2016 15:09`   `yomimono`   I think the answer is no
+
+`04-05-2016 15:09`   `talex5`   mirage-logs will print them as key-value pairs I think.
+
+`04-05-2016 15:09`   `avsm`   should we be?
+
+`04-05-2016 15:09`   `dbuenzli`   No not necessarily
+
+`04-05-2016 15:09`   `thomasga`   not yet
+
+`04-05-2016 15:10`   `avsm`   oh I see, they can be used to attach (for example) a session tag so that we can trace from Ethif->IP->TCP->HTTP->TLS->App
+
+`04-05-2016 15:10`   `dbuenzli`   Basically any kind of typed value can be attached to a logs message.
+
+`04-05-2016 15:11`   `avsm`   this seems really useful to filter out sessions... could also filter by NAT state on UDP packets to find one session in DNS `djs55` `yomimono`
+
+`04-05-2016 15:11`   `talex5`   yominono: the examples were mainly error reporting rather than logging. We'd better get that stuff in soon, or people will start using logging instead to return errors :-(
+
+`04-05-2016 15:11`   `thomasga`   yes, lots of unexplored use-cases
+
+`04-05-2016 15:11`   `yomimono`   extremely good point
+
+`04-05-2016 15:11`   `mort___`   (cool— i can see "magpie for mirage" — phoenix? — becoming an MPhil project soon :))
+
+`04-05-2016 15:12`   `hannes`   (soory, late... needed to punt)
+
+`04-05-2016 15:12`   `avsm`   Ok, next topic: good news and bad news
+
+`04-05-2016 15:12`   `avsm`   Bad news: our first security advisory! Good news: Hannes did a great job of driving and root diagnosing it and pulling in everyone needed.
+
+`04-05-2016 15:12`   `avsm`   https://mirage.io/blog/MSA00
+
+`04-05-2016 15:12`   `djs55`   sunglasses
+
+`04-05-2016 15:12`   `avsm`   Semi-good-news: it was actually fixed back in January
+
+`04-05-2016 15:13`   `hannes`   bad news: it was actually our second flaw (remember mirage-fs-unix 2 years ago with a directory traversal) ;)
+
+`04-05-2016 15:13`   `avsm`   So we definitely need to speed up our disclosure process somewhat
+
+`04-05-2016 15:13`   `avsm`   Aww `hannes`, I was zero-indexing :-)
+
+`04-05-2016 15:13`   `avsm`   This one was quite serious, but only affected the Xen backend
+
+`04-05-2016 15:13`   `avsm`   But there is precious little documentation about how the Xen device drivers should work
+
+`04-05-2016 15:14`   `avsm`   so the Mirage libraries are increasingly also becoming oracles that explain it
+
+`04-05-2016 15:14`   `avsm`   So anyone motivated to learn more about the low levels are encouraged to dive into mirage-net-xen, mirage-block-xen and friends and send doc PRs with questions/clarifications
+
+`04-05-2016 15:14`   `dbuenzli`   Is there a well defined perimeter were these can happen. So that e.g. would could focus on these for auditing.
+
+`04-05-2016 15:15`   `djs55`   they're quite hard to unit test in their current state (except vchan which is functorised and runs over any source of pages, events etc)
+
+`04-05-2016 15:15`   `hannes`   `dbuenzli`: unfortunately it seems those "protocols" are "documented" in the linux source code...
+
+`04-05-2016 15:15`   `avsm`   `dbuenzli`: it's anything down at the Xen layer. The interfaces are generally defined in code and not specs.
+
+`04-05-2016 15:15`   `talex5`   `djs55`: I think you had a branch doing something similar for mirage-net-xen...
+
+`04-05-2016 15:16`   `djs55`   `talex5`: yes that's true — it wasn't complete… however how that we have a netback it would be easier to resurrect I think. I wanted to write client/server tests which was tricky as we had no server code at the time
+
+`04-05-2016 15:16`   `dbuenzli`   I see. Do these layer then leak higher-up ?
+
+`04-05-2016 15:16`   `hannes`   (I got btw good feedback on the disclosure and the detailed analysis of how I cornered the issue)
+
+`04-05-2016 15:17`   `avsm`   One very nice PPX extension that we can now use thanks to the the 4.02 minimum version is ppx_inline_test https://github.com/janestreet/ppx_inline_test -- figuring out how to embed more documentation that can also act as tests over a functorised version of the driver (that doesnt require xen) would be interesting
+
+`04-05-2016 15:17`   `talex5`   `djs55`: yes, I extracted the netback support from that branch. It'll need rebasing on trunk now.
+
+`04-05-2016 15:17`   `hannes`   `dbuenzli`: at least mirage-net-xen not, for TX it has its own page pool; for RX it copies the incoming data into a freshly allocated buffer... thus, the memory used for xen <-> mirage is very well contained
+
+`04-05-2016 15:18`   `avsm`   `dbuenzli`: ideally, we would pass zero-copy pages up through the application stack, but we don't have sufficient support for this yet at the library level.  It would require a blocking interface over Bigarray fragments, so parsers would need to restart in an IO loop and so on
+
+`04-05-2016 15:19`   `avsm`   Ok, thank you again to `hannes` for his efforts in the last week to isolate this bug and push out the releases.
+
+`04-05-2016 15:19`   `avsm`   Onto 4.03.
+
+`04-05-2016 15:19`   `thomasga`   (thx `hannes`!)
+
+`04-05-2016 15:19`   `raboof`   (yes great read!)
+
+`04-05-2016 15:19`   `yomimono`   (VERY BIG thanks indeed!)
+
+`04-05-2016 15:19`   `avsm`   I have a PR that adds OCaml 4.03 support! We have fixed a lot of libraries to now work with 4.03! 4.03 has been released!
+
+`04-05-2016 15:19`   `yomimono`   !!
+
+`04-05-2016 15:19`   `avsm`   https://github.com/mirage/mirage-platform/pull/165
+
+`04-05-2016 15:19`   `hannes`   imho for the future: it would be nice if those low-level libraries get PRs approved by at least 4 eyes (please, let us stop to merge them individually)
+
+`04-05-2016 15:19`   `thomasga`   yay, everything broke with 4.03
+
+`04-05-2016 15:20`   `avsm`   `hannes`: well its not the number of eyes that concerns me, but the accuracy with which they see
+
+`04-05-2016 15:20`   `thomasga`   `hannes`: maybe we can start by 2 eyes
+
+`04-05-2016 15:20`   `thomasga`   I mean 2 pair of eyes
+
+`04-05-2016 15:20`   `avsm`   very few people understand those low level interfaces
+
+`04-05-2016 15:20`   `yomimono`   ...maybe we can define this in terms of brains instead
+
+`04-05-2016 15:20`   `thomasga`   indeed
+
+`04-05-2016 15:20`   `dbuenzli`   Also the problem is that diffs are not such a good review process.
+
+`04-05-2016 15:20`   `hannes`   (well, actually I'd like to establish this code review principle for mirage libraries... just let a PR sit and invite people @foo to review (with whom you feel confident they'll understand something))
+
+`04-05-2016 15:20`   `djs55`   If we refactor the code a bit we could start adding unit tests, perhaps that would catch some things
+
+`04-05-2016 15:21`   `thomasga`   we should start to add test first indeed
+
+`04-05-2016 15:21`   `avsm`   One suggestion I had for a future hacking evening would be for everyone to pick a driver and document/understand/add-tests to it
+
+`04-05-2016 15:21`   `thomasga`   I always trust better tests than eyes
+
+`04-05-2016 15:21`   `yomimono`   I think it's a good idea to do *all* that stuff
+
+`04-05-2016 15:21`   `yomimono`   tests can also be bad code
+
+`04-05-2016 15:21`   `dbuenzli`   The problem in case was a little bit hard to test...
+
+`04-05-2016 15:21`   `yomimono`   and it's very useful to have >1 brain think about them
+
+`04-05-2016 15:22`   `avsm`   `dbuenzli`: not really :-( we could have had a unit test that just sat in a loop granting and ungranting pages
+
+`04-05-2016 15:22`   `dbuenzli`   ok
+
+`04-05-2016 15:22`   `hannes`   success
+
+`04-05-2016 15:22`   `thomasga`   yes, that's a problem with the library design then. we should design testable components :p anyway, more brain/eyes/tests is good, we should do all of that.
+
+`04-05-2016 15:22`   `avsm`   i must say that oasis infuriates me with respect to test cases, since there's a flag and something else that invisibly runs only some tests
+
+`04-05-2016 15:23`   `talex5`   @`hannes`: I don't think we have a big problem with things becoming broken right now. Changes at the moment usually make things better.
+
+`04-05-2016 15:23`   `mort___`   agree with all that. if i understand correctly, not self-merging PRs would be a simple start though
+
+`04-05-2016 15:23`   `talex5`   We have a lot of very research-quality code we need to upgrade.
+
+`04-05-2016 15:23`   `hannes`   `talex5`: I'd be really careful with those "core" parts...
+
+`04-05-2016 15:23`   `avsm`   yeah, it's just that there's a lot of code written in the early days of Mirage that needs a critical look at
+
+`04-05-2016 15:23`   `djs55`   I think not self-merging PRs is good, although we do need to promise to review things quickly and not let them stagnate
+
+`04-05-2016 15:23`   `avsm`   please ignore authorship of said code while reviewing it :P
+
+`04-05-2016 15:24`   `thomasga`   yes please
+
+`04-05-2016 15:24`   `hannes`   `talex5`: and in order to upgrade there should maybe a design document!? (specifying things handled and not handled, lifecycles of pieces of memory, ...)!?!?
+
+`04-05-2016 15:24`   `noddy`   time for a Full Rewrite (TM)? :)
+
+`04-05-2016 15:24`   `dbuenzli`   No we'll whip
+
+`04-05-2016 15:24`   `thomasga`   (and delete as much as my code as possible)
+
+`04-05-2016 15:24`   `avsm`   `hannes`: in the ocamldoc signatures!
+
+`04-05-2016 15:24`   `avsm`   more good news about ocaml 4.03 : a unified documentation tool is on its way
+
+`04-05-2016 15:25`   `hannes`   I mean you can hack as much on broken code as you want, but it won't turn into high quality code unless you really think about it (sth I learned from `noddy` and buenzli ;)
+
+`04-05-2016 15:25`   `mort___`   @`hannes`: such documentation has been discussed many times but not been written. perhaps `avsm` suggestion of a doc/comment/query focused hackathon is the best way to start it...
+
+`04-05-2016 15:25`   `avsm`   the issue with doing it piecemeal is that there's lot of random knowledge about those layers that is buried in various developers' minds
+
+`04-05-2016 15:26`   `avsm`   so much like the ocaml compiler hacking sessions, you can get a surprising amount done in an evening over wine and code
+
+`04-05-2016 15:26`   `avsm`   i bet the device drivers are in that class -- it's quite easy to write tests
+
+`04-05-2016 15:26`   `dbuenzli`   I can drink a surprising amount of wine.
+
+`04-05-2016 15:26`   `avsm`   one area where we will *have* to do this is with the forthcoming Solo5 merge with `djwillia`
+
+`04-05-2016 15:26`   `hannes`   so, code reading weekends?  one of the things I've planned for marrakesh2017 is to print out all the libraries in order to be able to use pen and paper..
+
+`04-05-2016 15:26`   `avsm`   for the first time we will have two driver paths for the low-levels, so abstraction will be required
+
+`04-05-2016 15:26`   `thomasga`   (yes we need more wine to improve MirageOS pliz)
+
+`04-05-2016 15:27`   `gemma`   Noted 😝
+
+`04-05-2016 15:27`   `dbuenzli`   I encourage to print code (don't think too much about the trees) I do this for most of my libraries at a certain point.
+
+`04-05-2016 15:27`   `talex5`   Agree we should set aside time for code reviews (existing and PRs). Maybe not weekends though...
+
+`04-05-2016 15:27`   `dbuenzli`   It makes it for a very different kind of review.
+
+`04-05-2016 15:27`   `djwillia`   will need a lot of wine for the Solo5 merge
+
+`04-05-2016 15:28`   `hannes`   `dbuenzli`: also better readable than screens on the roof terrace
+
+`04-05-2016 15:28`   `avsm`   Ok, let's move on: I'll take an action to figure out when to have a local hacking session (perhaps in June when `dbuenzli` is in town) to do code review explicitly.
+
+`04-05-2016 15:28`   `dbuenzli`   Arriving the very 1st of june.
+
+`04-05-2016 15:28`   `djs55`   I also print code — I used that technique to understand domain migration in Xen while I was in a hospital waiting room
+
+`04-05-2016 15:28`   `avsm`   you picked a bad time to have a head injury `djs55`
+
+`04-05-2016 15:28`   `dbuenzli`   Yeah also reading code on the toilets is quite nice.
+
+`04-05-2016 15:28`   `avsm`   Onto Ocaml 4.03: is anyone blocked on a library that depends on 4.02?
+
+`04-05-2016 15:29`   `thomasga`   js_of_ocaml
+
+`04-05-2016 15:29`   `avsm`   The most notable one is js_of_ocaml, which is fixed in trunk
+
+`04-05-2016 15:29`   `hannes`   `avsm`: mirage-platform needs a release
+
+`04-05-2016 15:29`   `avsm`   yeah need to pin that for now
+
+`04-05-2016 15:29`   `avsm`   `hannes`: yes, I'm just bringing up mirage-www on it before releasing it, to get more testing. It also adds strtod/l so that float parsing works
+
+`04-05-2016 15:29`   `thomasga`   I've released new version of irmin and git which are working fine on 4.03
+
+`04-05-2016 15:30`   `avsm`   anything else? oasis released, all the Jane Street libraries are good, Irmin/Git are going great. Things are generally in decent shape.
+
+`04-05-2016 15:30`   `hannes`   (one last thing about PRs: I still don't understand where pp_hex for cstruct.t should life... or what is the point of hex if it doesn't provide it, but cstruct does it instead)
+
+`04-05-2016 15:30`   `avsm`   One thing: test with the flambda variation as well, since it is stricter with respect to .cmx files due to the inliner.
+
+`04-05-2016 15:30`   `dbuenzli`   If bigarrays were in the stdlib I'd put it in fmt...
+
+`04-05-2016 15:31`   `avsm`   `hannes`: was working on the basis that this is a specific printer for Cstruct to output in hex format, not a general hex printer
+
+`04-05-2016 15:31`   `avsm`   i.e. its more of a debug interface for cstruct
+
+`04-05-2016 15:31`   `dbuenzli`   So it should live in cstruct then.
+
+`04-05-2016 15:32`   `avsm`   yeah, and will be in cstruct.2.1.0 released today hopefully
+
+`04-05-2016 15:32`   `hannes`   in the end, I'd like to have one single place of code which converts a byte buffer into hex... and this might be functorized over all the buffers we use!?
+
+`04-05-2016 15:32`   `dbuenzli`   Functors... The hammer.
+
+`04-05-2016 15:32`   `thomasga`   the code in hex should be very fast (@`yallop` spent some time on it)
+
+`04-05-2016 15:32`   `hannes`   (anyways, I'l shut up now)
+
+`04-05-2016 15:32`   `avsm`   Before closing out OCaml 4.03: has anyone tried -flambda with Mirage libraries?
+
+`04-05-2016 15:33`   `thomasga`   would be better to rely on that if possible
+
+`04-05-2016 15:33`   `avsm`   it should now work, including in the xen mode, but I havent looked at the build magic
+
+`04-05-2016 15:33`   `thomasga`   not tried flamba yet
+
+`04-05-2016 15:33`   `avsm`   i'm hoping desperately that flambda is only a link time thing and not for every object file compilation
+
+`04-05-2016 15:33`   `avsm`   if it requires changing every object file, I'll be crying in the corner
+
+`04-05-2016 15:33`   `avsm`   or waiting for `dbuenzli`'s topkg release
+
+`04-05-2016 15:33`   `avsm`   or both
+
+`04-05-2016 15:33`   `dbuenzli`   ducks
+
+`04-05-2016 15:34`   `talex5`   I tried 4.03 a few times, but had problems. And every time I do opam switch, it kills my shell configuration :-( So staying with 4.02.3 for now...
+
+`04-05-2016 15:34`   `dsheets`    Packages need to install cmx files at least and many do not right now, afaik.
+
+`04-05-2016 15:34`   `avsm`   alright, I'll take a look at that... a bug should be filed :-)
+
+`04-05-2016 15:35`   `avsm`   `dsheets`: ah ok. So we're making progress with 4.03 support, but 4.03-flambda should be considered as the next step (we wont get it entirely for free)
+
+`04-05-2016 15:35`   `dbuenzli`   Yes they changed the compilation model without really warning the world about it.
+
+`04-05-2016 15:35`   `talex5`   https://github.com/ocaml/opam/issues/2255
+
+`04-05-2016 15:35`   `avsm`   Ok lets move on from 4.03. In the next meeting, `talex5` will hopefully have a working shell after upgrading his compiler (?!)
+
+`04-05-2016 15:35`   `avsm`   Updates:
+
+`04-05-2016 15:35`   `avsm`   Mirage-dashboard is looking good!
+
+`04-05-2016 15:35`   `avsm`   http://`rudenoise`.github.io/mirage-dashboard/
+
+`04-05-2016 15:35`   `hannes`   .oO(is `rudenoise` around?)
+
+`04-05-2016 15:35`   `rudenoise`   I am
+
+`04-05-2016 15:36`   `avsm`   `rudenoise`: nice!
+
+`04-05-2016 15:36`   `hannes`   \o/
+
+`04-05-2016 15:36`   `rudenoise`   thanks!
+
+`04-05-2016 15:36`   `avsm`   a slightly scarily large HTML page, that
+
+`04-05-2016 15:36`   `rudenoise`   it's taking shape
+
+`04-05-2016 15:36`   `hannes`   big applaus for `rudenoise`! :D
+
+`04-05-2016 15:36`   `engil`   \o\
+
+`04-05-2016 15:36`   `dbuenzli`   A lot of my packages say they have no releases. But they do have.
+
+`04-05-2016 15:36`   `avsm`   `dbuenzli`: i guess this works from the github api, and not git tags?
+
+`04-05-2016 15:36`   `rudenoise`   that's right
+
+`04-05-2016 15:36`   `dbuenzli`   I see.
+
+`04-05-2016 15:36`   `djs55`   I think we need a zoomed-out view, perhaps one pixel per repo, just to cope with the number of repos we have :)
+
+`04-05-2016 15:37`   `avsm`   `dbuenzli`: any suggestions on how to get a changelog from a git tag? we just need a convention
+
+`04-05-2016 15:37`   `avsm`   `rudenoise`: actually a summary table would be really helpful, hrefing down to the detailed boxes
+
+`04-05-2016 15:37`   `dbuenzli`   Checkout the repo and extract it from the change log file.
+
+`04-05-2016 15:37`   `rudenoise`   sure, I was thinking about making them all colapsable
+
+`04-05-2016 15:38`   `rudenoise`   cool, currently using Github.Release.for_repo
+
+`04-05-2016 15:38`   `engil`   `rudenoise`: If you are open to pull requests about CSS I might give a try at changing a few things, if you don't have any plans already on this side :)
+
+`04-05-2016 15:38`   `avsm`   `rudenoise`: `dbuenzli`: i wonder if we can abstract this in an `opam-changes` plugin that figures it out from the package
+
+`04-05-2016 15:39`   `avsm`   some packages have CHANGES.md, others have different formats...
+
+`04-05-2016 15:39`   `rudenoise`   that'd be great, I bunged bootstrap in to get it going but I'm not particularly attached to it
+
+`04-05-2016 15:39`   `hannes`   using opam information would be great, also for tags (in order to group projects)
+
+`04-05-2016 15:39`   `talex5`   How does it work out the contributors?
+
+`04-05-2016 15:39`   `rudenoise`   it loops any events and grabs the user from them
+
+`04-05-2016 15:40`   `talex5`   So... just recent contribs then?
+
+`04-05-2016 15:40`   `dbuenzli`   In topkg if your change log has a well defined format, I automatically extract the lateset release notes.
+
+`04-05-2016 15:40`   `thomasga`   no the Github API exposes all the contributors
+
+`04-05-2016 15:40`   `avsm`   `talex5`: https://github.com/`rudenoise`/mirage-dashboard/blob/master/src/get_events.ml#L92
+
+`04-05-2016 15:40`   `talex5`   For example: I'm certainly not the only contributor to mirage-console.
+
+`04-05-2016 15:40`   `thomasga`   `opam install topkg`
+
+`04-05-2016 15:40`   `hannes`   but a contribution is also opening an issue and commenting..
+
+`04-05-2016 15:41`   `avsm`   `dbuenzli`: nice; i'll fixup any libraries i port to make sure it has a well deffined changelog then
+
+`04-05-2016 15:41`   `rudenoise`   I think I'm only including those who've generated more than one event
+
+`04-05-2016 15:41`   `dbuenzli`   I think it works with the mirages ones.
+
+`04-05-2016 15:41`   `yomimono`   `dbuenzli`: any docs on a "well-defined" format?
+
+`04-05-2016 15:42`   `talex5`   `rudenoise`: I'm a very minor contributor to that lib.
+
+`04-05-2016 15:42`   `dbuenzli`   Yes.
+
+`04-05-2016 15:42`   `dbuenzli`   http://erratique.ch/software/topkg/doc/Topkg_care.Text.html#VALchange_log_last_entry
+
+`04-05-2016 15:42`   `yomimono`   Excellent, thanks!
+
+`04-05-2016 15:43`   `avsm`   alright, thanks for the continued work on this `rudenoise`!  Onto Canopy... aside from finding serious security holes in MirageOS/Xen, how's it going `engil`?
+
+`04-05-2016 15:43`   `dbuenzli`   Ah no in fact it's in the man page of topkg-log sorry.
+
+`04-05-2016 15:43`   `engil`   well, hard to tell
+
+`04-05-2016 15:43`   `engil`   a few bugs that we need to fix
+
+`04-05-2016 15:43`   `engil`   and hmm
+
+`04-05-2016 15:43`   `avsm`   The one deployed on canopy.mirage.io is working well
+
+`04-05-2016 15:43`   `avsm`   and the IRC logs logging is great
+
+`04-05-2016 15:43`   `thomasga`   `rudenoise` `talex5`: the Github API should expose https://github.com/mirage/mirage-console/graphs/contributors
+
+`04-05-2016 15:43`   `engil`   yeah, master isn't looking too good though
+
+`04-05-2016 15:43`   `engil`   :)
+
+`04-05-2016 15:44`   `hannes`   it is leaking memory... guess what I've a new bug for this weekend ;)
+
+`04-05-2016 15:44`   `engil`   one question, I was thinking about doing a release at some point
+
+`04-05-2016 15:44`   `avsm`   I'd recommend using OCaml 4.03 and bugging mshinwell for his memory profiler (really!)
+
+`04-05-2016 15:44`   `dbuenzli`   `yomimono`: https://github.com/`dbuenzli`/topkg/blob/master/src-bin/log.ml#L99-L127
+
+`04-05-2016 15:44`   `hannes`   [but likely it is mirage-http]
+
+`04-05-2016 15:44`   `engil`   but I was wondering how unikernels and releases works together
+
+`04-05-2016 15:44`   `avsm`   the memory profiler was waiting on a 4.03-capable cohttp, which we have now thanks to rgrinberg releasing a ppx-conduit
+
+`04-05-2016 15:44`   `yomimono`   `dbuenzli`: ah, nice. thanks.
+
+`04-05-2016 15:44`   `avsm`   unikernels/releases: use OPAM versioning
+
+`04-05-2016 15:45`   `thomasga`   @`engil` and @`hannes`: does it leak with irmin-unix ?
+
+`04-05-2016 15:45`   `hannes`   ah, the interesting question again... shouldn't unikernels be opam packages? ;)
+
+`04-05-2016 15:45`   `hannes`   `thomasga`: I've no irmin-unix... but I saw you had a recent release...
+
+`04-05-2016 15:45`   `thomasga`   yes, there is a memory leak in lwt_unix
+
+`04-05-2016 15:46`   `engil`   `avsm`: how would it work ? an opam package that would install the unix binary ?
+
+`04-05-2016 15:46`   `engil`   how about xen ?
+
+`04-05-2016 15:46`   `avsm`   `engil`: yeah should work fine. You just ensure the mirage configure phase doesnt call opam
+
+`04-05-2016 15:46`   `hannes`   `thomasga`: ah, I deploy it on Xen at https://`hannes`.nqsb.io -- and there I had to restart after some days
+
+`04-05-2016 15:46`   `avsm`   one feature it would be nice to have from the mirage CLI is to generate a local `opam` file
+
+`04-05-2016 15:47`   `hannes`   `thomasga`: what I'd like to know is how mirage.io is actually deployed? how much ram? restart on crash or not?
+
+`04-05-2016 15:47`   `hannes`   `avsm`: +1
+
+`04-05-2016 15:47`   `aantron`   `thomasga`: is this leak already reported as an issue?
+
+`04-05-2016 15:47`   `thomasga`   `aantron`: https://github.com/ocsigen/lwt/issues/229 I saw you fixed it, thanks!
+
+`04-05-2016 15:47`   `thomasga`   `hannes`: see https://github.com/mirage/mirage-www-deployment/blob/master/xl.conf.in
+
+`04-05-2016 15:47`   `avsm`   `aantron`: we appreciate you stepping up to do maintenance work on Lwt!
+
+`04-05-2016 15:48`   `thomasga`   1024 RAM + restart on crash
+
+`04-05-2016 15:48`   `aantron`   `thomasga`: well, credit goes to @`talex5` for the actual diagnosis :)
+
+`04-05-2016 15:48`   `avsm`   Ok, lets move on to the last bit. Just 10 minutes left.
+
+`04-05-2016 15:48`   `thomasga`   `hannes`: and https://mirage.io/stats/gc for live memory usage
+
+`04-05-2016 15:48`   `hannes`   `thomasga`: thx (I deploy on 128MB and fail on crash)
+
+`04-05-2016 15:48`   `avsm`   Infromation retrieval!
+
+`04-05-2016 15:48`   `dbuenzli`   Le serpent de mer.
+
+`04-05-2016 15:49`   `hannes`   `thomasga`: but those I don't really understand / cannot zoom out enough / doesn't show me its uptime
+
+`04-05-2016 15:49`   `avsm`   the OCaml Labs website has been wallowing in unmaintained mode for some time, so `gemma` has been centralising and updating information on ocaml.io -- a simpler mediawiki than the older site
+
+`04-05-2016 15:49`   `avsm`   This is intended just to capture OCL activity around multicore/etc, but it's proving to be quite a useful place to keep notes on stuff.
+
+`04-05-2016 15:49`   `hannes`   yay :) ocaml.io :D
+
+`04-05-2016 15:49`   `gemma`   Yes 😊 lots of useful info in one place
+
+`04-05-2016 15:50`   `avsm`   So for example https://ocaml.io/w/PPX is where I noted down blog posts etc to find useful tips on moving to PPX
+
+`04-05-2016 15:50`   `gemma`   Feel free to add to/create new pages as per the PPX and HardCaml pages
+
+`04-05-2016 15:50`   `hannes`   (my only criticism is that it is not a mirageos unikernel, but some piece of php ;)
+
+`04-05-2016 15:51`   `avsm`   This wiki isn't really "announced" yet, but if you find some useful OCaml tips and need somewhere to put them, the ocamllabs wiki will continue to be around.
+
+`04-05-2016 15:51`   `avsm`   `hannes`: yes indeed. but it's running TLStunnel for HTTPS (soon to be a unikernel), and also I've got a cohttp/fastcgi branch so that the webserver can also be a mirage unikernel soon ;-)
+
+`04-05-2016 15:51`   `thomasga`   `hannes`: I think there is tlstunnel between the crap php and you
+
+`04-05-2016 15:51`   `avsm`   also there is a http2https unikernel that redirects 80->443
+
+`04-05-2016 15:51`   `avsm`   so the unikernels are bravely defending the weak PHP centre
+
+`04-05-2016 15:52`   `mort___`   microservices ftw!
+
+`04-05-2016 15:52`   `avsm`   As `dbuenzli` often notes, we do want to refresh the Mirage documentation more easily, and so the next step is to port mirage-www to not crunch the data into itself but to git pull its data from a remote source
+
+`04-05-2016 15:52`   `avsm`   most of this is "almost done" (and Canopy is helping)
+
+`04-05-2016 15:53`   `avsm`   but ocaml.io is there for the OCaml-specific features. Anyone can register on the site (it's a normal wikimedia setup), so go ahead. Anonymous posts are discouraged
+
+`04-05-2016 15:53`   `avsm`   ...but I haven't locked out anonymous posts yet, until abuse actually occurs. Please dont...
+
+`04-05-2016 15:54`   `avsm`   Finally: blog posts! A number of people have volunteered to do blog posts on the new features. Thank  you!
+
+`04-05-2016 15:54`   `avsm`   `yomimono`: how's the hackathon round up post going?
+
+`04-05-2016 15:54`   `yomimono`   https://github.com/mirage/mirage-www/pull/450
+
+`04-05-2016 15:54`   `gemma`   Woop 😊
+
+`04-05-2016 15:54`   `avsm`   yay!
+
+`04-05-2016 15:54`   `yomimono`   If anyone has last-minute contributions, that's the place to say so :)
+
+`04-05-2016 15:55`   `avsm`   There was also a lot of interest in AFL fuzzing, so if anyone wants to pick that up see what `yomimono` did in morocco...
+
+`04-05-2016 15:55`   `hannes`   a friend was not satisfied with the mirage tutorial stuff, and thus started to bug me and wrote things down (at https://github.com/cfcs/mirage-examples -- imho more easy to get into than some of the content of mirage.io)
+
+`04-05-2016 15:55`   `avsm`   mirage-examples is awesome!
+
+`04-05-2016 15:55`   `gemma`   That's great!
+
+`04-05-2016 15:55`   `thomasga`   `hannes`: that's great!
+
+`04-05-2016 15:56`   `thomasga`   folding that to main website would be awesome
+
+`04-05-2016 15:56`   `thomasga`   (replace folding by replacing or whatever is simpler)
+
+`04-05-2016 15:56`   `avsm`   I'll add a link to it shortly if my website ever builds again on the 4.03 branch
+
+`04-05-2016 15:56`   `avsm`   Any other blog posts people would like to do?
+
+`04-05-2016 15:57`   `avsm`   Also my apologies: I missed out the very exciting Solo5 release that `djwillia` did.  How did the release go `djwillia` ?
+
+`04-05-2016 15:57`   `avsm`   I notice that `mato` leapt in to test it on dodgy old x86 hardware without the latest greatest 2MB page support :)
+
+`04-05-2016 15:58`   `djwillia`   well, we're still in the process of making everything work the right way with opam rather than the old build it had
+
+`04-05-2016 15:58`   `djwillia`   `mato` has been a great help
+
+`04-05-2016 15:58`   `avsm`   yes, moving the various libraries to an OPAM base is really useful
+
+`04-05-2016 15:58`   `mato`   `avsm`: 1G page support actually. not dodgy, just not there on mobile CPUs
+
+`04-05-2016 15:58`   `mato`   `avsm`: mkt segmentation by intel :(
+
+`04-05-2016 15:58`   `avsm`   `mato`: ah, didnt even realise x86 had 1G page support these days
+
+`04-05-2016 15:59`   `djwillia`   yeah, we used 1G pages by default in ukvm, which wasn't the most compatible choice :)
+
+`04-05-2016 15:59`   `avsm`   i've been dipping my toes in cross-compilation using https://github.com/multiarch/crossbuild
+
+`04-05-2016 15:59`   `avsm`   its a Docker container that supports cross toolchains for a vast number of cpus and also osx/windows
+
+`04-05-2016 16:00`   `avsm`   but still not convinced OCaml 4.03 to use it fully yet. If anyone understands cross-compilation in OCaml, would like to chat...
+
+`04-05-2016 16:00`   `avsm`   it should make (for example) OSX and Windows binaries easy to generate from a Docker script
+
+`04-05-2016 16:00`   `dbuenzli`   whitequark
+
+`04-05-2016 16:00`   `avsm`   yeah, I'll bug whitequark
+
+`04-05-2016 16:00`   `hannes`   yes, whitequark has android/win/ios cross building setups
+
+`04-05-2016 16:00`   `avsm`   Alright! An hour on the dot! Anything else anyone wants to bring up?
+
+`04-05-2016 16:01`   `avsm`   I'll hopefully have an flambda report soon. Also sean grove is doing a mirageos talk in London this Tuesday evening
+
+`04-05-2016 16:01`   `avsm`   if anyone happens to be in London next week and wants to cheer him on
+
+`04-05-2016 16:01`   `avsm`   but if nothing else -- git commit the logger for this week `engil`!
+
+`04-05-2016 16:02`   `thomasga`   \o\
+
+`04-05-2016 16:02`   `hannes`   logger... syslog... wanthave
+
+`04-05-2016 16:02`   `avsm`   exception
+
+`04-05-2016 16:02`   `reynir`   o/
+
