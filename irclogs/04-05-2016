@@ -250,7 +250,7 @@ tags: irc,log
 
 `04-05-2016 15:22`   `dbuenzli`   ok
 
-`04-05-2016 15:22`   `hannes`   success
+`04-05-2016 15:22`   `hannes`   tries all the time to find another brain on ebay... so far not much success
 
 `04-05-2016 15:22`   `thomasga`   yes, that's a problem with the library design then. we should design testable components :p anyway, more brain/eyes/tests is good, we should do all of that.
 
