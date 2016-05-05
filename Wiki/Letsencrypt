@@ -1,0 +1,54 @@
+---
+title: TLS certificates with Letsencrypt
+author: Anil Madhavapeddy
+---
+
+To get free TLS certificates from [LetsEncrypt](https://letsencrypt.org) just do this on a
+Unix host where `mail` works (I used an OpenBSD machine but Linux or FreeBSD should work fine).
+
+Grab the shell scripts:
+
+```
+git clone https://github.com/lukas2511/letsencrypt.sh
+cd letsencrypt.sh
+git clone https://github.com/bennettp123/letsencrypt.sh-email-notify-hook hooks/email-notify
+```
+
+Then call the command for the domain you want.  We use DNS verification so that you just
+need to add an entry in the domain's DNS with the challenge (to prove you own it).  The
+command below will send you an email with the challenge.  Just add it to the DNS and it
+will continue and generate you a certificate when done.
+
+```
+$ ./letsencrypt.sh --cron --domain mirage.io --challenge dns-01 --hook 'hooks/email-notify/hook.sh'
+#
+# !! WARNING !! No main config file found, using default config!
+#
++ Generating account key...
++ Registering account key with letsencrypt...
+Processing mirage.io
+ + Signing domains...
+ + Creating new directory /home/avsm/letsencrypt/letsencrypt.sh/certs/mirage.io ...
+ + Generating private key...
+ + Generating signing request...
+ + Requesting challenge for mirage.io...
+ + Settling down for 10s...
+ + DNS not propagated. Waiting 30s for record creation and replication...
+ + DNS not propagated. Waiting 30s for record creation and replication...
+ + DNS not propagated. Waiting 30s for record creation and replication...
+ + Responding to challenge for mirage.io...
+ + Challenge is valid!
+ + Requesting certificate...
+ + Checking certificate...
+ + Done!
+ + Creating fullchain.pem...
+ + Done!
+```
+
+Once its finished, you will have a private key and certificate chain in
+`certs/<domain>`.  Use it with [tlstunnel](https://github.com/hannesm/tlstunnel)
+or your favourite other TLS server.
+
+This version of the shell script requires human intervention, but we should
+be able to automate it too so that services automatically request a new
+key when it is about to expire!
