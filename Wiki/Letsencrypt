@@ -51,4 +51,6 @@ or your favourite other TLS server.
 
 This version of the shell script requires human intervention, but we should
 be able to automate it too so that services automatically request a new
-key when it is about to expire!
+key when it is about to expire!  If you want to work on this, there is a
+[Pioneer Project](https://github.com/mirage/mirage-www/wiki/Pioneer-Projects#letsencrypt-compliant-dns-server)
+open about it.
