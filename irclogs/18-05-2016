@@ -1,0 +1,394 @@
+---
+participants: Drup,GemmaG,aantron,avsm,djs55,djwillia,engil,hannes,mort___,pris,talex5,wiredsister,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 18-05-2016
+tags: irc,log
+---
+`18-05-2016 15:01`   `Drup`   yeah,  I didn't
+
+`18-05-2016 15:01`   `djs55`   I think we have a good agenda here: https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`18-05-2016 15:01`   `engil`   indeed unpurecamelbot
+
+`18-05-2016 15:01`   `Drup`   ca_: you will have to create a new keys yourself
+
+`18-05-2016 15:01`   `Drup`   (and use it inside your unikernel
+
+`18-05-2016 15:02`   `djs55`   shall we start the meeting?
+
+`18-05-2016 15:02`   `GemmaG`   Yes :D
+
+`18-05-2016 15:02`   `mort___`   yes!
+
+`18-05-2016 15:02`   `yomimono`   I call this meeting of MirageOS conspirators to order
+
+`18-05-2016 15:02`   `yomimono`   bangs gavel
+
+`18-05-2016 15:03`   `mort___`   lead us oh leader!
+
+`18-05-2016 15:03`   `djwillia`   hello all!
+
+`18-05-2016 15:03`   `mort___`   sits down
+
+`18-05-2016 15:03`   `djs55`   The first topic appears to be "Reproducible builds" — Hannes' suggestion: https://reproducible-builds.org/who/
+
+`18-05-2016 15:03`   `djs55`   Anyone got any thoughts? :)
+
+`18-05-2016 15:03`   `hannes`   i didn't suggest anything, was only poked by holger (who has sent a list to the mail, awaiting moderator approval!??)
+
+`18-05-2016 15:04`   `djs55`   hehe ok
+
+`18-05-2016 15:04`   `djs55`   Who is a list moderator? It's not waiting for me is it?
+
+`18-05-2016 15:04`   `hannes`   would be nice if someone would try that out 4.03 + reproducible mirageos unikernels and explain why it is the case (i poked xavir to have this in 4.03 out of the box)
+
+`18-05-2016 15:04`   `yomimono`   I wondered what the set of experiments to "prove" a reproducible build might look like
+
+`18-05-2016 15:05`   `yomimono`   I had a look at the baserock example http://wiki.baserock.org/projects/deterministic-builds/ which seemed most thoroughly documented
+
+`18-05-2016 15:05`   `hannes`   `yomimono`: build xxx once, record checksums, build it again. record checksum. wipe ~/.opam, build again same versions
+
+`18-05-2016 15:05`   `yomimono`   `hannes`: change hostname, change date, change locale...
+
+`18-05-2016 15:06`   `hannes`   `yomimono`: sure, if you like.  and document what you changed and what works :)
+
+`18-05-2016 15:06`   `yomimono`   none of these *should* affect our builds, but I'll admit I can't prove it :)
+
+`18-05-2016 15:06`   `talex5`   Someone on the Qubes list tried building mirage-firewall twice with 4.02 and complained it had a different hash. Seems to work with 4.03, but didn't try wiping opam.
+
+`18-05-2016 15:06`   `hannes`   afaict it should work... http://caml.inria.fr/mantis/view.php?id=7037 is the mantis thingy ftr
+
+`18-05-2016 15:06`   `djs55`   ok, I've flushed the list moderation queue — sorry about that
+
+`18-05-2016 15:08`   `djs55`   ok I see also on the agenda there's a note "MirageOS and QubesOS integration -> ppx_sexp_conv removal -> updated to support 4.03" — this sounds good
+
+`18-05-2016 15:09`   `hannes`   `djs55`: there might be more libraries which have accidentally recorded the ppx into runtime dependencies (rather than build deps)
+
+`18-05-2016 15:10`   `djs55`   That's a good point — I think I'm probably guilty of that
+
+`18-05-2016 15:10`   `hannes`   (since you were doing lots of the ppx stuff, you might remember which to check; i did it for mirleft+mine)
+
+`18-05-2016 15:10`   `talex5`   Sounds like a build tooling problem with oasis.
+
+`18-05-2016 15:10`   `talex5`   Does topkg help here?
+
+`18-05-2016 15:10`   `djs55`   I'm sure topkg solves all problems
+
+`18-05-2016 15:11`   `yomimono`   I don't see a dbuenzli to provide a counterargument
+
+`18-05-2016 15:11`   `hannes`   `talex5`: there's builddepends and xmetarequires which you can specify separately
+
+`18-05-2016 15:11`   `djs55`   ah xmetarequires
+
+`18-05-2016 15:12`   `djs55`   I've just been called away IRL but `talex5` has volunteered to help run the rest of the meeting — sorry about that!
+
+`18-05-2016 15:12`   `talex5`   I feel there should be some kind of automatic link between the {build} tag in opam and the requires in META.
+
+`18-05-2016 15:13`   `talex5`   Anyway, it's working for now. mirage-firewall went back down from 10 MB to 5 MB.
+
+`18-05-2016 15:14`   `mort___`   cool :)
+
+`18-05-2016 15:14`   `talex5`   OK. Moving on...
+
+`18-05-2016 15:14`   `pris`   is here or #docker-dev the right place for hyperkit discussion?
+
+`18-05-2016 15:14`   `talex5`   Mirage Dashboard and Lwt tutorials. Who added that?
+
+`18-05-2016 15:15`   `yomimono`   `pris` - normally here, but we're smack in the middle of our fortnightly meeting.  it usually runs for another ~20 minutes or so
+
+`18-05-2016 15:15`   `pris`   lurks to let meeting continue
+
+`18-05-2016 15:15`   `yomimono`   thanks `pris` :)
+
+`18-05-2016 15:16`   `talex5`   `pris`: just checking with a hyperkit developer, who's sitting next to me.
+
+`18-05-2016 15:16`   `talex5`   He suggests #docker-dev
+
+`18-05-2016 15:17`   `talex5`   Does anyone have anything to say about Lwt tutorials? I think there was an out-of-date one on the mirage site somewhere...
+
+`18-05-2016 15:18`   `yomimono`   Yes, https://mirage.io/wiki/tutorial-lwt is still there
+
+`18-05-2016 15:18`   `avsm`   Hello! That Lwt tutorial does need quite a bit of work.
+
+`18-05-2016 15:18`   `talex5`   It still talks about using the campl4 syntax extensions.
+
+`18-05-2016 15:18`   `yomimono`   among other things it teaches the use of lwt syntax extensions D:
+
+`18-05-2016 15:18`   `mort___`   agree syntax extensino should go
+
+`18-05-2016 15:18`   `yomimono`   Perhaps we should just remove it and link to the ocsigen docs?
+
+`18-05-2016 15:19`   `mort___`   but given RWO is all about async, several students this year found it v useful
+
+`18-05-2016 15:19`   `mort___`   so i don't think it should be removed completely without a good simple alternative tutorial
+
+`18-05-2016 15:19`   `avsm`   There's been active discussion about what to do with Lwt and Async as well recently. An Lwt adapter to Async is a distinct possibility... I'm interested in ensuring that Async_kernel is Mirage compatible in the short term so we can experiment with that approach.
+
+`18-05-2016 15:19`   `mort___`   (can't recall if such is  in ocsigen docs)
+
+`18-05-2016 15:19`   `talex5`   I could go through the tutorial and at least make sure it's up-to-date and mentions error handling.
+
+`18-05-2016 15:20`   `mort___`   `talex5`: that'd be great. i really think that losing it without a good replacement is a bad idea
+
+`18-05-2016 15:20`   `talex5`   OK. Next item.
+
+`18-05-2016 15:20`   `talex5`   Security adv. `hannes`?
+
+`18-05-2016 15:21`   `hannes`   well received, we should do that again. (I didn't add that topic)
+
+`18-05-2016 15:21`   `Drup`   if I may, I (and others) would appreciate if lwt tutorials were contributed to .. lwt :)
+
+`18-05-2016 15:21`   `yomimono`   +1
+
+`18-05-2016 15:21`   `aantron`   +1
+
+`18-05-2016 15:21`   `hannes`   my article ended up in the ocaml weekly news..
+
+`18-05-2016 15:22`   `talex5`   `Drup`: I'll check how specific it is to Mirage.
+
+`18-05-2016 15:23`   `talex5`   Do we have any plans for any kind of security audits?
+
+`18-05-2016 15:23`   `hannes`   `talex5`: I do continuous ones... would be nice to get `yomimono` afl stuff up and running... would also be nice to get professionals look over OCaml code, but so far I only met people who can read C and assembly ;)
+
+`18-05-2016 15:24`   `talex5`   I suspect that "grep FIXME" in a C stubs would be quite effective.
+
+`18-05-2016 15:24`   `hannes`   and fixing all the nasty C compiler warnings you mean? ;)
+
+`18-05-2016 15:24`   `yomimono`   I'd personally be hesitant to call anything short of a professional engagement a "security audit", but maybe a thorough code review wouldn't go amiss
+
+`18-05-2016 15:24`   `yomimono`   (I should restate: a thorough code review would certainly be a good idea)
+
+`18-05-2016 15:25`   `hannes`   and in any case, design documents, as discussed last time, should predate this..
+
+`18-05-2016 15:25`   `avsm`   I would focus on getting the AFL tooling integrated into at least one of the protocols
+
+`18-05-2016 15:25`   `avsm`   it's very very close to being useful...
+
+`18-05-2016 15:25`   `yomimono`   it's quite a bit easier with the (unfortunately massive) PR to mirage-tcpip I submitted yesterday
+
+`18-05-2016 15:26`   `talex5`   I had a go with AFL on the 9p libraries. Very easy to use and effective.
+
+`18-05-2016 15:26`   `talex5`   Is it in opam yet?
+
+`18-05-2016 15:26`   `avsm`   `yomimono`: awesome!
+
+`18-05-2016 15:26`   `yomimono`   is what in opam yet? the AFL branch to 4.02.3?
+
+`18-05-2016 15:26`   `talex5`   `yomimono`: yes
+
+`18-05-2016 15:27`   `hannes`   (sorry, have to leave in 5 minutes to catch a train; I'd like people thinking about a potential mirage-3.0 (maybe this time with a press release with LF/Xen (amir reminded me of that possibility)... imho having a solution to error handling (wip afaik) and logging is sufficient, plus no camlp4, and 4.03 support.
+
+`18-05-2016 15:27`   `yomimono`   `talex5`: I believe so, but am checking to make sure
+
+`18-05-2016 15:27`   `yomimono`   `hannes`: good points all, thanks :)
+
+`18-05-2016 15:27`   `talex5`   Regarding breaking all the APIs. I really think we need a way to upgrade APIs smoothly.
+
+`18-05-2016 15:27`   `hannes`   there are various things to be improved in mirage-types: rename V1 to something not depending on a version (versioning is done at the opam level), CLOCK interface improvements, NETIF, ...)
+
+`18-05-2016 15:28`   `hannes`   `talex5`: no, please let us use opam for that.  there's no need for another SAT solver on the module layer
+
+`18-05-2016 15:28`   `talex5`   At the moment, if I want to change the NETWORK sig, I have to update every network implementation in existence at the same time,
+
+`18-05-2016 15:28`   `yomimono`   `talex5`: do you think that providing some mechanism for releases of all libraries in lockstep would suffice?
+
+`18-05-2016 15:28`   `hannes`   `talex5`: no, conflicts: "mirage-types">3.0.0
+
+`18-05-2016 15:30`   `talex5`   What changes have we successfully made to mirage-types in the last 12 months?
+
+`18-05-2016 15:30`   `hannes`   which one have been successfully proposed? most recently mindy's ICMP
+
+`18-05-2016 15:30`   `yomimono`   ISTM this might be a discussion for the mailing list
+
+`18-05-2016 15:30`   `talex5`   I only see changes to TCP, which has only one consumer anyway.
+
+`18-05-2016 15:31`   `hannes`   `talex5`: I don't get your point, sorry
+
+`18-05-2016 15:31`   `hannes`   (have to leave now)
+
+`18-05-2016 15:31`   `yomimono`   I agree that this is a problem, but I don't think it's one we'll solve before `hannes` has to catch a train, and I think it's one we can usefully get more perspectives on.
+
+`18-05-2016 15:31`   `yomimono`   In particular, there may be some release automation that can help us with this.
+
+`18-05-2016 15:31`   `talex5`   Yes, let's move it to the list.
+
+`18-05-2016 15:32`   `avsm`   just one thought on mirage-types and versioning
+
+`18-05-2016 15:32`   `avsm`   why dont we have an opam package per module type?
+
+`18-05-2016 15:33`   `avsm`   that way we can refine them independently. It was just an artefact of packaging at the time that I bundled them together into one OPAM package
+
+`18-05-2016 15:33`   `avsm`   (thus possibly defeating the entire point of having a dependency-free set of module types)
+
+`18-05-2016 15:33`   `avsm`   (but yes this is more appropriate for the mailing list :-)
+
+`18-05-2016 15:34`   `talex5`   OK. Any other thoughts on Mirage 3.0?
+
+`18-05-2016 15:34`   `yomimono`   I'd like to make a poll of users of low-level libraries like block and network to see whether folks have requests beyond error reporting and logging
+
+`18-05-2016 15:35`   `yomimono`   for massive API breakage
+
+`18-05-2016 15:35`   `talex5`   Good idea. Are you planning to send something to the list?
+
+`18-05-2016 15:35`   `yomimono`   If we're going to start talking about mirage-3.0.0 more concretely, yes.
+
+`18-05-2016 15:36`   `avsm`   It's a good time to do so.
+
+`18-05-2016 15:37`   `yomimono`   under "mirageos 3.0" we have an item "schedule? release engineer? press release via xenproject/LF?"
+
+`18-05-2016 15:38`   `yomimono`   in the past we've ended up scheduling around deadlines imposed by the press release, and samoht/`avsm` have done our release managing
+
+`18-05-2016 15:38`   `yomimono`   I suspect that they're not too eager to repeat that experience
+
+`18-05-2016 15:39`   `talex5`   I thought the plan this time was to sneak all the features into 2.x and then use 3.0 just for PR?
+
+`18-05-2016 15:39`   `yomimono`   hm, so massive API breakage in 2.10 or something then?
+
+`18-05-2016 15:40`   `talex5`   Yes. The press release would talk about "changes since 2.0".
+
+`18-05-2016 15:40`   `avsm`   This time, I would not impose an artificial deadline around a press release
+
+`18-05-2016 15:40`   `avsm`   There's simply too much code to quickly rejig everything as we used to do (and too many users of said code!)
+
+`18-05-2016 15:41`   `avsm`   So planning a more punctuated set of feature changes is better. mirage 3 should only include the absolute core APIs that we want to define and leave as much as possible to the library ecosystem
+
+`18-05-2016 15:43`   `talex5`   But the press release will talk about the whole ecosystem, right?
+
+`18-05-2016 15:45`   `yomimono`   We have to come up with some compelling stuff for a press release to say, and "we broke a bunch of APIs" is probably not super compelling
+
+`18-05-2016 15:45`   `yomimono`   So I imagine that `talex5` is right, and any press we do will center the features that all the API breakage enables.
+
+`18-05-2016 15:46`   `talex5`   I guess we should continue this discussion when Amir is around.
+
+`18-05-2016 15:46`   `yomimono`   That's probably a good idea.
+
+`18-05-2016 15:47`   `talex5`   OK, next: samoht linked to: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Amirage+sort%3Acreated-asc
+
+`18-05-2016 15:47`   `talex5`   and https://github.com/pulls?page=1&q=is%3Aopen+is%3Apr+user%3Amirage+sort%3Acreated-asc
+
+`18-05-2016 15:47`   `talex5`   (old GitHub issues and PRs)
+
+`18-05-2016 15:48`   `talex5`   Mmm. IPv6 support.
+
+`18-05-2016 15:48`   `yomimono`   It does say DO NOT MERGE YET
+
+`18-05-2016 15:49`   `avsm`   It's a guideline not a rule I'm sure
+
+`18-05-2016 15:49`   `avsm`   nojb did a great job with that PR -- it was just configuration that was blocking it (pre functoria)
+
+`18-05-2016 15:49`   `avsm`   Also, we also now have actual IPv6 endpoints to test it with on Rackspace
+
+`18-05-2016 15:50`   `yomimono`   I'm willing to sit down and try to go through a bunch of these, but it'd be nice if someone with complementary expertise to my own has time to do that with me
+
+`18-05-2016 15:50`   `yomimono`   (i.e. someone who knows about stuff that isn't mirage-tcpip)
+
+`18-05-2016 15:51`   `talex5`   Maybe grab a conference room here once you're back in the UK?
+
+`18-05-2016 15:51`   `yomimono`   or do it over IRC sometime sooner -- seems silly to wait until June for that reason; it's a distributed project :)
+
+`18-05-2016 15:52`   `yomimono`   If anyone's interested, feel free to contact me here or by e-mail, or just responding to a bunch of old issues :P
+
+`18-05-2016 15:53`   `talex5`   Yes, I guess people can just comment on issues and we'll check next meeting that we didn't miss too many.
+
+`18-05-2016 15:53`   `yomimono`   Unless there are other suggestions, let's move on...
+
+`18-05-2016 15:54`   `talex5`   "Future hacking evening"
+
+`18-05-2016 15:54`   `yomimono`   A+ YES LET'S
+
+`18-05-2016 15:54`   `yomimono`   `GemmaG` - can you help us organize this in Cambridge?
+
+`18-05-2016 15:54`   `GemmaG`   Of course :)
+
+`18-05-2016 15:55`   `yomimono`   great! I'll take responsibility for working with you to get that going :)
+
+`18-05-2016 15:56`   `talex5`   `GemmaG`, `yomimono`: thanks!
+
+`18-05-2016 15:56`   `GemmaG`   Was thinking that sometime in June could be good - while Daniel is visiting
+
+`18-05-2016 15:56`   `avsm`   I can supply sufficient wine to fuel a Pembroke IPv6 evening
+
+`18-05-2016 15:56`   `yomimono`   `GemmaG`: that sounds great. If there are no objections/suggestions/strident yelling, let's continue on
+
+`18-05-2016 15:56`   `yomimono`   `avsm`: YES EXCELLENT
+
+`18-05-2016 15:56`   `avsm`   as long as we dont end up with IPv5
+
+`18-05-2016 15:56`   `talex5`   "4.03 flambda testing"
+
+`18-05-2016 15:57`   `talex5`   Anyone tried flambda yet?
+
+`18-05-2016 15:57`   `yomimono`   Not since it was properly released.
+
+`18-05-2016 15:58`   `talex5`   OK then. topkg?
+
+`18-05-2016 15:59`   `talex5`   I haven't tried it, but it looks pretty nice.
+
+`18-05-2016 15:59`   `yomimono`   Does anyone have time to look at using it with some of our libraries in the next week or so?
+
+`18-05-2016 16:00`   `avsm`   It's on my list for cohttp
+
+`18-05-2016 16:00`   `avsm`   probably on plane back on Friday
+
+`18-05-2016 16:00`   `yomimono`   Hearing none, maybe it'd be a good idea to bump the mailing list thread that I seem to remember existing.
+
+`18-05-2016 16:00`   `yomimono`   Oh, cool!  thanks `avsm` :)
+
+`18-05-2016 16:00`   `avsm`   flambda: I tried it, but it's not at all clear to me if every cmx file needs to be compiled with the flags or not
+
+`18-05-2016 16:00`   `talex5`   I suspect people are waiting until it's available without pinning loads of stuff.
+
+`18-05-2016 16:00`   `avsm`   yes, but a remote should sort that out
+
+`18-05-2016 16:01`   `avsm`   I'm keen to figure out if a topkg setup would let Cohttp be published as both OCaml and Reason code (details TBD before anyone prods me for more)
+
+`18-05-2016 16:01`   `talex5`   I mean, its purpose is to release your software, but any software you release won't work yet ;-)
+
+`18-05-2016 16:01`   `avsm`   hah, true :-)
+
+`18-05-2016 16:02`   `talex5`   OK, final item:
+
+`18-05-2016 16:02`   `talex5`   Outreachy
+
+`18-05-2016 16:02`   `yomimono`   It starts on May 23rd!
+
+`18-05-2016 16:02`   `talex5`   `wiredsister`?
+
+`18-05-2016 16:03`   `yomimono`   Looks like she might be AFK.  `wiredsister`, do let us know if you need anything before (or after!) the official start date :)
+
+`18-05-2016 16:04`   `avsm`   `wiredsister` is in OSCON! Must say hello while here!
+
+`18-05-2016 16:04`   `talex5`   Was anyone else involved?
+
+`18-05-2016 16:04`   `yomimono`   Oh yes! she did a talk for OSCon Cultivate which I heard was fantastic.
+
+`18-05-2016 16:04`   `avsm`   I'll find her while in Texas and see if anything is needed to start Outreachy
+
+`18-05-2016 16:04`   `avsm`   There's a significant chance I'll be struck by lightning before that though
+
+`18-05-2016 16:04`   `wiredsister`   `avsm`: Hi!! I'm coming to your talk at 11:55
+
+`18-05-2016 16:04`   `avsm`   hello!!
+
+`18-05-2016 16:04`   `avsm`   Oooooops talk, almost forgot
+
+`18-05-2016 16:04`   `wiredsister`   currently sitting in the Go Unikernel's talk
+
+`18-05-2016 16:05`   `wiredsister`   lol
+
+`18-05-2016 16:05`   `avsm`   heading over now! Is it Ballroom A?
+
+`18-05-2016 16:05`   `engil`   Go Unikernel
+
+`18-05-2016 16:05`   `wiredsister`   let me check for you
+
+`18-05-2016 16:06`   `wiredsister`   `avsm`: Your talk is 11:55 in Ballroom A (first floor, I believe)
+
+`18-05-2016 16:06`   `talex5`   OK. We've reached the end of the agenda. Any other things to discuss?
+
+`18-05-2016 16:06`   `talex5`   OK then, let's close the meeting!
+
+`18-05-2016 16:07`   `wiredsister`   Hi everybody, I'm so excited to be your lackey. EOM.
+
+`18-05-2016 16:07`   `GemmaG`   Woop :)
+
