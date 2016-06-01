@@ -1,0 +1,590 @@
+---
+participants: Algebr`,Drup,GemmaG,amirmc,avsm,dinosaure,djwillia,engil,hannes,mato,mort___,reynir,seangrove,talex5,thomasga,wiredsister,yallop
+author: unpurecamelbot
+title: Irc discussions from #mirage on 01-06-2016
+tags: irc,log
+---
+`01-06-2016 15:00`   `avsm`   Greetings!
+
+`01-06-2016 15:00`   `avsm`   unpurecamelbot: logging away I see!
+
+`01-06-2016 15:01`   `avsm`   Let's get the meeting started. Yomimono is on the road, so I'll run it today.  Call agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`01-06-2016 15:01`   `thomasga`   `avsm`: can you change the topic of the chan?
+
+`01-06-2016 15:01`   `avsm`   `thomasga`: nope, not authenticated here on this client
+
+`01-06-2016 15:01`   `avsm`   Who's here? Hands up
+
+`01-06-2016 15:02`   `thomasga`   \o/
+
+`01-06-2016 15:02`   `engil`   o/
+
+`01-06-2016 15:02`   `talex5`   \o
+
+`01-06-2016 15:02`   `djwillia`   o/
+
+`01-06-2016 15:02`   `reynir`   oh!
+
+`01-06-2016 15:02`   `avsm`   `wiredsister`: wake upppp
+
+`01-06-2016 15:02`   `avsm`   Alright, first up we have quality and test
+
+`01-06-2016 15:03`   `dinosaure`   λ
+
+`01-06-2016 15:03`   `seangrove`   o/
+
+`01-06-2016 15:03`   `hannes`   hello
+
+`01-06-2016 15:03`   `amirmc`   yo
+
+`01-06-2016 15:03`   `avsm`   The Docker containers up at `docker pull ocaml/opam` have worked out pretty well.  I started a thread on opam-devel about removing the Git opam-repository from there, but it looks like they are already quite heavily used, so I'm leaving things the way they are.
+
+`01-06-2016 15:04`   `mato`   \o/
+
+`01-06-2016 15:04`   `avsm`   A number of people have started using them for their OCaml CI efforts, hence the difficulty in changing the ones that are there. The changelog for those will include Alpine 3.4 (released yesterday) and OPAM2 tracking so we can test it out when the first alpha is released by ``Algebr` ``
+
+`01-06-2016 15:04`   `avsm`   `thomasga`: do you want to say anything about DataKit?  Just open sourced recently at https://github.com/docker/datakit and should be useful for Mirage CI
+
+`01-06-2016 15:05`   `hannes`   s/``Algebr` ``/AltGr/
+
+`01-06-2016 15:05`   `avsm`   `hannes`: woops, tab complete fail
+
+`01-06-2016 15:05`   ``Algebr` ``   lol, I was like what
+
+`01-06-2016 15:05`   `yallop`   ./
+
+`01-06-2016 15:06`   `thomasga`   datakit will be used to track version-controlled data-flow, based on PRs updates
+
+`01-06-2016 15:06`   `Drup`   o/
+
+`01-06-2016 15:06`   `thomasga`   not totally ready yet, but first prototype should be ready shortly
+
+`01-06-2016 15:07`   `thomasga`   I'm keen to beta-test on MirageOS infra when available :-)
+
+`01-06-2016 15:07`   `avsm`   It has GitHub integration which is very handy -- so you can create the "green/yellow/red" tests on the fly for each PR
+
+`01-06-2016 15:07`   `thomasga`   don't spoil
+
+`01-06-2016 15:07`   `avsm`   okok, If anyone wants to try out some 9P filesystem magic, get in touch with `thomasga` then :-)
+
+`01-06-2016 15:07`   `thomasga`   :p
+
+`01-06-2016 15:07`   `mort___`   .
+
+`01-06-2016 15:08`   `avsm`   In order to keep track of the releases more easily, I've also created a This Week in OPAM alpha repo
+
+`01-06-2016 15:08`   `avsm`   TWiOPAM generates a Markdown report of recent imports into the OPAM repository. https://github.com/`avsm`/twiopam/
+
+`01-06-2016 15:08`   `avsm`   It uses the opamfu library from opam2web, so predicates can be specified to filter on tags for project-specific reports (not tried this yet).
+
+`01-06-2016 15:08`   `seangrove`   Very nice
+
+`01-06-2016 15:08`   `avsm`   The ultimate idea is to incorporate structured changelogs into it as well.
+
+`01-06-2016 15:08`   `avsm`   Working on updating http://github.com/dsheets/ocaml-changes with an `opam-changes` plugin, so that we can have a CLI for maintaining ChangeLogs in our repositories more easily.
+
+`01-06-2016 15:08`   `thomasga`   `avsm`: do you have an example of a report?
+
+`01-06-2016 15:09`   `Drup`   that is very cool
+
+`01-06-2016 15:09`   `avsm`   https://gist.github.com/`avsm`/265bd240317c3b8511dd4490bfd6c06f
+
+`01-06-2016 15:10`   `thomasga`   cool!
+
+`01-06-2016 15:10`   `avsm`   it's super basic right now, but with ocaml-changes we can inline in changes for packages that are compliant.  The out/ directory includes the raw CHANGES file for convenience (not linked in the gist above)
+
+`01-06-2016 15:10`   `thomasga`   would be great if we can easily link to blog posts or other media
+
+`01-06-2016 15:10`   `GemmaG`   Looks great :)
+
+`01-06-2016 15:10`   `hannes`   this is nice... any plans to integrate into dashboard?
+
+`01-06-2016 15:10`   `avsm`   yeah its easy to customise, just a single file. I got slightly distracted porting ocaml-changes to use carcass/topkg, hence the delay :-)
+
+`01-06-2016 15:10`   `Drup`   I guess the goal is to plug it in canopy and have regular posts that way
+
+`01-06-2016 15:10`   `avsm`   will mail the list when done then.
+
+`01-06-2016 15:11`   `Drup`   ?
+
+`01-06-2016 15:11`   `avsm`   Yeah, commit to Canopy via DataKit, but also do manual updates
+
+`01-06-2016 15:11`   `avsm`   `GemmaG` has offered to add it to the OCaml Weekly News if we help her with editing information on the packages
+
+`01-06-2016 15:11`   `GemmaG`   Yes!
+
+`01-06-2016 15:12`   `avsm`   If anyone has thoughts on how to automatically get some interesting anecdotes automatically, that'd be useful.  For instance, opamfu might be able to extract the GitHub PR that it came from, or we could tag something in the commit message
+
+`01-06-2016 15:12`   `avsm`   it'll take a while to port packages to use the structured CHANGES format(s), but might as well start sometime...
+
+`01-06-2016 15:12`   `avsm`   thanks for helping out with this `GemmaG`, and dsheets for starting off ocaml-changes and opamfu!
+
+`01-06-2016 15:12`   `avsm`   Anything else on quality and test?
+
+`01-06-2016 15:13`   `avsm`   Alright! Moving onto Mirage 3 planning
+
+`01-06-2016 15:13`   `thomasga`   if anyone has issues compiling on windows, fdopen is very reactive to help
+
+`01-06-2016 15:13`   `thomasga`   (about quality)
+
+`01-06-2016 15:13`   `avsm`   ah yes -- before we move on. Windows support is important
+
+`01-06-2016 15:14`   `thomasga`   just open an issue on https://github.com/fdopen/opam-repository-mingw/
+
+`01-06-2016 15:14`   `avsm`   djs55 (currently on vacation) and yomimono have also made significant inroads into several core Mirage packages, and djs55 commented before he left that a native `mirage` on Windows is now quite easy
+
+`01-06-2016 15:14`   `thomasga`   most of the MirageOS libraries work on Windows now thanks to fdopen
+
+`01-06-2016 15:15`   `avsm`   we'll soon hopefully have CI for this thanks to DataKit, but this is a big milestone. There appear to be several OPAM Windows remotes but we're using fdopen's as he's been so helpful (especially with ctypes)
+
+`01-06-2016 15:15`   `avsm`   If anyone has strong opinions about merging those repositories, now's a good time to volunteer :-)
+
+`01-06-2016 15:15`   `avsm`   Ok, moving onto Mirage 3 APIs...
+
+`01-06-2016 15:16`   `avsm`   There are quite a few changes queued up, and this will involve a lot of package motion in the database.
+
+`01-06-2016 15:16`   `avsm`   So rather than go into the details on this IRC meeting, I want to ensure that we have the basic groundwork for package constraints sorted before we make the move.
+
+`01-06-2016 15:16`   `avsm`   `hannes` notes (quite rightly) that module names should not include versioning information, so this means that the responsibility falls to OPAM
+
+`01-06-2016 15:17`   `avsm`   So the first thing to do is probably have a mirage minor release that places upper bounds on packages during the OPAM install, and then work on breaking up the mirage-types into the new revisions.
+
+`01-06-2016 15:17`   `avsm`   We'll probably create an issue and work over there -- release manager TBD.
+
+`01-06-2016 15:18`   `avsm`   But this is also a good time to put a stake in the ground with any interface issues that are particularly annoying you.
+
+`01-06-2016 15:18`   `hannes`   (my argument holds until someone wants to use a V2 and V4 network device in a single unikernel... imho too complex and unneeded)
+
+`01-06-2016 15:18`   `thomasga`   I think the right path is still a bit unclear
+
+`01-06-2016 15:19`   `avsm`   `hannes`: it does have precedent -- for instance, Xen device drivers can negotiate different versions for offload purposes.
+
+`01-06-2016 15:19`   `hannes`   `avsm`: there's even a tag "breaks compatibility" in the mirage issue tracker (https://github.com/mirage/mirage/labels/breaks%20compatibility)
+
+`01-06-2016 15:19`   `thomasga`   I remember when I had to update all the FS implementation at the same time. It was painful.
+
+`01-06-2016 15:19`   `avsm`   Cstruct 2 was fun as well, had to edit hundreds of packages
+
+`01-06-2016 15:19`   `avsm`   I think that we're at the point when mechanically rewriting the OPAM repository to add bounds is the only practical way
+
+`01-06-2016 15:19`   `thomasga`   I dislike putting version in module names, but we need an easy path to evolve the interfaces.
+
+`01-06-2016 15:19`   `hannes`   `thomasga`: but you can just conflict all of them with <X.Y, and don't need any actual code changes...
+
+`01-06-2016 15:20`   `talex5`   (note: I think modules from a package shouldn't have the package's version in their name. There's no reason why they shouldn't include some other version if it's relevant)
+
+`01-06-2016 15:20`   `thomasga`   in that case you want have a `mirage configure` working
+
+`01-06-2016 15:20`   `avsm`   we need to think about breaking up every single module type into its own OPAM package so that we can do fine grained versioning on them, and only depend on the ones that a unikernel needs.
+
+`01-06-2016 15:20`   `avsm`   `talex5`: yes good point, that's the case currently as well
+
+`01-06-2016 15:21`   `thomasga`   `avsm` `hannes`: version + conflict won't solve the problem. The mirage tool wants to use all the implementation of the interfaces he knows about.
+
+`01-06-2016 15:21`   `thomasga`   if you don't upgrade then in lockstep, you can't use the mirage tool.
+
+`01-06-2016 15:21`   `mort___`   it seems that interfaces evolve relatively slowly in any case. if there are situations where it's particularly useful to have concurrent different interfaces for a type, then presumably modules with explicit versions in names can be created at that point. but it should be the default (imo)
+
+`01-06-2016 15:21`   `mort___`   *shouldn't
+
+`01-06-2016 15:22`   `avsm`   `thomasga`: yeah, I see what you mean. We need to be very explicit about dependencies
+
+`01-06-2016 15:22`   `thomasga`   out of curiosity: does anyone already tried to change an interface in mirage-types?
+
+`01-06-2016 15:22`   `talex5`   mort: The situation where it's useful is when you're migrating to the new version.
+
+`01-06-2016 15:22`   `thomasga`   (I did, it was painful)
+
+`01-06-2016 15:22`   `avsm`   `thomasga`: yeah I did and even in the early days it was very laborious
+
+`01-06-2016 15:23`   `avsm`   and we still havent eradicated the fairly broken RANDOM
+
+`01-06-2016 15:23`   `avsm`   but at least our tooling is vastly better now
+
+`01-06-2016 15:23`   `talex5`   I'm in the process (multi-year) of changing some.
+
+`01-06-2016 15:23`   `avsm`   we're just not taking advantage of the tooling :-)
+
+`01-06-2016 15:23`   `thomasga`   the problem is not being explicit about dependencies, it still the same issue about the mirage tool needing a global consistent state of the world
+
+`01-06-2016 15:24`   `avsm`   but it has this through the repository and the local package pin, right?
+
+`01-06-2016 15:24`   `avsm`   if we generated an `opam` file for the unikernel
+
+`01-06-2016 15:24`   `thomasga`   so it needs to know which implementations are available for a given interface
+
+`01-06-2016 15:24`   `thomasga`   e.g. you want to have some meta-information about dependencies in the tool
+
+`01-06-2016 15:25`   `avsm`   yeah so we want to say "this package can be applied against the functor in this other package"
+
+`01-06-2016 15:25`   `thomasga`   yes
+
+`01-06-2016 15:25`   `avsm`   which actually comes up a LOT with cohttp upgrades
+
+`01-06-2016 15:25`   `avsm`   every release now, there are a few packages that break with a signature tweak, but not all of them
+
+`01-06-2016 15:26`   `avsm`   rgrinberg and I see this quite a bit
+
+`01-06-2016 15:26`   `thomasga`   it's just a hard problem I think. I welcome simpler solution, so maybe `<INTERFACE-NAME>.V<X>` is not a bad approximation after all.
+
+`01-06-2016 15:26`   `thomasga`   even if it's ugly
+
+`01-06-2016 15:26`   `avsm`   ok, let's take this one to an issue -- it could be that `<INTERFACE-NAME>.V<X>` but with each one split into a separate OPAM package so it's easier to rev independently is the way to go
+
+`01-06-2016 15:26`   ``Algebr` ``   that's pretty ugly.
+
+`01-06-2016 15:26`   `wiredsister`   `avsm`: Hi!
+
+`01-06-2016 15:27`   `avsm`   `wiredsister`: greetings!
+
+`01-06-2016 15:28`   `hannes`   I still don't understand why you are eager to introduce version numbers into mirage... yes, updating interfaces is complex.  maybe we should document what needs to be done?  but discovering in a few months that we need a sat solver in mirage does not sound like a good move to me
+
+`01-06-2016 15:28`   `thomasga`   `hannes`: I am not eager at all.
+
+`01-06-2016 15:28`   `avsm`   `hannes`: the versions aren't really used in any form other than structurally
+
+`01-06-2016 15:28`   `thomasga`   I just don't know how to do that properly with that yet.
+
+`01-06-2016 15:29`   `avsm`   and I do agree that anything outside of OPAM (i.e. an external sat solver) would be a terrible UI and unlikely to pass muster
+
+`01-06-2016 15:29`   `avsm`   Ok, lets move on... lots to cover. Will resume this on the mailing list.
+
+`01-06-2016 15:29`   `thomasga`   ok, I can try to describe why what you are proposing will be a pain
+
+`01-06-2016 15:29`   `talex5`   I think you can get a long way with "pick the highest version both modules support".
+
+`01-06-2016 15:29`   `avsm`   Onto Solo5, which `djwillia` and `mato` have been making lots of progress with integrating as the first non-Xen unikernel backend!
+
+`01-06-2016 15:30`   `avsm`   Care to describe progress `djwillia` `mato`?
+
+`01-06-2016 15:30`   `mato`   Sure.
+
+`01-06-2016 15:31`   `mato`   What I've been doing over the past couple weeks is essentially cleaning up the mirage-solo5 package (i.e. the "platform bindings") and it's dependencies.
+
+`01-06-2016 15:32`   `mato`   ('sec, phone call)
+
+`01-06-2016 15:33`   `djwillia`   we were looking at the package structure and trying to simplify out some of the -xen related packages
+
+`01-06-2016 15:33`   `djwillia`   like mirage-posix-xen and mirage-ocaml-xen, and especially minios-xen
+
+`01-06-2016 15:33`   `avsm`   This is most useful -- it forces us to be more portable wrt Xen C library compilation
+
+`01-06-2016 15:34`   `djwillia`   (which were all being required in some way from the mirage-solo5 because of quick and dirty hacks)
+
+`01-06-2016 15:34`   `avsm`   `djwillia`: what are the next steps? would you like local testing from anyone for an OPAM remote?
+
+`01-06-2016 15:35`   `talex5`   Yes. We build "xen" binaries of many libraries but they're really just "kernel-mode" binaries.
+
+`01-06-2016 15:35`   `djwillia`   now, `mato` has extracted the ocaml with the posix pieces it needs and that's called "ocaml-freestanding"
+
+`01-06-2016 15:35`   `avsm`   `talex5`: or more generally, just a variant of the same library built with different CFLAGS/LDFLAGS
+
+`01-06-2016 15:35`   `djwillia`   the idea is that we build out some of these "freestanding" packages that could be then linked to whatever backend we like
+
+`01-06-2016 15:36`   `talex5`   `avsm`: Yes, true.
+
+`01-06-2016 15:36`   `avsm`   `djwillia`: but those backends need to share CFLAGS/
+
+`01-06-2016 15:36`   `avsm`   ?
+
+`01-06-2016 15:36`   `mato`   (back)
+
+`01-06-2016 15:36`   `djwillia`   in the process, `mato` also removed all POSIX or libc looking functions from solo5, so that it's clear that solo5 isn't pretending to be posix
+
+`01-06-2016 15:36`   `avsm`   `djwillia`: excellent!
+
+`01-06-2016 15:37`   `djwillia`   each backend can put its own CFLAGS which is being fetched by PKGCONFIG i believe
+
+`01-06-2016 15:37`   `avsm`   `djwillia`: makes sense, this is looking more and more like BSD ports every day :-)
+
+`01-06-2016 15:37`   `avsm`   (except for pkgconfig)
+
+`01-06-2016 15:37`   `mato`   i would really like to get rid of pkgconfig and replace it opam with per-package variables, need to sync up on what's happening there
+
+`01-06-2016 15:38`   `avsm`   AltGr just left, but OPAM2 has good support for this
+
+`01-06-2016 15:38`   `mato`   yes, i know. so will need to keep track of that.
+
+`01-06-2016 15:38`   `avsm`   There's an active thread on opam-devel about sorting out container support (and opam-repository migration scripts), so i'll mail when its ready
+
+`01-06-2016 15:38`   `thomasga`   opam1 support per-package variables already :-)
+
+`01-06-2016 15:38`   `avsm`   am keen to start using  opam2 day-to-day as well to dig out bugs
+
+`01-06-2016 15:38`   `thomasga`   (kind of)
+
+`01-06-2016 15:38`   `avsm`   `thomasga`: in 1.2.2 only right?
+
+`01-06-2016 15:38`   `talex5`   So what happens with libraries like cstruct? Do we get cstruct.xen and cstruct.kvm now?
+
+`01-06-2016 15:38`   `thomasga`    1.* I think
+
+`01-06-2016 15:39`   `mato`   `thomasga`: kind of, but no interfaces to set them unless you do it yourself by sedding the .config
+
+`01-06-2016 15:39`   `thomasga`   yes, if your package generate a .config file that's fine
+
+`01-06-2016 15:39`   `thomasga`   but yes, no option to set it, which is fixed in opam2
+
+`01-06-2016 15:40`   `avsm`   it's still not clear to me who builds cstruct.kvm -- the cstruct package, or the solo5 package?
+
+`01-06-2016 15:40`   `mato`   right now most of the C stubs are shoved in mirage-solo5 for expediency
+
+`01-06-2016 15:40`   `avsm`   ideally the solo5 package would depend on the cstruct package and generate it, but this is probably complicated by some ocamlfind nonsense
+
+`01-06-2016 15:41`   `mato`   my idea is to eventually have -freestanding (or "kernel mode" as `talex5` calls it) versions of packages
+
+`01-06-2016 15:41`   `mato`   then (final step) would be to migrate -xen versions of packages and mirage-xen on top of ocaml-freestanding
+
+`01-06-2016 15:42`   `avsm`   Yeah, that would be nice if the kernel mode packages can agree on CFLAGS and an ABI
+
+`01-06-2016 15:42`   `avsm`   like no red zone on x86_64
+
+`01-06-2016 15:42`   `djwillia`   in general I'm not clear yet on how far up the stack is affected by changing backends (e.g., how far up kernel versions of packages go)
+
+`01-06-2016 15:42`   `mato`   obviously Xen-*specific* packages (i.e. those using mini-os/Xen interfaces directly) are a different story (and would still need to depend on / get CFLAGS from mini-os directly)
+
+`01-06-2016 15:43`   `avsm`   right, this is the good thing about the solo5 upstreaming -- it forces us to be very clear on where to cut off Xen-specific dependencies
+
+`01-06-2016 15:43`   `mato`   indeed, that's my aim with this work. i'd also like to document this (as a blog post) on "porting mirage to a new platform"
+
+`01-06-2016 15:43`   `avsm`   `mato`: yeah but any deviations have to be looked at very carefully since there are still raw function calls going between ABIs!
+
+`01-06-2016 15:43`   `avsm`   `mato`: +1 to the post!
+
+`01-06-2016 15:44`   `mato`   `avsm`: still some way away.
+
+`01-06-2016 15:44`   `avsm`   alright, thanks for the update. Lets move onto the next topic
+
+`01-06-2016 15:44`   `mato`   `djwillia`: i think we should co-author the post, if you're happy with that?
+
+`01-06-2016 15:45`   `avsm`   Flambda testing!
+
+`01-06-2016 15:45`   `djwillia`   `mato`: sure, although i'm a novice compared to you `mato` :)
+
+`01-06-2016 15:45`   `talex5`   It works: https://github.com/`talex5`/qubes-mirage-firewall/issues/7
+
+`01-06-2016 15:46`   `talex5`   User reported 99% CPU to get 5.1 MB/s without flambda, and 18% to get 15 MB/s with.
+
+`01-06-2016 15:46`   `avsm`   rumours are that there was a Cambridge Compiler Hacking session last night (https://ocamllabs.github.io/compiler-hacking/2016/05/20/spring-compiler-hacking.html) and `thomasga` also tried the new SpaceTime memory profiler in 4.03 as well
+
+`01-06-2016 15:46`   `avsm`   `talex5`: awesome!
+
+`01-06-2016 15:46`   `talex5`   (could be other variables here though)
+
+`01-06-2016 15:46`   `avsm`   did you have to tweak anything elaborate in the build system?
+
+`01-06-2016 15:47`   `talex5`   No, just did opam switch to the flambda compiler (and fixed my shell again).
+
+`01-06-2016 15:47`   `thomasga`   I've tested flamba+spacetime profiler on some datakit indeed
+
+`01-06-2016 15:47`   `thomasga`   it showed nice graphs
+
+`01-06-2016 15:47`   `thomasga`   it's just painfully slow to setup
+
+`01-06-2016 15:47`   `avsm`   hm you do need to introduce a `-O3` somewhere, I wonder if flambda actually kicked in or if it was just 4.03 improvements
+
+`01-06-2016 15:47`   `thomasga`   (and not very easy)
+
+`01-06-2016 15:48`   `avsm`   for those that don't know, there is a SpaceTime PR here: https://github.com/ocaml/ocaml/pull/585 -- and it has a cohttp based interactive web UI
+
+`01-06-2016 15:48`   `thomasga`   but that memory profiler looks very nice, I'd definitely will try it on more examples
+
+`01-06-2016 15:48`   `avsm`   `thomasga`: quick mail to the list with your notes? I'd like to try it too
+
+`01-06-2016 15:49`   `avsm`   or is it all documented on the PR somewhere?
+
+`01-06-2016 15:49`   `thomasga`   (it can profile the C heap too)
+
+`01-06-2016 15:49`   `thomasga`   not really
+
+`01-06-2016 15:49`   `thomasga`   I can try to document the steps
+
+`01-06-2016 15:49`   `avsm`   that would be really useful
+
+`01-06-2016 15:49`   `thomasga`   ok
+
+`01-06-2016 15:49`   `avsm`   I can containerise the switch to make it more convenient if you want it in the regular 4.03 variant tags
+
+`01-06-2016 15:49`   `avsm`   Ok, onto the next topic! Outreachy!
+
+`01-06-2016 15:49`   `wiredsister`   If anyone ever needs documentation help with anything, ping me.
+
+`01-06-2016 15:50`   `wiredsister`   I am a happy lackey.
+
+`01-06-2016 15:50`   `avsm`   `wiredsister`: perfect timing!
+
+`01-06-2016 15:50`   `avsm`   how goes your lacke^H^H^HOutreachy experience so far?
+
+`01-06-2016 15:51`   `wiredsister`   haha, so far pretty good. Per mentors' advice, I am formulating roadmap of what things need to be done with syslog and turning that into a blog post.
+
+`01-06-2016 15:51`   `avsm`   fantastic. `mort___` and i were chatting about some devices that would be helpful to run solo5 unikernels in production, and a syslog terminator came up pretty high...
+
+`01-06-2016 15:52`   `djwillia`   what's a "syslog terminator"?
+
+`01-06-2016 15:52`   `wiredsister`   Great. My understanding at the moment from the great people on #syslog is that we need to make it into "a real boy" and target Xen.
+
+`01-06-2016 15:52`   `avsm`   `djwillia`: something that listens in the host for unikernel logging events and stashes them somewhere
+
+`01-06-2016 15:53`   `djwillia`   `avsm`: thanks, not as scary as it sounded :)
+
+`01-06-2016 15:53`   `avsm`   `wiredsister`: not even clear to me yet which of the syslog protocol variants are appropriate (reliable syslog?)
+
+`01-06-2016 15:53`   `avsm`   `djwillia`: syslog does need termination, but not yet ;-)
+
+`01-06-2016 15:53`   `hannes`   `avsm`: depends on your usecase and setup
+
+`01-06-2016 15:53`   `mort___`   one alternative would be simplest variant first :)
+
+`01-06-2016 15:53`   `mato`   `avsm`: is there a plan to have mirage log to syslog via UDP?
+
+`01-06-2016 15:53`   `avsm`   `wiredsister`: likewise, please do be ruthless about filing doc issues on libraries you are running into that are poorly linked
+
+`01-06-2016 15:54`   `wiredsister`   I will be noisey.
+
+`01-06-2016 15:54`   `avsm`   `mato`: that should work today, but UDP is going to be messy. I was wondering about the TCP variants but havent looked
+
+`01-06-2016 15:54`   `mato`   messy, why?
+
+`01-06-2016 15:54`   `avsm`   Is Theo here?
+
+`01-06-2016 15:55`   `avsm`   `mato`: losing messages due to full buffers will be frustrating. need to add a realibility layer on top.
+
+`01-06-2016 15:55`   `wiredsister`   `avsm`: Can you explain how "terminator" would be different than line 18 of this PR?
+
+`01-06-2016 15:55`   `wiredsister`   https://github.com/`wiredsister`/syslogd-mirage/blob/75ddcaffb1be7ad94b3f048fcd1826fde864629e/unikernel.ml
+
+`01-06-2016 15:55`   `wiredsister`   sorry to interject
+
+`01-06-2016 15:55`   `avsm`   `wiredsister`: you are logging to Irmin? Epic
+
+`01-06-2016 15:55`   `wiredsister`   Yes.
+
+`01-06-2016 15:56`   `avsm`   `djwillia`: there you go. Syslog terminated by Git :-P
+
+`01-06-2016 15:56`   `mato`   cool
+
+`01-06-2016 15:56`   `avsm`   Alright, we have five minutes left, so just wanted to wrap up with the last item in the agenda (skipping library updates)
+
+`01-06-2016 15:56`   `djwillia`   :)
+
+`01-06-2016 15:56`   `avsm`   MirageOS hackathon! Mid June! Cambridge!
+
+`01-06-2016 15:56`   `avsm`   Dates not been finalised at all.  Is this being organised by `GemmaG`?
+
+`01-06-2016 15:56`   `thomasga`   can we have some sun?
+
+`01-06-2016 15:56`   `wiredsister`   Oh man, what are the dates?
+
+`01-06-2016 15:57`   `avsm`   If someone really wants to come, now's the time to shout out date constraints
+
+`01-06-2016 15:57`   `thomasga`   (and tajine?)
+
+`01-06-2016 15:57`   `seangrove`   Ah, bummer, didn't realize that
+
+`01-06-2016 15:57`   `avsm`   I suspect that July will be more viable if people want to visit
+
+`01-06-2016 15:57`   `GemmaG`   hahaha was originally just looking at Cambridge, but can look elsewhere if there is consensus....
+
+`01-06-2016 15:57`   `GemmaG`   Yes - not sure of Mindy's UK dates at present
+
+`01-06-2016 15:57`   `seangrove`   July is certainly easier for me...
+
+`01-06-2016 15:57`   `wiredsister`   Yeah, I vote for July
+
+`01-06-2016 15:57`   `avsm`   Let's have one in Cambridge please... lots of people wanted to go to Marrakech but couldn't
+
+`01-06-2016 15:57`   `GemmaG`   There *might* be more sun in July also
+
+`01-06-2016 15:57`   `djwillia`   will there be another one in the fall?
+
+`01-06-2016 15:57`   `avsm`   and I solemnly promise `thomasga` there will be sun in Cambridge in July *crosses fingers*
+
+`01-06-2016 15:58`   `wiredsister`   There is sun in Cambridge? Who knew.
+
+`01-06-2016 15:58`   `GemmaG`   eeeeks not atm
+
+`01-06-2016 15:58`   `GemmaG`   ok cool - looking at venues
+
+`01-06-2016 15:58`   `GemmaG`   Any preferences?
+
+`01-06-2016 15:58`   `avsm`   I'd suggest taking this to the list to ensure that everyone who wants to go hears about it (not just this meeting) and narrow down the date range
+
+`01-06-2016 15:58`   `mato`   `djwillia`: Mirage hackathon sounds like a plausible excuse for you to come visit Cambridge :)
+
+`01-06-2016 15:58`   `GemmaG`   Looking at colleges currently as easiest with the links we already have, but open to other places
+
+`01-06-2016 15:58`   `GemmaG`   Yes list is good :)
+
+`01-06-2016 15:59`   `GemmaG`   Let's narrow dates and places
+
+`01-06-2016 15:59`   `djwillia`   `mato`: yes, i really want to visit
+
+`01-06-2016 15:59`   `avsm`   `djwillia`: there can certainly be one in the fall as well, but lets find a date you can make it in July!
+
+`01-06-2016 15:59`   `djwillia`   ok, will look into july dates
+
+`01-06-2016 15:59`   `GemmaG`   :D
+
+`01-06-2016 15:59`   `mato`   First half of July works for me
+
+`01-06-2016 15:59`   `avsm`   AOB: in the closing minutes, anyone got any cool hacks they've done? Libraries that are works in progress?
+
+`01-06-2016 15:59`   `avsm`   I'm trying out `dinosaure`'s awesome email MIME parser on 3 million of my past emails atm
+
+`01-06-2016 16:00`   `wiredsister`   Request: I need help understanding the steps required to make a project target Xen. If someone feels like helping me, please do.
+
+`01-06-2016 16:00`   `seangrove`   I'm working on Jitsu to get a drag-and-drop http-based demo working
+
+`01-06-2016 16:01`   `seangrove`   Drag a unikernel artifact onto a page, get a working instance in a few seconds
+
+`01-06-2016 16:01`   `mort___`   `wiredsister`: i guess you mean more than simply `mirage config —xen` ?
+
+`01-06-2016 16:01`   `wiredsister`   Yes.
+
+`01-06-2016 16:01`   `hannes`   I just slacked for a week to make 15kg espresso on the countryside
+
+`01-06-2016 16:01`   `mort___`   …because that plus the OPAM magic is supposed to just work, right? :)
+
+`01-06-2016 16:02`   `talex5`   `wiredsister`: what kind of things?
+
+`01-06-2016 16:02`   `wiredsister`   right, it doesn't for syslog lol
+
+`01-06-2016 16:02`   `wiredsister`   well, let's put it this way, I'm going to try to make things work tonight and tomorrow
+
+`01-06-2016 16:02`   `mort___`   ah— Irmin has only in memory backend for xen still (i believe)
+
+`01-06-2016 16:02`   `avsm`   `wiredsister`: this is definitely something that needs some illumination, because the "OPAM magic" (as mort puts it :) will probably disappear with the solo5 merge and need to be generalised
+
+`01-06-2016 16:02`   `wiredsister`   and when it doesn't, who can I bother is my question
+
+`01-06-2016 16:02`   `avsm`   `seangrove`: that sounds epic (the jitsu demo).
+
+`01-06-2016 16:02`   `hannes`   `wiredsister`: the mailing list :)
+
+`01-06-2016 16:03`   `mort___`   `avsm`: what thing are you anticipating disappearing exactly?
+
+`01-06-2016 16:03`   `wiredsister`   word up
+
+`01-06-2016 16:03`   `avsm`   `mort___`: the hardcoded --xen flag, replaced with a functoria variable for backend
+
+`01-06-2016 16:03`   `avsm`   `mort___`: it was only there initially for the "linking hack"
+
+`01-06-2016 16:03`   `mort___`   oh right — so the CLI interface changes? but the basic process (specify backend, get the right packages filled in by OPAM) will stay, right?
+
+`01-06-2016 16:03`   `djwillia`   (bye all, i have to run, will let you know some possible July dates for a Cambridge visit!)
+
+`01-06-2016 16:04`   `avsm`   alright, meetings done! for the purposes of logging anyway :)
+
+`01-06-2016 16:04`   `mato`   `avsm`: isn't that already done via --target ?
+
+`01-06-2016 16:04`   `avsm`   thanks `djwillia`, hope we can get you down here!
+
+`01-06-2016 16:04`   `avsm`   `mato`: sort of, it's not first class in functoria
+
+`01-06-2016 16:04`   `thomasga`   I'm not sure how this will work :-)
+
+`01-06-2016 16:05`   `thomasga`   but happy to discuss/help when there is some concrete stuff to discuss :-)
+
+`01-06-2016 16:05`   `thomasga`   anyway, thanks all, leaving now
+
