@@ -1,0 +1,633 @@
+---
+participants: Drup,GemmaG,Khady,dbuenzli,dinosaure,djs55,djwillia,engil,hannes,mato,mattg,mort___,noddy,reynir,talex5,thomasga1,wiredsister,yallop,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 15-06-2016
+tags: irc,log
+---
+
+`15-06-2016 14:45`   `hannes`   just to let the IRC know, versioned modules: still not sure where they should be needed, but I'm in the middle of doing an experiment (adjusting module type RANDOM) and see why/how/whether they're useful...
+
+`15-06-2016 14:47`   `yomimono`   hm, so you'll make a V2 with a new definition of RANDOM?
+
+`15-06-2016 14:47`   `hannes`   no
+
+`15-06-2016 14:47`   `yomimono`   and same definitions of other module types as V1? or just with RANDOM in it?
+
+`15-06-2016 14:47`   `hannes`   no
+
+`15-06-2016 14:48`   `yomimono`   cool, I was hoping to be wrong on the internet today :P
+
+`15-06-2016 14:48`   `hannes`   I'll adjust what we have and see whether there is trouble in updating it (as thomas and thomas proposed)
+
+`15-06-2016 14:48`   `yomimono`   ah, ok
+
+`15-06-2016 14:48`   `hannes`   alternatively, we could version function names as well... read_v1, read_v2, read_v1_point_5
+
+`15-06-2016 14:49`   `yomimono`   enterprisey
+
+`15-06-2016 14:49`   `hannes`   I'm just slow 'coz I want to finish this signing before monday to have an updated paper with working code..  thus random experiment was deferreed to next week
+
+`15-06-2016 14:51`   `yomimono`   that's cool, I think many of us who are working at WhaleCo are very busy this week too
+
+`15-06-2016 14:51`   `hannes`   `yomimono`: and sorry for the extensive blurb on the arp thingy on github...
+
+`15-06-2016 14:51`   `yomimono`   so if you want folks to share your update pain it may be best to delay until around 22 June :P
+
+`15-06-2016 14:52`   `yomimono`   `hannes`: oh no, very much appreciated; it's not worth it to merge the wrong thing
+
+`15-06-2016 14:52`   `yomimono`   I'm a bit PR-happy at the moment because I can finally rebase a bunch of stuff and put it in the wild without making a ton more work for myself later
+
+`15-06-2016 14:53`   `reynir`   o/
+
+`15-06-2016 14:54`   `yomimono`   hi `reynir`!
+
+`15-06-2016 14:54`   `reynir`   Hi!
+
+`15-06-2016 14:54`   `reynir`   I remembered the meeting this time (I ususally forget) :)
+
+`15-06-2016 14:54`   `hannes`   `reynir`: \o/
+
+`15-06-2016 14:58`   `hannes`   `engil`: I have to hit my canopy every third day... does yours on unix also suffer from some memory leaking?
+
+`15-06-2016 14:58`   `hannes`   or does it just run and run and run?
+
+`15-06-2016 15:00`   `yomimono`   at 16:00 BST (UTC+1) our fortnightly mirage meeting commences :)
+
+`15-06-2016 15:00`   `yomimono`   agenda is available at https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`15-06-2016 15:01`   `yomimono`   unpurecamelbot: ready?
+
+`15-06-2016 15:03`   `thomasga1`   yo
+
+`15-06-2016 15:03`   `dbuenzli`   ya
+
+`15-06-2016 15:03`   `GemmaG`   Hi :)
+
+`15-06-2016 15:03`   `mato`   \o/
+
+`15-06-2016 15:03`   `talex5`   hi
+
+`15-06-2016 15:03`   `yallop`   hi
+
+`15-06-2016 15:03`   `djwillia`   hi all
+
+`15-06-2016 15:04`   `yomimono`   a lot of folks are here! :D agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda if anyone wants to add stuff.
+
+`15-06-2016 15:04`   `yomimono`   avsm asked me to convey some items on the first point, "quality and test"
+
+`15-06-2016 15:04`   `yomimono`   BEGIN QUOTE:
+
+`15-06-2016 15:04`   `yomimono`   Docker containers: There's been a big refresh of the containers hosted at the Docker Hub:
+
+`15-06-2016 15:04`   `yomimono`   - OPAM2 is now supported via docker run -it ocaml/opam-dev.  This is a mirror of the ocaml/opam namespace, except that OPAM2dev is installed and the local OPAM repository upgraded to the new format (compilers-as-packages).  Please try it out and experiment with OPAM2 and report bugs back to the issue tracker.
+
+`15-06-2016 15:05`   `yomimono`   New distros: Alpine 3.4, Raspbian 8 (ARM) works, Alpine 3.4/ARM incoming, Ubuntu 16.04
+
+`15-06-2016 15:05`   `yomimono`     - Deprecated: Ubuntu 15.10 (in favour of LTS Ubuntu 16.10).
+
+`15-06-2016 15:05`   `yomimono`   END QUOTE, sorry for the spam :)
+
+`15-06-2016 15:05`   `reynir`   16.04*
+
+`15-06-2016 15:06`   `yomimono`   is 16.04 the LTS version, not 16.10?
+
+`15-06-2016 15:06`   `mato`   It ain't 10/2016 yet :)
+
+`15-06-2016 15:06`   `noddy`   appears
+
+`15-06-2016 15:06`   `yomimono`   ...that's a pretty good point
+
+`15-06-2016 15:06`   `reynir`   I believe 16.04 is LTS and I don't think 16.10 has been released yet (october) :)
+
+`15-06-2016 15:07`   `yomimono`   anything else about the containers on Hub?
+
+`15-06-2016 15:07`   `dinosaure`   o/
+
+`15-06-2016 15:08`   `yomimono`   awkwardly waves but also gestures in a recognizing manner at `dinosaure`
+
+`15-06-2016 15:09`   `yomimono`   next on the agenda we have datakit prototype progress - `talex5` or `thomasga1`, before I pastedump avsm's status did you want to give us an update?
+
+`15-06-2016 15:09`   `dbuenzli`   Daniel starts falling asleep.
+
+`15-06-2016 15:10`   `yomimono`   OK, in that case BEGIN QUOTE from avsm:
+
+`15-06-2016 15:10`   `talex5`   Not sure what this item is about. Work continues on DataKit (currently a 9p interface to Irmin).
+
+`15-06-2016 15:10`   `yomimono`    - New VM for ci.ocaml.io setup where we will have the DataKit CI UI for MirageOS.
+
+`15-06-2016 15:10`   `yomimono`    - This will be a build pipeline that uses opam-lib and the containers to test incoming Mirage libraries in real time.
+
+`15-06-2016 15:10`   `yomimono`    - Two Cambridge interns joining us for the summer in July (Joel and Ciaran) who will hack on the web UI and scheduler, so it's ready before ICFP.
+
+`15-06-2016 15:10`   `yomimono`   - TWiOPAM: works now, but not yet hooked up to run regularly. Any thoughts on where to publish this output would be useful -- should we push it to Canopy weekly for Mirage libraries?
+
+`15-06-2016 15:10`   `yomimono`   END QUOTE
+
+`15-06-2016 15:10`   `thomasga1`   No progress for me.
+
+`15-06-2016 15:11`   `yomimono`   I think we don't have Joel or Ciaran here, so possibly we should just move on before `dbuenzli` dies of boredom
+
+`15-06-2016 15:11`   `yomimono`   Mirage 3!
+
+`15-06-2016 15:11`   `yomimono`   we had a mail thread where folks put some thoughts about upgrading and API changes
+
+`15-06-2016 15:11`   `thomasga1`   Who's the release manager? :-)
+
+`15-06-2016 15:11`   `yomimono`   there are some items in the call agenda that are more aimed at process, like that one :P
+
+`15-06-2016 15:12`   `yomimono`   I'm willing to do that if nobody else is keen and nobody objects to me doing it
+
+`15-06-2016 15:12`   `dbuenzli`   +1
+
+`15-06-2016 15:12`   `GemmaG`   Sounds great!
+
+`15-06-2016 15:12`   `hannes`   `yomimono`: +1 you doing it
+
+`15-06-2016 15:12`   `thomasga1`   yay!
+
+`15-06-2016 15:12`   `noddy`   motion accepted
+
+`15-06-2016 15:13`   `yomimono`   ...right then
+
+`15-06-2016 15:13`   `GemmaG`   Thanks `yomimono` :)
+
+`15-06-2016 15:13`   `yomimono`   please send me a copy of release managing for random idiots
+
+`15-06-2016 15:13`   `wiredsister`   lol
+
+`15-06-2016 15:13`   `yomimono`   I'll follow up on the mailing list thread this week
+
+`15-06-2016 15:13`   `yomimono`   and keep driving discussion thhere
+
+`15-06-2016 15:13`   `mort___`   (here, sorry late, IRC issues)
+
+`15-06-2016 15:13`   `thomasga1`   `yomimono`: it's easy, just do what you want
+
+`15-06-2016 15:14`   `yomimono`   any other points/suggestions/bad advice before we move on to solo5?
+
+`15-06-2016 15:14`   `hannes`   I mentioned it earlier here
+
+`15-06-2016 15:15`   `hannes`   I still don't understand this multiple versions of an interface in mirage-types (and am too stupid to follow last meetings discussions), but wanted to actually try out what it means to update an interface in mirage-types
+
+`15-06-2016 15:15`   `hannes`   nevertheless I was deferred by writing some signing code till next week...
+
+`15-06-2016 15:15`   `yomimono`   having just gone through this process for mirage-tcpip (a couple of times!), would it be useful if I just wrote up what this is like?
+
+`15-06-2016 15:15`   `thomasga1`   I think the role of the release manager is to decide on something about that after discussing with people who have an opinions
+
+`15-06-2016 15:16`   `thomasga1`   yes, writing or discussing in person/by email with the people seems a good idea
+
+`15-06-2016 15:16`   `mort___`   `yomimono`: i think it would be useful, yes
+
+`15-06-2016 15:17`   `noddy`   i think the question `hannes` is posing is rather, why have parallel version, not how to upgrade. but that discussion already happened.
+
+`15-06-2016 15:17`   `noddy`   (and i dozed over it :) )
+
+`15-06-2016 15:17`   `thomasga1`   `noddy`: I am still unclear what is the best approach, but I am happy to defer it to people who care/have time to think about it.
+
+`15-06-2016 15:17`   `dbuenzli`   What was the result ? Personally it seems dubious to me that you want to version interfaces at the language level.
+
+`15-06-2016 15:18`   `hannes`   `noddy`: did that discussion happen?  the result still looks uncertain to me
+
+`15-06-2016 15:18`   `GemmaG`   Added to agenda as a resolution appeared unclear…
+
+`15-06-2016 15:18`   `dbuenzli`   You are bringing the version problem in the language. This should be left to package managers.
+
+`15-06-2016 15:18`   `noddy`   `dbuenzli`: `hannes`: exactly, the answer escapes me too. but apparently the question was asked.
+
+`15-06-2016 15:18`   `yomimono`   I think a lot of our discussion about where to surface this versioning and dependency information has centered around how painful it is to do certain operations
+
+`15-06-2016 15:18`   `hannes`   `dbuenzli`: exactly my point.
+
+`15-06-2016 15:19`   `dbuenzli`   Well I already made that point at least a year ago...
+
+`15-06-2016 15:19`   `talex5`   https://lists.xenproject.org/archives/html/mirageos-devel/2016-06/msg00011.html (discussion on the list)
+
+`15-06-2016 15:19`   `yomimono`   thanks `talex5`
+
+`15-06-2016 15:19`   `noddy`   anyone mind doing tl;dr of the summary? why language-level versions, again?
+
+`15-06-2016 15:20`   `talex5`   Because once you have several implementations of an interface, and you have to change everything at once, it becomes nearly impossible to make progress.
+
+`15-06-2016 15:20`   `noddy`   so instead you ossify the entire api history and carry it forever, and constantly walk the minefied of which-exact-version-of-the-api these libs i need implement?
+
+`15-06-2016 15:21`   `yomimono`   I think this is why folks think it's useful to figure out exactly how bad the experience really is by doing it
+
+`15-06-2016 15:21`   `yomimono`   I've been through this a few times -- a bunch of the custom network code I wrote a while ago is now unusable because of mirage-types changes, for example
+
+`15-06-2016 15:21`   `hannes`   but will multiple language-level versions help there at all?
+
+`15-06-2016 15:21`   `yomimono`   but I don't think it's worth discounting the entire approach for that reason - there are many explanations for why software doesn't get updated
+
+`15-06-2016 15:22`   `hannes`   `yomimono`: it is certainly usable with a mirage-types from that time..
+
+`15-06-2016 15:22`   `talex5`   Well, the V1_of_V2 functor is never going to change, so you could carry it forever. But just having the last two would help a lot.
+
+`15-06-2016 15:22`   `dbuenzli`   What needs to be understood is how much of this pain is actually due to the way Mirage's interfaces are themselves organized.
+
+`15-06-2016 15:22`   `dbuenzli`   Maybe be a bit less functory...
+
+`15-06-2016 15:23`   `yomimono`   A lot of this pain also comes from our lack of ability to specify version constraints in `config.ml` IMO
+
+`15-06-2016 15:23`   `thomasga1`   I am not sure this issue will be resolved during that meeting, but it clearly need to be resolved
+
+`15-06-2016 15:23`   `noddy`   linux kernel has a contract that kernel apis never, ever, ever change. they are only extended. as a consequence, binaries from upper paleolithic work, kernel-wise.
+
+`15-06-2016 15:23`   `noddy`   however, linux kernel mimicks a well-understood api mode, something posix-like. mirage can change violently.
+
+`15-06-2016 15:23`   `dbuenzli`   And so cruft was created
+
+`15-06-2016 15:23`   `noddy`   the greater the change, the more cruft.
+
+`15-06-2016 15:23`   `noddy`   so that is the tradeoff.
+
+`15-06-2016 15:23`   `thomasga1`   can I suggest that some people gather and write some code, and we see how it works? :-)
+
+`15-06-2016 15:24`   `talex5`   `noddy`: Linux has a bigger problem: clients don't specify which version they want. So changes have to be compatible.
+
+`15-06-2016 15:24`   `noddy`   fair point, yeah
+
+`15-06-2016 15:24`   `thomasga1`   (under the benevolent supervision of our new release manager)
+
+`15-06-2016 15:24`   `mort___`   `thomasga1`: +1
+
+`15-06-2016 15:24`   `yomimono`   `hannes` has already put himself on the hook for this; I've said I'll write some words
+
+`15-06-2016 15:25`   `dbuenzli`   I think it would be useful to e.g. try to turn the tcp/ip stack to the way ocaml-tls was designed, i.e. independent from mirage
+
+`15-06-2016 15:25`   `thomasga1`   I am afraid that a rewrite of the tcpip-stack is Mirage 10 instead
+
+`15-06-2016 15:25`   `yomimono`   This ties into the larger point of modules defining their own module types, I think
+
+`15-06-2016 15:25`   `hannes`   hides in HOL4
+
+`15-06-2016 15:26`   `talex5`   tcp and tls both only have one implementation, so they're the simple case.
+
+`15-06-2016 15:26`   `dbuenzli`   Well there are turns to be taken at the right moment.
+
+`15-06-2016 15:26`   `yomimono`   tcp itself, yes, but there are modules within tcp with >1 implementation
+
+`15-06-2016 15:26`   `yomimono`   like the static arp module I sneakily tried to get into master
+
+`15-06-2016 15:26`   `hannes`   (there's https://www.cl.cam.ac.uk/~pes20/HuginnTCP/ around the corner...)
+
+`15-06-2016 15:26`   `noddy`   `talex5`: but this is exactly the point. if you have foo-a and foo-b, and only foo-a moves to v.PI and boo-b is at v.E, how does that help?
+
+`15-06-2016 15:27`   `mort___`   `yomimono`: i think the lack of version constraints in config.ml is probably an important part of it — the gap between source (`config.ml`), tool-generated source (outputs of `mirage`) and compile/link behaviour (opam constraints and dynamic update when the `make` happens) seems to cause problems afaics
+
+`15-06-2016 15:27`   `dbuenzli`   mort do you suggest the problem is maybe too much meta-programming crap ?
+
+`15-06-2016 15:28`   `noddy`   wishes irc had the `edit` function
+
+`15-06-2016 15:28`   `mort___`   `dbuenzli`: too much — or not enough? ;)
+
+`15-06-2016 15:28`   `hannes`   ...every problem can be solved by adding a layer of abstraction... oh dear
+
+`15-06-2016 15:28`   `mort___`   i think that the toolchain we have is still evolving
+
+`15-06-2016 15:28`   `dbuenzli`   It may even be wrong.
+
+`15-06-2016 15:29`   `mort___`   i think that the suggestion that (aiui, noted above) `hannes` and `yomimono` give this a go and see what actually happens is a good one
+
+`15-06-2016 15:29`   `djs55`   I think the mirage tool executing opam is a bit odd (and prevents opam calling mirage calling opam and deadlocking)
+
+`15-06-2016 15:29`   `yomimono`   So let's try and make a more right thing :)
+
+`15-06-2016 15:29`   `noddy`   `djs55`: wee need universe hierarchies
+
+`15-06-2016 15:29`   `yomimono`   possibly the right thing to do is have each mirage unikernel distribute its own opam file with depopts
+
+`15-06-2016 15:29`   `mort___`   `dbuenzli`: i think that for you to convince me it's wrong, first you'd have to convince me what right is
+
+`15-06-2016 15:30`   `hannes`   `djs55`: mirage calling opam is for sure (and being discussed over) a bad idea for several things.. (which needs some clever solution, but IMHO that does not include a V42)
+
+`15-06-2016 15:30`   `mort___`   `djs55`: yes; given the `make depends` target, why does it do that?
+
+`15-06-2016 15:30`   `dbuenzli`   I think that `djs55` is quite pertinent I find it strange that you have to fiddle with opam.
+
+`15-06-2016 15:30`   `dbuenzli`   mort: that's not the way things work.
+
+`15-06-2016 15:30`   `hannes`   ..and off to the train station
+
+`15-06-2016 15:30`   `reynir`   \o
+
+`15-06-2016 15:30`   `mort___`   `yomimono`: i think that having each unikernel distribute some deployment metadata in a well understood format would be entirely sensible
+
+`15-06-2016 15:30`   `dbuenzli`   otherwise we can never make criticisms before having solved the problem.
+
+`15-06-2016 15:31`   `yomimono`   I agree with `djs55`, and maybe now that we have functoria it's a good time to think of a more intelligent second thing to do with the mirage tool
+
+`15-06-2016 15:31`   `mort___`   `dbuenzli`: not asking for solution, asking what "right" would look like. equivalently: to tell me something is wrong suggests you have a well specified problem…
+
+`15-06-2016 15:31`   `yomimono`   `dbuenzli`, mort: take it DM please
+
+`15-06-2016 15:31`   `yomimono`   er, to DM
+
+`15-06-2016 15:31`   `noddy`   dungeon master?
+
+`15-06-2016 15:31`   `yomimono`   yes
+
+`15-06-2016 15:31`   `mort___`   (sorry)
+
+`15-06-2016 15:31`   `thomasga1`   roles a dice
+
+`15-06-2016 15:32`   `yomimono`   I don't know whose thac0 is what
+
+`15-06-2016 15:32`   `noddy`   jumps around with a sword
+
+`15-06-2016 15:32`   `noddy`   mine is -1
+
+`15-06-2016 15:32`   `mort___`   has several swords. discussion for a different time…
+
+`15-06-2016 15:32`   `thomasga1`   well, having a better way to handle opam/mirage interactions is clearly a good idea
+
+`15-06-2016 15:32`   `yomimono`   so I think most folks agree that we have a lot of, um, opportunity in california business speak
+
+`15-06-2016 15:32`   `thomasga1`   it was a good hack at the time :p
+
+`15-06-2016 15:33`   `noddy`   all: question: do you seriously think it will be possible to maintain V_N_of_V_succ_N functors?
+
+`15-06-2016 15:33`   `noddy`   if so, then it might be a workable.. compromise? attempt?
+
+`15-06-2016 15:33`   `yomimono`   `noddy`: I don't know what that means?
+
+`15-06-2016 15:33`   `dbuenzli`   Ugh
+
+`15-06-2016 15:34`   `noddy`   instead of the platform implementing all the historic api versions, having small shims to downgrade
+
+`15-06-2016 15:34`   `yomimono`   Oof, I think I don't want to write them
+
+`15-06-2016 15:34`   `noddy`   hence, hacking around version incompats is as easy as slapping the downgrade shim onto the current version
+
+`15-06-2016 15:34`   `talex5`   I plan to try this with mirage-net-xen, but currently busy with DataKit.
+
+`15-06-2016 15:34`   `noddy`   if _not_, then lang-lev versions are completely wrong -- imho
+
+`15-06-2016 15:35`   `noddy`   if yes, then it could word because cruft is isolated.
+
+`15-06-2016 15:35`   `noddy`   </dungeon master>
+
+`15-06-2016 15:35`   `yomimono`   I think that proposal has a big problem once you really do want to remove something.  (And it also increases demands on the developers of libraries.)
+
+`15-06-2016 15:35`   `mort___`   `noddy`: i doubt it. but i'm also not sure that simply specifying exact versions at the language level is great either as no-one ever gets upgraded then. (but perhaps that's not a bad thing?) but that's why trying it out is required.
+
+`15-06-2016 15:35`   `noddy`   why don't we try moving fast, breaking things, instead?
+
+`15-06-2016 15:36`   `dbuenzli`   +1
+
+`15-06-2016 15:36`   `noddy`   it's easer to start ossifying, than to stop
+
+`15-06-2016 15:36`   `mort___`   because so very many things break, all at once, and then someone's on the hook to fix them all
+
+`15-06-2016 15:36`   `noddy`   wait
+
+`15-06-2016 15:36`   `mort___`   we're not deploying a single app usually, we're "deploying" a large ecosystem of libraries
+
+`15-06-2016 15:36`   `noddy`   waitwaitwait
+
+`15-06-2016 15:36`   `yomimono`   waits
+
+`15-06-2016 15:37`   `noddy`   but if you write V_succ_N, DON'T IMPLEMENT IT, then things continue working??
+
+`15-06-2016 15:37`   `noddy`   (rather, move the implementation to succ_N and leave N just in types)
+
+`15-06-2016 15:37`   `mort___`   not sure i understand what that means?
+
+`15-06-2016 15:37`   `thomasga1`   `noddy`: the sequence of events is: 1/ I update mirage-types to make a API breaking change 2/ I need to update all the implementation of that signature 3/ I need to change the mirage tool to be sure that we pull the right versions of signature/implementations.
+
+`15-06-2016 15:37`   `yomimono`   I think I'd need to see an example of this to form an opinion
+
+`15-06-2016 15:38`   `noddy`   i mean, what's the difference? the underlying code is evolving. leaving the versioned api hanging around doesn't really solve the issue of including all that code in a single, working unikernel?
+
+`15-06-2016 15:38`   `thomasga1`   the step between 2/ and 3/ can be veryyyy big and tedious.
+
+`15-06-2016 15:38`   `thomasga1`   which usually we don't do 1/ to not start the cycle.
+
+`15-06-2016 15:38`   `djs55`   and that's because we can't have version constraints as yomonino mentioned I think
+
+`15-06-2016 15:38`   `thomasga1`   I don't like putting version constraints in the module names at all. But I don't like not being able to move at all worst.
+
+`15-06-2016 15:39`   `yomimono`   which is because of the way we express the dependencies in mirage as `djs55` mentioned
+
+`15-06-2016 15:39`   `mort___`   `noddy`:  i think: underlying code is released as different version of component library; opam constraints are used to pull that in. but all the other tools have no visibility of that (per `thomasga1` comment)
+
+`15-06-2016 15:39`   `thomasga1`   (would be nice to be able to edit IRC sentences)
+
+`15-06-2016 15:39`   `noddy`   i'm imagining stacking two, let's say, FLOWs together.
+
+`15-06-2016 15:40`   `noddy`   the upper one was ported to V7
+
+`15-06-2016 15:40`   `noddy`   the lower one is stuck at V3
+
+`15-06-2016 15:40`   `noddy`   the upper one is a FLOW->FLOW functor
+
+`15-06-2016 15:40`   `thomasga1`   yes that sucks.
+
+`15-06-2016 15:40`   `noddy`   wat do
+
+`15-06-2016 15:40`   `noddy`   n^2?
+
+`15-06-2016 15:40`   `mort___`   all: i know this is important but i'm not sure it'll be solved right here and now, and there are several other agenda items to cover — perhaps this could be taken to (eg) the list, or an issue? (full editing capabilities available!)
+
+`15-06-2016 15:41`   `thomasga1`   next!
+
+`15-06-2016 15:41`   `yomimono`   pounds gavel
+
+`15-06-2016 15:41`   `thomasga1`   (I need to run soon)
+
+`15-06-2016 15:41`   `yomimono`   next up is solo5 which I bet `mato` and `djwillia` are super pumped to tell us about
+
+`15-06-2016 15:41`   `yomimono`   and ricarkol :)
+
+`15-06-2016 15:41`   `yomimono`   and anyone else I missed :P
+
+`15-06-2016 15:42`   `mato`   Ok, solo5. Good progress over the last couple of weeks. Mirage/Solo5 now has a (simplistic but working) scheduler.
+
+`15-06-2016 15:42`   `yomimono`   is there a best repo to watch for folks who want to keep up with what's happening there?
+
+`15-06-2016 15:42`   `mato`   I have made a tracking issue to cover the steps to an initial release/upstreaming, you can follow at: https://github.com/`djwillia`/solo5/issues/36
+
+`15-06-2016 15:43`   `mato`   `yomimono`: `djwillia`/solo5, I try to concentrate the issues there. But that tracking issue is your best bet for now, I'll keep updating it as I go along.
+
+`15-06-2016 15:43`   `yomimono`   `mato`: great, thanks!
+
+`15-06-2016 15:43`   `mato`   The other repos are `djwillia`/{mirage-platform,mirage,...}
+
+`15-06-2016 15:44`   `mato`   gemma (seems to have left) was asking about timing for publishing a blog post (co-authored with `djwillia`) about porting mirage to solo5
+
+`15-06-2016 15:45`   `yomimono`   gemma had to run but she'll get the notes here, so any answer would be appreciated I think :)
+
+`15-06-2016 15:45`   `yomimono`   the agenda notes this might be co-timed with the hackathon, so maybe it's a good time for me to paste an update from her on that?
+
+`15-06-2016 15:46`   `mato`   i think we should have a formal initial release of Mirage/Solo5 in place before we publish any blogs
+
+`15-06-2016 15:46`   `mato`   otherwise users have no "version" to target
+
+`15-06-2016 15:46`   `yomimono`   fair enough!
+
+`15-06-2016 15:47`   `mato`   my eta for that is to have things as ready for merging as possible the week before the hackathon
+
+`15-06-2016 15:47`   `mato`   and then ideally thrash out the merge to upstream while dan and myself are in cambridge
+
+`15-06-2016 15:48`   `yomimono`   that sounds like an excellent plan to me
+
+`15-06-2016 15:48`   `mato`   okay, let's go with that then. `djwillia`?
+
+`15-06-2016 15:49`   `djwillia`   `mato`: yes, sounds good to me, looking forward to it and followup on slack to help with items
+
+`15-06-2016 15:49`   `mato`   ack
+
+`15-06-2016 15:49`   `djwillia`   `mato`: thanks for putting together that list
+
+`15-06-2016 15:49`   `yomimono`   there's also a note here about "sync up with OPAM 2.0 items" - not sure what needs discussion here?
+
+`15-06-2016 15:49`   `djwillia`   `mato`: and all the awesome work you've been doing!
+
+`15-06-2016 15:49`   `yomimono`   +1!
+
+`15-06-2016 15:50`   `mato`   `yomimono`: as "release manager" i'll be asking you for opinions on how/where the solo5 bits should be merged, once we're closer to that point
+
+`15-06-2016 15:50`   `yomimono`   I deserve that
+
+`15-06-2016 15:51`   `mato`   :-)
+
+`15-06-2016 15:51`   `mato`   ok, done with solo5 if no one has any questions i think.
+
+`15-06-2016 15:52`   `yomimono`   next up - `thomasga1`, 4.03 flambda testing?
+
+`15-06-2016 15:52`   `thomasga1`   none
+
+`15-06-2016 15:52`   `yomimono`   I saw that `hannes` has been adding 4.03 tests to some repositories; we could start doing that more generally
+
+`15-06-2016 15:53`   `thomasga1`   I have tried to use the new lto branch (to do dead-code elimination in native mode) but it didn't compile
+
+`15-06-2016 15:53`   `yomimono`   aw :(
+
+`15-06-2016 15:53`   `yomimono`   I want that branch.
+
+`15-06-2016 15:53`   `thomasga1`   Pierre pushed a patch so I should try it again, I'll try to do that at one point
+
+`15-06-2016 15:53`   `yomimono`   Cool.  If anyone else gets time first, do send a mail to the list :)
+
+`15-06-2016 15:53`   `thomasga1`   `opam switch 4.04.0+forced_lto`
+
+`15-06-2016 15:53`   `yomimono`   it would make a great followon to `hannes`'s posts about where the bytes in unikernels come from
+
+`15-06-2016 15:54`   `thomasga1`   (it's in the main repo)
+
+`15-06-2016 15:54`   `mort___`   `thomasga1`: i just tried typing that and build failed too
+
+`15-06-2016 15:54`   `thomasga1`   you might need to `opam update`, Pierre's patch was merged recently
+
+`15-06-2016 15:55`   `mort___`   failure looks like some shell nonsense, possibly because i don't already have the switch directory in place
+
+`15-06-2016 15:55`   `yomimono`   OK, sounds like that's probably all for flambda, save some hackery that we can save for lateer
+
+`15-06-2016 15:55`   `yomimono`   people are probably curious about the hackathon so I'll paste Gemma's update:
+
+`15-06-2016 15:55`   `yomimono`   BEGIN QUOTE:
+
+`15-06-2016 15:55`   `yomimono`   Current planned venue is Darwin College, Cambridge. Looking at spreading it over 2 days (Thurs 14th and Fri 15th July). I�ll take it to the mailing list, but if anyone is travelling far to get to Cambridge and will require a night/a few nights accommodation please let me know so I can look into rooms. Met a few people at the FP meetup in London last night who are also interested, so we might have some new people.
+
+`15-06-2016 15:56`   `yomimono`   END QUOTE
+
+`15-06-2016 15:56`   `yomimono`   also, GET HYPE
+
+`15-06-2016 15:56`   `dbuenzli`   HYPE is HYPED
+
+`15-06-2016 15:56`   `mattg`   is HYPED
+
+`15-06-2016 15:57`   `yomimono`   YEAAAAAAAAH
+
+`15-06-2016 15:57`   `yomimono`   we have also at the end of the agenda an "outreachy" header, but no items under it!
+
+`15-06-2016 15:57`   `wiredsister`   haha
+
+`15-06-2016 15:57`   `yomimono`   outreachy is pretty great!
+
+`15-06-2016 15:57`   `wiredsister`   yay outreachy
+
+`15-06-2016 15:57`   `mort___`   has `wiredsister`'s fine blog post been mentioned enough yet?
+
+`15-06-2016 15:57`   `yomimono`   no!  thank you for pointing that out!
+
+`15-06-2016 15:58`   `wiredsister`   yes, I did a blog thing about syslog.
+
+`15-06-2016 15:58`   `mort___`   bows politely
+
+`15-06-2016 15:58`   `wiredsister`   general question about something I'm thinking on:
+
+`15-06-2016 15:58`   `wiredsister`   so an issue was posted asking for a "killer example" of syslog
+
+`15-06-2016 15:58`   `wiredsister`   which might be something for me to work towards
+
+`15-06-2016 15:58`   `yomimono`   (here's the blog post, if anyone missed it: http://www.gina.codes/ocaml/2016/06/06/syslog-a-tale-of-specifications.html )
+
+`15-06-2016 15:59`   `wiredsister`   thanks `yomimono` :)
+
+`15-06-2016 15:59`   `Drup`   hum, it's not on the ocaml planet.
+
+`15-06-2016 15:59`   `mort___`   (`wiredsister`: pls could you point at the issue?)
+
+`15-06-2016 15:59`   `wiredsister`   yeah, one second
+
+`15-06-2016 15:59`   `wiredsister`   https://github.com/verbosemode/syslogd-mirage/issues/8
+
+`15-06-2016 16:00`   `mort___`   (ta)
+
+`15-06-2016 16:00`   `wiredsister`   so, this was for a canopy example
+
+`15-06-2016 16:00`   `wiredsister`   which I'm not sure would be the best example, but it's not a bad idea
+
+`15-06-2016 16:00`   `wiredsister`   so a question for me would be, what would be a great blog post + example using syslog? I was thinking maybe something involving docker for hype value and practicality.
+
+`15-06-2016 16:01`   `wiredsister`   like, "How to make a syslog unikernel drunk and blindfolded!"
+
+`15-06-2016 16:01`   `wiredsister`   something catchy for the kids.
+
+`15-06-2016 16:01`   `yomimono`   something cool with types and structured messages and js visualizations maybe?  kids love GUIs
+
+`15-06-2016 16:02`   `mort___`   hm. not sure i understand (i rarely do). i think i interpret that issue as: could we have a webserver that posted apache-style log entries via syslog
+
+`15-06-2016 16:02`   `yomimono`   or like "replicate this $6000 SIEM in one easy step"
+
+`15-06-2016 16:02`   `thomasga1`   something like http://www.brandpending.com/blog/2015/11/9/configuring-the-docker-syslog-logging-driver ?
+
+`15-06-2016 16:02`   `wiredsister`   ooh great `thomasga1`
+
+`15-06-2016 16:03`   `dbuenzli`   Need to get some work done. Bye.
+
+`15-06-2016 16:04`   `mato`   `wiredsister`: I'd go for something like start X unikernels, all logging happily to a syslogd unikernel
+
+`15-06-2016 16:05`   `wiredsister`   yeah, an integrated example would be best
+
+`15-06-2016 16:05`   `wiredsister`   okay, cool. I'm going to paste this convo to this issue and keep the discussion going there.
+
+`15-06-2016 16:05`   `mato`   `wiredsister`: for the hackathon i'd also like to have unikernel-runner (my run unikernels as docker containers glue) working with solo5, so could then help you to "dockerize" the example.
+
+`15-06-2016 16:05`   `mato`   `wiredsister`: please ping me in the issue (@`mato`) so i get notifications, thx
+
+`15-06-2016 16:05`   `wiredsister`   sounds like a fun time
+
+`15-06-2016 16:05`   `wiredsister`   will do
+
+`15-06-2016 16:06`   `wiredsister`   thanks `mato`
+
+`15-06-2016 16:06`   `mato`   i have to run
+
+`15-06-2016 16:06`   `wiredsister`   was outreachy mentioned because of new applicants `yomimono`?
+
+`15-06-2016 16:06`   `mato`   see you all later
+
+`15-06-2016 16:06`   `wiredsister`   I don't know when the next round starts applying
+
+`15-06-2016 16:07`   `yomimono`   hm, I don't think it's for a bit yet.
+
+`15-06-2016 16:07`   `wiredsister`   okay
+
+`15-06-2016 16:07`   `yomimono`   later `mato`, thanks for coming :)
+
+`15-06-2016 16:08`   `yomimono`   "The next round of Outreachy internships will have an application deadline on October 17, 2016, and internship dates from December 6, 2016 to March 6, 2017. "
+
+`15-06-2016 16:08`   `yomimono`   so we're a ways out - tell your friends!
+
