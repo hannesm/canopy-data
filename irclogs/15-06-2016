@@ -4,7 +4,6 @@ author: unpurecamelbot
 title: Irc discussions from #mirage on 15-06-2016
 tags: irc,log
 ---
-
 `15-06-2016 14:45`   `hannes`   just to let the IRC know, versioned modules: still not sure where they should be needed, but I'm in the middle of doing an experiment (adjusting module type RANDOM) and see why/how/whether they're useful...
 
 `15-06-2016 14:47`   `yomimono`   hm, so you'll make a V2 with a new definition of RANDOM?
@@ -527,7 +526,7 @@ tags: irc,log
 
 `15-06-2016 15:55`   `yomimono`   BEGIN QUOTE:
 
-`15-06-2016 15:55`   `yomimono`   Current planned venue is Darwin College, Cambridge. Looking at spreading it over 2 days (Thurs 14th and Fri 15th July). I’ll take it to the mailing list, but if anyone is travelling far to get to Cambridge and will require a night/a few nights accommodation please let me know so I can look into rooms. Met a few people at the FP meetup in London last night who are also interested, so we might have some new people.
+`15-06-2016 15:55`   `yomimono`   Current planned venue is Darwin College, Cambridge. Looking at spreading it over 2 days (Thurs 14th and Fri 15th July). I'll take it to the mailing list, but if anyone is travelling far to get to Cambridge and will require a night/a few nights accommodation please let me know so I can look into rooms. Met a few people at the FP meetup in London last night who are also interested, so we might have some new people.
 
 `15-06-2016 15:56`   `yomimono`   END QUOTE
 
