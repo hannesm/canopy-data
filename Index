@@ -3,22 +3,28 @@ title: Mirage hackathon blog
 author: Camels
 ---
 
-We're in Marrakesh at [Priscilla](http://queenofthemedina.com/en/index.html) working on [MirageOS](https://mirage.io).
+This is a small MirageOS webservice, using [canopy](https://github.com/Engil/Canopy).
+Feel free to add content (by creating a file in [this repository](https://github.com/hannesm/canopy-data)).
 
-There is code of this webservice, [canopy](https://github.com/Engil/canopy).
-Feel free to add content (by creating a file in [this
-repository](https://github.com/hannesm/canopy-data)).
+We'll soon (on July 13th) be in Cambridge (Darwin College) for a single day of working on MirageOS.
 
-- Please switch of wireless on your phone, then the laptops will get more waves.
-- Circle at 1 on the roof terrace, Lunch at 2, dinner at 7.
-- We need to clean the dishes after lunch and dinner ourselves.  Please organise.
-- Projects are at [Projects](http://canopy.mirage.io/Wiki/Projects).
-- Sunday: [<img src="https://pbs.twimg.com/media/CdbOzuBWIAAOmnr.jpg:orig" title="Plan from Sunday" width="300" />](https://pbs.twimg.com/media/CdbOzuBWIAAOmnr.jpg:orig)
-- Monday: [<img src="https://pbs.twimg.com/media/CdgxMINWwAAoIRW.jpg:orig" title="Plan from Monday" width="300" />](https://pbs.twimg.com/media/CdgxMINWwAAoIRW.jpg:orig)
-- Monday: [<img src="https://pbs.twimg.com/media/CdgxNLkWAAEgff_.jpg:orig" title="Plan from Monday" width="300" />](https://pbs.twimg.com/media/CdgxNLkWAAEgff_.jpg:orig)
-- Tuesday: [<img src="https://pbs.twimg.com/media/Cdl56AVWEAA9riu.jpg:orig" title="Plan from Tuesday" width="300" />](https://pbs.twimg.com/media/Cdl56AVWEAA9riu.jpg:orig)
-- We hang out in the sun and on IRC in `#mirage` (`irc.freenode.net`).
-- Water behind the counter, fruits on the counter.  Help yourself.  If there is none, buy some.
-- Towels can be rented by Kasia, ask her.
-- Use `nuc1 wifi` network, it runs our own dhcp server.
-- Nameserver you can add `nameserver 141.1.1.1` in your `/etc/resolv.conf` (where is a mirage resolver?)  [part 2 of a 3-part series on building one](http://hh360.user.srcf.net/blog/2015/03/part-2-running-your-own-dns-resolver-with-mirageos/) courtesy hh360
+**Proposed projects:**
+
+  * Solo5/unikernel/Mirage integration
+  * NickB would like to work on uboot+ocaml+mirage for the Pine64
+  * Qi Li - might demo his unikernel with tls for ARM cubietruck
+
+**Docker:**
+
+  * Dave wants to work on VPNkit/Windows/Mirage via a new Lwt engine that is Windows friendly
+  * ThomasG/L and the interns and Anil will continue to make progress on the CI system, tailored for Mirage
+  * IanC has been helping retire mirage-xen-arm-builder in favour of an Alpine/Moby-based ARM distro, which now works on the Cubieboards.
+
+**Schedule for hackathon day/evening:**
+
+Richard King room at Darwin College
+* 9am start - 11pm finish
+* Tea, coffee, biscuits and snacks mid morning
+* Lunch through the servery
+* More tea, coffee, biscuits and snacks mid afternoon
+* Dinner plans are open-ended...
