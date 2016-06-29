@@ -1,0 +1,358 @@
+---
+participants: GemmaG,avsm,dbuenzli,djs55,djwillia,hannes,mato,mort___,talex5,thomasga,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 29-06-2016
+tags: irc,log
+---
+`29-06-2016 15:06`   `hannes`   `avsm`: cool! any chance you can enlighten where/whether they'll be able to add more testing for https://github.com/mirage/mirage/pull/544 (or what is needed to get this code movement merged?)?
+
+`29-06-2016 15:06`   `thomasga`   but `RUN apk add ncurses-dev` fixes the build
+
+`29-06-2016 15:07`   `talex5`   I thought the problem was with `conf-libev`?
+
+`29-06-2016 15:07`   `avsm`   `hannes`: they will -- it just unexpectedly blocked on a qemu segfault, frustratingly. Been quite hard to debug. But `mort___` now has an ARM64 machine which can build ARM32 natively as well, so this may become easier
+
+`29-06-2016 15:07`   `thomasga`   `avsm`: can this is be added as a depext on lwt directly?
+
+`29-06-2016 15:07`   `avsm`   `thomasga`: yes, I think so. Lwt is the one with the odd configure script so I have no objection to fixing it there.
+
+`29-06-2016 15:08`   `thomasga`   `talex5`: the issue is again discover.ml in lwt
+
+`29-06-2016 15:08`   `avsm`   Overall for CI, we have the pieces in place but not the coordination infrastructure. That's the next steps  before the hackathon so we can trigger builds more easily.
+
+`29-06-2016 15:08`   `avsm`   Anything else for quality and test?  `thomasga`: i noticed new alcotest releases?
+
+`29-06-2016 15:08`   `talex5`   `thomasga`: Lwt's discover.ml is fine Ii think, but the copy in conf-libev seems old and broken.
+
+`29-06-2016 15:09`   `thomasga`   not really, it tries to compile a file using libev but the error comes from ocamlc complaining about missing ncurses
+
+`29-06-2016 15:09`   `thomasga`   so nothing to do with libev actually
+
+`29-06-2016 15:10`   `mato`   tangential depext-related question, is there a depext for "linux kernel headers"? (linux-headers on alpine, linux-libc-dev on Debian/Ubuntu)?
+
+`29-06-2016 15:10`   `mato`   Solo5 on ukvm will need this as it needs linux/kvm.h
+
+`29-06-2016 15:10`   `avsm`   `mato`: there is not, but can be added very easily as a `conf-kernel-headers` package
+
+`29-06-2016 15:10`   `thomasga`   I don't think so
+
+`29-06-2016 15:11`   `avsm`   wonders how that would work on OSX
+
+`29-06-2016 15:11`   `avsm`   i guess we build in Linux containers on the Mac
+
+`29-06-2016 15:11`   `mato`   yes, at least until someone ports ukvm to Hypervisor.framework :)
+
+`29-06-2016 15:11`   `avsm`   on my mythical todo list ;-)
+
+`29-06-2016 15:12`   `avsm`   Ok, lets save the CI push for the hackathon in 2 weeks then.  Next topic
+
+`29-06-2016 15:12`   `avsm`   Mirage 3! Over to our release manager `yomimono`...
+
+`29-06-2016 15:12`   `talex5`   `thomasga`: I can't install conf-libev on Alpine even without Lwt. Installing ncurses-dev does fix it. Lwt's discover.ml works even without ncurses-dev, though (it uses pkg-config and avoids the whole auto-detection mess).
+
+`29-06-2016 15:13`   `yomimono`   Yes! I've left quite a long list of things in the call agenda, but I'd really like to draw folks' attention to the bits that say it's not clear to me how to even do them
+
+`29-06-2016 15:13`   `yomimono`   (well, and the bits that say "we should do this but it's not done yet" - if any of that looks like something you could do and you've got some time, that would be great too)
+
+`29-06-2016 15:14`   `yomimono`   call agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda for your convenience
+
+`29-06-2016 15:14`   `hannes`   the 'specification of version numbers for dependencies' is for inside of config.ml!?
+
+`29-06-2016 15:14`   `yomimono`   no
+
+`29-06-2016 15:15`   `avsm`   One thing I'm doing to vet these changes is to try to build "real" web services that run under the module signatures. In particular, using ocaml-webmachine and the Slack bindings to run a CI bot.  I'm hoping that'll bring out any particularly painful dependency problems.
+
+`29-06-2016 15:15`   `yomimono`   I just mean some way of saying that a unikernel needs, say, dns > 0.18.3
+
+`29-06-2016 15:15`   `yomimono`   not just dns
+
+`29-06-2016 15:16`   `djs55`   or perhaps even that the unikernel needs dns = 0.18.3, so we can guarantee to be able to rebuild it easily in future?
+
+`29-06-2016 15:16`   `hannes`   `yomimono`: yes, what is there is packages: "foo" "bar" "baz"; that should then be "foo=0.18.3"?
+
+`29-06-2016 15:16`   `avsm`   I think it would be better to generate an `opam` file instead, and to use OPAM to make reproducible builds. The Mirage file shouldn't overly constrain the library
+
+`29-06-2016 15:16`   `yomimono`   `avsm`: that's the idea I had about it that I liked best
+
+`29-06-2016 15:16`   `yomimono`   `hannes`: I'm not sure I understand?
+
+`29-06-2016 15:17`   `yomimono`   `djs55`: yes, I think that'd be a very useful thing
+
+`29-06-2016 15:17`   `hannes`   so you want a MirageOS unikernel to consist of config.ml, unikernel.ml and an opam file, all crafted manually?
+
+`29-06-2016 15:17`   `avsm`   `hannes`: nope, generate the `opam` file during `mirage configure`
+
+`29-06-2016 15:17`   `thomasga`   note: if yougenerate an opam file you will "freeze" the deployment model of your unikernel
+
+`29-06-2016 15:17`   `talex5`   I've been thinking of doing a "git reset --hard XXX" on opam-repository in my Dockerfiles to get reproducible builds.
+
+`29-06-2016 15:17`   `avsm`   it should just be config.ml and the entrypoint module, rest can be fully generated
+
+`29-06-2016 15:18`   `yomimono`   `thomasga`: can you elaborate?
+
+`29-06-2016 15:18`   `hannes`   `avsm`: but from what?  I meant we already have a spec of dependencies in config.ml, only names, no versions yet.
+
+`29-06-2016 15:18`   `mato`   `avsm`: where would the source of the version dependencies come from?
+
+`29-06-2016 15:18`   `mato`   what `hannes` said :)
+
+`29-06-2016 15:18`   `thomasga`   the only moment you have all the info that you need, is when you do `mirage configure —X`
+
+`29-06-2016 15:18`   `thomasga`   with X fully specified
+
+`29-06-2016 15:18`   `avsm`   `thomasga`: `yomimono`: I think he means that it will select a set of keys (e.g. --xen or --unix) in the `opam` file.   We could add a `--name` to mirage configure to give the opam package an identity as a selection of keys
+
+`29-06-2016 15:19`   `avsm`   `mato`: the functoria specs for a key would have to add the constraints. They're where the package selection currently comes from.
+
+`29-06-2016 15:19`   `thomasga`   `avsm`: it's also valid for —dhcp=true/false etc
+
+`29-06-2016 15:19`   `avsm`   `thomasga`: yes all the user set keys need to be stored for reproducibility
+
+`29-06-2016 15:20`   `mort___`   is it not possible to specify the versioned name in packages in the config.ml? mirage-http.2.5.2 and so on?
+
+`29-06-2016 15:20`   `thomasga`   yes it is too
+
+`29-06-2016 15:20`   `avsm`   The hackathon seems like a decent place to put some of these massive API changes together, but we need to prep PRs ahead of time. the master branch is going to be broken for a while otherwise...
+
+`29-06-2016 15:20`   `thomasga`   when you generate the opam file, you can "freeze" the version (regarding the current state of opam-repository)
+
+`29-06-2016 15:21`   `thomasga`   but you will also make the unikernel less portable as you will have to choose the configuration parameters
+
+`29-06-2016 15:21`   `mato`   so we'd end up with a generated opam package named (e.g.) unikernel-<SHA of constraints> or something like that, which would get installed at "mirage configure" time?
+
+`29-06-2016 15:21`   `talex5`   `mort___`: for < and > constraints at least, they get turned into shell redirections when passed to opam.
+
+`29-06-2016 15:21`   `mort___`   for reproducibility i presume that one needs also to get the versions of all dependencies
+
+`29-06-2016 15:21`   `thomasga`   I'm not sure what you are trying to achieve...
+
+`29-06-2016 15:21`   `mort___`   `talex5`: yes, i was suggesting for exact versions only. (though what about with extra fancy quoting?)
+
+`29-06-2016 15:22`   `hannes`   `thomasga`: hmm, shouldn't it be possible at configuration time to generate a disjunction of all possibilities (thinking about "mirage-no-xen" & bla... | mirage-xen & foo)
+
+`29-06-2016 15:22`   `avsm`   `talex5`: that seems purely like a shell quoting issue :-)
+
+`29-06-2016 15:22`   `thomasga`   reproducibility is different than generating an opam file, right?
+
+`29-06-2016 15:22`   `djs55`   FYI I've been playing with libuv via fdopen's uwt bindings. It looks like it should be more scalable on Windows and OSX in particular but it isn't an Lwt engine — I'm still working though the implications of that. In particular I've had to avoid using Lwt_unix everywhere, even though I'm targetting Unix (sort of)
+
+`29-06-2016 15:22`   `avsm`   there are two steps: generate an opam file to freeze the key selections, and then freeze opam-repository and the OS distribution to get reproducibility
+
+`29-06-2016 15:22`   `thomasga`   for reproducability you also need location of dependency source + digest.
+
+`29-06-2016 15:23`   `avsm`   `djs55`: fantastic! An alternative to mirage-unix really helps with cross-platform support
+
+`29-06-2016 15:23`   `thomasga`   and selection of dependencies will also freeze your configuration more with OS-specific deps
+
+`29-06-2016 15:23`   `thomasga`   so the more you want to add info, the less you become portable
+
+`29-06-2016 15:23`   `avsm`   ok, it sounds like we have a lot of pieces in the air at the moment. The hackathon's going to be the most practical place to merge these all into master, as we could test for breakage during the day
+
+`29-06-2016 15:24`   `avsm`   i dont think we'll have the `opam` file generation ready for then, so lets defer reproducibility until we can merge some of the bigger API changes
+
+`29-06-2016 15:24`   `avsm`   Mindy, your call as to merge order into master branches...
+
+`29-06-2016 15:24`   `yomimono`   merge everything! break everything!
+
+`29-06-2016 15:24`   `yomimono`   is a child with a hammer
+
+`29-06-2016 15:25`   `thomasga`   yay!
+
+`29-06-2016 15:25`   `mato`   was hoping to merge solo5 at the hackathon, but with all the other breaking changes up in the air that might be a bit premature
+
+`29-06-2016 15:26`   `avsm`   `mato`: I'm keen to stage the changes so we emerge with a working master branch. We should coordinate a schedule during the day to get stuff in, build the skeletons and make sure things stay working
+
+`29-06-2016 15:26`   `avsm`   I'm happy to sit around doing that
+
+`29-06-2016 15:26`   `yomimono`   `avsm`: we should probably do some planning for test infrastructure to keep that from being too painful, but we can discuss that offline
+
+`29-06-2016 15:26`   `hannes`   some hours ago I opened a RFC for RANDOM https://github.com/mirage/mirage/pull/551 -- feedback welcome on the PR
+
+`29-06-2016 15:27`   `avsm`   Ok, lets discuss this more when we get to the hackathon.  Meanwhile, it would be most useful if people could review the outstanding PRs ahead of the hackathon.  I'm also going to propose a few higher level types that can compile to javascript (web API ones)
+
+`29-06-2016 15:27`   `avsm`   *discuss it more when we get to the hackathon part of the agenda, that is
+
+`29-06-2016 15:27`   `avsm`   any other PRs that need a look aside from `hannes`'?
+
+`29-06-2016 15:28`   `avsm`   an important note: it can be difficult to work on big features at a hackathon, but an excellent time to request merges. So prepare your trees ahead of time :)
+
+`29-06-2016 15:28`   `hannes`   `avsm`: certainly PCLOCK/MCLOCK https://github.com/mirage/mirage/pull/548
+
+`29-06-2016 15:28`   `avsm`   +1 `hannes`
+
+`29-06-2016 15:28`   `yomimono`   we have some long-standing ones that I hope to replace or update, like the tracking PR for removing `CONSOLE` and `id`
+
+`29-06-2016 15:29`   `yomimono`   there's one for adding pp_error and friends to FLOW for example too
+
+`29-06-2016 15:29`   `hannes`   `yomimono`: that needs rebase...
+
+`29-06-2016 15:29`   `yomimono`   if you have one of those old PRs, maybe drop a quick note as to whether you it's viable to build on, and close it if you think it's not
+
+`29-06-2016 15:29`   `djs55`   PRs which affect mirage types — should we prepare PRs for the affected implementations and then link them together for simultaneous merging?
+
+`29-06-2016 15:29`   `yomimono`   I prefer that, yes
+
+`29-06-2016 15:30`   `hannes`   `djs55`: bonus points for having a branch of all affected packages on mirage-dev repo :)
+
+`29-06-2016 15:30`   `yomimono`   it's not anybody's responsibility to fix the *entire* world, but if it breaks mirage-skeleton I like to have a fix efore I merge
+
+`29-06-2016 15:30`   `yomimono`   `hannes`: well put :)
+
+`29-06-2016 15:30`   `avsm`   rebase + hack hack hack hack hack
+
+`29-06-2016 15:31`   `avsm`   ok, onto Solo5
+
+`29-06-2016 15:31`   `yomimono`   yaaaaay!
+
+`29-06-2016 15:31`   `avsm`   `djwillia`: `mato`: what's up!
+
+`29-06-2016 15:31`   `thomasga`   solo5 is awesome
+
+`29-06-2016 15:31`   `avsm`   I'm running it as a test service on http://monk.recoil.org:8080 and it's holding up great to a ping flood :-)
+
+`29-06-2016 15:31`   `hannes`   does it working with the virtio target (on xhyve/bhyve) yet? :)
+
+`29-06-2016 15:31`   `mato`   Good progress. Mirage/Solo5 now working with unikernel-runner (tho ukvm only, so you need a /dev/kvm)
+
+`29-06-2016 15:31`   `djwillia`   `mato`'s been doing awesome stuff and i've just been schmooozing at conferences
+
+`29-06-2016 15:32`   `mato`   `hannes`: Virtio works, but I've not documented how to run it :)
+
+`29-06-2016 15:32`   `hannes`   `mato`: pls tell, willing to spend a weekend on getting it on bhyve
+
+`29-06-2016 15:32`   `hannes`   (multiboot)
+
+`29-06-2016 15:32`   `avsm`   link to `djwillia` paper at https://www.usenix.org/system/files/conference/hotcloud16/hotcloud16_williams.pdf
+
+`29-06-2016 15:32`   `mato`   `hannes`: I'll doc it tomorrow
+
+`29-06-2016 15:33`   `hannes`   `mato`: \o/
+
+`29-06-2016 15:33`   `avsm`   `hannes`: nice, there are multiboot patches floating around for xhyve too
+
+`29-06-2016 15:33`   `mato`   `djwillia`: Where should we put docs for running Mirage/Solo5? In the solo5 README, or somewhere else?
+
+`29-06-2016 15:33`   `mato`   Anyhow, the last remaining piece of the puzzle to get the whole stack running is sorting out nocrypto and friends.
+
+`29-06-2016 15:34`   `djwillia`   the readme sounds good to me for now, we should have a pointer to the unikernel-runner there at least
+
+`29-06-2016 15:34`   `djwillia`   `mato`: are you doing freestanding versions of gmp and zarith at the moment?
+
+`29-06-2016 15:34`   `mato`   I hope to have that sorted this week, then go onto doc and polish and figuring out upstreaming before the hackathon.
+
+`29-06-2016 15:35`   `mato`   `djwillia`: already done, now I need to figure out the OASIS-bashing to get mirage-entropy and nocrypto building
+
+`29-06-2016 15:35`   `djwillia`   wow great
+
+`29-06-2016 15:36`   `avsm`   it might well be a good time to topkg them up if oasis gets in the way -- ping me if you get blocked on the build system `mato`
+
+`29-06-2016 15:36`   `mato`   Stared at the _oasis and opam for some time today, no clear plan yet. I'm trying to avoid forking and/or duplicating code.
+
+`29-06-2016 15:36`   `mato`   `avsm`: Will do.
+
+`29-06-2016 15:36`   `dbuenzli`   I'm also available for `topkg` consulting.
+
+`29-06-2016 15:36`   `dbuenzli`   (free)
+
+`29-06-2016 15:36`   `mato`   Thanks. I've not looked at `topkg` yet.
+
+`29-06-2016 15:37`   `avsm`   Ok, thanks for the update! Solo5 support is incredibly exciting
+
+`29-06-2016 15:37`   `avsm`   `GemmaG`: over to the hackathon update!
+
+`29-06-2016 15:37`   `mato`   Cheers
+
+`29-06-2016 15:37`   `avsm`   I have to drop off to cycle across town... over to `GemmaG` and `yomimono` for the rest of the call.  Cheers!
+
+`29-06-2016 15:38`   `hannes`   (can we pls put hackathon projects into canopy instead of into github wikis?)
+
+`29-06-2016 15:38`   `GemmaG`   Yay! Exciting hackathon times indeed - we have 25 signed up so far - I'm going to send a final reminder around to everyone tomorrow
+
+`29-06-2016 15:38`   `GemmaG`   Yes - I'm ok with that - whichever works best :)
+
+`29-06-2016 15:39`   `GemmaG`   I'd like everyone to plan what they are interested in working on, and for us to figure out if there are any blockers to those projects
+
+`29-06-2016 15:39`   `GemmaG`   I had started adding a list to the wiki, but happy to move it to canopy if preferred
+
+`29-06-2016 15:39`   `GemmaG`   Here atm: https://github.com/mirage/mirage-www/wiki/MirageOS-Hackathon-Projects
+
+`29-06-2016 15:40`   `GemmaG`   Some Pioneer Projects might also be interesting/appropriate
+
+`29-06-2016 15:41`   `avsm`   just before i leave, does anyone need hardware brought
+
+`29-06-2016 15:41`   `avsm`   like cubies
+
+`29-06-2016 15:41`   `avsm`   also put them on that wiki
+
+`29-06-2016 15:41`   `avsm`   and if you need wired ethernet etc
+
+`29-06-2016 15:41`   `mato`   wired ethernet is always good
+
+`29-06-2016 15:42`   `djs55`   I think I'll be fine with my laptop provided there's wifi
+
+`29-06-2016 15:42`   `GemmaG`   I'll get a projector etc sorted for any demos
+
+`29-06-2016 15:42`   `yomimono`   If we can be sure to get a lot of temporary wifi codes or whatever from college, that'd be very helpful I think
+
+`29-06-2016 15:42`   `djs55`   yeah I don't have eduroam any more
+
+`29-06-2016 15:42`   `GemmaG`   yup - will do
+
+`29-06-2016 15:43`   `yomimono`   yay! :D
+
+`29-06-2016 15:43`   `mato`   I'd like to do a demo of Mirage/Solo5, will coordinate with `djwillia`...
+
+`29-06-2016 15:43`   `GemmaG`   Great :)
+
+`29-06-2016 15:43`   `djwillia`   really looking forward to meeting everyone in person!
+
+`29-06-2016 15:43`   `yomimono`   :D
+
+`29-06-2016 15:43`   `mato`   `djwillia`: will you be in cambridge for the whole week?
+
+`29-06-2016 15:44`   `djwillia`   yes, i'm flying during the day on sunday and leaving the following saturday
+
+`29-06-2016 15:45`   `mato`   great! looking forward to meeting in person :) i'll be arriving in cambridge monday evening, leaving also on saturday
+
+`29-06-2016 15:45`   `GemmaG`   Excellent!
+
+`29-06-2016 15:45`   `djwillia`   `mato`: will be great
+
+`29-06-2016 15:45`   `mato`   i have to run, gotta go and shift a bunch of servers in 30-degree heat :(
+
+`29-06-2016 15:45`   `djwillia`   `GemmaG`: for the help with accommodation!
+
+`29-06-2016 15:45`   `mato`   see you all later
+
+`29-06-2016 15:45`   `djwillia`   see you `mato`
+
+`29-06-2016 15:46`   `yomimono`   later `mato` - stay cool :)
+
+`29-06-2016 15:46`   `thomasga`   what's the next topic?
+
+`29-06-2016 15:46`   `GemmaG`   Outreachy - but Gina isn't on the call today
+
+`29-06-2016 15:46`   `thomasga`   "how's syslog?"
+
+`29-06-2016 15:46`   `yomimono`   she successfully sent us a log message indicating her planned absence :P
+
+`29-06-2016 15:46`   `thomasga`   ok :-)
+
+`29-06-2016 15:47`   `thomasga`   any other stuff?
+
+`29-06-2016 15:47`   `GemmaG`   She is planning on doing a syslog talk at Velocity in Amsterdam in Nov :)
+
+`29-06-2016 15:47`   `GemmaG`   Think that's about it, unless there is AoB?
+
+`29-06-2016 15:47`   `thomasga`   (I need to run too)
+
+`29-06-2016 15:47`   `yomimono`   sounds like it, then :)
+
+`29-06-2016 15:47`   `yomimono`   thanks everyone!
+
+`29-06-2016 15:47`   `thomasga`   see you all!
+
+`29-06-2016 15:48`   `GemmaG`   :D
+
+`29-06-2016 15:48`   `djwillia`   thanks and bye!
+
