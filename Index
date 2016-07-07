@@ -13,12 +13,14 @@ We'll soon (on July 13th) be in Cambridge (Darwin College) for a single day of w
   * Solo5/unikernel/Mirage integration
   * NickB would like to work on uboot+ocaml+mirage for the Pine64
   * Qi Li - might demo his unikernel with tls for ARM cubietruck
+  * it would be lovely to have a PR for [package version constraints in the mirage tool](https://github.com/mirage/mirage/issues/392)
 
 **Docker:**
 
   * Dave wants to work on VPNkit/Windows/Mirage via a new Lwt engine that is Windows friendly
   * ThomasG/L and the interns and Anil will continue to make progress on the CI system, tailored for Mirage
   * IanC has been helping retire mirage-xen-arm-builder in favour of an Alpine/Moby-based ARM distro, which now works on the Cubieboards.
+  * Mindy (yomimono) will be working to merge your PRs for 3.0 :)
 
 **Schedule for hackathon day/evening:**
 
