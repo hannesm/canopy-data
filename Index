@@ -16,7 +16,8 @@ We'll soon (on July 13th) be in Cambridge (Darwin College) for a single day of w
   * New ARM distribution based on Alpine (Ian Campbell / Anil) that includes Xen and KVM (for an eventual Solo5 port)
   * Qi Li - might demo his unikernel with tls for ARM cubietruck
   * it would be lovely to have a PR for [package version constraints in the mirage tool](https://github.com/mirage/mirage/issues/392)
-  * Test out OCaml 4.04 new features: e.g. [LTO](https://github.com/ocaml/ocaml/pull/608) 
+  * Test out OCaml 4.04 new features: e.g. [LTO](https://github.com/ocaml/ocaml/pull/608)
+  * Remove pre-functoria hacks from mirage front-end tool (side effect: [fix error messages!](https://github.com/mirage/mirage/issues/461)
 
 **Docker:**
 
