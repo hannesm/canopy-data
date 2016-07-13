@@ -4,8 +4,8 @@ author: avsm (Anil Madhavapeddy)
 abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 ---
 
+### Roll Call
 ```
-### Roll Call  
 [15:58] == GemmaG [~Adium@cpc91230-cmbg18-2-0-cust691.5-4.cable.virginm.net] has joined #mirage
 [15:58] <avsm> seangrove: ive got your bootvar-xen issue on the agenda!
 [15:59] == djs55 [~Adium@194.72.166.2] has joined #mirage
@@ -33,9 +33,11 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:05] <amirmc> hi
 [16:05] <avsm> Alright, if anyone else shows up just announce yourself. Yallop is here also.
 [16:05] <lobo> hi
+```
 
 ## Quality
 ### Bulk Builds
+```
 [16:05] <avsm> Let's start with: the quality topic, and bulk builds
 [16:05] <avsm> Bulk builds: the infrastructure is up http://canopy.mirage.io/Posts/Bulk-build
 [16:05] <avsm> Take a moment to read the post
@@ -51,6 +53,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:08] <avsm> Anything else on bulk builds?
 [16:08] <hannes> hi
 [16:08] <avsm> hey hannes!
+```
 
 **Overview**
 * Anil happy with state of bulk builds so far
@@ -62,6 +65,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * Needs volunteer to work on nice HTML
 
 ### Windows Support: Appveyor
+```
 [16:09] <avsm> ok, onto:  Windows support: Appveyor now [active](http://canopy.mirage.io/Posts/ppx-core) on several repos (djs55 and others).
 [16:09] <djs55> I've been adding the appveyor scripts (that samoht wrote originally I think) to various repos
 [16:10] <djs55> the next target is mirage-tcpip: it all builds on windows already but I'm waiting for the mirage-platform 2.4.1 to propagate to fdopen's repo
@@ -79,6 +83,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:12] <djs55> hannes: all yeah mirage-net-unix -> tuntap might be better
 [16:13] <avsm> this is quite positive for us though, since core libraries support windows is getting progressively easier now that we have automation
 [16:13] <avsm> ok, closing out Windows support -- see djs55 as point of contact if more questions :)
+```
 
 **Overview**
 * Fairly easy process, Mirage is portable apart from occasional build system problems
@@ -89,6 +94,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * Potential Pioneer Project - but requires Windows experience
 
 ### Improving Errors and Logging
+```
 [16:13] <avsm> Next:  Improving errors and logging: [http://canopy.mirage.io/Posts/Errors] (talex5)
 [16:14] <talex5> Yeah, I've got it working quite nicely from the user's point of view (you get good errors now), but the issue is how to get this merged before it all bitrots.
 [16:14] <talex5> I think Drup wants to propose a different implementation...
@@ -115,6 +121,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:20] <Drup> hannes: that's why I don't like talex5's way, the API transfers the burden of doing connect correctly to the person writing the configurable
 [16:20] <thomasga> we need more control + sensible defaults
 [16:20] <Drup> configurable are already complicated enough to write
+```
 
 **Overview**
 * Good errors now present, but debates over most appropriate implementation
@@ -124,6 +131,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * Adding Logs support requires changes in Functoria  vs Fixing bootvar and allowing ability to disable completely in Functoria
 
 ### Error reporting and logging in Functoria: mirage-bootvar issue
+```
 [16:20] <avsm> ok, let's treat this bootvar issue as a high priority -- once its fixed, I'd like to have mirage-www continuous deploying onto EC2 as well so that we can keep it working. seliopou's EC2 bindings are now in OPAM...
 [16:20] <seangrove> Indeed, please have a simple + easy out of the box setup story
 [16:20] <thomasga> Drup: to be fair, we don't have many configurable writters
@@ -140,6 +148,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:23] <Drup> (or someone else :p)
 [16:23] <avsm> that would work...
 [16:23] <avsm> ok, so lets eval mirage/mirage 497 and then that will unblock seangrove from doing ec2
+```
 
 **Overview**
 * EC2 boot issues present for a long time...
@@ -150,6 +159,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 
 ## MirageOS Hackathon Summary
 ### Media and stories
+```
 [16:23] <avsm> Next: - MirageOS Hackathon summary!!!
 [16:23] <avsm>   - [Media and stories from hackathon](http://canopy.mirage.io/Posts/Notes)
 [16:24] <GemmaG> People have started sending photos etc - which is great! More of those please!
@@ -164,6 +174,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:25] <engil> \o/
 [16:25] <avsm> if there are missing topics, please do add to canopy
 [16:25] <GemmaG> Most things are covered in Canopy it seems - but I will chase :)
+```
 
 **Overview**
 * Hackathon was awesome - thanks for organising it, Hannes!
@@ -172,6 +183,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * Send Gemma content for blog post
 
 ### Canopy Future & Mirage Dashboard
+```
 [16:25] <avsm>   - [Canopy future](http://canopy.mirage.io/Posts/CanopyFuture) and the [Mirage dashboard](http://canopy.mirage.io/Posts/dashboard)
 [16:25] <hannes> our host complained btw that we were leaving "I've never had such a nice quite group of that size before" (they usually host artists + theatre people)
 [16:26] <avsm> hannes :-)
@@ -213,6 +225,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:33] <hannes> avsm: what I heard at the hackathon is that new people don't know what is going on in MirageOS land... and devs don't know which libs they wanted to release... thus dashboard should give a quick overview (using git + github + opam metadata) on what's up..
 [16:34] <avsm> hannes: yes, i've been losing track as well! a lot of libraries now.
 [16:34] <avsm> Ok, closing this one out unless there's anyhting else.
+```
 
 **Overview**
 * Canopy = user-provided markdown data
@@ -224,6 +237,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * No dashvboard deployment yet - start using it and report issues to Joel
 
 ### Xen ARM builder
+```
 [16:34] <avsm>   - [Xen ARM builder](http://canopy.mirage.io/Posts/Cubieboard2.md) and what to do with it.
 [16:34] <avsm> This distro has been languishing for a little while
 [16:35] <avsm> It was originally a Linaro snapshot but has been hacked on by a lot of people
@@ -243,6 +257,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:37] <hannes> avsm: where to open the issue?
 [16:37] <avsm> we do need to keep track of experimental backends a little bit more, since both solo5 and rump shouldnt bitrot
 [16:37] <avsm> mirage/mirage is fine
+```
 
 **Overview**
 * Dave Tucker working on Alpine-based image which may remove maintenance burden of large image
@@ -253,6 +268,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * Hannes to open an issue to upgrade Rump from 2.6 to 2.7 track (via Martin)
 
 ### Mirleft hacking: SWIM, password key derivation and telnet
+```
 [16:38] <avsm> Onto the biggie at the hackathon!   - Mirleft hacking: [SWIM](http://canopy.mirage.io/Posts/swim), [password key derivation](http://canopy.mirage.io/Posts/pbkdf) and of course [secure telnet](http://canopy.mirage.io/Posts/telnet). IPSec?
 [16:38] <avsm> hannes, over to you...
 [16:38] <hannes> well, swim is andreas' (from citrix copenhagen) project -- sth with cluster gossiping! :)
@@ -281,6 +297,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:43] <hannes> thus: how to handle timeouts in a purely functional way (without depending on lwt?) -- but i've some ideas
 [16:43] <avsm> this challenge also exists in mirage-tcpip
 [16:44] <avsm> we're not great with timeouts..
+```
 
 **Overview**
 * SWIM is Andreas' project - have mentioned to Heidi as related to Raft in OCaml
@@ -293,6 +310,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * IPSec implementation needs testing - no repo yet.
 
 ### Purging camlp4 and moving to ppx
+```
 [16:44] <avsm> ok, take 3 at :   - [Purging camlp4](http://canopy.mirage.io/Posts/Nocamlp4) and [moving to ppx](http://canopy.mirage.io/Posts/ppx-core) means we drop <4.02.0 support.
 [16:44] <avsm> is anyone blocked on anything related to the ppx move?
 [16:45] <avsm> some stubborn library still using camlp4?
@@ -309,6 +327,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:46] == thomasga [~samoht@host86-129-221-115.range86-129.btcentralplus.com] has quit [Client Quit]
 [16:47] <avsm> everyone's encouraged to move to a 4.02 base (except special case libraris like cmdliner or ctypes)
 [16:47] == thomasga [~samoht@host86-129-221-115.range86-129.btcentralplus.com] has joined #mirage
+```
 
 **Overview**
 * Close to camlp4-free build
@@ -320,6 +339,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 
 ## Follow up items
 ### Unikernel install parties
+```
 [16:47] <avsm> That's pretty much the end of the agenda from Canopy: we also had   - Unikernel install party   - MirageOS end-of-year review
 [16:48] <avsm> anyone got any opinions on unikernel install parties? I heard that talex5 had some feedback from the hackathon
 [16:48] == djs55 [~Adium@194.72.166.2] has quit [Quit: Leaving.]
@@ -365,6 +385,7 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 [16:58] <seangrove> Good stuff
 [16:58] <avsm> General impressions of IRC vs Jitsi?
 [16:59] <avsm> useful/not useful? I like that I have multiple open tabs in my browser without having to shout out URLs :)
+```
 
 **Overview**
 * Idea of install parties is to get people up and running with example apps
@@ -373,4 +394,3 @@ abstract: Raw IRC meeting notes on #mirage on Mar23 2016
 * Syslog-log-reporter for the win
 * Generate more compelling uses for unikernels in order to make parties more attractive - e.g nice deploys to EC2
 * Overview of "where to host your unikernel" or similar. Guides or mirage-deploy utility with one-command build/push deployed on common providers
-```
