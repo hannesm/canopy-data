@@ -5,167 +5,176 @@ abstract: First steps using Mirage tutorial
 ---
 
 Onboarding with user M
+- new to OCaml
+- new to Mirage
 - usually works in Python
 
-mirage docs - not completely clear from this page what to do first - installation is quite hidden
+----
 
-personally prefers text form rather than screencast for instructions
+### Documentation: https://mirage.io/docs/
 
-* tuntap - link doesn't work - tuntap website doesn't work
-* needs to be clearer information there about which machine you're using and what you need to have in place already (easy to miss)
+Comments:
 
-* opam install stages
-mostly ok info on installing opam
+* mirage docs - not completely clear from this page what to do first - installation is quite hidden. Might expect the step-by-step process on the left.
+* user personally prefers text form rather than screencast for instructions. But if screencast, need text instructions too.
 
-* install homebrew
-mostly ok info re. this
+### Installation: https://mirage.io/wiki/install
 
-* section off specific reqs with headings so you don't read unnecessary paragraphs, and know which ones to read next
+Comments:
 
-* aspcud had problems downloading using homebrew, was fine when downloaded directly. Homebrew specific issue...
+* requirements section could be clearer - user misread which requirements are needed and tried to download tuntap when not necessary for his use case.
+* tuntap - link doesn't work - tuntap website doesn't work.
 
-IN! Woop (has taken 25 mins to get to this stage from initially starting install)
+* opam install stages - process described well on mirage.io
 
-* homebrew bottle (after install of opam)
-confusing instructions involving eval opam config env
-rather than "add them" - it should specify what you are adding
+* install homebrew - process described well on mirage.io
 
-OPAM instructions:
+* to allow for easy parsing and separation, could section off specific reqs with headings to avoid reading non-essential information, and to make it easier to read relevant information.
 
-not clear on opam.ocaml where the same instructions are for the same process
+**SUCCESS! Woop! (has taken 25 mins to get to this stage from initially starting install)**
 
-Doesn't want to add it to bashrc
+### Homebrew instructions
 
-* need to run opam init before opam update - error is clear but instructions are the wrong way around
+Comments:
 
-* should just say run opam init as it will do all the necessary steps for you - can avoid doing others first!
+* aspcud had problems downloading using homebrew, was fine when downloaded directly. Possibly a homebrew-specific issue.
 
-* * mirageos list of instructions are clear NOT the opam instructions in terminal * *
+* homebrew/bottle (after install of opam)
+has confusing instructions involving eval opam config env...rather than
 
-Mirage: can just add that opam init will offer to install everything you need
+"Run the following to initialize your environment variables:
 
-* Got Mirage :)
+    $  eval `opam config env`
+
+    To export the needed variables every time, add them to your dotfiles."
+
+"add them" it could specify what you are adding. The instructions for setting up the specific compiler switch are well explained on mirage.io :)
+
+### OPAM instructions: https://opam.ocaml.org/doc/Usage.html
+
+Comments:
+
+* Slightly different instructions for the same process - less clear via opam site.
+
+e.g. need to run `opam init` before `opam update` but the reader instructed to update first.
+
+Could add note saying that `opam init` will offer to install everything you need without unnecessary steps
+
+**Got Mirage. ~45 mins total**
 
 ---
 
-Hello World docs
+### Hello World: https://mirage.io/wiki/hello-world
 
-Skipping lwt for now as going through onboarding, but can read later for familiarity
+Comments:
 
-@-> combintator is a good explanation - lwt operators could have something similar - comparisons to other languages e.g. haskell to help with those who have experience with other languages
+* Tutorial notes that reading lwt tutorial first might be helpful, but chose to skip lwt for now.
 
-Very text heavy - instructions, could be sectioned for easier reading - have the above in separate boxes
+* Not sure of OCaml features, e.g what is a console?
 
-Not getting much useful help from all of the text - seems like a lot of it is useful to know, but not helpful as a main tutorial
+  let main =
+    foreign "Unikernel.Main" (console @-> job)
 
-hasn't read the tech background docs, but not sure (from a quick look) that they offer that much more info now - don't bridge the gap sufficiently?
+  let () =
+    register "console" [main $ default_console]
 
-not sure what a job is when reading through - could have it where you click on "job" for a definition
+e.g. could have more information about these functions and definitions - perhaps a clickable link to a definition of them.
 
-Maybe that he doesnt know ocaml well - but for a tutorial we need to cover that base too...
+* User suggested that comparisons to other languages e.g. Haskell to help with those who have experience with other languages
 
-* building unix binary - ok
+* Very text heavy - could be sectioned for easier reading - have the above details in separate boxes.
 
-* step 2: block device section
-useful to have explanation of the different features - e.g if higlighted with an explanation side-by-side so you don't have to leave to find it out
-Not sure if console @-> is a definition of method or somwthing else
+* Not getting much useful help from all of the text - seems like a lot of it is useful to know, but not imperative to the tutorial itself.
 
-e.g no explanation of what foreign is for example
-V1.block link takes you to the definition in blob, but could be more clearly described exactly what pre-requisite knowledge is assumed
+* Hasn't read the tech background docs https://mirage.io/wiki/technical-background, but not sure (from a quick look) that they offer that much more info now - don't bridge the gap sufficiently?
 
-"As an aside, if you have your editor configured with OCaml mode, you should be able to see the inferred types for some of the variables in the configuration file. The @-> and $ combinators are designed such that any mismatches in the declared device driver types and the concrete registered implementations will result in a type error at configuration time." - no link to how to configure your editor for example - assuming a certain level of features set up but not explicitly saying it
+* User keen to stress that it's most likely because their OCaml knowledge is very basic. Perhaps we could have different tutorials based on existing knowledge.
 
-$ cd block
-$ mirage configure --unix
-$ make
-$ ./generate_disk_img.sh *** DOES NOT EXIST
-$ ./mir-block_test *** works ok
+* building unix binary - smooth process.
 
-Can't run xen version - so doesn't need that information - could be hidden/not required reading
+* step 2: block device section. Definitions of functions could be highlighted with an explanation/side-by-side so you don't have to leave the page to find it out.
 
-Skips to step 3
-config.ml does look a little more familiar
+e.g no explanation of what foreign is (or no explanation/link that is easy to find). V1.block link takes you to the definition in blob, but could be more clearly described exactly what pre-requisite knowledge is assumed.
 
-Feels like he might be better placed to read an OCaml tutorial to begin with - what would be a good starter for this?
-Can we link to it...
-ocaml.org/learn/tutorials - crash course of mirage syntax and functions etc
+* "As an aside, if you have your editor configured with OCaml mode..."
 
-$ mirage configure --unix --kv_ro fat
-$ ./make-fat1-image.sh
-$ file fat1.img
-fat1.img: x86 boot sector, code offset 0x0, OEM-ID "ocamlfat",
-sectors/cluster 4, FAT  1, root entries 512, Media descriptor 0xf8,
-sectors/FAT 1, sectors 49 (volumes > 32 MB) , dos < 4.0 BootSector (0x0)
----- doesn't work with 4.03 - we should make it work with 4.03
+No link to how to configure your editor for example.  The tutorial is assuming certain features are set up but not explicitly saying it.
 
-Step 4 Networking
+* Building on Unix:
 
-Not sure what is a function definition
+ $ cd block
+ $ mirage configure --unix
+ $ make
+ $ ./generate_disk_img.sh *** DOES NOT EXIST
+ $ ./mir-block_test *** works ok
 
-open Mirage
+* User can't run xen version - so doesn't need that information - could be hidden/not required reading/separated/sectioned out.
 
-let handler = foreign "Unikernel.Main" (console @-> stackv4 @-> job)
+* Skips to step 3
+config.ml does look a little more familiar - getting more used to OCaml. Feels like reading an OCaml tutorial to begin with might be useful - what would be a good starter for this? Could we link to it at the start of the tutorial? https://ocaml.org/learn/tutorials/ - crash course of mirage syntax and functions.
 
-let stack = generic_stackv4 default_console tap0
+* The following doesn't work with OCaml 4.03
 
-let () =
-  register "stackv4" [handler $ default_console $ stack]
+ $ mirage configure --unix --kv_ro fat
+ $ ./make-fat1-image.sh
+ $ file fat1.img
+ fat1.img: x86 boot sector, code offset 0x0, OEM-ID "ocamlfat",
+ sectors/cluster 4, FAT  1, root entries 512, Media descriptor 0xf8,
+ sectors/FAT 1, sectors 49 (volumes > 32 MB) , dos < 4.0 BootSector (0x0)
 
-Not sure how much he's learning now - would be good if there was an explantion of what they are doing
+* Step 4 Networking: Not sure what is a function definition
 
-went back to read main.ml and unikernel.ml files e.g to find where "main" is defined.
+ open Mirage
 
-Fouad - get it to compile and run - then look at simple code samples (skeleton)
+ let handler = foreign "Unikernel.Main" (console @-> stackv4 @-> job)
 
+ let stack = generic_stackv4 default_console tap0
 
-Getting the idea that you can switch out different parts - e.g. different ways to configure networking
+ let () =
+   register "stackv4" [handler $ default_console $ stack]
 
-But the whole last part is explaining how to do the same thing but in different ways - skimmed through this
+Not sure how much he's learning now - would be good if there was an explanation of what these specific processes are doing that is easy to get to.
 
-The tutorial does suggest checking main.ml to see how it works under the hood, but it's right at the bottom and easy to miss
+* Went back to read main.ml and unikernel.ml files e.g to find where "main" is defined. (The tutorial does suggest checking main.ml to see how it works under the hood, but it's right at the bottom and easy to miss).
 
-**mirage-net-macosx is failing to compile 1.1.0- Marwan on el capitan
-Failed to build - ocamlbuild fail
+* Advice from another new user "F" is get it to compile and run, and then look at simple code samples (skeleton)
+
+* Getting the idea that you can switch out different parts - e.g. different ways to configure networking. But the whole last section is explaining how to do the same thing but in different ways - skimmed through this. This could perhaps be hidden/separate from the main tutorial?
+
+* mirage-net-macosx is failing to compile 1.1.0 User is on el capitan. Failed to build - ocamlbuild fail.
 
 ----
-Next step:
 
-mirage www
+### mirage www: https://mirage.io/wiki/mirage-www
 
-Reading the code as he goes along
+Comments:
 
-unnecessary repetion of cd into certain folders - it's assuming you have cd'd out to top level, but if you are following the tutorial then you would already be in the right place. And assuming you are in a different directory e.g. make prepare. Can we just have it clearly explaining where you should be each time
+* Inconsistent use of `cd` into certain folders - it's assuming you have left the top level, but if you are following the tutorial then you would already be in the right place. It later assumes you are in a different directory e.g. `make prepare`. Would prefer a simple and consistent assumption for each example.
 
-Could have a contents to easily follow and navigate back out again
+* `make prepare` to build javascript elements fails at make build stage:
 
-make prepare:
-to build js
+`install lwt`
+`type_conv`
 
-Fails at make build stage:
-install lwt
-type_conv
+Attempts:
 
-a lot of noise - difficult to tell what is failing where
+Searched for `type_conv` to install separately and searching with the error to see how to workaround. A lot of noise - difficult to tell what is failing where.
 
-add_debu library failing too
-
-so searched for type_conv to install separately and searching with the error to see how to workaround
-
-stuck at this point - can't install type_conv
+Remains stuck at this point - can't install type_conv
 https://github.com/ocaml/opam-repository/issues/4730
 
-maybe need ocaml core?  Needed? but no type_conv - perhaps we need this first?
-Still failed to install :(
+Maybe we need to install `ocaml core`? Still failed to install :(
 
-Running make prepare with core installed again to see if it changes anything
-NO
-tried updates and upgrades - already updated as much as possible
+Running `make prepare` again with core installed this time to see if it changes anything... No.
+
+Tried updates and upgrades - already updated as much as possible.
 
 SKIPPING trying to build it as we can't figure out why it's not building...
 
-getting 4.02.3 to see if it works
+Getting 4.02.3 to see if it works...
 
 ----
 
+### Other comments
 
-Next article - deploying via CI
+* Could have a contents to easily follow and navigate back out again.
