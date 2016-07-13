@@ -8,3 +8,23 @@ author: Dan William, Martin Lucina, Mindy Preston, Anil Madhavapeddy
   Decision: move into `mirage/` since they are parallels to the 
   existing `xen` and `unix` variant repositories that are already there.
 
+
+````
+package                 repo                                    dest & type
+
+mirage                  djwillia/mirage#solo5                   mirage/mirage (upstream pr)
+mirage-solo5            djwillia/mirage-platform#solo5          mirage/mirage-solo5
+mirage-block-solo5      djwillia/mirage-block-solo5             mirage/mirage-block-solo5
+mirage-net-solo5        djwillia/mirage-net-solo5               mirage/mirage-net-solo5
+mirage-bootvar-solo5    djwillia/mirage-bootvar-solo5           mirage/mirage-bootvar-solo5
+mirage-console          djwillia/mirage-console#solo5           mirage/mirage-console-solo5
+mirage-entropy-solo5    mato/mirage-entropy#solo5               leave as is for now (upstream as -freestanding?)
+nocrypto                mato/ocaml-nocrypto#solo5               leave as is for now (upstream)
+ocaml-freestanding      mato/ocaml-freestanding                 mirage/ocaml-freestanding
+solo5-kernel-ukvm       djwillia/solo5                          leave as is for now
+solo5-kernel-virtio     djwillia/solo5                          leave as is for now
+gmp-freestanding        -
+zarith-freestanding     -
+-                       djwillia/opam-solo5                     leave as is for now
+````
+
