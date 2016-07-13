@@ -1,0 +1,10 @@
+---
+title: Solo5 upstreaming
+author: Dan William, Martin Lucina, Mindy Preston, Anil Madhavapeddy
+---
+
+* Got a bunch of repos that are Solo5 specific. Should we move them
+  into a `solo5/` org or into `mirage/`.
+  Decision: move into `mirage/` since they are parallels to the 
+  existing `xen` and `unix` variant repositories that are already there.
+
