@@ -1,0 +1,58 @@
+---
+title: Solo5 upstreaming
+author: Dan Williams, Martin Lucina, Mindy Preston, Anil Madhavapeddy
+---
+
+### Preparation for and upstreaming of Mirage/Solo5
+
+(This section is also copied to the Github tracking issue at djwillia/solo5#36)
+
+1. Decide on repository naming and ownership. We have a bunch of repos that are Solo5 specific. Should we move them into a `solo5/` org or into `mirage/`. Decision: move into `mirage/` since they are parallels to the existing `xen` and `unix` variant repositories that are already there.
+
+  Overall picture of repository/opam/org relationships:
+
+  ````
+OPAM package            Git repository (current)          Git repository (upstream)
+
+mirage                  djwillia/mirage#solo5             mirage/mirage (upstream via pr)
+mirage-solo5            djwillia/mirage-platform#solo5    
+                            >> djwillia/mirage-solo5          mirage/mirage-solo5
+mirage-block-solo5      djwillia/mirage-block-solo5       mirage/mirage-block-solo5
+mirage-net-solo5        djwillia/mirage-net-solo5         mirage/mirage-net-solo5
+mirage-bootvar-solo5    djwillia/mirage-bootvar-solo5     mirage/mirage-bootvar-solo5
+mirage-console          djwillia/mirage-console#solo5
+>> mirage-console-solo5 >> djwillia/mirage-console-solo5  mirage/mirage-console-solo5
+mirage-entropy-solo5    mato/mirage-entropy#solo5         TBD, need to discuss with @hannesm
+nocrypto                mato/ocaml-nocrypto#solo5         TBD, need to discuss with @hannesm
+ocaml-freestanding      mato/ocaml-freestanding           mirage/ocaml-freestanding
+solo5-kernel-ukvm       djwillia/solo5                    leave as is
+solo5-kernel-virtio     djwillia/solo5                    leave as is
+gmp-freestanding        - (opam only)                     -
+zarith-freestanding     - (opam only)                     -
+-                       djwillia/opam-solo5               leave as is
+
+(>> means needs to be renamed)
+````
+
+2. Clean up package and repository relationships based on above:
+  - [x] Extricate `mirage-solo5` from `mirage-platform` fork.
+  - [x] Extricate `mirage-console-solo5` from `mirage-console` fork.
+  - [x] Email Github support to convert forks to normal repositories.
+  - [ ] Once Github "unforks" the requested repositories, transfer them to Mirage org on Github.
+
+4. Publish the `mirage-solo5*` packages to `opam.ocaml.org`.
+  - [ ] Clean up `opam` files for these packages (correct maintainer, repo URLs, ...)
+  - [ ] Cut releases of each package that will be published.
+  - [ ] @mato to Figure out with @hannesm what to do about `mirage-entropy-solo5` and `nocrypto` to avoid any code duplication here.
+
+5. Mirage frontend changes.
+  - [ ] Submit PR for merging Mirage frontend changes from `djwillia/mirage#solo5`
+into `mirage/mirage`.
+
+### Specialization of ukvm binary for the built unikernel
+
+- Discussed with Jeremy Yallop and Thomas Gazagnaire how to get the relevant information for ukvm out of Mirage/Functoria. Current plan is to just trawl
+  through `libraries` looking for `mirage-net-solo5`, `mirage-block-solo5`. Eventually (to support multiple instances of devices) we will query the dependency graph proper.
+- Discussed with Dan Williams how to implement the integration between the mirage-generated unikernel `Makefile` and the ukvm build system. Plan is to have a `ukvm-configure` tool which generates a `Makefile.ukvm`, this gets included by the unikernel Makefile.
+
+
