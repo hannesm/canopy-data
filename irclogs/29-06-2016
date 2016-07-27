@@ -4,6 +4,34 @@ author: unpurecamelbot
 title: Irc discussions from #mirage on 29-06-2016
 tags: irc,log
 ---
+
+`29-06-2016 17:02`     `avsm`    Call agenda for today up here: https://github.com/mirage/mirage-www/wiki/Call-Agenda#29-june
+
+`29-06-2016 17:03`     `avsm`    There wasn't much on quality and test in the agenda, but progress has been made this week in terms of infrastructure and containers.  There's quite a big array on https://hub.docker.com/r/ocaml/opam/ now (see the README)
+
+`29-06-2016 17:04`     `avsm`    Latest Fedora, Ubuntu, OpenSUSE and ARM variations of Alpine are all now there and mostly debugged (some issues left on ARM due to the CPU emulation, when building on x86_
+
+`29-06-2016 17:04`     `hannes`  do they build mirage-skeleton on a regular basis?
+
+`29-06-2016 17:04`     `avsm`    hannes: they do, but the logs go into my personal cron logs. Next steps are to push them somewhere use
+ul, perhaps a Canopy setup
+
+`29-06-2016 17:04`     `mort___` (avsm: fwiw— looks like the line for Alpine armhf is duplicated in that page on hub)
+
+`29-06-2016 17:04`     `avsm`    thomasga and talex5 have been working on a CI as well, hoping to bring that live during the hackathon
+
+`29-06-2016 17:05`     `avsm`    mort___: fixed in https://github.com/avsm/ocaml-dockerfile/commit/8d0b2f0ff9673925f3aa11bfc00bbe32e12d
+472 but well done on noticing :)
+
+`29-06-2016 17:05`     `talex5`  Does this mean Lwt is building on Alpine again now?
+
+`29-06-2016 17:06`     `thomasga`        no
+
+`29-06-2016 17:06`     `thomasga`        just testing that now :-)
+
+`29-06-2016 17:06`     `avsm`    talex5: I'm still not sure exactly how to fix that beyond add conf-ncurses. Should I just go ahead and
+do that?
+
 `29-06-2016 15:06`   `hannes`   `avsm`: cool! any chance you can enlighten where/whether they'll be able to add more testing for https://github.com/mirage/mirage/pull/544 (or what is needed to get this code movement merged?)?
 
 `29-06-2016 15:06`   `thomasga`   but `RUN apk add ncurses-dev` fixes the build
@@ -355,4 +383,3 @@ tags: irc,log
 `29-06-2016 15:48`   `GemmaG`   :D
 
 `29-06-2016 15:48`   `djwillia`   thanks and bye!
-
