@@ -1,0 +1,440 @@
+---
+participants: Drup,GemmaG,amirmc,avsm,dbuenzli,djwillia,hannes,mattg,noddy,seangrove,talex5,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 27-07-2016
+tags: irc,log
+---
+`27-07-2016 14:58`   `dbuenzli`   @unpurecamelbot Bravo.
+
+`27-07-2016 15:00`   `yomimono`   Hello! It's time for our fortnightly catch-up..
+
+`27-07-2016 15:01`   `djwillia`   hi all!
+
+`27-07-2016 15:01`   `noddy`   let the catch-up....
+
+`27-07-2016 15:01`   `yomimono`   The agenda is available at https://github.com/mirage/mirage-www/wiki/Call-Agenda !
+
+`27-07-2016 15:01`   `noddy`   ... begin.
+
+`27-07-2016 15:01`   `yomimono`   Please feel free to add items that you'd like to discuss today.
+
+`27-07-2016 15:02`   `yomimono`   Here's a moment to wave if you want unpurecamelbot to record that you were here!
+
+`27-07-2016 15:02`   `yomimono`   waves
+
+`27-07-2016 15:02`   `avsm`   Group greets!
+
+`27-07-2016 15:02`   `noddy`   waves
+
+`27-07-2016 15:02`   `talex5`   ~
+
+`27-07-2016 15:02`   `amirmc`   yo
+
+`27-07-2016 15:02`   `dbuenzli`   v
+
+`27-07-2016 15:02`   `djwillia`   o/
+
+`27-07-2016 15:03`   `GemmaG`   :)
+
+`27-07-2016 15:03`   `yomimono`   So first on the agenda is our recurring "quality and test" item.
+
+`27-07-2016 15:03`   `mattg`   waves
+
+`27-07-2016 15:04`   `yomimono`   Nobody's noted anything, but perhaps now's a good moment to mention that I broke all of our tests by releasing a version of functoria with an undeclared hard dependency.
+
+`27-07-2016 15:04`   `yomimono`   Oops.
+
+`27-07-2016 15:04`   `yomimono`   If `dbuenzli` or any other topkg expert could have a look at https://github.com/mirage/functoria/issues/67 , I'd appreciate it.
+
+`27-07-2016 15:04`   `talex5`   Could we add some REVDEPS to detect that in future?
+
+`27-07-2016 15:05`   `avsm`   exciting news on that front
+
+`27-07-2016 15:05`   `Drup`   `yomimono`: it's not really your fault
+
+`27-07-2016 15:05`   `Drup`   I blame the topkg transition :>
+
+`27-07-2016 15:05`   `yomimono`   drup: me too :P
+
+`27-07-2016 15:05`   `avsm`   I now have a DataKit VM with GitHub integration working thanks to `talex5` and samoht -- with a little easter egg here https://github.com/mirage/ocaml-github/pull/110 (look at the bottom)
+
+`27-07-2016 15:06`   `yomimono`   `avsm`: can you tell us why that's rad real quick?
+
+`27-07-2016 15:06`   `avsm`   So I'm working on checking that DataKit wont destroy all our repositories by using it on a few small repositories first, but then hooking in REVDEPS tests as the first thing it checks
+
+`27-07-2016 15:07`   `avsm`   the 50 minute limit is what was blocking REVDEPS before
+
+`27-07-2016 15:07`   `hannes`   github #110 is sexp support..?!??
+
+`27-07-2016 15:07`   `avsm`   This will let us write custom CI checks that: 1) directly interface with OPAM 2) do not have a 50 minute limit and 3) run on our infrastructure (so can deploy archive servers and so on) and 4) are multidistro
+
+`27-07-2016 15:07`   `avsm`   `hannes`: look at the "Some checks were not successful" box at the bottom
+
+`27-07-2016 15:07`   `yomimono`   I think `avsm` wants us to scroll all the way down and see that there's a continuous-integration/anil-testing/pr in addition to travis-ci and appveyor
+
+`27-07-2016 15:07`   `avsm`   DataKit makes it really easy to hook in custom stuff there
+
+`27-07-2016 15:08`   `yomimono`   so we might have non-terrible CI sometime soon :D
+
+`27-07-2016 15:09`   `avsm`   in fact, it live updates
+
+`27-07-2016 15:09`   `avsm`   keep an eye on that URL now...
+
+`27-07-2016 15:09`   `yomimono`   that's indeed exciting! it will be great when we can see some updates -- right now I just get a link to anil.recoil.org
+
+`27-07-2016 15:09`   `yomimono`   which is a nice website but a bit scant on details
+
+`27-07-2016 15:10`   `yomimono`   unless there's more on this, let's move on
+
+`27-07-2016 15:10`   `djwillia`   that's awesome! hello-`hannes` tests should be standard
+
+`27-07-2016 15:10`   `avsm`   that's pretty much it! more as we get it working
+
+`27-07-2016 15:11`   `yomimono`   great!
+
+`27-07-2016 15:11`   `yomimono`   next up we've got an item to discuss "ocamlfind predicates", which is really a discussion of this pr:
+
+`27-07-2016 15:11`   `yomimono`   https://github.com/mirage/mirage/pull/568
+
+`27-07-2016 15:12`   `yomimono`   I don't see pqwy here but maybe I should be looking for a different name on irc?
+
+`27-07-2016 15:12`   `noddy`   i already waved!
+
+`27-07-2016 15:12`   `yomimono`   oh! sorry!
+
+`27-07-2016 15:12`   `yomimono`   want to give us a quick summary?
+
+`27-07-2016 15:13`   `noddy`   yeah; i want to externalize dep resolution from the mirage tool a bit. we have a nice language where we can do stuff like separately compile against a particular interface, then link against a particular implementation later on. i'd like to use that in mirage.
+
+`27-07-2016 15:14`   `noddy`   note that this is less "linking tricks" pr and more "let's make ocamlfind know about targets, there's stuff it knows how to do" pr.
+
+`27-07-2016 15:14`   `avsm`   Its true that this does duplicate some ocamlfind functionality
+
+`27-07-2016 15:15`   `avsm`   and we do have a hard dependency on ocamlfind right now for everything else
+
+`27-07-2016 15:15`   `avsm`   so pushing the linking hacks into ocamlfind lets us focus on "migrate all ocamlfind functionality" in the future
+
+`27-07-2016 15:15`   `noddy`   it's also a dep hack; you can condition dep on a predicate in ocamlfind.
+
+`27-07-2016 15:16`   `avsm`   yeah, which could be useful to help us compile multiple C library variants, e.g. across solo5/xen
+
+`27-07-2016 15:16`   `dbuenzli`   Note that this solution actually scales with the number of backends and avoids solving problems by encoding them as package names.
+
+`27-07-2016 15:16`   `avsm`   I'm broadly in favour, with `talex5`'s caution noted: we should encourage library authors to not depend on this functionality
+
+`27-07-2016 15:16`   `avsm`   _as an abstraction mechanism_
+
+`27-07-2016 15:17`   `noddy`   it's unclear to me where this can lead. it could certainly be abused.
+
+`27-07-2016 15:17`   `dbuenzli`   What are the exact dangers ?
+
+`27-07-2016 15:17`   `noddy`   it can also be nicely used to automate satisfaction of a single interface without stuff downstream being tainted by the same problem
+
+`27-07-2016 15:18`   `noddy`   people playing _nasty_ linking tricks i guess
+
+`27-07-2016 15:18`   `dbuenzli`   It's not tricks.
+
+`27-07-2016 15:18`   `noddy`   my mind cannot anticipate all the horrid abuses of this people can come up with.
+
+`27-07-2016 15:18`   `avsm`   yeah. they're really a valid part of the toolchain from ocaml land
+
+`27-07-2016 15:18`   `dbuenzli`   It link time selection of implementation.
+
+`27-07-2016 15:18`   `dbuenzli`   its
+
+`27-07-2016 15:18`   `avsm`   and ocaml blocks you from the worst errors via CRC checks
+
+`27-07-2016 15:18`   `dbuenzli`   it's
+
+`27-07-2016 15:18`   `noddy`   in this usage, it is
+
+`27-07-2016 15:18`   `noddy`   and it this usage it's kosher imho
+
+`27-07-2016 15:19`   `hannes`   can we pass the CFLAGS this way as well?
+
+`27-07-2016 15:19`   `avsm`   the danger is in C libraries really -- should we decide on a convention where C archives have their own predicate names that are reserved for them?
+
+`27-07-2016 15:19`   `avsm`   `hannes`: not cflags, but we can pick a predicate name for a CFLAGS definition and always use that
+
+`27-07-2016 15:19`   `avsm`   but cant enforce it
+
+`27-07-2016 15:19`   `dbuenzli`   C libraries should be recorded in the archive implementations
+
+`27-07-2016 15:19`   `noddy`   we already have that convention
+
+`27-07-2016 15:19`   `noddy`   it's called xen_linkflags.
+
+`27-07-2016 15:19`   `noddy`   and freestanding_linkflags.
+
+`27-07-2016 15:19`   `avsm`   yeah
+
+`27-07-2016 15:20`   `noddy`   in this case, not too much is gained:
+
+`27-07-2016 15:20`   `noddy`   as ld is called directly (on all targets i checked), extra logic is needed to extract linkflags(predicate) from METAs and propagate that to the ld invocation
+
+`27-07-2016 15:20`   `noddy`   so at best, we standardize on a standard META field as opposed to inventing arbitraty ones
+
+`27-07-2016 15:21`   `noddy`   if the final linking is done via ocamlfind, then it becomes automagic
+
+`27-07-2016 15:21`   `noddy`   but still... i want ocamlfind to know about the target. it's useful.
+
+`27-07-2016 15:21`   `avsm`   I think it's worth the experiment, particularly as we continue solo5 merging
+
+`27-07-2016 15:21`   `talex5`   Would be very good to have ocamlfind get the linker flags, not mirage, indeed.
+
+`27-07-2016 15:21`   `avsm`   we can always revert it if it goes wrong before the mirage3 release
+
+`27-07-2016 15:22`   `noddy`   it can't go wrong in itself
+
+`27-07-2016 15:22`   `dbuenzli`   Well I have a picture drawn in my notebook by pqwy in what the future looks without this, it's not pretty I can scan it if you want.
+
+`27-07-2016 15:22`   `noddy`   and if someone uses it for diabolical schemes... we can rant against them on twitter!
+
+`27-07-2016 15:22`   `dbuenzli`   (and it's for a library which shouldn't be tied to mirage, nocrypto)
+
+`27-07-2016 15:23`   `noddy`   ok, related --
+
+`27-07-2016 15:23`   `avsm`   ok, sounds like we have consensus on a merge then...
+
+`27-07-2016 15:23`   `noddy`   this pr in itself enables certain things, and one of those is shimming OS
+
+`27-07-2016 15:23`   `noddy`   i'd like to draft a signature for this and get it somewhere, say, in types
+
+`27-07-2016 15:23`   `noddy`   so that all implementations can depend on, and check against, the same sig
+
+`27-07-2016 15:24`   `hannes`   `noddy`: you mean integrating your mirage-os-shim back into mirage-types?
+
+`27-07-2016 15:24`   `noddy`   no, i mean spelling out the signature os several modules in OS and having that signature in mirage-types
+
+`27-07-2016 15:25`   `noddy`   and having implementations import that signature as opposed to either copying it, or symlinking (as xen->unix does in some places)
+
+`27-07-2016 15:25`   `talex5`   Design question: should anyone except main.ml use OS directly?
+
+`27-07-2016 15:25`   `noddy`   i wrote i library that hooks into the event loop
+
+`27-07-2016 15:25`   `noddy`   s:i:a:
+
+`27-07-2016 15:26`   `avsm`   `talex5`: OS gets increasingly hard to maintain consistently as we add backends, so no
+
+`27-07-2016 15:26`   `avsm`   witness the lifecycle design conversation
+
+`27-07-2016 15:26`   `avsm`   just xen's suspend/resume model is sufficiently different from a hardware one
+
+`27-07-2016 15:27`   `talex5`   `avsm`: OK. We should document that somewhere (if we didn't already).
+
+`27-07-2016 15:27`   `mattg`   when I was first looking at Mirage, OS seemed like it didn't fit with the rest of mirage-types and was confusing to me
+
+`27-07-2016 15:27`   `avsm`   yeah, agreed.
+
+`27-07-2016 15:28`   `yomimono`   concur, you're not the only one who's been confused
+
+`27-07-2016 15:28`   `avsm`   its an evolutionary thing as well: we started off with OS about 5 years ago and then slowly disentangled it into smaller module
+
+`27-07-2016 15:28`   `noddy`   in that case, big chunks need to be moved to mirage-types and provided as functor parameters
+
+`27-07-2016 15:28`   `avsm`   guess it's time to kick the remainder to the kerb
+
+`27-07-2016 15:29`   `djwillia`   (have to drop off early - sorry bout that - bye all!)
+
+`27-07-2016 15:30`   `talex5`   https://github.com/mirage/mirage-platform/issues/170
+
+`27-07-2016 15:30`   `avsm`   move on then `yomimono` ?
+
+`27-07-2016 15:30`   `yomimono`   let's!
+
+`27-07-2016 15:31`   `yomimono`   next up is tracking issues for mirage 3.0
+
+`27-07-2016 15:31`   `yomimono`   `avsm` and gemmag, want to share what you've posted?
+
+`27-07-2016 15:31`   `yomimono`   I'll hit submit on my in-progress one in the meantime
+
+`27-07-2016 15:32`   `avsm`   looks like gemmag's issue got quite a lot of traffic in a short period of time
+
+`27-07-2016 15:32`   `GemmaG`   I added a list of smaller things we could tackle on mirage.io https://github.com/mirage/mirage/issues/569
+
+`27-07-2016 15:32`   `GemmaG`   which is quickly becoming a larger list :P
+
+`27-07-2016 15:32`   `avsm`   i've picked off some of the low hanging fruit (linked canopy from main page, etc) and am working on twiopam to generate changelogs more easily
+
+`27-07-2016 15:33`   `GemmaG`   I'm new to the issues etiquette, so apologies for mistakes :)
+
+`27-07-2016 15:33`   `avsm`   http://gist.github.com/bactrian has some early examples, need to skin them properly
+
+`27-07-2016 15:33`   `avsm`   `GemmaG`: all looks good to me, thanks for tracking the comments as well!
+
+`27-07-2016 15:33`   `avsm`   On the information architecture question, I've somewhat radically been learning the latest HTML wizardry again
+
+`27-07-2016 15:34`   `GemmaG`   As @`hannes` mentioned, it might require a bigger-picture thought process, but there are some quick and small changes that might make a huge difference
+
+`27-07-2016 15:34`   `avsm`   I wrote the current Zurb one in a couple of days a few christmases ago, so it needs a refresh quite sorely
+
+`27-07-2016 15:34`   `avsm`   i reckon make the quick changes now to bring things up to a reasonable level, and then we can whiteboard up a few ideas for what the new website should look like closer to the 3.0 launch
+
+`27-07-2016 15:35`   `avsm`   i'm keen to automate the library tracking as much as possible, it's just not sustainable by any manual means any more
+
+`27-07-2016 15:35`   `dbuenzli`   Note that one problem with automated tracking is that it can quickly become noise.
+
+`27-07-2016 15:37`   `avsm`   yes absolutely
+
+`27-07-2016 15:37`   `avsm`   we still need curated newsletters and such, like the OCaml weekly news
+
+`27-07-2016 15:38`   `avsm`   so the feed isn't necessarily for direct human consumption, but it needs to exist for someone (even if just the weekly news editor)
+
+`27-07-2016 15:39`   `yomimono`   personally, anything less noisy than watching opam-repository via github would be an improvement
+
+`27-07-2016 15:39`   `avsm`   seconds that
+
+`27-07-2016 15:39`   `avsm`   not that i can escape from having to watch it :P
+
+`27-07-2016 15:39`   `hannes`   as posted several moons ago to mirageos-devel, there's a bot watching tons of mirage repos https://github.com/miragebot.private.atom?token=ARh4hnusZ1kC_bQ_Q6_HUzQteEEGTqy8ks61Fm2LwA== is its rss feed..
+
+`27-07-2016 15:40`   `hannes`   (but certainly records changes, not releases)
+
+`27-07-2016 15:41`   `yomimono`   that's... also very noisy
+
+`27-07-2016 15:41`   `yomimono`   (sorry bot, it's not your fault :( )
+
+`27-07-2016 15:42`   `yomimono`   if nobody objects, I'd also like to get some eyes on https://github.com/mirage/mirage/issues/571 , which is the beginning of a tracking issue for mirage 30
+
+`27-07-2016 15:42`   `yomimono`   er, 3.0
+
+`27-07-2016 15:42`   `yomimono`   we're not skipping that many numbers
+
+`27-07-2016 15:42`   `hannes`   mirage 95!
+
+`27-07-2016 15:42`   `yomimono`   (there are large unlsted items which are already completed, among them solo5!)
+
+`27-07-2016 15:43`   `GemmaG`   I'm looking into options for a regular newsletter too - one that is more curated than the Weekly News, and combines all the info. Currently there are a few sources where things are missed. Suggestions and ideas welcome :)
+
+`27-07-2016 15:43`   `yomimono`   `GemmaG` - that would be a general OCaml newsletter, right?
+
+`27-07-2016 15:44`   `yomimono`   mentioning for the benefit of others here who might have more to add on that than a Mirage-specific one :)
+
+`27-07-2016 15:44`   `GemmaG`   Possibly yes - it started off being more of an OCaml Labs newsletter, but it makes sense to incorporate OCaml as a whole
+
+`27-07-2016 15:44`   `dbuenzli`   Well I think caml weekly news does a good job at that.
+
+`27-07-2016 15:45`   `dbuenzli`   Especially the ocaml mailing list is very well curated
+
+`27-07-2016 15:45`   `avsm`   yeah, so something a bit more mirage specific makes sense on those lines
+
+`27-07-2016 15:45`   `dbuenzli`   (and nowadays we have the blog posts of the planet + outsanding PR to the ocaml compiler)
+
+`27-07-2016 15:45`   `avsm`   the caml weekly news is fantastic
+
+`27-07-2016 15:46`   `avsm`   I find the Planet blog posts to be the opposite of the Caml Weekly News: automated noise that often have little to do with OCaml or Mirage
+
+`27-07-2016 15:46`   `dbuenzli`   I mean we have the blog posts of the planet in the caml-weekly news ( I don't know if they are curated though)
+
+`27-07-2016 15:47`   `GemmaG`   I found a lot of content from other sources that aren't in the weekly newsletter and the planet blog - it would be good to incorporate them too
+
+`27-07-2016 15:47`   `avsm`   so a "social" version of the Caml weekly news with interesting blog posts/links would be great, or offering to help Alan collate those and add them to his newsletter
+
+`27-07-2016 15:47`   `GemmaG`   Yes - I think getting in touch with Alan is a good plan
+
+`27-07-2016 15:47`   `avsm`   Sounds good to me! Happy to help hook in data feeds for this
+
+`27-07-2016 15:48`   `GemmaG`   July round up so far: https://gist.github.com/`GemmaG`/c0bc1495e521c2b3006d21e6b8f92b25
+
+`27-07-2016 15:49`   `GemmaG`   There's a lot mentioned on Twitter for example that isn't part of the weekly news/planet blogs. I don't want to repeat content and add to noise, but having one place for ALL the info would be good
+
+`27-07-2016 15:49`   `GemmaG`   :)
+
+`27-07-2016 15:49`   `dbuenzli`   But twitter is for brain farts.
+
+`27-07-2016 15:49`   `GemmaG`   hahahah :P
+
+`27-07-2016 15:49`   `yomimono`   we've gotten a bit off-track, so maybe I could suggest that anyone with more additions contact `GemmaG` out-of-band?
+
+`27-07-2016 15:49`   `avsm`   I eat a lot of beans
+
+`27-07-2016 15:49`   `avsm`   good plan `yomimono`
+
+`27-07-2016 15:49`   `yomimono`   `dbuenzli`: also very important cat photos?
+
+`27-07-2016 15:49`   `yomimono`   wait, I meant !, not ?
+
+`27-07-2016 15:49`   `GemmaG`   Yes - please do :)
+
+`27-07-2016 15:50`   `yomimono`   next (I think? we got a bit lost) is that solo5 got merged!! yaaaaaay!
+
+`27-07-2016 15:50`   `yomimono`   sorry we didn't get to it before `djwillia` had to leave :(
+
+`27-07-2016 15:50`   `avsm`   WOOP!
+
+`27-07-2016 15:50`   `avsm`   dan had to go and martin is on a well deserved vacation
+
+`27-07-2016 15:50`   `noddy`   *BEST THING EVER*
+
+`27-07-2016 15:50`   `seangrove`   *wow*
+
+`27-07-2016 15:50`   `avsm`   but i am currently trying to compile up a static mirage-www without tls to go live
+
+`27-07-2016 15:51`   `hannes`   tls works..
+
+`27-07-2016 15:51`   `avsm`   got the KVM machine up now, so it'll be on solo5.mirage.io soon
+
+`27-07-2016 15:51`   `yomimono`   which is the next agenda item! yay!
+
+`27-07-2016 15:51`   `avsm`   is entropy all working now `hannes`?
+
+`27-07-2016 15:51`   `noddy`   NO.
+
+`27-07-2016 15:51`   `hannes`   `noddy`: hmm?
+
+`27-07-2016 15:51`   `noddy`   we discussed that 10 minutes ago, no?
+
+`27-07-2016 15:51`   `hannes`   well, so I do have entropy using some branches , see mirage-dev repo... `noddy` has fixes for build systems which avoid some copying around
+
+`27-07-2016 15:52`   `avsm`   anyway, static website incoming first without TLS as I'm keen to have a simpler version anyway
+
+`27-07-2016 15:53`   `dbuenzli`   Who needs tls anyways the certificate system is broken.
+
+`27-07-2016 15:53`   `yomimono`   `dbuenzli`: ...is this leading to a concrete proposal for something interesting?
+
+`27-07-2016 15:54`   `dbuenzli`   Yes drop support for it. Things get simpler.
+
+`27-07-2016 15:54`   `noddy`   steganography all the way
+
+`27-07-2016 15:55`   `avsm`   alright, off topic... :-)
+
+`27-07-2016 15:55`   `yomimono`   looks like that's where `avsm` is going, so yay.  if that resolves everyone's questions about the current state of entropy, let's move on
+
+`27-07-2016 15:55`   `yomimono`   I stuck a hackathon recap item on the agenda but I don't think it's super necessary unless anyone else has something they're desperate to discuss
+
+`27-07-2016 15:56`   `yomimono`   going once, going twice...
+
+`27-07-2016 15:56`   `noddy`   the food was gone too early?
+
+`27-07-2016 15:56`   `yomimono`   noted.
+
+`27-07-2016 15:56`   `noddy`   thank you.
+
+`27-07-2016 15:56`   `avsm`   ENOTENOUGHWINE
+
+`27-07-2016 15:56`   `noddy`   no, there was plenty of that. :D
+
+`27-07-2016 15:56`   `yomimono`   unpurecamelbot, got that?
+
+`27-07-2016 15:57`   `yomimono`   `avsm`, tell us about TWiOPAM.
+
+`27-07-2016 15:57`   `avsm`   Done already, will figure out best way to hook it in
+
+`27-07-2016 15:57`   `avsm`   (if you scroll up to the website discussion, future log readers)
+
+`27-07-2016 15:58`   `yomimono`   great.  next item is mirage.io updates and improvements, which I believe we've also already discussed?
+
+`27-07-2016 15:58`   `yomimono`   in that case, any other business?
+
+`27-07-2016 15:59`   `yomimono`   hearing none, I declare this meeting a resounding success..
+
+`27-07-2016 15:59`   `yomimono`   everyone did a great job except my . key.
+
+`27-07-2016 15:59`   `avsm`   woop woop. thanks everyone!
+
+`27-07-2016 15:59`   `noddy`   \O/ \O_
+
+`27-07-2016 16:00`   `dbuenzli`   bye
+
+`27-07-2016 16:00`   `noddy`   .o| \O/ |O/
+
