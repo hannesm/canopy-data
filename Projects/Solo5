@@ -1,7 +1,12 @@
 ---
-title: Solo5 upstreaming
+title: Solo5
 author: Dan Williams, Martin Lucina, Mindy Preston, Anil Madhavapeddy
+abstract: tiny, specialized monitor as mirage backend
+tags: active project, backend, kvm, virtio
 ---
+
+- [code](https://github.com/solo5/solo5)
+- Status: upstream [done](https://github.com/mirage/mirage/pull/565) in mirage master, improvements on the way (virtio, modularization, more platforms)
 
 ### Preparation for and upstreaming of Mirage/Solo5
 
@@ -15,7 +20,7 @@ author: Dan Williams, Martin Lucina, Mindy Preston, Anil Madhavapeddy
 OPAM package            Git repository (current)          Git repository (upstream)
 
 mirage                  djwillia/mirage#solo5             mirage/mirage (upstream via pr)
-mirage-solo5            djwillia/mirage-platform#solo5    
+mirage-solo5            djwillia/mirage-platform#solo5
                             >> djwillia/mirage-solo5          mirage/mirage-solo5
 mirage-block-solo5      djwillia/mirage-block-solo5       mirage/mirage-block-solo5
 mirage-net-solo5        djwillia/mirage-net-solo5         mirage/mirage-net-solo5
@@ -38,15 +43,15 @@ zarith-freestanding     - (opam only)                     -
   - [x] Extricate `mirage-solo5` from `mirage-platform` fork.
   - [x] Extricate `mirage-console-solo5` from `mirage-console` fork.
   - [x] Email Github support to convert forks to normal repositories.
-  - [ ] Once Github "unforks" the requested repositories, transfer them to Mirage org on Github.
+  - [x] Once Github "unforks" the requested repositories, transfer them to Mirage org on Github.
 
 4. Publish the `mirage-solo5*` packages to `opam.ocaml.org`.
-  - [ ] Clean up `opam` files for these packages (correct maintainer, repo URLs, ...)
-  - [ ] Cut releases of each package that will be published.
+  - [x] Clean up `opam` files for these packages (correct maintainer, repo URLs, ...)
+  - [x] Cut releases of each package that will be published.
   - [ ] @mato to Figure out with @hannesm what to do about `mirage-entropy-solo5` and `nocrypto` to avoid any code duplication here.
 
 5. Mirage frontend changes.
-  - [ ] Submit PR for merging Mirage frontend changes from `djwillia/mirage#solo5`
+  - [x] Submit PR for merging Mirage frontend changes from `djwillia/mirage#solo5`
 into `mirage/mirage`.
 
 ### Specialization of ukvm binary for the built unikernel

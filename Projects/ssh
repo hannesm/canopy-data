@@ -1,0 +1,10 @@
+---
+author: haesbaert (Christiano Haesbaert)
+title: SSH
+abstract: ssh implementation
+tags: active project, protocol, security
+---
+
+- [code](https://github.com/haesbaert/awa-ssh)
+
+[SSH](https://tools.ietf.org/html/rfc4251) is a common protocol used for secure shell access to remote machines. It would be very useful to have an implementation for Mirage, enabling unikernels to provide simple, secure command-line access. An early implementation by @avsm exists at @avsm/ocaml-ssh but requires considerable updating: swapping out `ounix` for `Lwt`, removing the MPL extensions in favour of `Cstruct`, using modules in preference to objects, and a number of other items.

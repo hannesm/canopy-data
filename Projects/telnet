@@ -2,7 +2,11 @@
 title: telnet
 author: hannes
 abstract: good old protocols
+tags: active project, protocol
 ---
+
+- [code](https://github.com/hannesm/telnet)
+- Status: works, needs more testing and support for more features
 
 Telnet - TERminal over NETwork - describes NVT (network virtual terminal) and
 operations on it.  It allows a local client to access a remote terminal

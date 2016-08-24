@@ -2,6 +2,7 @@
 title: Releasing PPX libraries for Mirage core
 author: djs55 (Dave Scott)
 abstract: Making Mirage core ppx based and improving Windows support
+tags: project done, janitor
 ---
 
 I've been going through all the core libraries in Mirage and refreshing them to:

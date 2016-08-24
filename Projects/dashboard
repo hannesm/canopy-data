@@ -2,7 +2,11 @@
 title: MirageOS Dashboard
 author: rudenoise (Joel Hughes)
 abstract: A dashboard displaying useful data from MirageOS project and its related libraries.
+tags: active project, http
 ---
+
+- [code](https://github.com/rudenoise/mirage-dashboard)
+- Status: [running](https://rudenoise.github.io/mirage-dashboard/), contribution welcome
 
 MirageOS is continually updating/improving, keeping track of these changes is tricky.
 

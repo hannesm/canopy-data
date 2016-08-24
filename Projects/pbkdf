@@ -2,6 +2,7 @@
 title: ocaml-pbkdf 0.1.0 released
 author: abeaumont (Alfredo Beaumont)
 abstract: New PBKDF library using nocrypto has been published
+tags: project done, security
 ---
 
 Over the last few days we have been working on password based key derivation functions as defined by [PKCS#5](https://tools.ietf.org/html/rfc2898) over [nocrypto](https://github.com/mirleft/ocaml-nocrypto).

@@ -2,6 +2,7 @@
 title: Bye-bye camlp4
 author: samoht (Thomas Gazagnaire)
 abstract: Removing Camlp4 from MirageOS
+tags: project done, janitor
 ---
 
 My goal yesterday was to compile `mirage-www` without `camlp4`.  That

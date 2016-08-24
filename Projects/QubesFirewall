@@ -1,0 +1,19 @@
+---
+title: Qubes Firewall
+author: talex5
+tags: active project, network
+abstract: improve Qubes Firewall
+---
+
+- [code](https://github.com/talex5/qubes-mirage-firewall)
+- Status: running
+
+[QubesOS][] is a desktop operating system that runs applications in different Linux VMs for added security. [mirage-firewall][] can be used to provide firewalling, routing and NAT for the application VMs.
+There are lots of ways this could be extended: see [A Unikernel Firewall for QubesOS][] for some suggestions.
+
+See also: the discussion [Unikernels and Qubes](https://groups.google.com/forum/#!topic/qubes-users/h03-1hiNMCc) on the qubes-users list.
+
+[QubesOS]: https://www.qubes-os.org/
+[mirage-qubes]: https://github.com/talex5/mirage-qubes
+[mirage-firewall]: https://github.com/talex5/qubes-mirage-firewall
+[A Unikernel Firewall for QubesOS]: http://roscidus.com/blog/blog/2016/01/01/a-unikernel-firewall-for-qubesos/

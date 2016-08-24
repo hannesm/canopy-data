@@ -1,0 +1,27 @@
+---
+title: Irmin
+author: [Thomas Gazagnaire](https://github.com/samoht)
+abstract: distributed database that follows the same design principles as Git
+tags: active project, irmin, head wanted
+---
+
+- [code](https://github.com/mirage/irmin/)
+- Status: running
+
+Several extension should be developed (heads wanted there):
+
+### Garbage collector
+
+`git gc` is an efficient command which compress "live" objects in Git repositories and remove unused ones. It consists at going through the graph of object in one go to find the live objects (the roots being pointed out byt the references) and then use an efficient sliding-window compression method to generate a pack file. It would be nice to (i) re-implement the same algorithm to be used on any kind of Irmin store (not only Git ones) and evaluate it against `git gc`; and (ii) explore alternative GC strategies with different trade-offs.
+
+Related issue: [mirage/irmin#96](https://github.com/mirage/irmin/issues/71)
+
+### Local synchronisation between Git repositories
+
+[ocaml-git](https://github.com/mirage/ocaml-git) is an implementation of Git in pure OCaml. It currently supports only a subset of the Git protocols. It would be nice to extend it to support synchronisation between local repositories.
+
+Related issue: [mirage/ocaml-git#27](https://github.com/mirage/ocaml-git/issues/27)
+
+### Git server
+
+[Git server-side implementation](https://github.com/mirage/ocaml-git/issues/15)

@@ -1,0 +1,9 @@
+---
+author: djs55 ([David Scott](https://github.com/djs55))
+title: tiny VM for easy load testing
+tags: active project, head wanted
+---
+
+### Create a tiny VM for easy load testing
+
+The goal of this project is to create a specific unikernel that can be configured to generate a specific I/O pattern, and to create configurations that mimic the boot sequence of Linux and Windows guests. The resulting unikernel will then enable cheap system load testing. The first task is to generate an I/O trace from a VM. For this we could use 'xen-disk', a userspace Mirage application which acts as a block backend for xen guests (see http://openmirage.org/wiki/xen-synthesize-virtual-disk). Following the wiki instructions we could modify a 'file' backend to log the request timestamps, offsets, buffer lengths. The second task is to create a simple kernel based on one of the MirageOS examples (see http://github.com/mirage/mirage-skeleton). The 'block' example shows how reads and writes are done. The previously-generated log could be statically compiled into the kernel and executed to generate load.  Outcomes would be (1) a repository containing a unikernel (see http://github.com/mirage/mirage-skeleton) and (2) at least 2 I/O traces, one for Windows boot and one for Linux boot (any version).

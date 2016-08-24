@@ -1,0 +1,20 @@
+---
+title: CoHTTP
+author: avsm ([Anil Madhavapeddy](https://github.com/avsm/))
+tags: head wanted, active project, http
+abstract: a HTTP implementation in OCaml
+---
+
+- [code](https://github.com/mirage/ocaml-cohttp)
+
+Several subprojects need help:
+
+### Caching Web Proxy
+
+[Requirements for a cohttp proxy](https://github.com/mirage/ocaml-cohttp/issues/501)
+
+### HTTP Performance and Profiling Harness
+
+Cohttp is a very flexible implementation of the HTTP protocol, but we lack confidence in some of the edges of the implementation when it comes to clients and servers issuing odd requests.  It would be useful to use some existing projects to issue a sequence of bad requests or responses and ensure that our Cohttp logic does something sensible.
+
+Related issue: [mirage/ocaml-cohttp#206](https://github.com/mirage/ocaml-cohttp/issues/206)

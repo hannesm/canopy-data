@@ -1,0 +1,25 @@
+---
+title: WebIDL
+author: [David Sheets](https://github.com/dsheets/)
+abstract: develop WebIDL library from scratch
+tags: head wanted, http, web
+---
+
+The modern web is becoming an application platform in addition to its
+function as a distributed document store. Instead of native operating
+system interfaces, the web browser exposes JavaScript APIs with
+various restrictions. We would like OCaml software to be able to
+easily transition between a native application and a web application.
+To accomplish this, a representation for browser interfaces is
+required.
+
+This project would involve the development of a parser of WebIDL, a
+W3C standard interface specification language
+<http://www.w3.org/TR/WebIDL/>, and a set of rules for mapping WebIDL
+signatures to OCaml interfaces. Further work could include the
+development of a js_of_ocaml binding generator or generated interface
+constraint assertions. These developments would help the OCaml
+community keep our interfaces up-to-date with the latest web API
+advancements and provide universal interfaces for common device
+capabilities like hardware-accelerated 3D rendering and device sensor
+support.

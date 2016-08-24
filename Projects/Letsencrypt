@@ -1,7 +1,12 @@
 ---
 title: TLS certificates with Letsencrypt
 author: Anil Madhavapeddy
+abstract: ACME support for MirageOS
+tags: active project, http, security, head wanted
 ---
+
+- [OCaml-ACME implementation from maker](https://github.com/mmaker/ocaml-acme)
+- Status: help needed for integration into web service like [Canopy](/Projects/Canopy), mirage-www and DNS stuff
 
 To get free TLS certificates from [LetsEncrypt](https://letsencrypt.org) just do this on a
 Unix host where `mail` works (I used an OpenBSD machine but Linux or FreeBSD should work fine).

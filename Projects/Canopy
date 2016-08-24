@@ -1,0 +1,47 @@
+---
+author: Engil (Enguerrand Decorne)
+title: Canopy - an irmin-powered community blog
+abstract: User content is stored in Markdown format in a git repository, served via HTTP with metadata, atom feed
+tags: active project, irmin, blog, http, application
+---
+
+- [atom feed](http://canopy.mirage.io/atom)
+- [code](https://github.com/Engil/canopy)
+- Status: up and running, PR welcome
+
+## Description (from PioneerProjects wiki page)
+
+Static websites are sufficient for most of our needs as they are lightweight,
+easy to deploy/maintain and trivial to
+[compile into unikernels](http://amirchaudhry.com/from-jekyll-to-unikernel-in-fifty-lines/).
+[Jekyll](http://jekyllrb.com) is one example of a static site generator (made
+popular by GitHub pages) and it would be extremely useful to have similar
+generator in OCaml. Such a generator would come with sensible defaults such
+that creating a site would be quick (cf.
+[Jekyll-Bootstrap](http://jekyllbootstrap.com)) and allow blog posts and pages
+to be written in Markdown. It would also make it easy for anyone who maintains
+OPAM packages to build pages that represent their libraries without much
+additional effort. The goal would be to achieve something as simple to set up
+and run as Jekyll. It's likely that this project would involve the creation of
+different libraries to deal with different aspects of the work and a number of
+libraries already exist.  The specific approach can be discussed with those
+interested in this project and the difficulty arises from getting the *design*
+correct, rather than just the writing of code. Use-cases for this tool (once
+it exists) would be for personal websites, project websites and the components
+would be useful for more substantive sites like OCaml.org or MirageOS.
+
+## Just some random thoughts about the current state of Canopy
+
+- The current Canopy should run under Xen, if the right packages are pinned accordingly to README.md, in the Xen paragraph. This isn't really the best situation but it works. . Thomas suggested that bin_prot was not really necessary anymore and can be removed from Irmin, if I remember correctly, but I'm not sure about the situation of the other pinned branches for do_log and crc. (Mindy and Thomas should know ?)
+
+- There is some kind of problem with the latest version of Decompress, so Canopy is kind of at risk of crashing anytime someone try to push something else than plain text into the data repository. Be careful with that. :-) (Fixes are on the way thanks to dinosaure)
+
+- Date are handled accordingly to the last time a file was updated (and this function is really poorly implemented by myself, it should be rewritten at some point), maybe the date the file was created is a better idea ?
+
+- Tags are on the way, they will just allow content to be classified and searched, probably via some kind of page like /tags/keyword. If anyone have a better idea it would be awesome. :)
+
+- Canopy still doesn't do anything with git branches: This would be a nice possibility to use them in some sort. One idea was using them for drafts: it would be possible to query a page using some sort of parameter (like for example /Posts/Nocamlp4?branch=draft) that displays the content of this branch instead. Some discussions about this would be nice.
+
+- Needs some improving on caching: Currently using some kind of caching with an hashtable updated each time the repository pull new content. Also, all static assets are re-sent everytime, needs to add some headers somewhere.
+
+- The code need some more documentation, and maybe needs to be a little simpler to modify and extend to satisfy integration needs (for example, making the html templates more modular and easy to change.).
