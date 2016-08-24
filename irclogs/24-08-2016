@@ -1,0 +1,172 @@
+---
+participants: GemmaG,djwillia,hannes,seangrove,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 24-08-2016
+tags: irc,log
+---
+`24-08-2016 15:04`   `GemmaG`   We could prep for a little tutorial/beginners intro into Mirage whilst we are there
+
+`24-08-2016 15:05`   `hannes`   `seangrove`: yep, we'll meet in nara! :)
+
+`24-08-2016 15:05`   `GemmaG`   :)
+
+`24-08-2016 15:05`   `GemmaG`   Ok, so I added some general things to agenda - please hijack if you have something else to discuss
+
+`24-08-2016 15:06`   `GemmaG`   Figured we'd check in on Mirage 3.0: Mindy has been tracking the wishlist here: https://github.com/mirage/mirage/issues/571
+
+`24-08-2016 15:07`   `GemmaG`   `yomimono` isn't here today, but please add items to that tracker if you haven't already. She's removing items once dealt with
+
+`24-08-2016 15:08`   `hannes`   sounds good. PCLOCK/MCLOCK/CLOCK changes were merged recently by `yomimono`!  there's progress :)
+
+`24-08-2016 15:09`   `hannes`   https://github.com/mirage/mirage/pull/579
+
+`24-08-2016 15:10`   `GemmaG`   Great :)
+
+`24-08-2016 15:11`   `GemmaG`   I noticed that mato added some features for Solo5 and Mirage 3.0 - not sure if the plan is to add them to #571 or somewhere else
+
+`24-08-2016 15:12`   `yomimono`   good job mattgray and `hannes` also :) I'm here but very latent, sorry
+
+`24-08-2016 15:12`   `GemmaG`   yay :)
+
+`24-08-2016 15:14`   `djwillia`   i'm not sure where they belong; we were planning on discussing which ones are most important
+
+`24-08-2016 15:14`   `djwillia`   maybe we should keep them separate for now so as not to pollute that issue too much?
+
+`24-08-2016 15:15`   `hannes`   `djwillia`: could you elaborate what the plans for solo5 in mirage-3 are?
+
+`24-08-2016 15:15`   `yomimono`   I'd like to keep some view on what's necessary to make sure we're supporting the solo5 backends as fully as we do unix/xen, at least, in that tracker
+
+`24-08-2016 15:15`   `djwillia`   I think the big thing that we all agree on is that the virtio drivers as they are are too fragile
+
+`24-08-2016 15:15`   `hannes`   (sorry if i missed some list of items, are they documented somewhere? maybe a solo5/solo5 issue?)
+
+`24-08-2016 15:16`   `djwillia`   `hannes`: not yet, mato put an initial brainstorm on slack and we were intending to discuss and create an issue, but then postponed the discussion
+
+`24-08-2016 15:17`   `hannes`   `djwillia`: great. I'm all for virtio fixes (unfortunately cannot spend too much time on it atm)
+
+`24-08-2016 15:19`   `djwillia`   `hannes`: i know you had talked about ocaml virtio drivers at some point (not now), but i think that your ideas for that may factor at least partly into the discussion.  I'm not sure if we should build on the existing drivers (which really were only written for a single platform) or port drivers from another system (e.g., FreeBSD, NetBSD/rump or Linux)
+
+`24-08-2016 15:19`   `djwillia`   when mato is available again for discussion (Friday I think he mentioned), we will make a plan
+
+`24-08-2016 15:20`   `hannes`   `djwillia`: for reference, i found a virtio-net 9p thingy https://gist.github.com/enukane/3551798
+
+`24-08-2016 15:20`   `hannes`   `djwillia`: sounds good to me, virtio in OCaml would be great imho (but do what you feel comfortable with)
+
+`24-08-2016 15:20`   `djwillia`   `yomimono`: do you think we should have a solo5 tracking issue that is tracked by the bigger mirage tracking issue, or put solo5 specific things directly into the top-level tracking issue
+
+`24-08-2016 15:21`   `yomimono`   `djwillia`: solo5 tracking issue is probably cleaner
+
+`24-08-2016 15:21`   `djwillia`   `hannes`: i agree that ocaml would better fit with everything else, but I expect we would need an enthusiastic ocaml volunteer to do that :)
+
+`24-08-2016 15:22`   `hannes`   `djwillia`: if in doubt, pioneer project, or active marketing on mirageos-dev list :)
+
+`24-08-2016 15:22`   `GemmaG`   Pioneer Project might make sense :)
+
+`24-08-2016 15:23`   `djwillia`   `yomimono`: we'll probably put up an issue on solo5/solo5 on Friday or early next week
+
+`24-08-2016 15:23`   `djwillia`   then add it to the master issue
+
+`24-08-2016 15:23`   `djwillia`   gemmag: pioneer project is a good idea!
+
+`24-08-2016 15:24`   `djwillia`   what is the current estimate of mirage 3.0 release btw?
+
+`24-08-2016 15:24`   `djwillia`   i mean the estimate of the date that it will be released
+
+`24-08-2016 15:25`   `djwillia`   `yomimono`: ^^^
+
+`24-08-2016 15:26`   `yomimono`   `djwillia`: currently, we're targetting a "soft launch" (or "release candidate" or however else you want to say "don't merge any super major potentially breaking stuff anymore") of late September, ICFP-ish
+
+`24-08-2016 15:27`   `djwillia`   `yomimono`: cool thanks
+
+`24-08-2016 15:27`   `yomimono`   dictated because we need to pick a date in order to coordinate stuff, more than because of any particular virtue of that date
+
+`24-08-2016 15:27`   `hannes`   `yomimono`: I'd suggeest to do on that date a V1 -> M V1_LWT -> M_LWT renaming
+
+`24-08-2016 15:27`   `yomimono`   proper release with PR and such on I think early Oct
+
+`24-08-2016 15:28`   `yomimono`   `hannes`: I think that might be a good thing for "soft launch", yeah
+
+`24-08-2016 15:28`   `yomimono`   since it will break literally everything that doesn't build against it
+
+`24-08-2016 15:28`   `hannes`   `yomimono`: ..as the last pull request, since otherwise it'll interfere with all other changes... yes, break all the things!!!
+
+`24-08-2016 15:28`   `yomimono`   `hannes`: exactly
+
+`24-08-2016 15:30`   `GemmaG`   Great! That all sounds awesome :)
+
+`24-08-2016 15:31`   `hannes`   what is next on the agenda (or what needs to be discussed)?
+
+`24-08-2016 15:31`   `GemmaG`   Pioneer Projects :)
+
+`24-08-2016 15:31`   `GemmaG`   drup has suggested adding some new ones
+
+`24-08-2016 15:31`   `GemmaG`   And it would be good to talk again about where we put them...
+
+`24-08-2016 15:32`   `GemmaG`   Hannes: you suggested canopy with tags - which could work. Engil is planning to update some canopy features so we can use it to liveblog at ICFP, and we could think about also adding tags/labels that would be useful for PP
+
+`24-08-2016 15:33`   `hannes`   I can migrate them (from the wiki) to canopy (one page per project) if we wish to put them there, and add those from the maliing list (but certainly everybody who wants should then contribute there)!?!?
+
+`24-08-2016 15:34`   `GemmaG`   Sure - that sounds like a good idea :)
+
+`24-08-2016 15:34`   `hannes`   (filter atom feed by tag would be nice to have @Engil http://canopy.mirage.io/atom)
+
+`24-08-2016 15:35`   `GemmaG`   Making them easier to find/read and contribute to would be great
+
+`24-08-2016 15:35`   `hannes`   I'll do this this evening
+
+`24-08-2016 15:36`   `GemmaG`   Great :)
+
+`24-08-2016 15:36`   `GemmaG`   Perhaps we can track the via issues too to stop them going stale?
+
+`24-08-2016 15:37`   `seangrove`   (we'll have to update the channel title as we get close to Mirage 3, I suppose)
+
+`24-08-2016 15:37`   `hannes`   `GemmaG`: let's see how it looks in canopy, and what management we need on top of that later
+
+`24-08-2016 15:38`   `GemmaG`   `hannes`: sure thing :)
+
+`24-08-2016 15:39`   `GemmaG`   Cool - next issue is about me getting a little issue-tracker obsessed
+
+`24-08-2016 15:39`   `hannes`   :D
+
+`24-08-2016 15:40`   `GemmaG`   I find it difficult to keep track of all the different projects happening at OCL, in Mirage etc so I've started my own repo to track the progress of projects: https://github.com/ocamllabs/Projects/issues (let me know if you can't access it)
+
+`24-08-2016 15:41`   `GemmaG`   Only just started it etc, and I have far less experience than many of you with GH etc, but it occurs to me that everyone uses GH, and we could potentially use the issue tracker more efficiently for tracking progress with milestones, labels and assignees
+
+`24-08-2016 15:41`   `GemmaG`   So I will start using it, and might encourage others to use labels a little more :P
+
+`24-08-2016 15:42`   `seangrove`   `GemmaG`: Alternatively, GH will give you a view of all of the issues for projects you care about
+
+`24-08-2016 15:42`   `GemmaG`   There's lots of overlap between different projects, and it's not always obvious - hoping this will help!
+
+`24-08-2016 15:42`   `seangrove`   Or are you suggesting something higher level?
+
+`24-08-2016 15:43`   `GemmaG`   A bit of both in a way - I don't need to keep track of ALL the issues, but want to keep an overview of how each project is moving in relation to others and overall goals/timelines etc
+
+`24-08-2016 15:44`   `seangrove`   Ok, makes sense
+
+`24-08-2016 15:45`   `GemmaG`   Advice and suggestions welcome. That repo is mainly for me to use in this way - but might tag/assign people wrt specific issues
+
+`24-08-2016 15:45`   `GemmaG`   Cool :)
+
+`24-08-2016 15:45`   `GemmaG`   AOB?
+
+`24-08-2016 15:45`   `GemmaG`   ICFP Mirage meet should definitely happen
+
+`24-08-2016 15:46`   `GemmaG`   :)
+
+`24-08-2016 15:48`   `yomimono`   \o/
+
+`24-08-2016 15:49`   `yomimono`   is anyone attending icfp who's *not* attending ocaml workshop?
+
+`24-08-2016 15:50`   `seangrove`   I'm *just* going to CUFP, not even ICFP
+
+`24-08-2016 15:52`   `GemmaG`   Let's plan to meet up on the Saturday then
+
+`24-08-2016 15:55`   `seangrove`   Works for me!
+
+`24-08-2016 15:55`   `GemmaG`   :)
+
+`24-08-2016 15:55`   `GemmaG`   Cool, if no other items, think we're done :)
+
+`24-08-2016 15:56`   `djwillia`   thanks!  bye all!
+
