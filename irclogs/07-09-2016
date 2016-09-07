@@ -1,0 +1,582 @@
+---
+participants: Drup,GemmaG,avsm,djwillia,engil,gemma_,hannes,mato,mort___,reynir,seangrove,talex5,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 07-09-2016
+tags: irc,log
+---
+`07-09-2016 12:59`   `reynir`   :o
+
+`07-09-2016 15:00`   `avsm`   Hallo! Is our friendly git bot logging? taptaptaptap
+
+`07-09-2016 15:01`   `GemmaG`   Hi :)
+
+`07-09-2016 15:01`   `mort___`   `avsm`: it's said it is
+
+`07-09-2016 15:01`   `engil`   it is
+
+`07-09-2016 15:01`   `engil`   well, it should be
+
+`07-09-2016 15:01`   `avsm`   superb, lets get started. Who is around?
+
+`07-09-2016 15:01`   `mato`   waves
+
+`07-09-2016 15:01`   `avsm`   hi `djwillia`
+
+`07-09-2016 15:01`   `djwillia`   hi `avsm`!
+
+`07-09-2016 15:01`   `yomimono`   hi folks!
+
+`07-09-2016 15:01`   `mort___`   .
+
+`07-09-2016 15:02`   `djwillia`   hi!
+
+`07-09-2016 15:02`   `talex5`   hi
+
+`07-09-2016 15:02`   `Drup`   plop.
+
+`07-09-2016 15:02`   `yomimono`   ew.
+
+`07-09-2016 15:02`   `avsm`   Call agenda is up https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`07-09-2016 15:02`   `avsm`   Lets start with Mirage 3.0
+
+`07-09-2016 15:03`   `avsm`   We're aiming for a late September release, and the main list of items remaining are at https://github.com/mirage/mirage/issues/571
+
+`07-09-2016 15:03`   `yomimono`   fair warning: some of those things are likely to come off the list rather than be included in 3.0
+
+`07-09-2016 15:03`   `yomimono`   for example, deprecating io-page
+
+`07-09-2016 15:03`   `avsm`   Yes, that seems to be something that doesnt affect core interfaces, just the libraries
+
+`07-09-2016 15:04`   `avsm`   The big ticket item is https://github.com/mirage/mirage/issues/499 -- version constraints in libraries
+
+`07-09-2016 15:04`   `yomimono`   nods
+
+`07-09-2016 15:04`   `avsm`   we'll definitely need this moving forward -- is anyone available to work on this one? Samoht is sadly on vacation in exotic climes
+
+`07-09-2016 15:05`   `avsm`   I was interested in looking into `opam` file generation -- I guess this is part of that
+
+`07-09-2016 15:05`   `yomimono`   i've intended to work on it repeatedly but it's time for me to face that I don't have time for it myself
+
+`07-09-2016 15:05`   `avsm`   That's fair -- its a big release this time! I'll put it on my list by default unless someone else steps up
+
+`07-09-2016 15:05`   `avsm`   Does anyone have any objections to generating an `opam` file per unikernel?
+
+`07-09-2016 15:06`   `avsm`   This way you could pin a project and all the other nice opam things
+
+`07-09-2016 15:06`   `yomimono`   no objections, but I seem to recall some doubts about whether that would work in earlier discussion
+
+`07-09-2016 15:06`   `mort___`   no — this would be part of the configure step presumably?
+
+`07-09-2016 15:06`   `yomimono`   I would love to have it though
+
+`07-09-2016 15:06`   `mato`   What would "installing" the generated package do?
+
+`07-09-2016 15:06`   `avsm`   `mort___`: yes part of configure
+
+`07-09-2016 15:06`   `mort___`   does opam / will opam2 have some way to consume an opam file and generate a switch thereby?
+
+`07-09-2016 15:06`   `hannes`   `avsm`: a highly customized opam for the concrete configuration?  or a general one with lots of disjunctions?
+
+`07-09-2016 15:06`   `avsm`   `mato`: no installation phase, it would just be for the purpose of assembling dependencies and building
+
+`07-09-2016 15:06`   `Drup`   I'm not convinced it's the right way to solve the problem, but I don't have any great idea either
+
+`07-09-2016 15:06`   `mort___`   (not a requirement but might be nice in this case)
+
+`07-09-2016 15:07`   `avsm`   `hannes`: good question; i'd prefer a highly customised one because we know at `mirage configure` time which concrete backend is being built for
+
+`07-09-2016 15:07`   `avsm`   `Drup`: I was also in two minds about it, but the way I'm using unikernels is quite compatible with a package per application...
+
+`07-09-2016 15:08`   `Drup`   `avsm`: generating an opam file doesn't solve the pinning aspect of the question
+
+`07-09-2016 15:08`   `avsm`   `mort___`: there is support for 'local switches' in opam2 which will work like npm/node by grabbing opam state from the local directory
+
+`07-09-2016 15:08`   `avsm`   `Drup`: no but once you have an opam file you can generate a remote fairly easily that contains overrides
+
+`07-09-2016 15:08`   `mort___`   cool. then an opam file seems a reasonable way to go, particularly if `mirage configure` could default to *not* overwriting an existing one when run
+
+`07-09-2016 15:09`   `Drup`   `avsm`: I'm not sure I see how that would work
+
+`07-09-2016 15:09`   `avsm`   `Drup`: generate a packages/ directory with the various development versions of packages.  We have some shell scripts to do this, but something with opam-lib would be better...
+
+`07-09-2016 15:09`   `avsm`   `mort___`: do not delete all your files. check.
+
+`07-09-2016 15:09`   `hannes`   `avsm`: clearly the opam file name will then be unikernel_name-configN-backendY!?
+
+`07-09-2016 15:10`   `hannes`   (and I fail to see how generating an opam file will solve 499)
+
+`07-09-2016 15:10`   `avsm`   `hannes`: yes, we could generate `opam.name-solo5` or similar
+
+`07-09-2016 15:10`   `mort___`   `avsm`: not quite :) specifically— main.ml and the Makefile can be obliterated every time (has anyone ever edited them?) but one might imagine that the opam file will get edited to specify constraints and obliterating it would be unhelpful
+
+`07-09-2016 15:10`   `yomimono`   I agree that it should be differentiated by backend to avoid making the "building a unikernel for multiple backends from the same directory" problem any worse
+
+`07-09-2016 15:10`   `avsm`   it doesnt solve it, but it gives us a vehicle to output the constraints
+
+`07-09-2016 15:10`   `Drup`   but we can already output the constraints
+
+`07-09-2016 15:10`   `avsm`   running `opam install` with a ton of constraints on the CLI is not pretty...
+
+`07-09-2016 15:10`   `Drup`   we don't need an opam file for that
+
+`07-09-2016 15:11`   `yomimono`   `mort___`: a human has definitely ever edited a main.ml.  we also have obnoxious overwriting behavior for config in the xen case
+
+`07-09-2016 15:11`   `Drup`   ah, ok, I'm not sure why it's not pretty (the user doesn't input the constraint himself) but ok
+
+`07-09-2016 15:11`   `avsm`   no but an opam file is not side effecting -- I would prefer if all the CLI operations were saved as late as possible, rather than running opam install at configure time
+
+`07-09-2016 15:11`   `yomimono`   +1
+
+`07-09-2016 15:11`   `avsm`   makes scripting and CI significantly easier
+
+`07-09-2016 15:12`   `mort___`   `yomimono`: oh right. in that case it would be nice if the default behaviour of `mirage configure` would detect that and not do the obnoxious thing. or is it just easier to keep it the case that mirage configure obliterates everything en masse?
+
+`07-09-2016 15:12`   `Drup`   right, so the real goal is to be able to separate the opam part from the `mirage config` part
+
+`07-09-2016 15:12`   `Drup`   then I agree it's a good solution
+
+`07-09-2016 15:12`   `hannes`   I'd appreciate to have `--no-opam` as default in mirage-3
+
+`07-09-2016 15:12`   `yomimono`   `mort___`: I think we're derailing a bit here, we should probably take it to an issue or something
+
+`07-09-2016 15:12`   `avsm`   yeah, `mirage configure` running opam is pretty obnoxious, but more so when it's resetting a bunch of constraints and probably recompiling things
+
+`07-09-2016 15:12`   `avsm`   yeah, sounds like we have consensus here, lets take it to https://github.com/mirage/mirage/issues/499
+
+`07-09-2016 15:12`   `mato`   `avsm`: Couldn't the opam install be done as part of "make depend" ?
+
+`07-09-2016 15:13`   `Drup`   (this should be done in functoria, clearly)
+
+`07-09-2016 15:13`   `hannes`   (just look at travis for mirage-skeleton, and you'll see loads of useless recompilations happening)
+
+`07-09-2016 15:13`   `avsm`   `mato`: yes it could
+
+`07-09-2016 15:13`   `avsm`   Back to https://github.com/mirage/mirage/issues/571 and the broader list
+
+`07-09-2016 15:13`   `avsm`   anyone any questions on a specific issue there
+
+`07-09-2016 15:13`   `yomimono`   curious to hear about pp_error and result types
+
+`07-09-2016 15:14`   `Drup`   `avsm`: before we wrap up: this should be a new ticket. 499 is only loosely related
+
+`07-09-2016 15:14`   `avsm`   `Drup`: true... we can add the constraints and then opam generation
+
+`07-09-2016 15:15`   `avsm`   Moving the C libraries out of mirage-platform would help quite a bit
+
+`07-09-2016 15:16`   `yomimono`   #568 (aka "prediquery") is merged, fwiw
+
+`07-09-2016 15:16`   `mato`   I was just looking at that issue (mirage/mirage-platform#124)
+
+`07-09-2016 15:16`   `avsm`   any thoughts as relates to solo5's platform needs?
+
+`07-09-2016 15:17`   `mato`   The biggest problem I see there is it's unclear if that can be done without teaching all the packages the C stubs would be moved into about the different backends
+
+`07-09-2016 15:17`   `avsm`   yeah, the cross compilation debate again :(
+
+`07-09-2016 15:17`   `mato`   yes :(
+
+`07-09-2016 15:18`   `avsm`   i think it's best to revisit it that one separately on the ticket or in a small group, it's too involved to go into again
+
+`07-09-2016 15:18`   `mato`   Stepping back from it, what do we expect to gain from moving the C stubs out of the platform package(s)?
+
+`07-09-2016 15:18`   `avsm`   lack of repetition -- they frequently get out of sync
+
+`07-09-2016 15:18`   `avsm`   upon the dependent package being updated
+
+`07-09-2016 15:19`   `avsm`   but we can survive in the current state if things dont change too fast, and it's a strong encouragement to not depend on C stubs :-)
+
+`07-09-2016 15:19`   `mato`   Yeah. I can see pros and cons for both approaches.
+
+`07-09-2016 15:20`   `avsm`   Ok, lets take this one into the issue
+
+`07-09-2016 15:20`   `mato`   Ack
+
+`07-09-2016 15:20`   `avsm`   TROVE: Lars pinged me for updated stats
+
+`07-09-2016 15:21`   `avsm`   would everyone be able to glance at mirage/mirage-www and push any new libraries of theirs to TROVE? I'll do a pass later this week as well
+
+`07-09-2016 15:21`   `yomimono`   solo5 is a particularly glaring omission
+
+`07-09-2016 15:21`   `avsm`   hah!
+
+`07-09-2016 15:21`   `mato`   what's TROVE? :)
+
+`07-09-2016 15:21`   `yomimono`   in the mirage/mirage-www repository there is a file called TROVE
+
+`07-09-2016 15:21`   `avsm`   https://github.com/mirage/mirage-www/blob/master/TROVE
+
+`07-09-2016 15:21`   `avsm`   A forest of all the Git repos we use
+
+`07-09-2016 15:22`   `hannes`   (in the past, there were multiple breakages due to adjusting cstruct C stubs, but not platform ones, I suspect this will repeat and we should solve this issue, although it is painful)
+
+`07-09-2016 15:22`   `avsm`   and there's a tool in xenproject that clones it and generates feel-good graphs
+
+`07-09-2016 15:22`   `djwillia`   yeah all of the solo5 ones need to be added
+
+`07-09-2016 15:22`   `Drup`   `avsm`: oh, can I see the graphs ? :D
+
+`07-09-2016 15:22`   `mato`   ok, i'll do that...
+
+`07-09-2016 15:23`   `djwillia`   cool thanks `mato`
+
+`07-09-2016 15:23`   `avsm`   `Drup`: sure, will mail mirageos-devel when Lars generates them
+
+`07-09-2016 15:23`   `avsm`   samoht also has something fancy based on vossibility when he's back
+
+`07-09-2016 15:23`   `avsm`   i tried to deploy it but got banned from GitHub API due to the number of repos :P
+
+`07-09-2016 15:24`   `avsm`   darn rate limits
+
+`07-09-2016 15:24`   `avsm`   Runtime information passing
+
+`07-09-2016 15:24`   `Drup`   nice. pretty graphs are cool.
+
+`07-09-2016 15:24`   `avsm`   Magnus asked about this earlier -- do we have an issue for this `yomimono` ?
+
+`07-09-2016 15:24`   `hannes`   well, there are more libraries in dashboard somewhere
+
+`07-09-2016 15:24`   `yomimono`   `avsm`: sorry, "this" is what specifically?
+
+`07-09-2016 15:24`   `avsm`   There generally seem to be requests for various things to pass CLI options around to the mirage tool
+
+`07-09-2016 15:25`   `avsm`   "runtime information passing"
+
+`07-09-2016 15:25`   `avsm`   I believe it refers to the Env module
+
+`07-09-2016 15:25`   `avsm`   but I'm not sure who added this to the agenda :)
+
+`07-09-2016 15:25`   `yomimono`   it was me, suggesting that some folks continue a private conversation about bootvars, argv, and env in a place where there might be more opinions
+
+`07-09-2016 15:25`   `mato`   `yomimono` did based on our Slack discussion this afternoon
+
+`07-09-2016 15:26`   `Drup`   What does it mean exactly ?
+
+`07-09-2016 15:27`   `yomimono`   https://github.com/mirage/mirage-bootvar-xen/pull/23 for a little background, but perhaps `mato` can provide a bit more detail
+
+`07-09-2016 15:27`   `yomimono`   we now have duplicated code for bootvar parsing; perhaps passing runtime information could be done more intelligently and in a more structured manner for many unikernel backends
+
+`07-09-2016 15:27`   `yomimono`   that may or may not be an accurate summary
+
+`07-09-2016 15:28`   `mato`   more or less. Even if we don't pass runtime information in a more structured way, there's still the question of "who does the parsing" (as in what library / package)
+
+`07-09-2016 15:29`   `hannes`   (well, the overall question is rather: how do I write a backend-agnostic mirageos unikernel which should receive runtime information)
+
+`07-09-2016 15:30`   `mato`   Yes. The current interface to "runtime information" from the Mirage point of view is "an argv-style array of strings"
+
+`07-09-2016 15:30`   `mato`   Which then gets parsed by Functoria (using cmdliner?)
+
+`07-09-2016 15:31`   `Drup`   One of the issue is that the whole key thing is based on cmdliner, and cmdliner really want an argv-style string array
+
+`07-09-2016 15:32`   `mato`   Right. Except that on the Xen/Solo5 side, a bunch of back and forth is happening, since both of these targets pass the "command line" as a simple string.
+
+`07-09-2016 15:32`   `avsm`   so the issue is string vs string list?
+
+`07-09-2016 15:32`   `mato`   So, the bootvar code for both has to reparse *that* string, then pass it to Functoria, which parses it with cmdliner.
+
+`07-09-2016 15:33`   `avsm`   ah so bootvar splits it up by spaces to get the string list
+
+`07-09-2016 15:33`   `avsm`   but has to deal with quoting issues, presumably
+
+`07-09-2016 15:33`   `mato`   Yeah
+
+`07-09-2016 15:34`   `avsm`   It's hard to get away from the string list, it's the standard way args are passed
+
+`07-09-2016 15:34`   `avsm`   I'd suggest fixing solo5 :)
+
+`07-09-2016 15:34`   `mato`   It's not a Solo5 problem
+
+`07-09-2016 15:34`   `yomimono`   also cmdliner doesn't like it when you try to pass stuff it doesn't know about, but we don't always have control over the incoming string (e.g. an `extra` passed by EC2)
+
+`07-09-2016 15:34`   `mato`   Xen does the same thing (pass a string)
+
+`07-09-2016 15:34`   `yomimono`   so there's potentially more extra stuff needed to shim some runtime problems
+
+`07-09-2016 15:34`   `avsm`   Xen can be made to pass a string list though
+
+`07-09-2016 15:34`   `avsm`   we control both sides
+
+`07-09-2016 15:35`   `yomimono`   `avsm`: ? not always, unless I misunderstand what the sides are
+
+`07-09-2016 15:35`   `Drup`   `yomimono`: dbunzli is not very favorable to an "any" combinator that would just be a huge catchall for all the things not recognized by the rest
+
+`07-09-2016 15:35`   `avsm`   for the Env parsing on Xen we use a xenstore subtree to pass the args, if i remember right
+
+`07-09-2016 15:35`   `avsm`   that's written by our tools, or is it written by xl ?
+
+`07-09-2016 15:35`   `yomimono`   it's written by whoever invokes the code to start the VM, which isn't always the user
+
+`07-09-2016 15:35`   `yomimono`   it might be amazon
+
+`07-09-2016 15:36`   `avsm`   ah no, it comes in as `cmdline`
+
+`07-09-2016 15:36`   `avsm`   ho hum...
+
+`07-09-2016 15:36`   `avsm`   guess we need a string -> string list parser :)
+
+`07-09-2016 15:36`   `mato`   which is currently hiding in parse_argv.ml in bootvar-xen (and duplicated in solo5)
+
+`07-09-2016 15:36`   `avsm`   right, so that can be pulled out into a library
+
+`07-09-2016 15:37`   `Drup`   last time I remember, parse_argv's implementation was not very reliable
+
+`07-09-2016 15:37`   `avsm`   it's been improved by jonludlam, but needs some more u se
+
+`07-09-2016 15:37`   `avsm`   lets move on... doesnt sound like anything particularly controversial here. Just need to make sure we track it
+
+`07-09-2016 15:37`   `yomimono`   https://github.com/mirage/mirage-bootvar-xen/issues/24
+
+`07-09-2016 15:38`   `avsm`   anything else burning about argv? sounds like string should be the  input, and we need to have a reliable converter to string list
+
+`07-09-2016 15:38`   `avsm`   Ok, is everyone sitting down? CI is now available and being rolled out step by step! https://ci.ocaml.io:8443 (temporary URL) !!!
+
+`07-09-2016 15:38`   `Drup`   `yomimono`'s point still stand. qubes treats the cmdliner as an env, so it adds lot's of stuff
+
+`07-09-2016 15:38`   `mato`   IMO parsing a string into string list will never be terribly reliable due to quoting issues (also thinking about passing *in* quotes on the whatever-launches-the-vm side)
+
+`07-09-2016 15:38`   `Drup`   we treat it as a command line, hence refuse things that we don't know about
+
+`07-09-2016 15:39`   `avsm`   dont all hit it at once, the web interface is painfully slow and ugly, but is at least relatively easy to fix
+
+`07-09-2016 15:39`   `avsm`   thing is, we cant fix it the other way since kernel launchers give us cmdline as a baked in interface
+
+`07-09-2016 15:39`   `avsm`   so we have to fix it, lets just do it
+
+`07-09-2016 15:39`   `Drup`   `avsm`: I'm just not sure how :)
+
+`07-09-2016 15:39`   `avsm`   painful parsing, very painful parsing :-)
+
+`07-09-2016 15:40`   `Drup`   `avsm`: no, that's another issue
+
+`07-09-2016 15:40`   `avsm`   oh you mean extending the env
+
+`07-09-2016 15:40`   `Drup`   Well, we'll discuss it when `yomimono` makes the PR for qubes's argv
+
+`07-09-2016 15:41`   `avsm`   Yeah
+
+`07-09-2016 15:41`   `yomimono`   it's probably going to be a PR for argv_xen more generally
+
+`07-09-2016 15:41`   `yomimono`   the problem is bigger than qubes; we'll see it anywhere we don't control the full cmdline input
+
+`07-09-2016 15:41`   `yomimono`   see issues for booting on ec2
+
+`07-09-2016 15:41`   `Drup`   exactly
+
+`07-09-2016 15:41`   `avsm`   it would be easier with a registry-style model somewhat
+
+`07-09-2016 15:41`   `avsm`   but not for mirage3
+
+`07-09-2016 15:42`   `mato`   One option would be to switch to a different "channel" than the "kernel cmdline". Like the pass-data-in-multiboot-module trick I did for rumprun.
+
+`07-09-2016 15:42`   `avsm`   yeah `mato` -- only thing is that cloud providers make setting the PV cmdline easy
+
+`07-09-2016 15:42`   `Drup`   mirage="...." ?
+
+`07-09-2016 15:42`   `avsm`   however if more people are doing HVM boot then this can happen in grub and could do multiboot module
+
+`07-09-2016 15:43`   `avsm`   and ec2 certainly does pvgrub, not direct pv
+
+`07-09-2016 15:43`   `avsm`   Lets move on, 15 minutes left
+
+`07-09-2016 15:43`   `avsm`   Quickly covering CI
+
+`07-09-2016 15:43`   `avsm`   CI is now available and being rolled out step by step! https://ci.ocaml.io:8443 (temporary URL) !!!
+
+`07-09-2016 15:44`   `avsm`   It tests multiple distros (Alpine, Debian, Ubuntu, CentOS, Fedora, OpenSUSE), multiple compiler versions (4.02.3,4.03.0,4.03.0+flambda,4.04.0) and reverse dependencies.  I'm adding multiple remote support (so we can add mirage/mirage-dev).
+
+`07-09-2016 15:44`   `avsm`   See e.g. https://ci.ocaml.io:8443/pr/mirage/mirage/586
+
+`07-09-2016 15:44`   `avsm`   A nice feature is that all the logs are stored in git (temporarily at https://github.com/`avsm`/mirage-ci-logs) so it's quite easy to clone a particular log run.  Also, all of the git remotes (including opam-repository) are tracked exactly, so it rebuilds reliably if any of the dependent repositories are pushed to.
+
+`07-09-2016 15:45`   `avsm`   This should satisfy `mato`'s CI requests quite soon with multi-remote tracking, and then I'll roll it out to mirage/cohttp and mirage/tcpip
+
+`07-09-2016 15:45`   `avsm`   and to more repos as it gets more stable
+
+`07-09-2016 15:45`   `talex5`   Why do some of them say "(Allowed failure)"?
+
+`07-09-2016 15:45`   `avsm`   because revdeps hardly ever succeed and i didnt want it to fail the overall test
+
+`07-09-2016 15:46`   `avsm`   So in the above PR, the revdeps were: Ok (mirage-fs,mirage-seal,nbd) Err (imaplet-lwt,tftp)
+
+`07-09-2016 15:46`   `avsm`   that can be changed pretty easily
+
+`07-09-2016 15:46`   `mato`   how does it decide what to build? i.e. what is configured in the repo?
+
+`07-09-2016 15:46`   `talex5`   I was looking at https://ci.ocaml.io:8443/pr/mirage/mirage/559 : it's OCaml 4.02.3 that failed there.
+
+`07-09-2016 15:46`   `avsm`   it does an opam pin and then installs mirage, and then revdeps
+
+`07-09-2016 15:47`   `avsm`   `talex5`: ah compiler variants other than 4.03.0 are allow_fail atm since 4.04 fails; I'll change that to make only development compilers allow_fail
+
+`07-09-2016 15:47`   `talex5`   Ah!
+
+`07-09-2016 15:47`   `avsm`   If you go to https://github.com/mirage/mirage/pull/586 you'll see all the statuses are synched
+
+`07-09-2016 15:48`   `avsm`   there are junk ones during development, Github doesnt let them be deleted so we are stuck with them on the existing PRs
+
+`07-09-2016 15:48`   `avsm`   So any feature requests for the CI, please add to https://github.com/mirage/mirage/issues/584
+
+`07-09-2016 15:49`   `avsm`   Ok! Solo5! https://github.com/Solo5/solo5/issues/82 `mato` `djwillia` ?
+
+`07-09-2016 15:49`   `mato`   virtio is getting better -- ricarkol did a bunch of work on that
+
+`07-09-2016 15:50`   `avsm`   nice. working with freebsd as well?
+
+`07-09-2016 15:50`   `mato`   CI, I've finally managed to get mirage-skeleton#mirage-dev fully building as of today
+
+`07-09-2016 15:50`   `mato`   (including in travis)
+
+`07-09-2016 15:50`   `hannes`   (I've to investigate virtio-net and FreeBSD using Solo5 if nobody else did so far)
+
+`07-09-2016 15:50`   `djwillia`   nice!
+
+`07-09-2016 15:51`   `avsm`   yay!
+
+`07-09-2016 15:51`   `yomimono`   :D
+
+`07-09-2016 15:51`   `mato`   `hannes`: please test against the latest master, which apparently also works on Google Compute Engine
+
+`07-09-2016 15:51`   `mato`   `hannes`: (as reported by ricardo)
+
+`07-09-2016 15:51`   `mato`   `hannes`: so there's a high(er) chance it'll be happy on bhyve now
+
+`07-09-2016 15:51`   `hannes`   yes
+
+`07-09-2016 15:51`   `hannes`   I've been busy travelling and drinking coffee
+
+`07-09-2016 15:52`   `avsm`   most important
+
+`07-09-2016 15:52`   `avsm`   looks like solo5 is on track!
+
+`07-09-2016 15:52`   `mato`   So, yeah, Solo5 is on track
+
+`07-09-2016 15:52`   `djwillia`   thanks to `mato`!  great job `mato`!
+
+`07-09-2016 15:52`   `hannes`   same changes done by ricardo to net should be applied to the block as well, shouldn't they?
+
+`07-09-2016 15:52`   `avsm`   ok -- Pioneer projects! http://canopy.mirage.io/Projects
+
+`07-09-2016 15:53`   `Drup`   I don't have much to add compared to my last email :p
+
+`07-09-2016 15:53`   `mato`   `hannes`: quite possibly. also, i need to switch the code to dynamically alloc memory based on the actual virtqueue size otherwise we waste tons of memory on the rx/tx buffers
+
+`07-09-2016 15:54`   `avsm`   how much?
+
+`07-09-2016 15:54`   `avsm`   hyperv just forces guests to allocate a 16MB contig physpage
+
+`07-09-2016 15:54`   `hannes`   as mentioned in the agenda, there are tags in use, and a Canopy issue to get a nicer index
+
+`07-09-2016 15:54`   `avsm`   So I'm proposing to use Canopy for the ICFP liveblogging, so it'll get more users
+
+`07-09-2016 15:54`   `yomimono`   canopy: the canopy move is great, but the abstracts for each project now seem rather cryptic compared to the view we got when they were on the wiki
+
+`07-09-2016 15:55`   `avsm`   yeah -- and editing is slightly harder
+
+`07-09-2016 15:55`   `avsm`   can we move `hannes`m/canopy-data to mirage/canopy-data btw?
+
+`07-09-2016 15:55`   `hannes`   `yomimono`: the nice thing is everybody can extend them now *hint* :)
+
+`07-09-2016 15:55`   `avsm`   `hannes`: indeed ;-)
+
+`07-09-2016 15:55`   `hannes`   `avsm`: sure, well, I can't. you can't.  but a simple permission problem
+
+`07-09-2016 15:55`   `avsm`   ok sent you/me a reminder mail to sort this out later
+
+`07-09-2016 15:55`   `yomimono`   `hannes`: an argument could be made that the paragraph summaries from the wiki should be the abstract, and each project should have *even more* information behind the link I guess
+
+`07-09-2016 15:55`   `yomimono`   but I can't do the second part of that for any project but my own
+
+`07-09-2016 15:56`   `mato`   `avsm`: several megabytes worth, i forget the exact number. in any case we'll need dynamic allocation to support >1 net/block interface.
+
+`07-09-2016 15:56`   `hannes`   `yomimono`: I'd appreciate having a single sentence as abstract to not convolute the index page too much
+
+`07-09-2016 15:56`   `avsm`   well, the better curated your projects are, the more people you'll get helping me
+
+`07-09-2016 15:56`   `avsm`   cohttp is awful right now so i need to improve mine...
+
+`07-09-2016 15:56`   `yomimono`   `hannes`: I don't know much about this information architecture thing everyone keeps talking about when we mention websites so I'll take your word for it :P
+
+`07-09-2016 15:57`   `hannes`   no web
+
+`07-09-2016 15:57`   `avsm`   `engil`: any objections to a canopy deployment for ICFP liveblogging? I'll set that up
+
+`07-09-2016 15:57`   `Drup`   I'm not convinced the index is much better than the big list of before
+
+`07-09-2016 15:57`   `hannes`   but the full descriptions were way too long (tried it and failed)
+
+`07-09-2016 15:57`   `engil`   no objection
+
+`07-09-2016 15:57`   `hannes`   `Drup`: look and add to Canopy#60
+
+`07-09-2016 15:58`   `seangrove`   `avsm`: I was thinking that some tickets to flesh out cohttp (multi-part POST support, etc.) could be a great starter project
+
+`07-09-2016 15:58`   `avsm`   `seangrove`: yeah; a lot of this is helped/solved by ocaml-webmachine on the server side, but not the client side
+
+`07-09-2016 15:58`   `avsm`   i was poking around to see if a client webmachine is practical, but its not really
+
+`07-09-2016 15:58`   `seangrove`   Yeah, sorry, I meant purely for the client right now
+
+`07-09-2016 15:59`   `avsm`   yep, agreed
+
+`07-09-2016 15:59`   `seangrove`   But that's perhaps a topic for the next mirage meeting....
+
+`07-09-2016 15:59`   `gemma_`   Speaking of icfp - along with a general mirage meet, we could do a BoF session too for anyone who has mirage related questions
+
+`07-09-2016 15:59`   `gemma_`   If we find a time that works on the Saturday...
+
+`07-09-2016 15:59`   `avsm`   `gemma_`: yes! I'm in japan for the last half of ICFP (ocaml workshop through to cufp)
+
+`07-09-2016 16:00`   `avsm`   there's also an ocaml tutorial which we could partially hijack
+
+`07-09-2016 16:00`   `avsm`   if you want a mirage clump
+
+`07-09-2016 16:00`   `gemma_`   Ah that could work
+
+`07-09-2016 16:00`   `avsm`   who else is in japan for icfp?
+
+`07-09-2016 16:00`   `yomimono`   from my experience teaching the ocaml tutorial last year, the audiences would be quite dissimilar
+
+`07-09-2016 16:00`   `gemma_`   Ideas for how we could add to canopy for live blogging/capturing the event also welcome!
+
+`07-09-2016 16:00`   `yomimono`   but I'm very down with the idea of a BoF session
+
+`07-09-2016 16:00`   `avsm`   yes audiences would be, but usually a bit of spare room to hang out?
+
+`07-09-2016 16:01`   `yomimono`   that I can't speak to, not knowing the venue
+
+`07-09-2016 16:01`   `Drup`   `hannes`: hum, I actually don't have much to add to that. It really needs categories/sorting
+
+`07-09-2016 16:01`   `avsm`   `gemma_`: any chance of a doodle on mirageos-devel?
+
+`07-09-2016 16:01`   `yomimono`   I'm in japan for ICFP though and would be very stoked to have a mirage meetup
+
+`07-09-2016 16:01`   `yomimono`   STOKED and HYPED
+
+`07-09-2016 16:01`   `avsm`   yeah! and `seangrove` is speaking at cufp!
+
+`07-09-2016 16:02`   `seangrove`   I'll be in japan speaking at CUFP (won't be for ICFP), was thinking about doing a Mirage/Reason hacking session. Would like to see some Reason unikernels.
+
+`07-09-2016 16:02`   `avsm`   `seangrove`: i'm up for that
+
+`07-09-2016 16:02`   `gemma_`   Sounds great!
+
+`07-09-2016 16:02`   `avsm`   alright </meeting>
+
+`07-09-2016 16:02`   `avsm`   let the great git bot in the sky commit!
+
+`07-09-2016 16:03`   `avsm`   all hail the great git bot in the sky
+
+`07-09-2016 16:03`   `djwillia`   thanks all!
+
+`07-09-2016 16:03`   `avsm`   just a few more weeks to mirage3, lets hack hack
+
+`07-09-2016 16:03`   `yomimono`   puts on big headphones
+
+`07-09-2016 16:03`   `mato`   hackity hack
+
+`07-09-2016 16:03`   `yomimono`   cues up uplink soundtrack
+
+`07-09-2016 16:03`   `mato`   thanks all indeed
+
+`07-09-2016 16:03`   `yomimono`   starts projector to put scrolling text on her face
+
