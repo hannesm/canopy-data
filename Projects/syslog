@@ -5,8 +5,9 @@ tags: active project, protocol
 abstract: a syslog implementation in OCaml
 ---
 
-- Status: running, syslog-reporter would be nice
+*Status:* running, syslog-reporter would be nice
 
 [Syslog](https://tools.ietf.org/html/rfc5424) is a standard protocol used to convey event notification messages. It would be nice to have a unikernel that could act as a `syslogd` receiver. The unikernel would listen appropriately (initially in cleartext though SSL/TLS support is also desirable), receive and verify syslog messages, and then write them into an Irmin store.
 
-Basic implementation underway <https://github.com/verbosemode/syslog-message> and <https://github.com/verbosemode/syslogd-mirage> by Jochen Bartl (@verbosemode).
+* Basic implementation underway <https://github.com/verbosemode/syslog-message> 
+* <https://github.com/verbosemode/syslogd-mirage> by Jochen Bartl (@verbosemode).
