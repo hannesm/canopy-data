@@ -47,5 +47,5 @@ This page lists the nicest stacktraces produced by Mirage during the hackathon.
 
 - When trying to push on a Github repository with Irmin: http://paste.isomorphis.me/wwR
 
-- Some problems with the current repository for this wiki [canopy-data](https://github.com/hannesm/canopy-data).
+- Some problems with the current repository for this wiki [canopy-data](https://github.com/mirage/canopy-data).
   It can't pull again after the first sync at startup, stacktraces: http://paste.isomorphis.me/WaA

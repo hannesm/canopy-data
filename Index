@@ -4,7 +4,7 @@ author: Camels
 ---
 
 This is a small MirageOS webservice, using [canopy](https://github.com/Engil/Canopy).
-Feel free to add content (by creating a file in [this repository](https://github.com/hannesm/canopy-data)).
+Feel free to add content (by creating a file in [this repository](https://github.com/mirage/canopy-data)).
 
 We'll soon (on July 13th) be in Cambridge (Darwin College) for a single day of working on MirageOS.
 
