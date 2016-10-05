@@ -1,0 +1,248 @@
+---
+participants: Drup,amirmc,avsm,hannes,mato,mattg,reynir,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 05-10-2016
+tags: irc,log
+---
+`05-10-2016 14:48`   `reynir`   o/
+
+`05-10-2016 15:00`   `mattg`   hello
+
+`05-10-2016 15:00`   `avsm`   greetings!
+
+`05-10-2016 15:01`   `avsm`   do we have an imaginary friend bot?
+
+`05-10-2016 15:01`   `yomimono`   unpurecamelbot is here
+
+`05-10-2016 15:02`   `mato`   \o/
+
+`05-10-2016 15:02`   `reynir`   ahh, I have to go for a while :(
+
+`05-10-2016 15:02`   `hannes`   o
+
+`05-10-2016 15:03`   `avsm`   alright, lets get started...
+
+`05-10-2016 15:03`   `avsm`   So there's been a crazy flurry of activity merging stuff into the trees in prep for the 3.0 release
+
+`05-10-2016 15:03`   `avsm`   mirage/mirage-dev has an increasing number of "trunk" libraries that have been ported to the new APIs
+
+`05-10-2016 15:03`   `avsm`   https://github.com/mirage/mirage/blob/master/CHANGES.md is fairly uptodate now
+
+`05-10-2016 15:04`   `avsm`   A bunch of people are travelling in Berlin at the moment (LinuxCon and other things), so I thought a brief update on open PRs would be useful
+
+`05-10-2016 15:04`   `yomimono`   https://github.com/mirage/mirage/issues/571 for things that still need doing :)
+
+`05-10-2016 15:05`   `avsm`   #499 remains under risk "make it possible to specify package version constraints for unikernels"
+
+`05-10-2016 15:05`   `avsm`   I've been stuck in a deep hole of build rule rewrites, so not had a chance to look at it yet
+
+`05-10-2016 15:05`   `avsm`   how big a disaster is it if it doesnt land for 3.0 `yomimono`?
+
+`05-10-2016 15:07`   `hannes`   I'd claim it to be a blocker since only that allows us to specify the supported versions of the mirage tool (and types) of unikernels...  if we don't have that, users will get strange errors trying to compile sth with an older unsupported tool suite
+
+`05-10-2016 15:07`   `yomimono`   `avsm`: there's minimal risk to human life or limb, but I think the number of questions/complaints we get that boil down to version incompatibilities will increase as we get more users
+
+`05-10-2016 15:07`   `yomimono`   `avsm`: it's a common thing that people bounce off of & a really big stumbling block imo
+
+`05-10-2016 15:07`   `avsm`   Yeah, it feels like this should be a release blocker
+
+`05-10-2016 15:07`   `avsm`   Lets leave it there at the very top of that issue until it gets sorted :)
+
+`05-10-2016 15:08`   `avsm`   Most of the effort recently has been on mirage-types
+
+`05-10-2016 15:08`   `avsm`   There are a few more things to merge that are all discussed on their relevant tickets well, but is there anything burning there for anyone?
+
+`05-10-2016 15:08`   `avsm`   The big change that is quite mechanical is renaming V1 to something else, but that can be done fairly easily in one pass through all the libraries.
+
+`05-10-2016 15:09`   `avsm`   I have a large rewrite of mirage-platform to use topkg, and am splitting out the C build rules into a separate mirage-build package
+
+`05-10-2016 15:09`   `yomimono`   I want to do that right before we tag the release
+
+`05-10-2016 15:09`   `yomimono`   `avsm`: that's great to hear!
+
+`05-10-2016 15:09`   `avsm`   this should make solo5 and xen coinstallable, since their stubs will be built separately
+
+`05-10-2016 15:09`   `avsm`   Some of the rules can be seen in the mirage-tcpip rewrite https://github.com/`avsm`/mirage-tcpip/tree/topkg
+
+`05-10-2016 15:09`   `avsm`   (by rewrite i mean packaging rewrite)
+
+`05-10-2016 15:10`   `avsm`   Also, I am eliminating use of -pack in favour of module aliases as I do this, so unikernel binary sizes should reduce.
+
+`05-10-2016 15:10`   `hannes`   `avsm`: great!
+
+`05-10-2016 15:10`   `hannes`   well, moving C bindings out of mirage-platform to the subsequent libraries, topkg all the things... should be good!
+
+`05-10-2016 15:10`   `mato`   `avsm`: I've not yet had time to look at your build rule changes for mirage-platform, hopefully we can sit down together when you're in Berlin an go over it?
+
+`05-10-2016 15:11`   `avsm`   `mato`: yes definitely! I'm aiming to do more work on it on the plane; I discovered a bunch of rules I wrote a few years ago in mirage-platform that I can grab unmodified :)
+
+`05-10-2016 15:11`   `avsm`   I think mirage-solo5/xen coinstallability should be a release blocker as well, since it makes generating documentation very difficult otherwise
+
+`05-10-2016 15:11`   `mato`   Regarding Solo5, all things are mostly on track, my only concern is the stability of virtio drivers which is still not 100% on FreeBSD/bhyve
+
+`05-10-2016 15:12`   `avsm`   docs.mirage.io is going well -- I've been using it day-to-day now!  There are currently some build failures, but it's a useful linting tool to make sure mirage-dev is building
+
+`05-10-2016 15:12`   `avsm`   `mato`: great, I'd also like to deploy the infrastructure using solo5 next week. The blocker is just moving https://github.com/mirage/mirage-www/pull/493 into production (4.03 builds)
+
+`05-10-2016 15:13`   `avsm`   One random thing I've been experimenting with is tracking release notes at https://github.com/mirage/mirage/projects/1
+
+`05-10-2016 15:14`   `avsm`   `yomimono`: i believe anyone can drag these cards around, so it might be useful for scratch notes
+
+`05-10-2016 15:14`   `yomimono`   `avsm`: ack
+
+`05-10-2016 15:14`   `avsm`   Several people have raised a concern about the Travis CI slowness due to parallel builds
+
+`05-10-2016 15:15`   `avsm`   we've definitely been finding real issues from the multidistro builds, so ThomasG (currently in berlin) is working on the CI subsystem more
+
+`05-10-2016 15:15`   `avsm`   https://ci.ocaml.io:8443 is running but is also dealing with a large volume of builds
+
+`05-10-2016 15:15`   `yomimono`   cheers
+
+`05-10-2016 15:16`   `avsm`   So, in terms of contributions, one _very useful_ thing to do for anyone wishing to contribute is to start porting libraries in http://docs.mirage.io that do not use topkg to use it
+
+`05-10-2016 15:16`   `hannes`   your ci asks me for a password
+
+`05-10-2016 15:17`   `avsm`   `hannes`: hm, must be a revproxy. I'll disable the password shortly...
+
+`05-10-2016 15:17`   `amirmc`   I get a certificate invalid error
+
+`05-10-2016 15:17`   `avsm`   it's a self-signed certificate
+
+`05-10-2016 15:17`   `avsm`   it's only a development deployment atm, it might be easier if i shift it a letsencrypt mirage.io VM instead
+
+`05-10-2016 15:18`   `mattg`   `avsm`: i will see about porting some libs to topkg
+
+`05-10-2016 15:18`   `avsm`   Re: topkg, if a package obeys the packaging convention, you get cool http://docs.mirage.io/rresult/index.html metadata
+
+`05-10-2016 15:18`   `hannes`   is there a CI doing 32bit builds?
+
+`05-10-2016 15:18`   `avsm`   and "odig changes" and "odig readme " and "odig version" all work
+
+`05-10-2016 15:18`   `avsm`   `hannes`: nope
+
+`05-10-2016 15:18`   `avsm`   `hannes`: could you give me an issue about that, i could probably hook up some ARMs
+
+`05-10-2016 15:19`   `yomimono`   https://github.com/mirage/mirage-clock/issues/17
+
+`05-10-2016 15:19`   `avsm`   `mattg`: great! mailing list is good for questions, i have some notes about topkg tips i'll publish next week
+
+`05-10-2016 15:19`   `Drup`   `avsm`: wouldn't be simpler/more far reaching to do the small changes so that oasis packages obey the bunzli's packaging guidelines ... ?
+
+`05-10-2016 15:19`   `avsm`   `Drup`: yes that would be useful also
+
+`05-10-2016 15:19`   `hannes`   https://github.com/mirage/mirage/issues/614 there you go
+
+`05-10-2016 15:20`   `avsm`   `Drup`: but I'm finding that a general refresh of the packaging is quite useful for many libraries to speed up builds, shift to module aliases instead of pack, and publish per-library docs. The topkg workflow is quite pleasant to work with
+
+`05-10-2016 15:20`   `hannes`   `avsm`: if you've general guidelines how to build C stubs (now that we have xen, unix, solo5) -- I suspect that'd be useful
+
+`05-10-2016 15:20`   `avsm`   `hannes`: thanks!
+
+`05-10-2016 15:20`   `avsm`   `hannes`: yes I will put full docs on it once it works :-) should be next week
+
+`05-10-2016 15:20`   `Drup`   `avsm`: As usual, the second rewrite is always better.
+
+`05-10-2016 15:21`   `avsm`   `Drup`: yeah there's nothing wrong with oasis -- topkg just collapses a few of the layers and is simpler
+
+`05-10-2016 15:21`   `avsm`   having an oasis plugin for odig would be very handy indeed
+
+`05-10-2016 15:22`   `Drup`   `avsm`: I won't argue about that here, I already expressed my opinion on other places. I just wanted to point out that doing this could probably be more far-reaching to the wider ocaml ecosystem.
+
+`05-10-2016 15:22`   `hannes`   I'd think https://github.com/mirage/functoria/issues/70 is a blocker for Mirage-3?
+
+`05-10-2016 15:22`   `Drup`   I need to look at that
+
+`05-10-2016 15:22`   `Drup`   not sure when I'll have time
+
+`05-10-2016 15:22`   `avsm`   `Drup`: sure... as I said, an oasis/odig plugin would be welcome
+
+`05-10-2016 15:23`   `hannes`   is there a rough target date for the 3.0 release?
+
+`05-10-2016 15:24`   `yomimono`   one week ago, then this week... so... uh...
+
+`05-10-2016 15:24`   `hannes`   ah 'next wednesday'... well played ;)
+
+`05-10-2016 15:24`   `yomimono`   when it's ready
+
+`05-10-2016 15:24`   `yomimono`   real soon now
+
+`05-10-2016 15:24`   `avsm`   In terms of release schedules, it looks like we'll have to delay the release to get all these interface changes in.  A bunch of us will be in Berlin on Saturday, so I'd suggest projecting a realistic date for next week. Can be discussed on the list
+
+`05-10-2016 15:25`   `avsm`   We're in good shape in that the mirage-dev trunks make it much easier to bulk test changes now
+
+`05-10-2016 15:25`   `avsm`   (as opposed to finding breakages in an released package, having to fork it to mirage-dev, etc etc)
+
+`05-10-2016 15:26`   `avsm`   Useful tip: https://hub.docker.com/r/unikernel/mirage/builds/ will show breakage in the doc branch if something in mirage-dev is broken
+
+`05-10-2016 15:26`   `avsm`   it runs on every push to rebuild docs.mirage.io and is currently broken due to the connect changes (qcow-format)
+
+`05-10-2016 15:26`   `avsm`   so i just poll that to see what to fix next ;useful for anyone else wanting to be a human CI :)
+
+`05-10-2016 15:26`   `hannes`   if you announce date+place of saturdays berlin hacking, i might join in
+
+`05-10-2016 15:27`   `amirmc`   `hannes`: Friedrichshain.
+
+`05-10-2016 15:27`   `amirmc`   `hannes`: I'll send you a link
+
+`05-10-2016 15:27`   `avsm`   `amirmc`: thanks!
+
+`05-10-2016 15:27`   `hannes`   I've a branch for nbd (`hannes`m/nbd#error) which is requirement for qcow... I didn't understand enough qcow to modify it
+
+`05-10-2016 15:27`   `hannes`   but if nobody else fixes connect there, I might do later tonight
+
+`05-10-2016 15:28`   `avsm`   `hannes`: im not going to until i get through these c stubs changes, so if you do get a chance that'd be great
+
+`05-10-2016 15:28`   `avsm`   the next time mirage-dev builds, it might be worth cutting a few beta tags so we have some stable packages
+
+`05-10-2016 15:28`   `avsm`   and i can go around adding upper bounds in opam-stable
+
+`05-10-2016 15:28`   `avsm`   perhaps next week `yomimono`?
+
+`05-10-2016 15:29`   `yomimono`   `avsm`: sounds good to me
+
+`05-10-2016 15:29`   `hannes`   yes, opam-repo updates/conflicts can already be done: everything depending on mirage-types needs to be <3
+
+`05-10-2016 15:29`   `avsm`   in AOB, i notice ocamlclean has been refreshed to 4.03 :)
+
+`05-10-2016 15:29`   `avsm`   tis bytecode only, but very cool
+
+`05-10-2016 15:29`   `hannes`   and with that, I'm running to the airport...
+
+`05-10-2016 15:30`   `avsm`   i think we're mostly done! quick meeting today, back to hacking... anyone else got anything?
+
+`05-10-2016 15:30`   `hannes`   `avsm`: there's also the lto thing we should try... should work once we have 4.04 support
+
+`05-10-2016 15:30`   `yomimono`   we were going to discuss errors but I think we're losing our quorum
+
+`05-10-2016 15:30`   `avsm`   `hannes`: yes im porting mirag-xen to use ocaml-freeestanding
+
+`05-10-2016 15:30`   `yomimono`   same for 4.04 support
+
+`05-10-2016 15:30`   `avsm`   that should just give us 4.04 when its tagged
+
+`05-10-2016 15:31`   `avsm`   we are 10000000 commits behind on upstream openlibm, which will fix arm64 and musl support
+
+`05-10-2016 15:31`   `avsm`   so generally our upstreams have done a lot of work for us to get portable, hurrah :)
+
+`05-10-2016 15:31`   `mato`   ocaml-freestanding uses upstream libm
+
+`05-10-2016 15:31`   `avsm`   yeah, mirage-xen uses a random tag, since talex5 submitted his patches upstream and we had to release. those have since been merged.
+
+`05-10-2016 15:31`   `mato`   which reminds me, i should test it against 4.04. hopefully things will "just work"
+
+`05-10-2016 15:32`   `avsm`   `mato`: yes please -- the LTO branch is here https://github.com/ocaml/ocaml/pull/608
+
+`05-10-2016 15:33`   `mato`   `avsm`: is there an opam switch for it?
+
+`05-10-2016 15:33`   `avsm`   Also sean grove gave a fantastic CUFP talk on experiences with mirage; live notes here http://icfp2016.mirage.io/CUFP/baby-steps-to-unikernels-in-pr.md
+
+`05-10-2016 15:34`   `avsm`   `mato`: every ocaml pr has a switch autogenned; opam switch 4.05.0+pr608
+
+`05-10-2016 15:34`   `avsm`   wrapping up meeting now i think...
+
+`05-10-2016 15:34`   `yomimono`   thanks folks :)
+
+`05-10-2016 15:34`   `yomimono`   and `avsm` for facilitating :)
+
+`05-10-2016 15:34`   `avsm`   bows
+
