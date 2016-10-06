@@ -1,6 +1,10 @@
 ---
-title: Heart of the SwarmKit
+title: Heart of the SwarmKit - Store, Topology & Object Model by Aaron Lehman, Andrea Luzzardi and Stephen Day (Docker)
 author: GemmaG (Gemma Gordon)
 ---
 
-Test
+[SwarmKit](https://github.com/docker/swarmkit) is a toolkit for orchestrating distributed systems at any scale. Includes primitives for node discovery, raft-based consensus and task scheduling.
+
+There is an extensive ReadMe for SwarmKit, and see [here](http://stackoverflow.com/questions/38474424/the-relation-between-docker-swarm-and-docker-swarmkit/38483429) for an interesting article on the relationship between Docker Swarm and Docker SwarmKit, and [here](https://blog.replicated.com/2016/06/08/first-look-at-swarmkit/) for an experiential account of using SwarmKit in practice.
+
+Essentially, the tool aims to provide easy management of large-scale distributed systems, and extends beyond Swarm to support different build environments. SwarmKit coordinates via the [Raft Consensus Algorithm](https://raft.github.io/) to maintain a consistent and replicated view of the cluster; uses mutual TLS for authentication and transport encryption; and offers node scheduling and monitoring, allowing tasks to be quickly redistributed from failing nodes to healthy nodes.
