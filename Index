@@ -6,14 +6,14 @@ author: Camels
 This is a small MirageOS webservice, using [canopy](https://github.com/Engil/Canopy).
 Feel free to add content (by creating a file in [this repository](https://github.com/mirage/canopy-data)).
 
-**Posts**
+**[Posts](http://canopy.mirage.io/Posts)**
 
 Progress reports on specific projects, feature sets and Mirage and Unikernel events.
 
-**Projects**
+**[Projects](http://canopy.mirage.io/Projects)**
 
 Mirage Pioneer Projects are listed here, with resources, mentors and difficulty/experience ratings.
 
-**IRC Logs**
+**[IRC Logs](http://canopy.mirage.io/irclogs)**
 
 Each fortnightly Mirage catch-up is logged on IRC and pushed here.
