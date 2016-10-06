@@ -3,4 +3,6 @@ title: Orchestrating Least Privilege by Diogo Monica (Docker)
 author: GemmaG (Gemma Gordon)
 ---
 
-Test
+**Outline**
+
+The principle of least privilege dictates that each process can only access the information and resources necessary to perform their functionality.
