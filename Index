@@ -6,6 +6,9 @@ author: Camels
 This is a small MirageOS webservice, using [canopy](https://github.com/Engil/Canopy).
 Feel free to add content (by creating a file in [this repository](https://github.com/mirage/canopy-data)).
 
+**[Liveblog](http://canopy.mirage.io/Liveblog)**
+
+Liveblog capture of talks/workshops related to OCaml, Mirage and Unikernels.
 
 **[Posts](http://canopy.mirage.io/Posts)**
 
