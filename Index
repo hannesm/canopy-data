@@ -1,36 +1,19 @@
 ---
-title: Mirage hackathon blog
+title: Mirage Canopy Blog
 author: Camels
 ---
 
 This is a small MirageOS webservice, using [canopy](https://github.com/Engil/Canopy).
 Feel free to add content (by creating a file in [this repository](https://github.com/mirage/canopy-data)).
 
-We'll soon (on July 13th) be in Cambridge (Darwin College) for a single day of working on MirageOS.
+**Posts**
 
-**Proposed projects:**
+Progress reports on specific projects, feature sets and Mirage and Unikernel events.
 
-  * Solo5/unikernel/Mirage integration
-  * Mirage 3.0 API merges! Release manager: Mindy
-  * NickB would like to work on uboot+ocaml+mirage for the Pine64
-  * New ARM distribution based on Alpine (Ian Campbell / Anil) that includes Xen and KVM (for an eventual Solo5 port)
-  * Qi Li - might demo his unikernel with tls for ARM cubietruck
-  * it would be lovely to have a PR for [package version constraints in the mirage tool](https://github.com/mirage/mirage/issues/392)
-  * Test out OCaml 4.04 new features: e.g. [LTO](https://github.com/ocaml/ocaml/pull/608)
-  * Remove pre-functoria hacks from mirage front-end tool (side effect: [fix error messages!](https://github.com/mirage/mirage/issues/461)
+**Projects**
 
-**Docker:**
+Mirage Pioneer Projects are listed here, with resources, mentors and difficulty/experience ratings.
 
-  * [Dave Scott] wants to work on VPNkit/Windows/Mirage via a new Lwt engine that is Windows friendly
-  * ThomasG/L and the interns and Anil will continue to make progress on the CI system, tailored for Mirage
-  * IanC has been helping retire mirage-xen-arm-builder in favour of an Alpine/Moby-based ARM distro, which now works on the Cubieboards.
-  * Mindy (yomimono) will be working to merge your PRs for 3.0 :)
+**IRC Logs**
 
-**Schedule for hackathon day/evening:**
-
-Richard King room at Darwin College
-* 9am start - 11pm finish
-* Tea, coffee, biscuits and snacks mid morning
-* Lunch through the servery
-* More tea, coffee, biscuits and snacks mid afternoon
-* Dinner plans are open-ended...
+Each fortnightly Mirage catch-up is logged on IRC and pushed here.

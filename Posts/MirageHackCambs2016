@@ -1,0 +1,33 @@
+---
+title: Mirage hackathon blog
+author: Camels
+---
+
+We'll soon (on July 13th) be in Cambridge (Darwin College) for a single day of working on MirageOS.
+
+**Proposed projects:**
+
+  * Solo5/unikernel/Mirage integration
+  * Mirage 3.0 API merges! Release manager: Mindy
+  * NickB would like to work on uboot+ocaml+mirage for the Pine64
+  * New ARM distribution based on Alpine (Ian Campbell / Anil) that includes Xen and KVM (for an eventual Solo5 port)
+  * Qi Li - might demo his unikernel with tls for ARM cubietruck
+  * it would be lovely to have a PR for [package version constraints in the mirage tool](https://github.com/mirage/mirage/issues/392)
+  * Test out OCaml 4.04 new features: e.g. [LTO](https://github.com/ocaml/ocaml/pull/608)
+  * Remove pre-functoria hacks from mirage front-end tool (side effect: [fix error messages!](https://github.com/mirage/mirage/issues/461)
+
+**Docker:**
+
+  * [Dave Scott] wants to work on VPNkit/Windows/Mirage via a new Lwt engine that is Windows friendly
+  * ThomasG/L and the interns and Anil will continue to make progress on the CI system, tailored for Mirage
+  * IanC has been helping retire mirage-xen-arm-builder in favour of an Alpine/Moby-based ARM distro, which now works on the Cubieboards.
+  * Mindy (yomimono) will be working to merge your PRs for 3.0 :)
+
+**Schedule for hackathon day/evening:**
+
+Richard King room at Darwin College
+* 9am start - 11pm finish
+* Tea, coffee, biscuits and snacks mid morning
+* Lunch through the servery
+* More tea, coffee, biscuits and snacks mid afternoon
+* Dinner plans are open-ended...
