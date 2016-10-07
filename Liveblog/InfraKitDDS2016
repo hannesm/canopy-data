@@ -1,0 +1,120 @@
+---
+title: InfraKit by David Chung and Bill Farner (Docker)
+author: GemmaG (Gemma Gordon)
+---
+
+**David Chung**
+
+InfraKit was announced on Tuesday, and we are very surprised and excited by the level of community support we have received on GitHub.
+
+Problem: managing docker on different infra is difficult and not portable
+
+Different ux experiences when setting up
+want to improve experience regardless of underlying infrastructure
+
+Docker for Mac: self updating
+Docker for AWS: cluster updates? Can you do it in the same way?
+Docker for Azure (Microsoft)
+
+Docker for AWS:
+inherently a distro system in the cloud
+offer infra management functionality as a subsystem. Need this all working before container runtime system can be used.
+Represents a lot of useful work and tools that can be shared - this work became InfraKit.
+
+InfraKit: building declarative self-healing infrastructure
+
+Declarative:
+* json config for desired infra state
+  - instances: vm image etc
+  - group properties: size, identifiers etc
+
+* design patterns encourage
+- encapsulation
+- composition
+
+Config is input to all operations - put in the file what you would like it to look like and the system figures out what needs to be done to achieve this
+
+Self-healing
+* active components/processes
+ - monitor infrastructure state
+ - detects state divergence
+ - takes action
+
+continuous monitoring and reconciliation
+no downtime - rolling update: took a lot of work, but one of the primary reasons for the kit
+
+It's first and foremost a toolkit for users to leverage the primitives it provides and add it to their workflows
+* primitives
+- create, scale, destroy
+- rolling update
+
+* abstractions and developer SPI
+- group: collection of resources
+- instance: physical resource
+- flavour: extra semantics
+
+* collection of executable, active components - plugins
+- in Go (daemons in toolkit - discover eachother and work together)
+- next -> easy management via docker plugins framework (runc containers) within the docker engine (in 1.13?)
+
+What does it look like?
+
+architecture picture when implemented in docker swarm (see online for this)
+cattle: stateless
+pets: named and stateful
+managers: InfraKit itself. self managing - at one time there is only one node performing reconciliation process, but new nodes can be created if others fail.
+
+System can bootstrap itself, starting from one seed node which will (blossom) grow into a full swarm
+
+config example (code)
+
+Once you have the config file, what next?
+
+Operations
+- make sure the plugins are running
+- "watch" the group begin management - figures out what needs to be done, e.g. if no nodes running, then new ones created. Then starts the monitoring and reconciliation loop to ensure the spec is maintained
+- update the config e.g. change size, add ip address. Describe the update/changes before commit, then begin update
+
+Current: today
+- still very new. Need help from the community.
+- plans: improve group management strategy, add more resource types
+- Want to build a cohesive framework for active management of infrastructure - physical, virtual and container based.
+
+will be a complete solution for all infrastructures - to provide a seamless docker experience
+
+Get involved:
+- instance plugins
+- flavour plugins
+- group controller plugins
+
+- help define interfaces and implement new infra resource types: load balancers etc
+
+**Bill Farner**
+
+live demo
+
+practical example of using infrakit in a real world scenario: config infrakit to set up a zookeeper ensemble in cluster mode
+
+identify all members of the quorum - important for all consensus algorithms - complicated with systems like this.
+In zookeeper - call out the ip addresses, host names and IDs - predeclare all the members.
+
+config file: instance plugin is vagrant, flavour is zookeeper. define the IPs you want infrakit to create.
+
+group
+- spec: instance and flavour
+- instance: plugin JSON
+
+allows the flavour to modify the instance
+
+BOF session tomorrow...
+
+---
+
+Q: A lot of systems trying to manage this in similar ways e.g. Bosch, Puppet.. why did you create a new kit? These systems can be complimentary eg. the plugin we have for terraform - terraform can be used as a backend for infrakit. The others don't actively manage the cluster and converge it to the desired state - but that is the main difference with infrakit. Totally conceivable to implement a puppet based instance plugin - and take infrakit with terraform, puppet etc and use them together in a uniform manner.  David: we are building a toolkit - similar to how you can use the raft library for consensus - this will be a tool to build active management systems. Infrakit is not a system in its own right, more of a part of a system.
+
+Q: Gareth: hacking on puppet and infrakit tomorrow. For the Json format, is there a schema anywhere or formalisation? We need help with this - we have a toplevel schema but things get abstracted at different levels. the plugins define that specific piece of schema - so using lots of plugins will mean using lots of schema which abstract at different levels. Our inclination is to not require people to mental map between different systems - do't want them to map the AWS instance into infrakit as it makes it difficult to future proof... as would need to to constantly add to mapping. Instead, updating the dependency allows the mapping to expand with the api.
+
+Q: how do you handle versioning e.g AWS new api with new fields etc, how do you handle that? For now, it is up to the plugins to manage their own version matching, but this is a huge issue and something we will need to focus on for production. David: a lot of this will eventually be deployed as docker plugins, so the docker plugin system will manage this versioning.
+
+Q: can you show the script you used to run the demo.
+2 scripts: one looking at the state of the zookeeper flavour other to build. Started different daemons independently.
