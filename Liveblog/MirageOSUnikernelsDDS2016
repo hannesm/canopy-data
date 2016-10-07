@@ -5,8 +5,6 @@ author: GemmaG (Gemma Gordon)
 
 Making hypervisors interesting again!
 
-D4Mac and Win started at the beginning of the year, and there are lots of components as part of the kits
-
 **Conventional hypervisors**
 
 - run full guest OSs with complex emulation needs
@@ -17,9 +15,9 @@ Lots of legacy code and the hypervisor is sitting at the bottom of the stack - i
 
 **How can distributed systems use hardware protection more flexibly and composably?**
 
-primitives that the OS provides in more flexiable and lightweight ways
+Want a way to use the primitives that the OS provides in more flexiable and lightweight ways
 
-Unikernels:
+**Unikernels**
 library operating systems - break kernels into libraries -> link them with a config file and boot layer and run portable microservices that boot directly on hypervisors or Unix.
 
 Library philosophy is the main and most important feature - link them with your application and they provide functionality but don't impose policy.
@@ -28,10 +26,11 @@ How do you democratise unikernels?
 - benefits are lost when deploying on existing clouds - longer boot on AWS for example
 - difficult to manage hypervisor resources from inside a container without host privilege
 
-Library hypervisors
-Follow the philosophy of unikernels by extending the "kit" model and break down the hypervisor into libraires
+**Library hypervisors**
+
+Follow the philosophy of unikernels by extending the "kit" model and break down the hypervisor into libraries
 - core functionality (CPU and memory)
-- benefit: reduction in TCB and better fit to container-natove infrastructure with privilege dropping
+- benefit: reduction in TCB and better fit to container-native infrastructure with privilege dropping
 - drawback: no existing support in OSs
 
 BUT actually there is a lot of open source support if you look closely
@@ -46,17 +45,15 @@ Now Linux have dev/kvm -> ukvm -> MirageOS 3.0
 
 Possible for average dev to build hypervisor applications easily
 
-D4M
+**Docker 4 Mac**
+
 Native OSX experience working with existing workflows
 - uses HyperKit based on xHyve and bHyve
-  - sandbox friendly: run as non-root with privileges of the local user. All implementations that usually go into the kernel are put into the hypervisor framework
+  - sandbox friendly: run as non-root with privileges of the local user. All implementations that usually go into the kernel are put into the hypervisor framework. OSX kernel -> userspace -> process hardware -> VPNKit
+- embeds linux: Alpine Linux is lightweight and optimised for fast boot
 
-OSX kernel -> userspace -> process
-hardware -> vpn kit
+**HyperKit library structure**
 
-- embeds linux: Alpine Linux is lightweight and optimsed for fast boot
-
-HyperKit library structure
 DEMO
 independent files that are optional that represent IO protocols
 240kb in size - full hypervisor built in seconds
@@ -66,25 +63,25 @@ if app doesn't need a protocol, it isn't linked
 
 **Networking**
 
-conventionally: containers are virtualised as ethernet frames - how do you get these out? Kernel modules act as a bridge which gets complicated...
+Conventionally: containers are virtualised as ethernet frames - how do you get these out? Kernel modules act as a bridge which gets complicated...
 
 How can we use the corporate installations without kernel modules? Unikernels!
 
-Instead of bridging them, we can write functions - VPNKit: opposite of deep package inspection. Took TCP/IP stack and inverted it - give us the ethernet, reconstruct the TCP state flows and translate them into socket calls for us - now have a hypervisor that uses normal OSX kernel sockets to push traffic to the outside world without bridges - all virtualisations are hidden.
+Instead of bridging them, we can write functions using VPNKit: opposite of deep package inspection. Took TCP/IP stack and inverted it - give us the ethernet, reconstruct the TCP state flows and translate them into socket calls for us - now have a hypervisor that uses normal OSX kernel sockets to push traffic to the outside world without bridges - all virtualisations are hidden.
 
 All network traffic is generated from normal socket calls - so interacts well with normal workflows.
 
-D4M:
+Summary of Docker 4 Mac:
 - HyperKit is used to virtualise for domain-specific purposes
-- links mirageos unikernel libraries
+- links MirageOS unikernel libraries
 
 **MirageOS + Solo5**
 
-build handled by Docker but docker run shouldnbt' need privileges
+Build handled by Docker but docker run shouldn't need privileges
 
 MirageOS 3.0 has a new library hypervisor for Linux developed by IBM, Docker and Cambridge University.
 
-Solo5
+**Solo5**
 - runs as a unix process and opens /dev/kvm for hardware isolation
 - ukvm is a small, modular monitor - can be 10k in size
 - can run privilege separately: one process opens /dev/kvm and drops privileges and executes the unikernel
@@ -110,8 +107,8 @@ Mirage 3.0 targets - highlighting the lightweight nature of ukvm and kvm/qemu
 mirage 3.0 targeted to run on virtio hypervisor
 
 size difference of hypervisor
-QEMU= 8mb binary
-UKVM= 67k binary
+QEMU = 8mb binary
+UKVM = 67k binary
 
 same unikernel and same code
 
@@ -125,12 +122,12 @@ unikernel
 
 ----
 
+**REVISITED: How can distributed systems use hardware protection more flexibly and composably?**
+
 Unix binaries being compiled and run without any drama - now question is how can we plumb through docker components e.g. distributed storage, networking etc.
 
-Hardware protection - new advanced functionality - how to take a nice dev experience and utilist the functionality that is usually locked away inside the hypervisor
+Hardware protection - new advanced functionality - how to take a nice dev experience and utilise the functionality that is usually locked away inside the hypervisor
 
 We want to hear about your use cases and hack on some code!
 
-An idea might be to test swarmkit - run a massive process that will simulate the ethernet and give it a sense of failure.
-
-----
+An idea might be to test SwarmKit - run a massive process that will simulate the ethernet and give it a sense of failure.
