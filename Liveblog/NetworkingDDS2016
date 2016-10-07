@@ -74,7 +74,7 @@ A cluster-wide label ID table - the ID is carried in the network packet and used
 
 Policy enforcement cost is reduced to a single hashtable lookup regardless of complexity.
 
-**Safety and extensibility in the kernel
+**Safety and extensibility in the kernel**
 
 - safety guaranteed by verifier
   - protocol parser will not allow someone to remote kill your entire datacenter
