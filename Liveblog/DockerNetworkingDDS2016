@@ -11,25 +11,25 @@ Features added so far from 1.7 - 1.12
 Networking is complex - a full networking stack for Docker
 
 * 1.7
-- libnetwork
-- CNM
-- migrated bridge, host, none drivers to CNM
+  - libnetwork
+  - CNM
+  - migrated bridge, host, none drivers to CNM
 
 * 1.8
-- service discovery
+  - service discovery
 
 * 1.9
-- overlay driver
-- network plugins
-- IPAM plugins
-- network UX/API
+  - overlay driver
+  - network plugins
+  - IPAM plugins
+  - network UX/API
 
 * 1.10
-- distributed DNS
+  - distributed DNS
 
 * 1.11
-- aliases
-- DNS round robin
+  - aliases
+  - DNS round robin
 
 **Networking Planes**
 
