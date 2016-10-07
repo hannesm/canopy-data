@@ -9,7 +9,7 @@ author: GemmaG (Gemma Gordon)
 
 There is an extensive ReadMe for SwarmKit, and see [here](http://stackoverflow.com/questions/38474424/the-relation-between-docker-swarm-and-docker-swarmkit/38483429) for an interesting article on the relationship between Docker Swarm and Docker SwarmKit, and [here](https://blog.replicated.com/2016/06/08/first-look-at-swarmkit/) for an experiential account of using SwarmKit in practice.
 
-Essentially, the tool aims to provide easy management of large-scale distributed systems, and extends beyond Swarm to support different build environments. SwarmKit coordinates via the [Raft Consensus Algorithm](https://raft.github.io/) to maintain a consistent and replicated view of the cluster; uses mutual TLS for authentication and transport encryption; and offers node scheduling and monitoring, allowing tasks to be quickly redistributed from failing nodes to healthy nodes.
+Essentially, the tool aims to provide easy management of large-scale distributed systems, and extends beyond Swarm to support different build environments.   SwarmKit coordinates via the [Raft Consensus Algorithm](https://raft.github.io/) to maintain a consistent and replicated view of the cluster; uses mutual TLS for authentication and transport encryption; and offers node scheduling and monitoring, allowing tasks to be quickly redistributed from failing nodes to healthy nodes.
 
 ----
 
@@ -18,27 +18,29 @@ Stephen Day: data model in SwarmKit
 Andrea Luzzardi: architecture
 Aaron Lehmann: architecture
 
-**Stephen Day**
+###Stephen Day
 
 Club Mate for the win!
 Mushroom hunter
 
-object model
+**Object Model**
 
-new orchestration features in docker 1.12 are built on top of swarmkit
+New orchestration features in docker 1.12 are built on top of swarmkit
 
-simply a control system for your cluster: feedback control system.
+simply a control system for your cluster:   feedback control system.
 - desired state -> orchestrator -> cluster -> state at time
 
 The simple system gets more complicated with clusters
 
 want to minimise the difference between state at time and desired state = convergence.
 
-Observability and controlability - main problems. When you hvae  acluster of machines you have a continuum of data systems with variable observability. E.g. failed node has very limited observability, whereas connectivity state is easier to observe. User input observed via Raft.
+**Observability and controllability**
+
+Main problems. When you have a cluster of machines you have a continuum of data systems with variable observability. E.g. failed node has very limited observability, whereas connectivity state is easier to observe. User input observed via Raft.
 
 Data model requirements
 - represent difference in cluster state
-- maximise observablity
+- maximise observability
 - support convergence
 - be reliable and scalable
 
@@ -49,26 +51,28 @@ Services - a set of containers
 - leave details of runtime to container process
 - implement these services by distributing processes across a cluster
 
-Reconciliation
+**Reconciliation**
+
 spec (desired state) -> object (current state)
 the loop continuously takes the current state and tries to match it to the desired state
 
-Task model
+**Task model**
+
 Atomic scheduling unit of swarmkit - can be used for unikernels or vms - it's a one shot operation not specific to containers.
 
-task model
 runtime
 - prepare: setup resources
 - start: start task
 - wait: wait until task exits
 - shutdown: stop task, cleanly
 
-orhcestrator will check presence of desired state and send to scheduler
+orchestrator will check presence of desired state and send to scheduler
 
 Service spec input example
 service object example
 
-dataflow
+**Dataflow**
+
 user input (task spec) -> create tasks from that
 
 Consistency model - for communicating tasks back to the cluster
@@ -85,46 +89,51 @@ manager: new, allocated, assigned
 
 This process state is a remote operation but can be observed well using remote data structures.
 
+**Conclusion**
+
 Swarmkit doesn't quit - they don't error out, they just never converge.
 
-**Andreas Luzzardi**
+###Andreas Luzzardi
 
-topology mangement in swarmkit
+Topology management in SwarmKit
 
-core component of swarm
-a cluster = a bunch of machines that you want to connect to eachtoer
+Core component of swarm
+a cluster = a bunch of machines that you want to connect to each-other
 
-workers and managers
+Workers and managers
 
-push vs pull model - applies to any kind of distributed system. Both have pros and cons
+**push vs pull model**
 
-Push
-worker registers to discoered system
-manager then
+applies to any kind of distributed system. Both have pros and cons
+
+* Push
+worker registers to discovered system manager  and then manager contacts later
 Good: provides better control over communication rate - managers decide when to contact workers
 Bad: requires a discovery mechanism - more failure scenarios, harder to troubleshoot
 
-pull
+* Pull
 worker connects to manager, registers itself
 good: simpler: wokers connect to managers
-bad: conection needs to be alive at all times
+bad: connection needs to be alive at all times
 
-swarmkit uses pull model
+SwarmKit uses pull model
 favoured operational simplicity, but want to take back rate control
 
-Rate Control
-using heartbeats - ping and pong
+**Rate Control**
+
+* using heartbeats - ping and pong
 - manager dictates heartbeat rate to workers
 - rate is configurable
 - managers to agree on same rate by consensus (raft)
 - managers add jitter so pings are spread over time (avoid bursts)
 
-Rate control: Workloads
+* Workloads
 - worker connects to manager, opens gRPC stream to receive workloads
 - manager buffers workloads and sends in batches to avoid congestion (either 100 or every 100ms whichever occurs first)
 - adds a little delay but gain efficiency in communication
 
-Replication
+**Replication**
+
 running multiple managers - for distributed systems
 - worker can connect to any manager
 - followers will forward traffic to the leader (leader manager and follower managers)
@@ -140,18 +149,19 @@ running multiple managers - for distributed systems
 
 - manager weights: not used extensively yet, but will be in future. Add a preference to prioritise/deprioritise managers as needed
 
-Presence
-stable presence difficult in a distirbuted environemtn
+**Presence**
+
+stable presence difficult in a distributed environment
 - leader commits worker state into raft which propogates consensus to all managers, is recoverable in case of re-election
-- heartbeat tlls kept in leader memory. Can't store last ping time in raft, so keep ttls in memory heap. Upon leader failover, workers are given a grace period to reconnect (and can be flagged accordingly)
+- heartbeat TLLs kept in leader memory.   Can't store last ping time in raft, so keep TLLs in memory heap. Upon leader failover, workers are given a grace period to reconnect (and can be flagged accordingly)
 
 Using swarmkit for a year, can now easily scale to a dozen machines on modest hardware
 
-**Aaron**
+###Aaron
 
 Distributed data store
 
-we store in an object model
+We store in an object model
 - state of the cluster
 - user-defined config
 - organised into objects
@@ -159,20 +169,23 @@ we store in an object model
   - node
   - service etc
 
-needs to be durable and redundant storage. Can use external service, but we decided to embed our own distributed data store
-- want to make it easy to set up (remove dependecny on a key value store like zookeeper and other external services)
+Needs to be durable and redundant storage. Can use external service, but we decided to embed our own distributed data store
+
+- want to make it easy to set up (remove dependency on a key value store like zookeeper and other external services)
 - fewer round trips (maintain synchronised copies allowing quick lookups)
 - can maintain local indices
 
-In-memory data structures
+**In-memory data structures**
+
 - objects are protocol buffers messages
 - stored in go-memdb in-memory database (uses Radix tree for indexing)
 
-radix tree - is a prefix tree - eg hello and helpful share the prefix hel - store objects and build multiple indices on top of the tree. Provides lightweight in-memory snapshots - as long as the nodes in the tree are immutable, we can have a consistent view of the entire tree from a root node.
+radix tree - is a prefix tree - eg hello and helpful share the prefix "hel" - store objects and build multiple indices on top of the tree. Provides lightweight in-memory snapshots - as long as the nodes in the tree are immutable, we can have a consistent view of the entire tree from a root node.
 
 Basis for building transactions
 
-Transactions
+**Transactions**
+
 - transactional interface to read or write data in the store
 - read transactions are just atomic snapshots
 - write transaction: take a snapshot, make changes, replace tree root with modified tree's root (atomic pointer swap)
@@ -182,34 +195,43 @@ Transactions
 transaction example code: read (find image)
 transaction example code: write (find image)
 
-Watches
+**Watches**
+
 See if any changes to objects
 - code can register to receive specific creation, update and deletion events
 e.g. can call a watch function to check on a particular state e.g. > running. You can add lots of things to your list of selectors together with node IDs.
 
-Replication
+**Replication**
+
 - only Raft leader of cluster does writes. Prob with conflicts if all managers can write. Only commit when you know they won't conflict.
   - during write transaction, log every change as well as updating radix tree
   - transaction log is serialised and replicated through Raft
   - internal types are protobuf types which makes serialisation easy
-  - followers replay the log entries into the radix tree (deserialise and replicate)
+  - followers replay the log entries into the radix tree (de-serialise and replicate)
 
-Sequencer - to prevent writes stepping on eachother and provide consistency
+**Sequencer**
+To prevent writes stepping on each-other and provide consistency
 - every object in the store has a version field which is checked when you update the object
   - version stores the raft index when object was last updated
   - updates provide a base version and rejected if out of date
   - similar to CAS
   - also exposed through API calls that change objects in the store (swarmkit or docker apis to fetch services and nodes - include version numbers)
 
-Write batching
+**Write batching**
+
 - every write transaction involves a raft roundtrip to get consensus
   - costly to do many, and want to limit size of a write otherwise the write might take too long
   - SO use batch primitive which lets the store automatically split a group of changes across multiple nodes. It loops over the nodes it knows exists and applies changes where necessary
 
-Future work
+**Future work**
+
 - multi-valued indices: can't index multiple networks easily at the moment
 - watch API: as a docker api
 - version control: within the distributed data store to allow presentation of historical data. For each object stored, we would like to track all changes made to it over time.
+
+----
+
+**Q&A**
 
 Q: I like the time-out response with the pong mechanism - how do you handle situations where messages are lost? Andrea: the manager is expecting the worker to ping after x time - with a huge buffer (x3) so we get to miss 2 messages before kicking out the node. The system is built to deal with it and will buffer out the heartbeat rate. All the messages are going out over TCP which is reliable.
 

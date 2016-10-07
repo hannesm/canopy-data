@@ -3,7 +3,7 @@ title: InfraKit by David Chung and Bill Farner (Docker)
 author: GemmaG (Gemma Gordon)
 ---
 
-**David Chung**
+###David Chung
 
 InfraKit was announced on Tuesday, and we are very surprised and excited by the level of community support we have received on GitHub.
 
@@ -12,16 +12,19 @@ Problem: managing docker on different infra is difficult and not portable
 Different ux experiences when setting up
 want to improve experience regardless of underlying infrastructure
 
-Docker for Mac: self updating
-Docker for AWS: cluster updates? Can you do it in the same way?
-Docker for Azure (Microsoft)
+- Docker for Mac: self updating
+- Docker for AWS: cluster updates? Can you do it in the same way?
+- Docker for Azure (Microsoft)
 
-Docker for AWS:
+**Docker for AWS**
+
 inherently a distro system in the cloud
 offer infra management functionality as a subsystem. Need this all working before container runtime system can be used.
 Represents a lot of useful work and tools that can be shared - this work became InfraKit.
 
-InfraKit: building declarative self-healing infrastructure
+**InfraKit**
+
+Building declarative self-healing infrastructure
 
 Declarative:
 * json config for desired infra state
@@ -57,7 +60,7 @@ It's first and foremost a toolkit for users to leverage the primitives it provid
 - in Go (daemons in toolkit - discover eachother and work together)
 - next -> easy management via docker plugins framework (runc containers) within the docker engine (in 1.13?)
 
-What does it look like?
+**What does it look like?**
 
 architecture picture when implemented in docker swarm (see online for this)
 cattle: stateless
@@ -68,30 +71,32 @@ System can bootstrap itself, starting from one seed node which will (blossom) gr
 
 config example (code)
 
-Once you have the config file, what next?
+**Once you have the config file, what next?**
 
-Operations
+* Operations
 - make sure the plugins are running
-- "watch" the group begin management - figures out what needs to be done, e.g. if no nodes running, then new ones created. Then starts the monitoring and reconciliation loop to ensure the spec is maintained
+- "watch" the group begin management - figures out what needs to be done, e.g. if no nodes running, then new ones created.   Then starts the monitoring and reconciliation loop to ensure the spec is maintained
 - update the config e.g. change size, add ip address. Describe the update/changes before commit, then begin update
 
-Current: today
+**Current: today**
+
 - still very new. Need help from the community.
 - plans: improve group management strategy, add more resource types
 - Want to build a cohesive framework for active management of infrastructure - physical, virtual and container based.
 
 will be a complete solution for all infrastructures - to provide a seamless docker experience
 
-Get involved:
+**Get involved**
+
 - instance plugins
 - flavour plugins
 - group controller plugins
 
 - help define interfaces and implement new infra resource types: load balancers etc
 
-**Bill Farner**
+###Bill Farner
 
-live demo
+**DEMO**
 
 practical example of using infrakit in a real world scenario: config infrakit to set up a zookeeper ensemble in cluster mode
 
@@ -100,7 +105,7 @@ In zookeeper - call out the ip addresses, host names and IDs - predeclare all th
 
 config file: instance plugin is vagrant, flavour is zookeeper. define the IPs you want infrakit to create.
 
-group
+group  
 - spec: instance and flavour
 - instance: plugin JSON
 
@@ -109,7 +114,9 @@ allows the flavour to modify the instance
 BOF session tomorrow...
 
 
----
+----
+
+**Q&A**
 
 Q: A lot of systems trying to manage this in similar ways e.g. Bosch, Puppet.. why did you create a new kit? These systems can be complimentary eg. the plugin we have for terraform - terraform can be used as a backend for infrakit. The others don't actively manage the cluster and converge it to the desired state - but that is the main difference with infrakit. Totally conceivable to implement a puppet based instance plugin - and take infrakit with terraform, puppet etc and use them together in a uniform manner.  David: we are building a toolkit - similar to how you can use the raft library for consensus - this will be a tool to build active management systems. Infrakit is not a system in its own right, more of a part of a system.
 

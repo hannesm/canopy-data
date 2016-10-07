@@ -17,13 +17,15 @@ infinit follows the container philosophy
 - same in all situations
 - highly configurable
 
-Fundamental principles
+**Fundamental principles**
+
 - federate all nodes in an overlay network for lookup and routing (a family of algorithms that allow you to route nodes together and find out which node holds which data)
 - store data as blocks in a distributed hashtable (key value store) with a per-block consensus
 - uses cryptographic access control to dispense from any leader
 - uses symmetrical operations to ensure resilience and flexibility
 
 **DHT Blocks**
+
 * Mutable blocks
 - subject to conflicts
 - subject to invalidation
@@ -36,25 +38,30 @@ Fundamental principles
 Immutable blocks are cheap to write and read, can be fetched from any source and cachable permanently on disk.
 
 **Filesystem Layer**
+
 A mutable block with metadata and FAT (fat allocation table) of immutable blocks (which have all the content of the files).
 
 File content is cachable at will, cheap and an atomic operation to write.
 
-POSIX API
+**POSIX API**
+
 Inherently sequential, but we are highly parallel and therefore sub-performant.
 We solve this by implementing
 - directories prefetch
 - files look-ahead
 which enable batching and pipelining. As soon as we receive answers from the overlay, we can pipeline in parallel and in batches.
 
-Consensus
+**Consensus**
+
 Run consensus per block not on a per system basis. Each block is managed by a specific quorum of node with a variable composition, running multipaxos (as opposed to Raft, as mulitpaxos is offline). All nodes are equal, and the specific quorum is held locally. As there is no central consensus, there is no bottleneck or single point of failure.
 
-Overlay
+**Overlay**
+
 A major customisation point of the platform. We gain partial knowledge - nodes gossip with neighbours to establish which node has the block that you want. Enables you to keep a constant connection to keep the whole address space saved in memory, and there is no network round trip to pay.
 - Data placement: rack-aware, zone-aware, reliability-aware, ensure local copies etc.
 
-Demo
+**DEMO**
+
 with infinit cluster - a new command added yesterday, that sits on top of other commands to create a simple interface to run the cluster.
 
 - Created 3 nodes that are connected as a cluster.
@@ -66,6 +73,10 @@ with infinit cluster - a new command added yesterday, that sits on top of other 
 - Can then use the volume with your preferred syntax
 
 Infinit uses flexible nodes that are essentially the "cattle" in the InfraKit example - making storage as flexible as containers.
+
+----
+
+**Q&A**
 
 Q: When you say it will work with overlay networks, does that mean it will it not work with CNI networks, if . We are completely agnostic with networks - simply a vocab issue.
 
