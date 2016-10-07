@@ -3,4 +3,120 @@ title: Cilium - BPF & XDP for Containers by Thomas Graf (Noiro/Cisco)
 author: GemmaG (Gemma Gordon)
 ---
 
-Test
+Alpha project at Cisco
+Cilium is opensource and provides container networking and security.
+
+TCP turned into BPF bytecode
+
+Networking has become the new application bus, and we have to deal with networks that:
+- contain millions of endpoints
+- are noisy
+- are insecure with multiple tenants
+- operate unreliability
+- are constantly evolving wrt protocols. eg. TCP FastOpen - dramatically reduces the time taken to fetch a website by sending a cookie inside the TCP handshake to reduce it to one round trip.
+
+**Cilium Architecture**
+How does it integrate with Docker and work with distributed systems?
+
+- Cilium layer integrates with orchestration systems via lib network plugin.
+  - Cilium CLI
+  - Policy Repo
+  - Cilium Monitor
+  - Bus is the linux kernel module buffer
+
+Sole purpose of Cilium is to connect containers to net devices and enforce security.
+
+**What is BPF?**
+Extended to support more than basic filtering. Chrome leverages it to whitelist the plugins.
+
+Can apply BPF to networking by attaching BPF programs to the traffic layer and pass all packets through this program. The program is a set of bytecode instructions that can be run natively on the CPU (with a JIT)
+
+Linux kernel module differences? If there is a bug, your kernel will crash. BPF has a verifier - which looks at the bytecode and checks it's safe - kernel memory is not exposed. Ideal for creating a networking parser for example.
+
+BCC - python code translated into BPF bytecode
+LLVM/Clang - translates C code into BPF - that's what we use?
+
+**Why is this good?**
+
+- BPF code generation at container startup
+  - tailored to each individual container
+  - leads to a minimal set required and reduces the attack surface and is very fast
+- majority of config becomes constant and the compiler can optimise heavily
+- regeneration at runtime without breaking connections
+
+**IPv6 Support**
+
+Make all tasks globally addressable on the internet!
+- global IPv6 addresses
+  - no NAT
+  - native IPv4/NAT46 + NAT for compatibility
+- host scope address allocator
+  - lockless allocation
+- task mobility
+  - ILA - migrate long running tasks from a machine by splitting into components
+
+**Scaling Policy Specification**
+
+How to specify policy for millions of endpoints?
+
+- decouple policy specification from addressing
+  - IP+port ACLs are unsuitable for containers
+  - policy specification based on container labels
+e.g. FE: frontend; BE backend. Cilium will map this container label based system for you.
+
+Multi-dimensional label specification helps.
+
+**Scaling policy enforcement**
+
+Distributed fixed cost policy enforcement - a per CPU BPF map hashtable
+
+A cluster-wide label ID table - the ID is carried in the network packet and used to reconstruct the label context at the receiving host.
+
+Policy enforcement cost is reduced to a single hashtable lookup regardless of complexity.
+
+**Safety and extensibility in the kernel
+
+- safety guaranteed by verifier
+  - protocol parser will not allow someone to remote kill your entire datacenter
+- decouple datapath functionality from kernel version
+  - support new protocols
+  - add arbitrary statistics
+- all at runtime for already running containers
+
+Gaining visibility into networking - every counter comes at a cost and BPF gives you a way to gain the metrics and stats that you want when you want them.
+
+Scaling the delivery of cat videos
+Usually all packets need to pass through the load balancer - need to use direct-server-return which is simple with BPF in a completely programmable way. It is available at any point - intra-node, between containers, N-S, E-W
+
+**Performance**
+
+container to container on a local node, no networking hardware involved. Limited by memory bandwith and context switches etc.
+
+Scales well with full policy enforcement: 10,000 label-to-label associations.
+
+**DEMO**
+
+How to debug a connectivity issue
+
+- Starting 2 containers and connecting them to Cilium
+- label each container: server and client
+- BPF gives additional visibility and you can see the cilium monitor (100 line Go program)
+- monitor provides messages, id from the container, and you can also see the label id.
+- Can receive in a high-speed environment
+- In this case the policy is denied - can see that there is no policy defining whether the client can talk to the server, so need to add a policy with rules
+- load policy and observe - now accepted
+- collect stats per allowed consumer, not stats between IPs
+- now the data path has debugging statements that are printed - usually gained via printk but now received in seconds
+
+----
+
+**Q&A**
+
+Q: Can you tell us more about how the verifier works? It is implemented in the kernel and when you load BPF bytecode it will load each instruction and walk each possible branch and verify it is safe. Can jump backwards in the program but not in a loop.
+Is it just a bunch of heuristics or are you using formal verification? It is only looking at instructions and looking through each possible option - there is no external input that is undefined. I can put you in touch with the person who wrote the verifier to answer more deeply.
+
+Q: Can we do TLS in BPF? Potentially at some point. BPF cannot do everything - a few things are missing e.g. timers, loops. We'd like to do it eventually. BPF the bytecode engine needs to be extended to get to this point. Each program can be at most 4,000 instructions at the moment and the verifier has a max complexity limit - if the kernel is taking too long, there is an opportunity to exploit the kernel.
+
+Q: I don't understand the mechanics of how it works. Orchestration plugin tells us a new orchestration has started, we retrieve the labels, take the base program, take the header file, confi the port map, invoke LLVM/Clang and use TC to put bytecode into the kernel, kernel verifies it and then we put it in the local stack.
+
+Q: Does BPF vm have other uses in networking? Yes, in particular storage, attaching them to C groups which is happening at the moment - with this integration you can attach a program to other sockets that don't belong to your program.
