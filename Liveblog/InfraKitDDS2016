@@ -108,6 +108,7 @@ allows the flavour to modify the instance
 
 BOF session tomorrow...
 
+
 ---
 
 Q: A lot of systems trying to manage this in similar ways e.g. Bosch, Puppet.. why did you create a new kit? These systems can be complimentary eg. the plugin we have for terraform - terraform can be used as a backend for infrakit. The others don't actively manage the cluster and converge it to the desired state - but that is the main difference with infrakit. Totally conceivable to implement a puppet based instance plugin - and take infrakit with terraform, puppet etc and use them together in a uniform manner.  David: we are building a toolkit - similar to how you can use the raft library for consensus - this will be a tool to build active management systems. Infrakit is not a system in its own right, more of a part of a system.
