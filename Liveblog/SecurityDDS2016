@@ -6,3 +6,110 @@ author: GemmaG (Gemma Gordon)
 **Outline**
 
 The principle of least privilege dictates that each process can only access the information and resources necessary to perform their functionality.
+
+----
+
+What is an orchestrator?
+Firstly, what is an orchestra? A group with different roles that create a cohesive symphony. They follow a script and they follow a conductor. The conductor has limited leeway - they can't change the tempo. And the orchestra can't change the individual musical notes.
+
+There is a declarative syntax that defines the performance that is followed by the orchestra (in symphonies, ballet and performances).
+
+Composer - creates the music -> performed by the orchestra
+
+Orchestrator:
+node management
+task assignment
+cluster state reconciliation
+resource management
+
+What is least privilege?
+Essentially specialisation - strict access to information and resources necessary for its purpose.
+
+Why do we need least privilege?
+Allows you to think critically about all components in the system with regards to an attack model.
+
+1: external attacker: tomato from the audience (no monkeys throwing tomatoes online!). An attacker outside of your firewall trying to compromise your infrastructure
+
+2: internal attacker: someone with access to the switch, send packets and communicate with nodes.
+
+3: NSA cat: can listen to all communications within the network - having a cluster with all communications between nodes and workers compromised
+
+4: malicious worker node: whichever resources this node has access to is owned by the attacker
+
+5: malicious manager: manager controlling the orchestrator and the system is malicious. Worst case scenario - has access to lots of resources.
+
+if we follow least privilege - all the manager could do is do an eclipse attack - it should not have access to all other workers and resources.
+
+How do we achieve least privilege orchestration?
+
+1: external
+- access to externally accessible ports should be explicit and should be turned off by default
+- administration endpoints are authenticated and authorised by default
+
+2: internal
+- authentication of both network and cluster control-plane communication. No one should accept a package unless they are proven.
+- service to service communication
+
+3: NSA cat
+- all control and data-plane traffic encrypted with integrity guarantees
+
+4: malicious worker
+- workers should only have access to resources they specifically need access to
+- push vs pull: worker should not have privileged access to query resources
+- no ability for workers to modify or access any cluster state except their own
+- identity of a worker is assigned, not requested and ID should be consistent
+
+5: malicious manager - full compromise so need to decouple everything downstream from that manager
+- can't run arbitrary code on workers that come from managers - use notary or DCT
+- no manager access to secret material
+- no ability to spin up unauthorised nodes/impersonate existing nodes. New nodes = fake identities introduced into the system.
+- no ability for manager to read service-to-service communication
+
+Byzantine Consensus
+Mini Diogo rant!
+In 2013 - Raft protocol. BUT Raft was not designed to by byzantine and we are operating on top of a primitive with some practical issues. We should start getting operational experience with full tolerance situations - to deal with the malicious manager.
+
+Don't want a street performer operating on my cluster!
+
+Docker Swarm: on the path to achieving least privilege.
+
+* Mutual TLS by default
+- first node generates a new self-signed CA (certificate authority).
+- new nodes can get a certificate issued with a token
+- workers and managers are identified by their certificate and relates to their role in the cluster
+- communications secured with mutual TLS -  All TLS handshakes are verified and mutually authenticated.
+
+* The Token consists of:
+- prefix to allow VCS searches for leaked tokens
+- cryptographic hash of the CA root certificate for bootstrap
+- randomly generated secret
+
+* Bootstrap
+1: retrieve and validate root CA public key material
+2: submit new CSR along with secret token
+3: retrieve the signed certificate
+An identity handed to the worker by the manager.
+
+* Automatic certificate rotation: 1 hr min rotation
+1: submit new CSR using old key-pair
+2: retrieve the new signed certificate
+
+* Support for external CAs
+- managers support BYO CA
+
+DEMO of SwarmKit
+(modified version for demo rotating certificate of the worker every 5 seconds)
+
+- create manager node: CA automatically created
+- token
+- new node to join the cluster
+- watch on certificate of node 2. Added a diff option so you can see what changes i.e. the public keys. Role and ID of the node DO NOT change.
+- promote worker node to manager. The certificate changes to reflect the new level of permission. The CN is still the same, so the node identity is still the same. Can also demote easily.
+
+Current state in swarm mode is a jazz band - in sync playing a song but self organised and self managed. Want to have a model which resists malicious musicians (what we have now) to also resist malicious managers.
+
+Q: Can you explain under which circumstances teh token can be compromised? If you tweet it, or commit to GH, paste on a Slack channel - only if you intentionally leaked it. It's so easy to rotate, you should do it often. The only part of the token that is secret is the last part, but it needs to be viewed as a total entity - if it is leaked, you should rotate it.
+
+Q: Why are they not rotated every hour? A lot of systems depend on time e.g. TLS specifically relies on clocks being in sync. We allow you to choose to tell the system that you are running a tight ship with no drifts higher than 2 seconds, but this is not true of most systems. If your certificates expire after an hour, you don't have a lot of time to fix that for all of your nodes - 3 months is therefore the default rotation period. We want to have operational confidence to come down as low as possible - poss 24 hours.
+
+BOF session tomorrow!
