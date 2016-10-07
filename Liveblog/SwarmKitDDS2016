@@ -3,6 +3,8 @@ title: Heart of the SwarmKit - Store, Topology & Object Model by Aaron Lehman, A
 author: GemmaG (Gemma Gordon)
 ---
 
+* **Slides**: [slideshare](https://speakerdeck.com/aluzzardi/heart-of-the-swarmkit-topology-management)
+
 **Outline**
 
 [SwarmKit](https://github.com/docker/swarmkit) is a toolkit for orchestrating distributed systems at any scale. Includes primitives for node discovery, raft-based consensus and task scheduling.
