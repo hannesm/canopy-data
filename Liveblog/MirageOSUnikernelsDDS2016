@@ -15,9 +15,9 @@ Lots of legacy code and the hypervisor is sitting at the bottom of the stack - i
 
 **How can distributed systems use hardware protection more flexibly and composably?**
 
-Want a way to use the primitives that the OS provides in more flexiable and lightweight ways
+Want a way to use the primitives that the OS provides in more flexible and lightweight ways
 
-**Unikernels**
+**Unikernels**  
 library operating systems - break kernels into libraries -> link them with a config file and boot layer and run portable microservices that boot directly on hypervisors or Unix.
 
 Library philosophy is the main and most important feature - link them with your application and they provide functionality but don't impose policy.
