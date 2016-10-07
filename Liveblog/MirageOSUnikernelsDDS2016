@@ -70,7 +70,7 @@ conventionally: containers are virtualised as ethernet frames - how do you get t
 
 How can we use the corporate installations without kernel modules? Unikernels!
 
-Instead of briding them, we can write functions - VPNKit: opposite of deep package inspection. Took TCP/IP stack and inverted it - give us the ethernet, reconstruct the TCP state flows and translate them into socket calls for us - now have a hypervisor that uses normal OSX kernel sockets to push traffic to the outside world without bridges - all virtualisations are hidden.
+Instead of bridging them, we can write functions - VPNKit: opposite of deep package inspection. Took TCP/IP stack and inverted it - give us the ethernet, reconstruct the TCP state flows and translate them into socket calls for us - now have a hypervisor that uses normal OSX kernel sockets to push traffic to the outside world without bridges - all virtualisations are hidden.
 
 All network traffic is generated from normal socket calls - so interacts well with normal workflows.
 
