@@ -1,6 +1,74 @@
 ---
-title: Modern Storage Platform for Container Environments by Julien Quintard (Infiniti)
+title: Modern Storage Platform for Container Environments by Julien Quintard (Infinit)
 author: GemmaG (Gemma Gordon)
 ---
 
-Test
+The Infinit storage platform is designed with containers in mind.
+
+**Features**
+
+Truly distributed: completely decentralised and all nodes are equal.
+- It works the same way with one or 10,000 nodes
+- nodes can come and go at will
+
+infinit follows the container philosophy
+- create and run as seamlessly as a container
+- can scale with your container pool
+- same in all situations
+- highly configurable
+
+Fundamental principles
+- federate all nodes in an overlay network for lookup and routing (a family of algorithms that allow you to route nodes together and find out which node holds which data)
+- store data as blocks in a distributed hashtable (key value store) with a per-block consensus
+- uses cryptographic access control to dispense from any leader
+- uses symmetrical operations to ensure resilience and flexibility
+
+**DHT Blocks**
+* Mutable blocks
+- subject to conflicts
+- subject to invalidation
+- hard to certify and cipher
+* Immutable blocks
+- no conflicts (one version)
+- no validation, cachable forever
+- easy to certify since content addressable
+
+Immutable blocks are cheap to write and read, can be fetched from any source and cachable permanently on disk.
+
+**Filesystem Layer**
+A mutable block with metadata and FAT (fat allocation table) of immutable blocks (which have all the content of the files).
+
+File content is cachable at will, cheap and an atomic operation to write.
+
+POSIX API
+Inherently sequential, but we are highly parallel and therefore sub-performant.
+We solve this by implementing
+- directories prefetch
+- files look-ahead
+which enable batching and pipelining. As soon as we receive answers from the overlay, we can pipeline in parallel and in batches.
+
+Consensus
+Run consensus per block not on a per system basis. Each block is managed by a specific quorum of node with a variable composition, running multipaxos (as opposed to Raft, as mulitpaxos is offline). All nodes are equal, and the specific quorum is held locally. As there is no central consensus, there is no bottleneck or single point of failure.
+
+Overlay
+A major customisation point of the platform. We gain partial knowledge - nodes gossip with neighbours to establish which node has the block that you want. Enables you to keep a constant connection to keep the whole address space saved in memory, and there is no network round trip to pay.
+- Data placement: rack-aware, zone-aware, reliability-aware, ensure local copies etc.
+
+Demo
+with infinit cluster - a new command added yesterday, that sits on top of other commands to create a simple interface to run the cluster.
+
+- Created 3 nodes that are connected as a cluster.
+- Using client to connect to and access the cluster - issue commands to it.
+- Create filesystem
+- Mounted in Docker container (mountpoint stored in 3 places)
+- Can now access all of the blocks written to each machine
+- Mount as a Docker volume (using plugin)
+- Can then use the volume with your preferred syntax
+
+Infinit uses flexible nodes that are essentially the "cattle" in the InfraKit example - making storage as flexible as containers.
+
+Q: When you say it will work with overlay networks, does that mean it will it not work with CNI networks, if . We are completely agnostic with networks - simply a vocab issue.
+
+Q: How do you manage concurrency at a higher level with a per block consensus? E.g. a file that outgrows a single block size. We only handle blocks that are atomic so we only handle consensus at a block level. Anything at a higher level just maps into the block. You have a whole list of questions that might be better to ask at the BOF tomorrow.
+
+Q: Can you compare it to IPFS? It is similar but IPFS is based on content popularity, but we want the data to be available even if it isn't popular. But we could use it as a layer, and one of the bricks for the whole system.
