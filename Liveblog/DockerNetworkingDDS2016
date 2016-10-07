@@ -3,4 +3,141 @@ title: Docker Networking - Distributed Control & Data Plane by Madhu Venugopal a
 author: GemmaG (Gemma Gordon)
 ---
 
-Test
+Developing Docker networking features, UX and how to configure features.
+
+###Madhu
+
+Features added so far from 1.7 - 1.12
+Networking is complex - a full networking stack for Docker
+
+* 1.7
+- libnetwork
+- CNM
+- migrated bridge, host, none drivers to CNM
+
+* 1.8
+- service discovery
+
+* 1.9
+- overlay driver
+- network plugins
+- IPAM plugins
+- network UX/API
+
+* 1.10
+- distributed DNS
+
+* 1.11
+- aliases
+- DNS round robin
+
+**Networking Planes**
+
+* Management Plane
+User/operator/tools managing network infrastructure. Including monitoring.
+
+* Control Plane
+Signaling between network entities to exchange reachability states. Want the most efficient control plane algorithm to signal routes of communication.
+Performance and scale are paramount on this plane.
+
+* Data Plane
+Actually moving your application packet from A to B.
+Tuned for speed - includes tables where the only time taken is the table lookup. The quicker we can dispense a packet, the better.
+
+**Docker Networking Planes**
+
+* Management Plane
+Docker network UX, APIs and Network management plugins.
+
+* Control Plane
+Libnetwork core and swarmkit allocator. Where most of the code is added directly. Network-scoped gossip protocol, service-discovery, encryption key distribution.
+
+* Data Plane
+Network plugins and built-in drivers.
+Use linux and windows kernels, so no coding on the data plane itself. Bridge, overlay ipvlan and all other plugins.
+
+Plugins in the data plane can use the control plane - allowing a consistent view of topology.
+
+BOF tomorrow will focus on the Control Plane features.
+
+###Jana
+
+Deep Dive - Control Plane
+
+**Components**
+
+- centralised resources and policies (each network is a policy in Docker)
+- de-centralised events - peer to peer, gossip based between nodes in the swarm cluster
+
+**Centralised resources and policies**
+
+- networks are a definition of policy
+- central resource allocation (IP subnets, addresses etc)
+- can mutate state as long as managers are available
+
+Information downloaded into the workers for running their tasks.
+
+In future can define more fine-grained policies to go here.
+
+**De-centralised events**
+
+- state is learned through de-centralised dissemination of events
+- gossip based protocol: swarm scope gossip and network scope gossip. It scales from 1-10,000 nodes in exactly the same way (as per the infinit example)
+- fast convergence
+- highly scalable
+- continues to function even if all managers are down
+
+**Gossip in detail**
+
+- completely de-centralised discovery of cluster nodes
+- uses SWIM (scalable weakly-consistent infection-style process group membership protocol) Weakly consistent means you will get out of order packets
+- 2 kinds of cluster membership
+  - swarm level
+  - network level
+- sequentially consistent state dissemination ordered by a lamport clock (solves the out of order feature associated with SWIM)
+- single writer at a record/enty level - no conflict across nodes
+- convergence time roughly has a O(logn) asymptotic time complexity
+
+**Failure detection**
+
+Periodic probe nodes based on randomised round robin. If the probe succeeds, it move onto the next node set. If it fails, it doesn't automatically say it's dead, but it moves the node to a suspect state. Need to differentiate between message loss and node failure. It will distribute  among other nodes in the cluster via rebroadcast - including the node that is suspect. If not picked up from that suspect node, then it is removed from the cluster and all information associated with it is removed (routing information, load balancing info etc).
+
+**State dissemination**
+
+During a typical scenario, when a node publishes the state.
+
+Broadcast state change to upto 3 random nodes which participate in the network that the entry belongs to. Check if the entries are stale or new (based on lamport clock) - if new it will rebroadcast to 9 further nodes and the entire cluster receives the rebroadcast.
+
+Happens with UDP not TCP - can't have TCP connections across all nodes as you'll have a scale problem. UDP is also unreliable and you can have packet loss or queuing delay - therefore we have a backup mechanism: a periodic bulk sync of the entire state for a single network to a random node participating in that network.
+
+All happening in parallel across all nodes - the randomisation is very effective at converging the state much faster.
+
+Deep-dive - Data Plane
+
+**Overlay Driver**
+
+A great protocol for any infrastructure - we have done nothing to enable swarm mode in AWS or public could provider - it just works. There is a calculation overhead of ~5-10%, but bridges increase the overhead. Any kind of memory lookup increases overhead. Applications are not just going to use a single core - so you can saturate a 10g pipe.
+
+overlay networking under the hood
+- VXLAN data transport
+- L2 network over an L3 network (overlay)
+- RFC7348
+- host as VXLAN tunnel end point (VTEP)
+- point to multi point tunnels. Single VXLAN interface
+- proxy-ARP
+
+Need multicast support which doesn't exist in AWS so we use proxy-ARP on the same node. Use control plane to learn the information across the cluster.
+
+Create a network namespace, with a bridge inside it. All containers are connected to the bridge. VXLAN interface sends the packet to VXLAN in other host as it knows the address and then that bridge will forward it to the correct node. All entries are network limited - an optimisation to avoid incurring too much overhead with looking up in iptables.
+
+2 bridges involved with controlling the forwarding between hosts.
+
+External load balancing vs internal load balancing.
+
+Packet -> comes in via published-port -> ingress sandbox in the gateway bridge -> match based on published-port -> via ingress overlay bridge -> VXLAN tunnel
+
+----
+
+**Q&A**
+
+Q at BOF tomorrow
