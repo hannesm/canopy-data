@@ -8,3 +8,5 @@ author: GemmaG (Gemma Gordon)
 [The Update Framework (TUF)](https://theupdateframework.github.io/) secures new or existing software update systems by providing a [specification](https://github.com/theupdateframework/tuf/blob/develop/docs/tuf-spec.txt) and [library](https://github.com/theupdateframework/tuf) that can be flexibly and universally integrated or natively implemented. The update procedure is notoriously susceptible to malicious attacks and TUF is designed to prevent these and other updater weaknesses.
 
 Docker's [Notary](https://github.com/docker/notary/tree/master/tuf) project integrates the [Go implementation](https://github.com/flynn/go-tuf) of TUF with [Docker Content Trust](https://blog.docker.com/2015/08/content-trust-docker-1-8/) to verify the publisher of Docker images.
+
+----

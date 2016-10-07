@@ -3,4 +3,129 @@ title: Prometheus - Design and Philosophy by Julius Volz (Independent)
 author: GemmaG (Gemma Gordon)
 ---
 
-Test
+Opinionated monitoring system
+
+Started in 2012 at SoundCloud
+Inspired by Google's monitoring tools
+
+Motivation:
+- needed to monitor dynamic cloud env
+- unsatisfying data models, querying and efficiency in existing approaches
+
+Prev monitoring tools were made for a static world and they were unhappy with the models and their efficiency.
+
+Prometheus - a new monitoring system. Now a CNCF project (second after kubernetes). Docker going to add native prometheus components which is exciting!
+
+What is prometheus?
+time series based monitoring system
+- instrumentation
+- metrics collection and storage
+- querying
+- alerting
+- dashboarding, graphing, trending
+
+FOCUS
+operational systems monitoring
+dynamic cloud environments
+
+Architecture (image)
+Prometheus server - run one or mulitple in your organisation. Configure to actively pull metrics from the things you care about:
+- services where you own the code - can add direct prometheus metrics to the code
+- code you don't want to add an HTTP server on - sidecar next to it which translates the metric state to prometheus metrics which can be read
+- short lived jobs - pushgateway acting as a metric cache and the server pulls from that
+
+Service discovery - how the server figures out which metrics to scrape, and finds it targets. Usuall run one of these.
+- DNS
+- Kubernetes
+- Consul
+
+Alert manager
+- push alerts and where to route them
+
+Visualisation options
+
+4 main selling points:
+1 dimensional data model: where a metric came from and what it pertains to
+2 powerful query language
+3 efficiency: single node 800,000 samples per second, and stores them to disk
+4 operational simplicity: single static binary with a small config file
+
+Scope limits
+- no raw log/event collection only aggregated time series data
+- no request tracing
+- no "magic" anomoly detection, only explicit queries
+- not durable long-term storage - can do that externally in a decoupled way
+- no automatic horizontal scaling
+- no user/auth management
+
+* Expression browser - gives you the current state
+* Built-in graphing - selects thousands of time series, look at the rate etc
+
+Data Model
+labels > hierarchy
+Different model to other monitoring systems which are either flat or hierarchical which can be inflexible.
+Prometheus has a metric name and key value pairs attached to it, and they identify one time series.
+
+Label-based model is better for the cross-cutting selection and is more explicit.
+
+Non-SQL Query Language
+PromQL - completely custom language
+automatically propagates the same labels into the output - like a map in a functional language. In SQL you would have to manually select all of the labels you would like to use.
+Prometheus common use case: binary arithmetics between two whole sets of time series - eg total no of errors and total no of requests to calculate the error ratio - equal cardinality output set and is much simpler, shorter, easier to use than SQL in this case.
+
+PromQL better for the metrics computation that they typically want to do, and was designed to only do reads - writing happens through a different out-of-badn process.
+
+Pull vs Push
+
+Pull based approach to gathering metrics:
+- automatic health monitoring
+- horizontal monitoring: easily change own monitoring system to pull in what you want and where you pull it from.
+- more flexible: run a copy of production monitoring to your laptop - allows you to play with it, test different alerting rules etc
+- simpler HA: high availability. Alert manager de-duplicates based on the label set.
+- less configuration: the instances themselves don't need configuration
+- scales well (prometheus.io blog): but there can be issues e.g. firewall
+
+Alternatives for these difficult cases
+- run Prometheus on same network segment as your target as there are fewer moving parts
+- open port(s) in firewall/router (doesn't work for IoT)
+- open a tunnel?
+
+Prometheus is made for the scenario where you are in a data center and have full access.
+
+Uber-exporters or per-process exporters?
+- per machine uber-exporter: different applications pushing to a machine exporter and Prometheus can collect metrics data from there.
+NO: operational bottleneck - services might belong to different hosts and talking to each-other can be too long
+NO: SPOF, no isolation
+NO: can't scrap selectively. Lots of services from different teams on the same node, you can't choose that data set.
+NO: harder up-ness monitoring
+NO: harder to associate metadata. Services will have to push data with right identity data to the exporter and the monitoring system will need to deal with that.
+- one exporter per process - allows you to see which metrics belong to what and where.
+
+No Clustering?
+- difficult
+- first thing to fail e.g network outage
+- focus on operational monitoring
+- HA for alerting still easy
+
+Conclusion
+- Not about Prometheus specifically, but more about the design aspects and decisions they chose to take with respect to best practices for monitoring.
+
+DEMO
+Set up with linux node monitoring and no containers - to show how small
+2 static binaries and a config file
+scrape 2 services
+  - prometheus scraping itself
+  - scraping node exporter (sidecar) to export linux metrics
+Prometheus will read from that scrape
+Format of metrics:
+- some as one time series per line
+- some node metrics e.g. counters for CPU
+Can easily choose which results to display
+
+5 node EC2 swarm cluster on Docker
+- Usually wouldn't want to run the exporter in a container as it needs access to everything
+- Global mode starts on all nodes in the cluster
+- Proxied data service through Grafana to produce a graph from that data.
+Configured Prometheus on swarm cluster so that it discovers the different services via DNS, but could instead have it connect directly for discovery.
+
+Questions taken tomorrow at BoF
