@@ -3,13 +3,8 @@ title: Orchestrating Least Privilege by Diogo Monica (Docker)
 author: GemmaG (Gemma Gordon)
 ---
 
-**Outline**
+**What is an orchestrator?**
 
-The principle of least privilege dictates that each process can only access the information and resources necessary to perform their functionality.
-
-----
-
-What is an orchestrator?
 Firstly, what is an orchestra? A group with different roles that create a cohesive symphony. They follow a script and they follow a conductor. The conductor has limited leeway - they can't change the tempo. And the orchestra can't change the individual musical notes.
 
 There is a declarative syntax that defines the performance that is followed by the orchestra (in symphonies, ballet and performances).
@@ -17,15 +12,17 @@ There is a declarative syntax that defines the performance that is followed by t
 Composer - creates the music -> performed by the orchestra
 
 Orchestrator:
-node management
-task assignment
-cluster state reconciliation
-resource management
+- node management
+- task assignment
+- cluster state reconciliation
+- resource management
 
-What is least privilege?
+**What is least privilege?**
+
 Essentially specialisation - strict access to information and resources necessary for its purpose.
 
-Why do we need least privilege?
+**Why do we need least privilege?**
+
 Allows you to think critically about all components in the system with regards to an attack model.
 
 1: external attacker: tomato from the audience (no monkeys throwing tomatoes online!). An attacker outside of your firewall trying to compromise your infrastructure
@@ -38,16 +35,16 @@ Allows you to think critically about all components in the system with regards t
 
 5: malicious manager: manager controlling the orchestrator and the system is malicious. Worst case scenario - has access to lots of resources.
 
-if we follow least privilege - all the manager could do is do an eclipse attack - it should not have access to all other workers and resources.
+If we follow least privilege - all the manager could do is do an eclipse attack - it should not have access to all other workers and resources.
 
-How do we achieve least privilege orchestration?
+**How do we achieve least privilege orchestration?**
 
 1: external
 - access to externally accessible ports should be explicit and should be turned off by default
 - administration endpoints are authenticated and authorised by default
 
 2: internal
-- authentication of both network and cluster control-plane communication. No one should accept a package unless they are proven.
+- authentication of both network and cluster control-plane communication. No one should accept a package unless they are proven
 - service to service communication
 
 3: NSA cat
@@ -62,16 +59,19 @@ How do we achieve least privilege orchestration?
 5: malicious manager - full compromise so need to decouple everything downstream from that manager
 - can't run arbitrary code on workers that come from managers - use notary or DCT
 - no manager access to secret material
-- no ability to spin up unauthorised nodes/impersonate existing nodes. New nodes = fake identities introduced into the system.
+- no ability to spin up unauthorised nodes/impersonate existing nodes. New nodes = fake identities introduced into the system
 - no ability for manager to read service-to-service communication
 
-Byzantine Consensus
+**Byzantine Consensus  **
+
 Mini Diogo rant!
-In 2013 - Raft protocol. BUT Raft was not designed to by byzantine and we are operating on top of a primitive with some practical issues. We should start getting operational experience with full tolerance situations - to deal with the malicious manager.
+In 2013 - Raft protocol which launched a lot of great work in the area of consensus. BUT Raft was not designed to by byzantine and we are operating on top of a primitive with some practical issues. We should start getting operational experience with full tolerance situations - to deal with the malicious manager.
 
 Don't want a street performer operating on my cluster!
 
-Docker Swarm: on the path to achieving least privilege.
+**Docker Swarm**
+
+On the path to achieving least privilege.
 
 * Mutual TLS by default
 - first node generates a new self-signed CA (certificate authority).
@@ -97,7 +97,8 @@ An identity handed to the worker by the manager.
 * Support for external CAs
 - managers support BYO CA
 
-DEMO of SwarmKit
+**DEMO of SwarmKit**
+
 (modified version for demo rotating certificate of the worker every 5 seconds)
 
 - create manager node: CA automatically created
@@ -106,7 +107,13 @@ DEMO of SwarmKit
 - watch on certificate of node 2. Added a diff option so you can see what changes i.e. the public keys. Role and ID of the node DO NOT change.
 - promote worker node to manager. The certificate changes to reflect the new level of permission. The CN is still the same, so the node identity is still the same. Can also demote easily.
 
-Current state in swarm mode is a jazz band - in sync playing a song but self organised and self managed. Want to have a model which resists malicious musicians (what we have now) to also resist malicious managers.
+**Current state in swarm mode**
+
+A jazz band - in sync playing a song but self organised and self managed. Want to have a model which resists malicious musicians (what we have now) to also resist malicious managers.
+
+----
+
+**Q&A**
 
 Q: Can you explain under which circumstances teh token can be compromised? If you tweet it, or commit to GH, paste on a Slack channel - only if you intentionally leaked it. It's so easy to rotate, you should do it often. The only part of the token that is secret is the last part, but it needs to be viewed as a total entity - if it is leaked, you should rotate it.
 

@@ -3,7 +3,7 @@ title: Talking TUF - Securing Software Distribution by Justin Cappos (New York U
 author: GemmaG (Gemma Gordon)
 ---
 
-**Outline**
+**Background**
 
 [The Update Framework (TUF)](https://theupdateframework.github.io/) secures new or existing software update systems by providing a [specification](https://github.com/theupdateframework/tuf/blob/develop/docs/tuf-spec.txt) and [library](https://github.com/theupdateframework/tuf) that can be flexibly and universally integrated or natively implemented. The update procedure is notoriously susceptible to malicious attacks and TUF is designed to prevent these and other updater weaknesses.
 
@@ -17,48 +17,55 @@ Collective work by full-time developers and PhD students at New York University
 
 All major tech companies that produce software use software updates, and many have publicly disclosed software update hacks that have affected them.
 
-Repository compromise impact
+**Repository compromise impact**
 - nation-state level actor attacks
 - one of the most damaging attacks was in 2013 with three quarters of a billion dollars of damage.
 - Flame malware: impersonated Microsoft Windows Update
 
-Commonly used (bad) techniques
+**Commonly used (bad) techniques**
+
 * TLS:
 good: easy; nice icon that users are trained to trust
 bad: lots of design and implementation issues; compromise possible
+
 * GPG:
 good: signature of packages with offline keys
 bad: have to manually verify public keys; trust for anything implies trust for everything; only 4% of software projects provide GPG's signatures
 
-2010-now: TUF
+**2010-now: TUF**
+
 - secure software update framework
 - build on ideas discussed with Tor
 - plug and play (like TLS) but compromise resilient
+
 GOAL: support a wide array of different configurations and workflows
 
-Design Principles
+**Design Principles**
+
 - responsibility separation: rather than a trusted key, we want to have different people with different roles - different keys that do different things. Delegate roles to divide responsibilities where signatures are only trusted based on their agreed roles.
 - minimise individual key and role risk: compromise risk = probability x impact. Keys that have a lot of responsibility need to be able to be used as online tokens, and those that need to be used in an online manner should allow only a small amount of damage. High-impact role -> highly-secure keys; online keys -> low-impact
 - multi-signature trust: signature threshold required for trust.
 - explicit and implicit revocation: ability to designate a key as compromised (explicit). Expiration date allows implicit revocation
 
-Design
-1 root role: root of trust which tells you about other roles. Commonly used in key revocation and top level role revocation.
-2 top level target (projects): this is the correct key for this package.
-3 snapshot role: these are versions of projects.
-4 timestamp role: information on last update.
+**Design**
+
+1: root role: root of trust which tells you about other roles. Commonly used in key revocation and top level role revocation
+2: top level target (projects): this is the correct key for this package
+3: snapshot role: these are versions of projects
+4: timestamp role: information on last update
 
 Snapshot role is important based on the type of malware. Can take old metadata/old version and target that with malware (replay attack) and tell users to install that version. The snapshot role stops this by telling you about the correct version to use.
 Found that some of the mirrors for the linux distribution were serving very out of date versions.
 
-Eager verification in TUF 0.1
+* Eager verification in TUF 0.1
 User downloads all package metadata to verify snapshop data - to prevent replay attacks and not blindly trust administrators.
 
-Secure lazy verification in TUF 1.1
+* Secure lazy verification in TUF 1.1
 Distribute version numbers only - user downloads only snapshot and desired package metadata allowing you to trust administrators.
 Prevents replay attacks more efficiently than eager verification, BUT is more open to a fast-forward attack SO need to handle this by resetting version numbers after key revocation.
 
-Example setup for TUF
+**Example setup for TUF**
+
 1: responsibility separation (roles)
 2: multitrust signatures
 3: selected delgations
@@ -66,12 +73,14 @@ Example setup for TUF
 Selected delegations in Python (PyPI)
 mix of delegations to online and offline keys so if someone breaks into the repo they can only mess around with very new projects. 90% people only download packages that are >1 month old so most users are still safe.
 
-Standardisation Process (TAPs)
+**Standardisation Process (TAPs)**
+
 - lots of good suggestions for changes
 - formal TUF augmentation proposal process (TAP): lots of TAPS online and on the way to being added and standardised.
 e.g. version numbers in root metadata; pinning repository keys; multi-role signatures etc.
 
-Integrations of TUF
+**Integrations of TUF**
+
 - Docker
 - CoreOS
 - Flynn
@@ -79,7 +88,7 @@ Integrations of TUF
 - Python
 - Ruby
 
-Related Efforts
+**Related Efforts**
 
 * Uptane
 Securing automotive software updates. Funded by Homeland Security.
@@ -102,7 +111,8 @@ e.g.
 - functionaries: people who perform the steps - sign individual pieces of link metadata
 - end user: verify the metadata and validate that the layout was followed and it went through the correct steps
 
-DEMO
+**DEMO**
+
 - blank directory
 - run a scrip to set up some data to get started and apply rules that dictate how the software is created.
 - functionary: packages it up which creates a new link metadata file.
@@ -114,17 +124,23 @@ If tampered, an exception would show and the system would error out.
 Timeline for toto
 - high level spec coming in ~1 week
 - reference implementation ~1-2 weeks
+
 Upcoming:
   - internal use ~2-3 weeks
   - compliance test cases ~3 weeks
   - external beta testing ~1-2 months
   - broad public release....
 
-Conclusion
+**Conclusion**
+
 - Securing software is difficult
 - Notary provides strong guarantees for Docker
 - Use TAPs to get changes into TUF
 - Look at uptane, toto and TUF on GH
+
+----
+
+**Q&A**
 
 Q: In the example Alice was also the project owner which you normally wouldn't do - just for ease of use. This layout was set up saying it was ok for a single dev to produce the software, the process is correct and will pass. The layout could say that there are multiple devs and they need to review eachothers changes. Most companies have these measures in place usually - there is a checking process before committing to master. We are trying to get you to add signatures and then crytographically checking the signatures to ensure the process is correct.
 
