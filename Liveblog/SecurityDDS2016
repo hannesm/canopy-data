@@ -62,7 +62,7 @@ If we follow least privilege - all the manager could do is do an eclipse attack 
 - no ability to spin up unauthorised nodes/impersonate existing nodes. New nodes = fake identities introduced into the system
 - no ability for manager to read service-to-service communication
 
-**Byzantine Consensus  **
+**Byzantine Consensus**
 
 Mini Diogo rant!
 In 2013 - Raft protocol which launched a lot of great work in the area of consensus. BUT Raft was not designed to by byzantine and we are operating on top of a primitive with some practical issues. We should start getting operational experience with full tolerance situations - to deal with the malicious manager.
