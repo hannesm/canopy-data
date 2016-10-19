@@ -1,0 +1,320 @@
+---
+participants: GemmaG,amirmc,avsm,djs55,gemma_,hannes,mato,miragebot,mort___,noddy,smkz,thomasga,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 19-10-2016
+tags: irc,log
+---
+`19-10-2016 15:00`   `yomimono`   Hi folks! Welcome to the biweekly MirageOS catchup.  Agenda for the meeting is available at https://github.com/mirage/mirage-www/wiki/Call-Agenda , and unpurecamelbot will be logging the proceedings
+
+`19-10-2016 15:00`   `GemmaG`   Hi all :)
+
+`19-10-2016 15:00`   `yomimono`   wave for the camelbot! :D
+
+`19-10-2016 15:02`   `yomimono`   first off, we have an item from `GemmaG`: she's soliciting feedback about the mirage call/catchup and general mirage issues.
+
+`19-10-2016 15:02`   `mato`   \o/
+
+`19-10-2016 15:02`   `yomimono`   `GemmaG`, want to give us a bit more detail?
+
+`19-10-2016 15:02`   `GemmaG`   Yes hi! I'd really like to know what everyone finds valuable about the call/catchup just to make sure we are doing enough of those things
+
+`19-10-2016 15:03`   `GemmaG`   The form is anonymous so do be honest with feedback
+
+`19-10-2016 15:03`   `GemmaG`   If you have anything in more detail that you'd like to discuss in private, please feel free to contact me directly gg417@cl.cam.ac.uk or on slack
+
+`19-10-2016 15:04`   `avsm`   Thanks for sending that out! The debate over communications channels is an ongoing experiment: we've tried various video mechanisms, and chat, and are settling into the right cadence for what is most useful to us as we grow. Please be honest in your opinions on the form :)
+
+`19-10-2016 15:04`   `yomimono`   The form is at https://goo.gl/forms/N62k7u1aRpHNwLCt2 , for the curious :)
+
+`19-10-2016 15:05`   `GemmaG`   Thanks yominomo!
+
+`19-10-2016 15:05`   `thomasga`   \o/
+
+`19-10-2016 15:05`   `smkz`   hi all
+
+`19-10-2016 15:05`   `mort___`   (hi all!)
+
+`19-10-2016 15:05`   `yomimono`   (hi folks!)
+
+`19-10-2016 15:06`   `yomimono`   it's noted on the agenda also that the form closes on 24th October, so if you have anything you'd like to share, please do it soon!
+
+`19-10-2016 15:06`   `yomimono`   Anything else on this topic?
+
+`19-10-2016 15:07`   `yomimono`   Hearing nothing, let's move on:
+
+`19-10-2016 15:07`   `GemmaG`   Any further comments re. mirage communications are welcome either on the mailing list, or privately :)
+
+`19-10-2016 15:07`   `yomimono`   oh, sorry `GemmaG`!
+
+`19-10-2016 15:07`   `GemmaG`   np, all done :)
+
+`19-10-2016 15:08`   `avsm`   One thing I do note is that we don't preannounce the calls on the website, so I've had comments that publishing the schedule would be useful. I'll note that in my feedback form :-)
+
+`19-10-2016 15:08`   `yomimono`   ok, next up on https://github.com/mirage/mirage-www/wiki/Call-Agenda : compilers to target for MirageOS 3
+
+`19-10-2016 15:08`   `yomimono`   ...someone who doesn't type fast should be running these meetings :P
+
+`19-10-2016 15:09`   `mato`   I gave 4.04.0+trunk a go for Solo5/ocaml-freestanding, got as far as https://github.com/mirage/ocaml-freestanding/pull/8
+
+`19-10-2016 15:10`   `avsm`   I'm slowly working on porting the Xen backend to ocaml-freestanding as well
+
+`19-10-2016 15:10`   `mato`   Long story short, ipaddr does not build on 4.04.0 due to ppx_optcomp not supporting the compiler
+
+`19-10-2016 15:10`   `avsm`   In my explorations, I discovered that openlibm is very old and broken on clang, so it really needs to be updated, but talex5 reports that all his changes made it upstream
+
+`19-10-2016 15:10`   `mato`   `avsm`: Um, openlibm in ocaml-freestanding *is* the upstream version, and works with clang fine
+
+`19-10-2016 15:10`   `avsm`   similar story for minios -- the upstream is now vastly different from our local fork, so we probably should rebase even though we use very little of the Xen minios
+
+`19-10-2016 15:11`   `avsm`   `mato`: I am referring to the Xen backend, which currently doesnt use ocaml-freestanding. The goal of my refresh is to make it use ocaml-freestanding so that Xen and KVM are on par in this regard. Xen currently uses a fork
+
+`19-10-2016 15:11`   `mato`   `avsm`: Right, but as part of that refresh you shouldn't have to deal with openlibm... or do you need that to build Mini-OS itself?
+
+`19-10-2016 15:12`   `avsm`   OCaml 4.04: Jeremie Diminio reports that he hopes to get a 4.04 compatible set of PPX extensions into OPAM in the next couple of weeks.
+
+`19-10-2016 15:12`   `yomimono`   That's excellent news.
+
+`19-10-2016 15:12`   `hannes`   would it be sensible to get rid of sexplib in ipaddr (or put it in a disjoint package)?
+
+`19-10-2016 15:12`   `avsm`   `mato`: I was checking as part of the refresh that there was no divergence in the Xen openlibm tag, and there appears to be very little
+
+`19-10-2016 15:12`   `avsm`   On the topic of ppx, I am very tempted to port to topkg and to pre-apply the ppx in the distribution tarball as a marshalled AST for particular compiler versions.
+
+`19-10-2016 15:13`   `avsm`   This would mean that stable package users would not need to have a working ppx setup, which in turn makes bleeding-edge compiler use easier
+
+`19-10-2016 15:13`   `avsm`   However, this might have unintended side effects such as source code locations changing. I'm not sure yet...
+
+`19-10-2016 15:13`   `hannes`   that'd be beneficial
+
+`19-10-2016 15:15`   `avsm`   Has anyone tried flambda? :)
+
+`19-10-2016 15:15`   `yomimono`   sadly I haven't
+
+`19-10-2016 15:15`   `avsm`   It's on my todo list, but I worry that we're missing some easy optimisations; could use a bit of time from someone on 4.03 playing around with the output.  If you do have time, please report on the list :)
+
+`19-10-2016 15:17`   `yomimono`   Anything else?
+
+`19-10-2016 15:17`   `yomimono`   If not, our next item on https://github.com/mirage/mirage-www/wiki/Call-Agenda is the MirageOS 3 API
+
+`19-10-2016 15:18`   `yomimono`   A number of links on the agenda to mailing list threads (including a link back to the discussion on talex5's error proposals from 2015)
+
+`19-10-2016 15:18`   `yomimono`   `hannes`m proposes merging mirage/mirage#615 and iterating from there, if I understand correctly.
+
+`19-10-2016 15:18`   `avsm`   It sounds like there is a general desire to sort out the error API handling before Mirage3, despite delaying release a little
+
+`19-10-2016 15:19`   `avsm`   A beneficial side of the topkg refresh is that most of the porters have also been moderninsing library conventions, and Result handling is top of the list.
+
+`19-10-2016 15:19`   `hannes`   there's still some discussion about the signature of listen, but I consider this to be off-topic for 615.
+
+`19-10-2016 15:19`   `avsm`   We can depend on Result.t now, so we just need to pick the right combinators for Lwt/Result.
+
+`19-10-2016 15:19`   `hannes`   likely the function passed to listen should be able to return (unit, error) result... but unclear which error.. and `Msg of string should be used instead of `Unknown
+
+`19-10-2016 15:20`   `yomimono`   `hannes`: I have commits on top of your branch that will work just as well if your changes are merged, so it doesn't matter much to me
+
+`19-10-2016 15:20`   `avsm`   So at a minimum, it is uncontroversial to use "('a, [>`Msg of string]) Result.t", right?
+
+`19-10-2016 15:20`   `avsm`   the debate on the list is about whether the polymorphic variant should be more than just `Msg or not
+
+`19-10-2016 15:22`   `hannes`   this is multifold: 615 introduces for listen/write a (_, network_error) result Lwt.t.  the network_error is outside of the module type, but in mirage-types, and a pp is provided by mirage-types
+
+`19-10-2016 15:22`   `hannes`   this means not all network implementations need to redefine the network_error type and a pp.
+
+`19-10-2016 15:22`   `avsm`   makes sense
+
+`19-10-2016 15:22`   `yomimono`   nods
+
+`19-10-2016 15:22`   `hannes`   and once that is done, we can think about more
+
+`19-10-2016 15:23`   `hannes`   I don't think we can close the error type in any module type, since there are people using BLOCK natively, and others via a TCP connection over TLS... thus the error type there can be rather rich
+
+`19-10-2016 15:23`   `hannes`   but as dbuenzli said on the ML, maybe when we abstract values we should also abstract errors
+
+`19-10-2016 15:24`   `yomimono`   the inclusion pattern dbuenzli mentioned seems very natural to me
+
+`19-10-2016 15:24`   `mort___`   fwiw— i thought that the point made about errors not being any more or less special than non-error return values made sense
+
+`19-10-2016 15:24`   `avsm`   ok, so this adds actual code to mirage-types, but we are ok with that
+
+`19-10-2016 15:24`   `mort___`   i think it makes sense as a way to let us make progress on this
+
+`19-10-2016 15:24`   `hannes`   another point of discussion is the device lifecycle (and disconnect, does anyone call disconnect?) I started on the mailing list with talex5 replying that we can simply use Lwt_switch.t
+
+`19-10-2016 15:25`   `yomimono`   `hannes`: tcpip tests call disconnect a lot, but I've never used it in live code
+
+`19-10-2016 15:25`   `hannes`   `yomimono`: does it also call connect itself?
+
+`19-10-2016 15:25`   `yomimono`   `hannes`: yes, on the network provided by mirage-vnetif
+
+`19-10-2016 15:26`   `djs55`   I think when resources are implemented as file descriptors on Unix, it's good to be able to call `disconnect = Unix.close`
+
+`19-10-2016 15:26`   `hannes`   I think that for MirageOS devices, connect is generated by mirage, the tool, thus they're alive as long as the unikernel is alive
+
+`19-10-2016 15:26`   `yomimono`   the full lifecycle of the device is managed from within the test
+
+`19-10-2016 15:27`   `hannes`   `yomimono`: that's fine.
+
+`19-10-2016 15:27`   `hannes`   `djs55`: this is possible with providing a ?switch:Lwt_switch.t for connect as well, and switch it off once done
+
+`19-10-2016 15:28`   `djs55`   Would the switch replace `disconnect` or be another way to call it? Maybe I should go and read the thread
+
+`19-10-2016 15:28`   `hannes`   (I don't have any experience with this Lwt_switch.t thingy, but it looks like it may be useful.. anyways, no concrete proposal here)
+
+`19-10-2016 15:29`   `hannes`   `djs55`: replace afaics
+
+`19-10-2016 15:29`   `hannes`   `djs55`: you'll need to keep your Device.t and Lwt_switch.t around for its lifetime, instead of only the device.t.
+
+`19-10-2016 15:29`   `avsm`   Lwt_switch seems a very Lwt-specific solution, whereas having the Lwt-free version use disconnect is more useful in the future (e.g. for Async)
+
+`19-10-2016 15:30`   `avsm`   and the Lwt versions would then wrap disconnect in a Lwt_switch
+
+`19-10-2016 15:31`   `yomimono`   anything further to say about this?
+
+`19-10-2016 15:32`   `yomimono`   please feel free to add to the mailing list thread as well :)
+
+`19-10-2016 15:32`   `yomimono`   next up at https://github.com/mirage/mirage-www/wiki/Call-Agenda we have some items under "mirageos 3 targets"
+
+`19-10-2016 15:33`   `yomimono`   `hannes`m, `mato`, and ricarkol have been doing a bunch of work to get freebsd support working nicely via bhyve
+
+`19-10-2016 15:33`   `avsm`   yay freebsd!
+
+`19-10-2016 15:33`   `yomimono`   not sure whether any of them want to talk about that further, but I thought it was worth mentioning because it's cool
+
+`19-10-2016 15:34`   `yomimono`   so thanks for your work on this :)
+
+`19-10-2016 15:34`   `yomimono`   last item listed is that the qubesos target pr is currently stalled because I'm distracted
+
+`19-10-2016 15:35`   `avsm`   this is really awesome. The maintainers of bhyve and Hyperkit (the osx fork of xhyve that exposes the hypervisor framework on the mac) have been talking recently about reducing diffs, so I hope that this will also help getting unikernels-on-macos running sooner
+
+`19-10-2016 15:35`   `yomimono`   :D
+
+`19-10-2016 15:35`   `mato`   for MacOS, there's also dan's uhvf work but afaict that's stalled at the moment for personal reasons
+
+`19-10-2016 15:36`   `mato`   otherwise, freebsd support is awesome, also because it's shaking out other bugs / cleanups
+
+`19-10-2016 15:37`   `yomimono`   `mato`: would more folks testing be helpful for you?
+
+`19-10-2016 15:38`   `mato`   btw, if there's anyone here with experience with virtio-type data structures who could help with ironing out bugs in the Solo5 virtio code, that would be wonderful. `djs55` perhaps?
+
+`19-10-2016 15:38`   `avsm`   I have PV FreeBSD VMs on EC2, but sadly not much use for this
+
+`19-10-2016 15:38`   `mato`   `yomimono`: we have three separate people with test machines now (`hannes`, ricardo and myself), so i think we're fine there
+
+`19-10-2016 15:38`   `djs55`   I'm not a virtio expert unfortunately… more of a casual user, but I'd quite like to give it a go
+
+`19-10-2016 15:38`   `hannes`   or if anyone has time to implement virtio in OCaml, that'd be appreciated as well ;)
+
+`19-10-2016 15:38`   `djs55`   that's on my long term "I wish I had time to try that" list
+
+`19-10-2016 15:39`   `mato`   I'm just worried about the virtio stuff because I think we're making some obvious-with-experience synchronization mistake
+
+`19-10-2016 15:40`   `djs55`   justincormack and ijc_ are both pretty knowledgeable about virtio :)
+
+`19-10-2016 15:40`   `mato`   ah, good point, i'll ask ijc_
+
+`19-10-2016 15:42`   `mato`   (that's all from me on this topic for today  ...)
+
+`19-10-2016 15:42`   `yomimono`   that's the end of our agenda!
+
+`19-10-2016 15:42`   `avsm`   AOB: any requests docs.mirage.io aside from `mato`s?
+
+`19-10-2016 15:42`   `amirmc`   Yup
+
+`19-10-2016 15:42`   `thomasga`   is there an item for "MirageOS in space"?
+
+`19-10-2016 15:42`   `avsm`   please file issues on https://github.com/mirage/mirage/issues/609
+
+`19-10-2016 15:42`   `yomimono`   https://github.com/mirage/mirage-www/wiki/Call-Agenda is a wiki, you can add whatever you like
+
+`19-10-2016 15:43`   `yomimono`   ^ `thomasga` :P
+
+`19-10-2016 15:43`   `avsm`   (I'll add martin's comments about the docgen to it, but I've had a number of people just mention stuff to me privately and I'm losing track)
+
+`19-10-2016 15:43`   `avsm`   If you pile all of your requests on there,that will help.
+
+`19-10-2016 15:43`   `thomasga`   unfortunately I have not much to say on that topic, but I would be glad to hear anyone who has things to say about it :-)
+
+`19-10-2016 15:43`   `avsm`   `GemmaG`: have you also been looking into Merlin support?
+
+`19-10-2016 15:43`   `GemmaG`   indeed I have!
+
+`19-10-2016 15:44`   `avsm`   I'm not sure how many people in Mirage use Merlin, but might be worth opening a feedback tracking issue on this
+
+`19-10-2016 15:44`   `GemmaG`   I have got some great feedback from JS, Mirage and individuals using Merlin - I'm collecting it to pass onto Fred so he can work on a longer term roadmap
+
+`19-10-2016 15:44`   `avsm`   I'm keen to expose a global database of all the Mirage ecosystem cmt files and Merlin seems to be a key part on that
+
+`19-10-2016 15:44`   `thomasga`   would be useful to have an idea on which library needs porting to topkg
+
+`19-10-2016 15:44`   `thomasga`   to help with docs
+
+`19-10-2016 15:44`   `amirmc`   AoB item: Brief update on MirageOS 3 announcement activity. We've got a rough draft of a press release from Linux Foundation Folks and I've been in touch with Ericsson and IBM folks about getting quotes. I now have a quote from Ericsson and should have something from IBM at some point.  I've mentioned to both that the release date is not defined yet. Depends on how the hacking goes.
+
+`19-10-2016 15:44`   `GemmaG`   Yeah re tracking, I will aggregate my notes and add an issue and talk with Fred
+
+`19-10-2016 15:45`   `hannes`   `thomasga`: cstruct. pls split out cstruct.unix and cstruct.lwt :)
+
+`19-10-2016 15:45`   `thomasga`   also, once we have all the docs, it will be useful to go other them and improve them/make them more consistent :-)
+
+`19-10-2016 15:45`   `thomasga`   (hint: I am happy to help in the topkg + doc effort)
+
+`19-10-2016 15:45`   `noddy`   so there is this problem with ocamlbuild and C stubs, which gets painfully obvious with topkg..
+
+`19-10-2016 15:45`   `avsm`   `noddy`: I have the start of an ocamlbuild plugin that does C stubs entirely from scratch instead of using the existing ocamlbuild rules
+
+`19-10-2016 15:46`   `noddy`   .. in that ocamlbuild lacks sufficient support for building C stubs sanely, and mirage libs with C play some more tricks.
+
+`19-10-2016 15:46`   `noddy`   `avsm`: i made one and it's online
+
+`19-10-2016 15:46`   `thomasga`   \o/
+
+`19-10-2016 15:46`   `noddy`   build mirage libs out of box
+
+`19-10-2016 15:46`   `noddy`   BUT
+
+`19-10-2016 15:46`   `noddy`   it's completely wrong :)
+
+`19-10-2016 15:46`   `thomasga`   ha …. that seems useful :-)
+
+`19-10-2016 15:46`   `avsm`   where? i grabbed the existing ones in https://github.com/mirage/mirage-platform/blob/master/myocamlbuild.ml#L149
+
+`19-10-2016 15:46`   `noddy`   so now i'm making another one which cleanly introduces new build targets. so far called .xclib
+
+`19-10-2016 15:46`   `avsm`   we've had them buried there for quite a while :-)
+
+`19-10-2016 15:47`   `noddy`   https://github.com/pqwy/ocb-stubblr
+
+`19-10-2016 15:47`   `noddy`   but again, i'm rewriting the entire thing again. it works, but the approach is wrong.
+
+`19-10-2016 15:48`   `avsm`   ooh pkg-config support
+
+`19-10-2016 15:48`   `avsm`   ok, lets coordinate on this on the devel list
+
+`19-10-2016 15:48`   `noddy`   `avsm`: what i'm working on now if adding rules for a new build target which preps stuff and then chains off to the built-in (shipped-with) .clib support
+
+`19-10-2016 15:48`   `noddy`   open-closed principle.
+
+`19-10-2016 15:49`   `miragebot`   [mirage] `yomimono` pushed 4 new commits to master: https://git.io/vP9mP
+
+`19-10-2016 15:49`   `miragebot`   mirage/master 5a28986 Martin Lucina: Invoke pkg-config directly when generating Makefile...
+
+`19-10-2016 15:49`   `miragebot`   mirage/master 9889afa Martin Lucina: Use LD=(...) in generated Makefile
+
+`19-10-2016 15:49`   `miragebot`   mirage/master ee26a38 Martin Lucina: Remove XENLIB from generated Makefile...
+
+`19-10-2016 15:49`   `avsm`   I'm not too keen on depending on the .clib support; we might as well just call the CC directly rather than go through ocaml
+
+`19-10-2016 15:49`   `hannes`   off to priscilla...
+
+`19-10-2016 15:50`   `noddy`   clib support is 10 lines of code. i prefer reusing their maintenance effort.
+
+`19-10-2016 15:50`   `avsm`   alright, lets chat about this on the devel list?  I need to drop off now but will send an email later with an outline of the tcpip topkg fork which has some cstub rules as well
+
+`19-10-2016 15:50`   `avsm`   i think a combination of these plugins would work
+
+`19-10-2016 15:51`   `avsm`   dropping off now... thanks everyone!
+
+`19-10-2016 15:52`   `yomimono`   anything else, or shall we let unpurecamelbot take a nap?
+
+`19-10-2016 15:53`   `gemma_`   Ok all done 😊
+
