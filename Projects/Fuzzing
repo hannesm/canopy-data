@@ -2,7 +2,7 @@
 title: AFL + MirageOS = <3
 author: yomimono (Mindy Preston)
 abstract: fuzzing OCaml programs (including MirageOS ones) with afl-fuzz
-tags: active project, head wanted
+tags: active project, help needed
 ---
 
 *Status:* more people should fuzz more and fix bugs, CI integration

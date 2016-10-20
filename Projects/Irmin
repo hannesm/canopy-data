@@ -2,13 +2,13 @@
 title: Irmin
 author: [Thomas Gazagnaire](https://github.com/samoht)
 abstract: distributed database that follows the same design principles as Git
-tags: active project, irmin, head wanted
+tags: active project, irmin, help needed
 ---
 
 - [code](https://github.com/mirage/irmin/)
 - Status: running
 
-Several extension should be developed (heads wanted there):
+Several extension should be developed (help needed here):
 
 ### Garbage collector
 

@@ -2,20 +2,48 @@
 title: Logging
 author: talex5 (Thomas Leonard)
 abstract: logging support for MirageOS
-tags: active project, core
+tags: active project, core, help needed
 ---
 
 - [log library](http://erratique.ch/software/logs)
 - [log reporter](https://github.com/mirage/mirage-logs)
-- Status: are all libraries ported?
 
-Many Mirage libraries use `printf` or similar to write log messages (e.g. [mirage-net-xen][net-xen-printf]). Others (e.g. [tcpip][tcpip-console]) take a Mirage `CONSOLE` and write to that. They should be updated to use the new [Logs][] library. When combined with [mirage-logs][] this allows fine control of which messages to display at runtime, the ability to dump debug-level messages only when an error occurs, and integration with tracing.
+Many Mirage libraries use `printf` or similar to write log messages, but we now have a nice logging library.
 
-[net-xen-printf]: https://github.com/mirage/mirage-net-xen/blob/995bcf518b7c8e41e7db79050948bb7ecc1046b2/lib/frontend.ml#L106
-[Logs]: http://erratique.ch/software/logs
-[tcpip-console]: https://github.com/mirage/mirage-tcpip/blob/185172167d5ccd86e2d725eab4aa68f1d760fa2c/lib/tcpip_stack_direct.mli#L25
-[mirage-logs]: https://github.com/talex5/mirage-logs
+## Ported libraries
 
-See [mirage-qubes][] for an example library that uses Logs.
+- [tcpip](https://github.com/mirage/mirage-tcpip)
+- [mirage-channel](https://github.com/mirage/mirage-channel)
+- [datakit](https://github.com/docker/datakit)
+- [git](https://github.com/mirage/ocaml-git)
+- [hvsock](https://github.com/djs55/ocaml-hvsock)
+- [irmin](https://github.com/mirage/irmin)
+- [mirage-block-unix](https://github.com/mirage/mirage-block-unix)
+- [mirage-block-xen](https://github.com/mirage/mirage-block-xen)
+- [mirage-qubes](https://github.com/talex5/mirage-qubes)
+- [9p](https://github.com/mirage/ocaml-9p)
+- [qcow](https://github.com/mirage/ocaml-qcow)
+- [win-eventlog](https://github.com/djs55/ocaml-win-eventlog)
+- [asl](https://github.com/mirage/ocaml-asl)
+- [bos](http://erratique.ch/software/bos)
+- [topkg-care](http://erratique.ch/software/topkg)
 
-Note that Logs by default discards errors and warnings until configured. This may be a problem for users not using the mirage tool (which now enables logging automatically by default). Therefore it may be best to start with debug and info level messages generated after connection.
+## Libraries need porting
+
+- [functoria](https://github.com/mirage/functoria/issues/73)
+- [mirage-unix](https://github.com/mirage/mirage-platform)
+- [mirage-xen](https://github.com/mirage/mirage-platform)
+- [mirage-solo5](https://github.com/mirage/mirage-solo5)
+- [mirage-console](https://github.com/mirage/mirage-console)
+- [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
+- [mirage-net-unix](https://github.com/mirage/mirage-net-unix)
+- [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
+- [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
+- [mirage-block-solo5](https://github.com/mirage/mirage-block-solo5)
+- [mirage-fs-unix](https://github.com/mirage/mirage-fs-unix)
+- [crunch](https://github.com/mirage/ocaml-crunch)
+- [tar](https://github.com/mirage/ocaml-tar)
+- [fat](https://github.com/mirage/ocaml-fat)
+- [mirage-bootvar-xen](https://github.com/mirage/mirage-bootvar-xen)
+- [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
+- [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)

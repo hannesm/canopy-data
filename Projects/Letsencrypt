@@ -2,7 +2,7 @@
 title: TLS certificates with Letsencrypt
 author: Anil Madhavapeddy
 abstract: ACME support for MirageOS
-tags: active project, http, security, head wanted
+tags: active project, http, security, help needed
 ---
 
 - [OCaml-ACME implementation from maker](https://github.com/mmaker/ocaml-acme)

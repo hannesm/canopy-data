@@ -2,7 +2,7 @@
 author: hannes
 title: SASL
 abstract: develop a simple authentication and security layer
-tags: active project, head wanted, protocol
+tags: active project, help needed, protocol
 ---
 
 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) is used widely for authentication of users - we need it for MirageOS. Various mechanisms are available - ranging from md5 digests, over plain, towards cram/scram and external. Both the client side as well as the server side needs to be done - some preliminary client code can be adapted from the [XMPP library](https://github.com/hannesm/xmpp/blob/otr/src/sasl.ml). For the server side it is crucial to not save passwords in clear text or hashed without salt.
