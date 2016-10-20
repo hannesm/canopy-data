@@ -39,6 +39,8 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 - [mirage-net-unix](https://github.com/mirage/mirage-net-unix)
 - [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
 - [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
+- [mirage-net-macosx](https://github.com/mirage/mirage-net-macosx)
+- [mirage-vnetif](https://github.com/MagnusS/mirage-vnetif)
 - [mirage-block-solo5](https://github.com/mirage/mirage-block-solo5)
 - [mirage-fs-unix](https://github.com/mirage/mirage-fs-unix)
 - [crunch](https://github.com/mirage/ocaml-crunch)
@@ -47,3 +49,4 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 - [mirage-bootvar-xen](https://github.com/mirage/mirage-bootvar-xen)
 - [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
+- [dns](https://github.com/mirage/dns)

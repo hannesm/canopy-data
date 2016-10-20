@@ -17,6 +17,11 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 
 ## Libraries need porting
 
+- [dns](https://github.com/mirage/dns)
+- [ipaddr](https://github.com/mirage/ocaml-ipaddr)
+- [io-page](https://github.com/mirage/io-page)
+- [mirage-flow](https://github.com/mirage/mirage-flow)
+- [mirage-net-macosx](https://github.com/mirage/mirage-net-macosx)
 - [cstruct](https://github.com/mirage/ocaml-cstruct)
 - [mirage-xen / -unix](https://github.com/mirage/mirage-platform) (@avsm might have somewhere branches)
 - [mirage-console](https://github.com/mirage/mirage-console) [@samoht PR needs rework](https://github.com/mirage/mirage-console/pull/41)
@@ -38,3 +43,7 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 - [mirage-bootvar-xen](https://github.com/mirage/mirage-bootvar-xen)
 - [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
+- [syslog-message](https://github.com/verbosemode/syslog-message)
+- [scrypt](https://github.com/abeaumont/ocaml-scrypt-kdf)
+- [pbkdf](https://github.com/abeaumont/ocaml-pbkdf)
+- [charrua](https://github.com/haesbaert/charrua-core)
