@@ -1,0 +1,38 @@
+---
+title: topkg porting
+author: mirageos devs
+abstract: status of topkg ported libraries
+tags: active project, core, help needed
+---
+
+Topkg is [the transitory OCaml package builder](http://erratique.ch/software/topkg/doc/Topkg), well-designed and slicker than oasis.
+
+It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), and nicely integrates documentation and metadata retrieval with [odig](http://erratique.ch/software/odig).
+
+There are still some issues with C stubs, we wait for [ocb-stubblr](https://github.com/pqwy/ocb-stubblr) on that front.
+
+## Libraries ported
+
+- see [list](http://opam.ocaml.org/packages/topkg/)
+
+## Libraries need porting
+
+- [mirage-xen / -unix](https://github.com/mirage/mirage-platform) (@avsm might have somewhere branches)
+- [mirage-console](https://github.com/mirage/mirage-console) [@samoht PR needs rework](https://github.com/mirage/mirage-console/pull/41)
+- [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
+- [mirage-tcpip](https://github.com/mirage/mirage-tcpip) [@avsm has a branch](https://github.com/avsm/mirage-tcpip/tree/topkg)
+- [mirage-net-unix](https://github.com/mirage/mirage-net-unix)
+- [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
+- [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
+- [mirage-block](https://github.com/mirage/mirage-block-solo5)
+- [mirage-block-solo5](https://github.com/mirage/mirage-block-solo5)
+- [mirage-block-xen](https://github.com/mirage/mirage-block-xen)
+- [mirage-block-unix](https://github.com/mirage/mirage-block-xen)
+- [mirage-block-ramdisk](https://github.com/mirage/mirage-block-ramdisk)
+- [mirage-fs-unix](https://github.com/mirage/mirage-fs-unix)
+- [crunch](https://github.com/mirage/ocaml-crunch)
+- [tar](https://github.com/mirage/ocaml-tar)
+- [fat](https://github.com/mirage/ocaml-fat)
+- [mirage-bootvar-xen](https://github.com/mirage/mirage-bootvar-xen)
+- [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
+- [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
