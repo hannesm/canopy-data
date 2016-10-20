@@ -17,6 +17,7 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 
 ## Libraries need porting
 
+- [cstruct](https://github.com/mirage/ocaml-cstruct)
 - [mirage-xen / -unix](https://github.com/mirage/mirage-platform) (@avsm might have somewhere branches)
 - [mirage-console](https://github.com/mirage/mirage-console) [@samoht PR needs rework](https://github.com/mirage/mirage-console/pull/41)
 - [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
@@ -33,6 +34,7 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 - [crunch](https://github.com/mirage/ocaml-crunch)
 - [tar](https://github.com/mirage/ocaml-tar)
 - [fat](https://github.com/mirage/ocaml-fat)
+- [qcow](https://github.com/mirage/ocaml-qcow)
 - [mirage-bootvar-xen](https://github.com/mirage/mirage-bootvar-xen)
 - [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
