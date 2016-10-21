@@ -27,17 +27,17 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 - [asl](https://github.com/mirage/ocaml-asl)
 - [bos](http://erratique.ch/software/bos)
 - [topkg-care](http://erratique.ch/software/topkg)
+- [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
 
 ## Libraries need porting
 
 - [functoria](https://github.com/mirage/functoria/issues/73)
 - [mirage-unix](https://github.com/mirage/mirage-platform)
 - [mirage-xen](https://github.com/mirage/mirage-platform)
-- [mirage-solo5](https://github.com/mirage/mirage-solo5) [PR](https://github.com/mirage/mirage-net-solo5/pull/8)
+- [mirage-solo5](https://github.com/mirage/mirage-solo5)
 - [mirage-console](https://github.com/mirage/mirage-console)
 - [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
 - [mirage-net-unix](https://github.com/mirage/mirage-net-unix)
-- [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
 - [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
 - [mirage-net-macosx](https://github.com/mirage/mirage-net-macosx)
 - [mirage-vnetif](https://github.com/MagnusS/mirage-vnetif)

@@ -40,7 +40,6 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 - [tar](https://github.com/mirage/ocaml-tar)
 - [fat](https://github.com/mirage/ocaml-fat)
 - [qcow](https://github.com/mirage/ocaml-qcow)
-- [mirage-bootvar-xen](https://github.com/mirage/mirage-bootvar-xen) [PR](https://github.com/mirage/mirage-bootvar-xen/pull/29)
 - [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
 - [syslog-message](https://github.com/verbosemode/syslog-message)
