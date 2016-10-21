@@ -37,6 +37,7 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 - [mirage-solo5](https://github.com/mirage/mirage-solo5)
 - [mirage-console](https://github.com/mirage/mirage-console)
 - [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
+- [tuntap](https://github.com/mirage/ocaml-tuntap)
 - [mirage-net-unix](https://github.com/mirage/mirage-net-unix)
 - [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
 - [mirage-net-macosx](https://github.com/mirage/mirage-net-macosx)
