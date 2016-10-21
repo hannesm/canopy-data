@@ -33,7 +33,7 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 - [functoria](https://github.com/mirage/functoria/issues/73)
 - [mirage-unix](https://github.com/mirage/mirage-platform)
 - [mirage-xen](https://github.com/mirage/mirage-platform)
-- [mirage-solo5](https://github.com/mirage/mirage-solo5)
+- [mirage-solo5](https://github.com/mirage/mirage-solo5) [PR](https://github.com/mirage/mirage-net-solo5/pull/8)
 - [mirage-console](https://github.com/mirage/mirage-console)
 - [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
 - [mirage-net-unix](https://github.com/mirage/mirage-net-unix)
