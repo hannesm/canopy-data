@@ -32,8 +32,7 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 ## Libraries need porting
 
 - [functoria](https://github.com/mirage/functoria/issues/73)
-- [mirage-unix](https://github.com/mirage/mirage-platform)
-- [mirage-xen](https://github.com/mirage/mirage-platform)
+- [mirage-unix / xen](https://github.com/mirage/mirage-platform)
 - [mirage-solo5](https://github.com/mirage/mirage-solo5)
 - [mirage-console](https://github.com/mirage/mirage-console)
 - [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
