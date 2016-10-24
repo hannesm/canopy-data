@@ -29,7 +29,6 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 - [mirage-console-solo5](https://github.com/mirage/mirage-console-solo5)
 - [mirage-tcpip](https://github.com/mirage/mirage-tcpip) [@avsm has a branch](https://github.com/avsm/mirage-tcpip/tree/topkg)
 - [tuntap](https://github.com/mirage/ocaml-tuntap)
-- [mirage-net-unix](https://github.com/mirage/mirage-net-unix) [PR](https://github.com/mirage/mirage-net-unix/pull/30)
 - [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
 - [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
 - [mirage-block](https://github.com/mirage/mirage-block)
