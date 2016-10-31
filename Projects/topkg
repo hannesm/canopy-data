@@ -44,6 +44,5 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 - [mirage-bootvar-solo5](https://github.com/mirage/mirage-bootvar-solo5)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
 - [scrypt](https://github.com/abeaumont/ocaml-scrypt-kdf)
-- [pbkdf](https://github.com/abeaumont/ocaml-pbkdf)
 - [charrua](https://github.com/haesbaert/charrua-core)
 - see also [errors from odig](http://docs.mirage.io/#errors)
