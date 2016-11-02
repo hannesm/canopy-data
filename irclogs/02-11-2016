@@ -1,0 +1,662 @@
+---
+participants: Drup,GemmaG,ahf,avsm,djwillia,engil,gemma_,hannes,mato,mort___,noddy,reynir,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 02-11-2016
+tags: irc,log
+---
+`02-11-2016 15:57`   `avsm`   :-)
+
+`02-11-2016 15:57`   `avsm`   `engil`: i like the react use in imaginaryfriend
+
+`02-11-2016 15:57`   `engil`   :)
+
+`02-11-2016 15:57`   `engil`   I don't know if it was the right thing to do but it was fun
+
+`02-11-2016 15:57`   `engil`   so you have another bot running for the meeting ?
+
+`02-11-2016 15:58`   `engil`   Sorry about being unresponsive, I've been traveling quite a lot this last month
+
+`02-11-2016 15:58`   `engil`   just settled in singapore…
+
+`02-11-2016 15:58`   `avsm`   nope go for it, I was just experimenting with cloning it so I know how to do it as well
+
+`02-11-2016 15:59`   `avsm`   was thinking of leaving a fork running permanently and logging
+
+`02-11-2016 15:59`   `engil`   yeah but it's not quite perfect for that right now
+
+`02-11-2016 15:59`   `engil`   a few patches might do the trick though
+
+`02-11-2016 16:00`   `engil`   but running it indefinitely might be the better option yes, and pushing to github would be amazing
+
+`02-11-2016 16:00`   `engil`   (but couldn't work when I tried a few month ago)
+
+`02-11-2016 16:01`   `avsm`   yeah I think samoht has fixed some of that
+
+`02-11-2016 16:01`   `avsm`   will take a look before the next meeting. At least IRC isnt an insane protocol...
+
+`02-11-2016 16:01`   `noddy`   will rejoin in 15 min
+
+`02-11-2016 16:02`   `mato`   `djwillia`: Hey Dan! Long time no see
+
+`02-11-2016 16:02`   `hannes`   hahaha "IRC isn't an insane protocol"... that's why they're still finding bugs in irssi? ;)
+
+`02-11-2016 16:02`   `ahf`   >:-(
+
+`02-11-2016 16:03`   `djwillia`   hi `mato`!  far too long
+
+`02-11-2016 16:03`   `hannes`   `ahf`: :P
+
+`02-11-2016 16:03`   `ahf`   it was in our colouring handling :-(
+
+`02-11-2016 16:03`   `ahf`   :-P
+
+`02-11-2016 16:04`   `avsm`   welcome back `djwillia`!
+
+`02-11-2016 16:04`   `avsm`   one sec, just moving laptop...
+
+`02-11-2016 16:04`   `hannes`   so, is there a meeting?
+
+`02-11-2016 16:04`   `avsm`   do we have a `yomimono`?
+
+`02-11-2016 16:04`   `yomimono`   we do
+
+`02-11-2016 16:04`   `yomimono`   ...am I in charge? yes, we're having a meeting :P
+
+`02-11-2016 16:04`   `djwillia`   thanks `avsm`
+
+`02-11-2016 16:05`   `yomimono`   our call agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`02-11-2016 16:05`   `yomimono`   (also, great to see you `djwillia` :) )
+
+`02-11-2016 16:05`   `djwillia`   thx `yomimono` :)
+
+`02-11-2016 16:05`   `yomimono`   speaking of `djwillia`, first item on the agenda is status of solo5!
+
+`02-11-2016 16:06`   `djwillia`   (which `djwillia` is out of the loop on :)  )
+
+`02-11-2016 16:06`   `yomimono`   `mato`, much to say about it? says here it's stable, let's release ;)
+
+`02-11-2016 16:06`   `mato`   :-) yeah, i put that in
+
+`02-11-2016 16:06`   `avsm`   So the first use I have for solo5 is for the UDP DNS server for mirage.io
+
+`02-11-2016 16:06`   `avsm`   how does everyone feel about switching the authoritative DNS over to a self-hosted one?
+
+`02-11-2016 16:06`   `hannes`   +1+!+!+1+!+!+1+!
+
+`02-11-2016 16:07`   `yomimono`   positive!
+
+`02-11-2016 16:07`   `avsm`   There may be short term website instability, but there's only way to shake out the bugs in the upcoming release...
+
+`02-11-2016 16:07`   `avsm`   ok, great! I've got infrastructure hacking on my todo list for Friday
+
+`02-11-2016 16:07`   `avsm`   so it'll be a Scaleway Solo5 DNS server on Solo5 by the end of the day I hope
+
+`02-11-2016 16:07`   `hannes`   ordered a server to do solo5 deployments on
+
+`02-11-2016 16:07`   `avsm`   `hannes`: where?
+
+`02-11-2016 16:07`   `hannes`   (solo5/FreeBSD/bhyve that is)
+
+`02-11-2016 16:07`   `mato`   `avsm` +1 go for it, also we wanted some solo5 backends load balancing the HTTP/HTTPS site too
+
+`02-11-2016 16:08`   `hannes`   `avsm`: on the internet, physical server, will be hosted where the btc pinata is atm (which is a piece of hardware soon going off-service)
+
+`02-11-2016 16:08`   `avsm`   yeah I figured DNS would be a new service and then rotate into the existing HTTP/HTTPS pool
+
+`02-11-2016 16:08`   `mato`   `avsm`: I'd suggest just doing plain old simple DNS LB (e.g. resolve mirage.io to 3 A records, one for each backend)
+
+`02-11-2016 16:08`   `avsm`   yeah, that's the plan
+
+`02-11-2016 16:08`   `avsm`   a stretch goal is to have it clone its zone file from a GitHub Irmin backend
+
+`02-11-2016 16:09`   `avsm`   which should work, since Canopy does it
+
+`02-11-2016 16:09`   `avsm`   one concern I have about Solo5 is that it really has to become coinstallable, and I think that's becoming easier now
+
+`02-11-2016 16:09`   `mato`   So, yeah, `yomimono` asked. Solo5 is pretty stable, on ukvm and virtio. There are a few remaining things before release.
+
+`02-11-2016 16:09`   `avsm`   we have `noddy`'s ocb-stubblr now, and I'm about to refresh my tcpip port to use it (along with a topkg port)
+
+`02-11-2016 16:10`   `avsm`   after `yomimono` stops shoving awesome features into tcpip that is ;-)
+
+`02-11-2016 16:10`   `mato`   1) coinstallability (since `avsm` just brought it up). `avsm`: Can you take this on?
+
+`02-11-2016 16:10`   `yomimono`   :P
+
+`02-11-2016 16:10`   `avsm`   `mato`: yes, I'm going to look at the stub part of it at least -- ocb-stubblr appears to have settled down now
+
+`02-11-2016 16:10`   `mato`   2) end-to-end CI (listed as a thing for 3.0 for ages). I'm not going to do this for the full Mirage stack, but am working on at least doing it for the Solo5 standalone (C) tests.
+
+`02-11-2016 16:10`   `hannes`   I suspect the zarith (+ maybe gmp) story needs to be sorted out (since zarith-* modify the zarith META file, which is unfortunate)
+
+`02-11-2016 16:11`   `avsm`   `hannes`: yeah, not looking forward to existing libraries :-/
+
+`02-11-2016 16:11`   `mato`   3) (mentioned on today's agenda) I was thinking of doing a "speculative" refresh of the Solo5 C interfaces.
+
+`02-11-2016 16:11`   `Drup`   (speaking of zarith, and this is completely off topic, it would be nice to move it to github under the "ocaml" umbrela ...)
+
+`02-11-2016 16:11`   `yomimono`   `mato`: can you elaborate on that? I don't know what it means exactly
+
+`02-11-2016 16:12`   `hannes`   since they emit different "lines" to the META file, maybe a "echo" and "grep -v" (to revert) can do the trick
+
+`02-11-2016 16:12`   `avsm`   Driup: no idea who maintains it I'm afraid
+
+`02-11-2016 16:12`   `Drup`   `avsm`: xavier leroy ?
+
+`02-11-2016 16:12`   `avsm`   `mato`: `yomimono`: I could also use some clarification on that
+
+`02-11-2016 16:12`   `avsm`   `Drup`: I'll ask him at the developers meeting in December, since it isnt urgent
+
+`02-11-2016 16:12`   `mato`   `yomimono`: Well, at the moment the interfaces are somewhat simplistic and we've known for ages that they will need changing for things like >1 network/disk support, etc.
+
+`02-11-2016 16:13`   `Drup`   `avsm`: last released was drafted by him, so yes, probably
+
+`02-11-2016 16:13`   `hannes`   +1 for >1 network device!
+
+`02-11-2016 16:13`   `Drup`   thanks
+
+`02-11-2016 16:13`   `yomimono`   `mato`: ah, I see. supporting >1 network/disk would be nice before release
+
+`02-11-2016 16:13`   `mato`   `yomimono`: So, what I'm thinking is that I can try and redesign the interfaces the way I'd like to see them (does not involve writing code). Then if people are mostly happy with them (esp. `djwillia`) we switch to the new interfaces *before* releaseing Mirage 3, but without actually implementing >1 net/disk.
+
+`02-11-2016 16:14`   `yomimono`   `mato`: so then attempting to use >1 net/disk would be a runtime failure until implemented?
+
+`02-11-2016 16:14`   `mato`   `yomimono`: ...which we can implement *after* the release, but without changing the interface types.
+
+`02-11-2016 16:14`   `mato`   `yomimono`: that's the general idea
+
+`02-11-2016 16:14`   `avsm`   isnt this a solo5-internal detail? it doesnt need any core revs to the types, does it?
+
+`02-11-2016 16:14`   `yomimono`   `mato`: gotcha.
+
+`02-11-2016 16:14`   `hannes`   `mato`: +1
+
+`02-11-2016 16:14`   `avsm`   or does it affect the config.ml definitions somehow?
+
+`02-11-2016 16:14`   `hannes`   `avsm`: the C interface in mirage-net-solo5 likely needs change
+
+`02-11-2016 16:14`   `djwillia`   `mato`: sounds like a good plan to me
+
+`02-11-2016 16:14`   `mato`   `avsm`: No, but it needs revs to all the C interfaces, which are currently split between mirage-solo5, mirage-net-solo5, etc etc
+
+`02-11-2016 16:15`   `avsm`   right, but it only affects the mirage-*-solo5 packages, and nothing else
+
+`02-11-2016 16:15`   `yomimono`   `mato`: but are expected to move as part of ongoing stub work, right? or am I conflating things?
+
+`02-11-2016 16:15`   `mato`   `yomimono`: that depends on how the ongoing stub work turns out, but in any case there will still be separate stubs for Solo5, Xen and UNIX
+
+`02-11-2016 16:15`   `yomimono`   nods
+
+`02-11-2016 16:15`   `mato`   (at least for the "device driver" bits)
+
+`02-11-2016 16:16`   `avsm`   yeah, there will likely be different archives since each will be compiled separately
+
+`02-11-2016 16:16`   `yomimono`   basically I'm trying to figure out whether this has a dependency on anything else that we're still waiting on
+
+`02-11-2016 16:16`   `avsm`   ok, so my aim is to have a proposal/PR for the multi stub compilation in the next week, or a good excuse why its not working :)
+
+`02-11-2016 16:16`   `yomimono`   but it sounds logically separate from anything else that's ongoing
+
+`02-11-2016 16:16`   `mato`   `yomimono`: changing the Solo5 C interfaces? not really...
+
+`02-11-2016 16:16`   `mato`   `yomimono`: yes, separate
+
+`02-11-2016 16:16`   `yomimono`   `mato`: good, sounds like we're in agreement
+
+`02-11-2016 16:17`   `avsm`   great, also in agreement here
+
+`02-11-2016 16:17`   `reynir`   o/
+
+`02-11-2016 16:17`   `yomimono`   high-fives `reynir`
+
+`02-11-2016 16:17`   `hannes`   `avsm`: could you elaborate?  I thought nocrypto already has that multi-stub thingy...
+
+`02-11-2016 16:17`   `yomimono`   `avsm`: that's awesome btw
+
+`02-11-2016 16:17`   `mato`   `yomimono`: it's just a case of "let's do the churn now rather than later". Of couse I'm not promising we'll never need to change those C interfaces again, but we can at least have a crack at it.
+
+`02-11-2016 16:17`   `avsm`   `hannes`: not tried it yet; porting tcpip is the experiment to confirm that it works
+
+`02-11-2016 16:17`   `yomimono`   `mato`: sure.  now's an excellent time to do that.
+
+`02-11-2016 16:17`   `avsm`   i have a topkg port of tcpip alongside
+
+`02-11-2016 16:18`   `avsm`   (that removes pack, uses module aliases, and all the goodness of the new stuff)
+
+`02-11-2016 16:18`   `avsm`   but its blocked on stub compilation
+
+`02-11-2016 16:18`   `hannes`   stub compilation works (by awesome @pqwy) now even on FreeBSD ;)  -- I tried and succeeded
+
+`02-11-2016 16:19`   `avsm`   woop, great stuff :-)
+
+`02-11-2016 16:19`   `mato`   ok. the last bit on solo5: There is now a "solo5-mkimage" tool, which can turn a virtio unikernel into a disk image, and it has out-of-the-box support for Google Compute Engine images.
+
+`02-11-2016 16:19`   `noddy`   back
+
+`02-11-2016 16:19`   `mato`   so it's now super easy to run Solo5 on GCE
+
+`02-11-2016 16:19`   `djwillia`   `mato`: awesome!
+
+`02-11-2016 16:20`   `avsm`   yay!
+
+`02-11-2016 16:20`   `yomimono`   `mato`: this is rad!
+
+`02-11-2016 16:20`   `hannes`   `mato`: that's great! also solo5-virtio-run.sh :D
+
+`02-11-2016 16:20`   `mato`   anyone who wants to experiment i'd encourage you to sign up for the free trial $300 credit and go for it
+
+`02-11-2016 16:20`   `mato`   (I can post a TL;DR with instructions to the list...)
+
+`02-11-2016 16:20`   `avsm`   yes please
+
+`02-11-2016 16:20`   `yomimono`   `mato`: that'd be nice! I'm interested in moving my blog off AWS to GCE
+
+`02-11-2016 16:21`   `yomimono`   deploy cycle < 20 minutes would be extremely nice
+
+`02-11-2016 16:21`   `avsm`   in general, please dont assume that most people read the GitHub traffic as there is so much of it, so a brief update to the list on new stuff would be appreciated
+
+`02-11-2016 16:21`   `mato`   yeah, will do
+
+`02-11-2016 16:22`   `avsm`   anything else on solo5? sounds like its all full steam ahead! really excited to deploy it
+
+`02-11-2016 16:22`   `mato`   btw, met up with @sgrove over the weekend, he is running Mirage in production (both unix and solo5 on GCE)
+
+`02-11-2016 16:22`   `avsm`   awesome, that was one of his main complaints at his CUFP talk (difficulty deploying)
+
+`02-11-2016 16:22`   `mato`   done with solo5 from my side....
+
+`02-11-2016 16:22`   `djwillia`   all that is so great! `mato`, you're the man!
+
+`02-11-2016 16:23`   `avsm`   So docs.mirage.io is pretty fun -- I've been sending updates to the list, but the trove is looking increasingly complete
+
+`02-11-2016 16:23`   `mato`   bows
+
+`02-11-2016 16:23`   `avsm`   It's also at the point where we can shift over to odoc (the new cross referencing backend) by default, and retire ocamldoc
+
+`02-11-2016 16:23`   `yomimono`   ok, let's move on to release stuff then :) `avsm`, we'll skip you ahead since you started us off on docs.mirage.io
+
+`02-11-2016 16:24`   `noddy`   * wait, q
+
+`02-11-2016 16:24`   `avsm`   `yomimono`: sorry, skipped ahead ;-)
+
+`02-11-2016 16:24`   `noddy`   `avsm`: which kind of multi-lib support are you working on now?
+
+`02-11-2016 16:24`   `hannes`   `avsm`: cross referencing docs sounds great!
+
+`02-11-2016 16:24`   `avsm`   `noddy`: just a recipe for packages like tcpip to build separate sets of archives for installed backends
+
+`02-11-2016 16:25`   `noddy`   `avsm`: how is that different from ocb-stubblr, then?
+
+`02-11-2016 16:25`   `avsm`   so if mirage-solo5 is installed, it will also build an archive for that from the CFLAGS specified there
+
+`02-11-2016 16:25`   `avsm`   its probably not -- i've just not had a chance to rebase my port to use it
+
+`02-11-2016 16:25`   `noddy`   will you rather try it, or go ahead with publishing a separate system?
+
+`02-11-2016 16:26`   `avsm`   I've been waiting for yours to be published before continuing... the idea is to use ocb-stubblr so that we have one stub compilation system instead of a myriad of build rules
+
+`02-11-2016 16:26`   `noddy`   yeah, i'd like all that cruft in one place. asking, to see if something's missing or poorly supported
+
+`02-11-2016 16:26`   `noddy`   topkg 0.8.1 is about to rel any hour now
+
+`02-11-2016 16:26`   `avsm`   will let you know as I hack on it! thanks for getting ocb-stubblr out of the door :)
+
+`02-11-2016 16:26`   `noddy`   i rel stubblr in lockstep, the world is back on track
+
+`02-11-2016 16:27`   `noddy`   it also works for non-mirage. i got sick of ocamlbuild.
+
+`02-11-2016 16:27`   `avsm`   back to docs.mirage.io: it looks like we can retire ocamldoc unless there are some objections
+
+`02-11-2016 16:27`   `avsm`   the issue is that ocamldoc can never support ppx in mli interfaces, whereas odoc uses the compiled cmti and so works fine
+
+`02-11-2016 16:27`   `avsm`   e.g. if you look http://docs.mirage.io and scroll down, there are lots of errors (pcap-format, ...)
+
+`02-11-2016 16:28`   `avsm`   http://docs.mirage.io/odoc/ builds completely
+
+`02-11-2016 16:28`   `avsm`   but there are some layout issues. If you can start using the odoc URL as your day-to-day doc reference, please report layout issues on https://github.com/mirage/mirage/issues/609 so daniel, trefis and lpw25 can fix them
+
+`02-11-2016 16:29`   `avsm`   odoc still requires OPAM pins to build, but release is "soon" hopefully
+
+`02-11-2016 16:29`   `hannes`   I'm in favour of odoc.  but also think that mli shouldn't depend on ppx rewriters
+
+`02-11-2016 16:30`   `avsm`   well it's part of the language spec, so we can choose to ban them but not control third party libraries
+
+`02-11-2016 16:30`   `noddy`   mli is just a source for cmti much as ml is a source for cmx
+
+`02-11-2016 16:30`   `yomimono`   afk for a few minutes, sorry
+
+`02-11-2016 16:31`   `hannes`   `avsm`: you mentioned some earlier time that there might be the chance to run ppx at release time, rather than at build time :)
+
+`02-11-2016 16:31`   `avsm`   yeah, jeremie is working on this and has made progress for the jane street releases
+
+`02-11-2016 16:31`   `avsm`   should see what he's done next week
+
+`02-11-2016 16:31`   `avsm`   there is a general desire to remove ppx from the "released" build chain
+
+`02-11-2016 16:32`   `avsm`   any other q on docs?
+
+`02-11-2016 16:32`   `avsm`   oh, I ran the "this week in opam" scripts for October and filtered out mirage libraries
+
+`02-11-2016 16:32`   `avsm`   https://gist.github.com/`avsm`/ac486f007c7ab2803b6838c97fedd07c
+
+`02-11-2016 16:32`   `avsm`   (actually the This Month In OPAM with '-t month')
+
+`02-11-2016 16:33`   `avsm`   This is not counting the WIP packages in mirage/mirage-dev, so activity levels are pretty tremendous
+
+`02-11-2016 16:33`   `avsm`   If your package is missing from docs.mirage.io, let me know or send a PR against mirage/mirage:Dockerfile.doc
+
+`02-11-2016 16:33`   `avsm`   but I'm filtering through twiopam output and keeping an eye :)
+
+`02-11-2016 16:33`   `hannes`   so it is a TMIM
+
+`02-11-2016 16:34`   `avsm`   or TYIO https://github.com/`avsm`/twiopam/blob/master/twiopam.ml#L147
+
+`02-11-2016 16:34`   `avsm`   that's me on docs unless anyone has any questions!
+
+`02-11-2016 16:34`   `hannes`   should the Dockerfile.doc contain all libraries, or is a reverse dep sufficient?
+
+`02-11-2016 16:35`   `avsm`   i'd prefer explicit roots, although it doesnt need it
+
+`02-11-2016 16:35`   `hannes`   (it is sufficent to find docs at docs.mirage.io, but unclear where else this list is used)
+
+`02-11-2016 16:36`   `avsm`   I'm going to start annotating tags in opam with information on library release status as well (stable, beta, etc), so it would be useful to have an enumerated set
+
+`02-11-2016 16:36`   `avsm`   `hannes`: first docs, but it is also the source of truth for cmt and build artefacts
+
+`02-11-2016 16:36`   `hannes`   release status?? based on what? manual reading through the code?
+
+`02-11-2016 16:36`   `avsm`   no just whatever the author wants
+
+`02-11-2016 16:37`   `avsm`   i.e. is this a stable library where semantic versioning is respected, or more a WIP set of releases
+
+`02-11-2016 16:37`   `avsm`   there's quite a varied set of release conventions in the list at present
+
+`02-11-2016 16:38`   `avsm`   quick poll: who has actually been using docs.mirage.io, vs (for example) merlin locally?
+
+`02-11-2016 16:38`   `avsm`   uses docs.mirage.io since he admittedly has not got merlin setup
+
+`02-11-2016 16:38`   `hannes`   I'd be worried that this information gets out of date quickly... semantic versioning: we should agree to enforce it on mirage libraries IMHO (but only makes really sense if we agree in the entire OCaml/OPAM community)
+
+`02-11-2016 16:38`   `yomimono`   I have briefly but quickly reverted to grep :(
+
+`02-11-2016 16:38`   `noddy`   grep + merlin + more grep too
+
+`02-11-2016 16:39`   `hannes`   `avsm`: I used the odoc part of it to find some conduit interfaces, decided to drop using conduit, though
+
+`02-11-2016 16:39`   `mato`   grep + google + a bit of docs.mirage.io
+
+`02-11-2016 16:39`   `yomimono`   I think the value of hosted docs is in the hyperlinking
+
+`02-11-2016 16:39`   `yomimono`   that's the only time I used hosted docs for Irmin, for example, but it was invaluable then
+
+`02-11-2016 16:39`   `mato`   that and an integrated smart search would be cool
+
+`02-11-2016 16:39`   `yomimono`   so I think the cross-linking is huge
+
+`02-11-2016 16:40`   `avsm`   search intersects with Merlin quite a bit
+
+`02-11-2016 16:40`   `avsm`   but I get the "CLI preferred" feedback clearly
+
+`02-11-2016 16:40`   `GemmaG`   Whilst we are on the topic of Merlin… I've been asking different users/groups for feedback on Merlin for Fred to use
+
+`02-11-2016 16:40`   `hannes`   `mato`: search for names of values/types/modules? or type signatures?
+
+`02-11-2016 16:41`   `GemmaG`   More feedback of how/when you use it, and any problems you have/feature requests etc would be useful :)
+
+`02-11-2016 16:41`   `yomimono`   gemmag: how should folks get that feedback to you?
+
+`02-11-2016 16:41`   `avsm`   Hm, that would be useful `GemmaG` -- I primarily have issues with not setting it up as my OPAM switches are always out of date, so I'll give you newbie fail feedback :)
+
+`02-11-2016 16:42`   `GemmaG`   Gooood q - atm email would be great.
+
+`02-11-2016 16:42`   `GemmaG`   Working with Fred to collate it all into a workable roadmap :)
+
+`02-11-2016 16:42`   `mato`   `hannes`: names generally
+
+`02-11-2016 16:42`   `GemmaG`   `avsm`: newb feedback always welcome :p
+
+`02-11-2016 16:42`   `avsm`   Yay, glad Merlin is being given attention! I'm intending to switch to using it as soon as I sort out my OPAM2 setup
+
+`02-11-2016 16:43`   `yomimono`   too bleeding-edge for magic
+
+`02-11-2016 16:43`   `noddy`   btw (paste incoming):
+
+`02-11-2016 16:43`   `noddy`   let s:opam = $HOME . '/.opam/'
+
+`02-11-2016 16:43`   `noddy`   let s:opam_switch = system("awk '/^switch/ { print $2 }' " . s:opam . "config")
+
+`02-11-2016 16:43`   `noddy`   let s:opam_switch = substitute(s:opam_switch, '"\|\n', '', 'g')
+
+`02-11-2016 16:43`   `noddy`   let &rtp = &rtp . ',' . s:opam . s:opam_switch . '/share/merlin/vim'
+
+`02-11-2016 16:43`   `avsm`   cor that appears to be something useful
+
+`02-11-2016 16:43`   `noddy`   viml for dyna-merlin does wonders.
+
+`02-11-2016 16:44`   `hannes`   `mato`: maybe `avsm` can setup ocamloscope on the same host/with same data source, and we get search for free?  https://github.com/camlspotter/ocamloscope.2
+
+`02-11-2016 16:45`   `avsm`   waiting on the new release
+
+`02-11-2016 16:45`   `hannes`   SGTM
+
+`02-11-2016 16:45`   `djwillia`   btw is there a hard date in mind for the Mirage 3 release yet?
+
+`02-11-2016 16:45`   `avsm`   i would like it to use the odig cmt database though
+
+`02-11-2016 16:46`   `noddy`   i would like to push the shedding of some bikes on the agenda.
+
+`02-11-2016 16:46`   `noddy`   ... and it's about the c stubs, again.
+
+`02-11-2016 16:46`   `yomimono`   `djwillia`: what a coincidence, we have an item on the agenda called "release schedule"
+
+`02-11-2016 16:46`   `yomimono`   ...and since the c stubs (as they relate to coinstallability) are a blocker, maybe `noddy` should get priority
+
+`02-11-2016 16:46`   `djwillia`   i don't see amir here, but I've been working with him to get the right IBM people to be able to make a quote about the release
+
+`02-11-2016 16:47`   `djwillia`   it looks like we'll be able to have someone pretty high up say "MirageOS is cool"
+
+`02-11-2016 16:47`   `djwillia`   or something along those lines
+
+`02-11-2016 16:47`   `avsm`   yep, I've been in the loop on that as well. That's awesome!
+
+`02-11-2016 16:47`   `avsm`   `noddy`: we've got 12 minutes left. are you typing? :-)
+
+`02-11-2016 16:48`   `gemma_`   That's great!
+
+`02-11-2016 16:48`   `noddy`   aha, so. we seem to be commited to building multi-platform stubs. because stubs are part of the language, and supporting them is right and proper.
+
+`02-11-2016 16:48`   `noddy`   now there is some automation for _building_ them, but our api for _using_ that is a bit crufty
+
+`02-11-2016 16:48`   `avsm`   was hoping some ctypes magic glue would help fix that
+
+`02-11-2016 16:48`   `noddy`   it's a bit of a bikeshed as i'd like to move one way of stuffing extra info into META for `mirage` to use to another way of stuffing that info there for that to use
+
+`02-11-2016 16:49`   `noddy`   this is more general, gobs of libs don't use ctypes
+
+`02-11-2016 16:49`   `yomimono`   rereads sentence
+
+`02-11-2016 16:49`   `yomimono`   rereads sentence again
+
+`02-11-2016 16:49`   `yomimono`   ...go on
+
+`02-11-2016 16:49`   `noddy`   META: xen_linkopts = "-lnocrypto_stubs+mirage-xen"
+
+`02-11-2016 16:50`   `noddy`   i'd like to fix the tool and change these lines to something like "native_archive(runtime) = archive-name"
+
+`02-11-2016 16:50`   `noddy`   first, to separate the flags and their syntax from the pure information
+
+`02-11-2016 16:50`   `noddy`   second, because it links up with predicates in ocamlfind and looks bit less gross
+
+`02-11-2016 16:50`   `noddy`   but it's a bikeshed as it doesn't change stuff fundamentally
+
+`02-11-2016 16:50`   `noddy`   it *is* and api, however.
+
+`02-11-2016 16:50`   `noddy`   so um. show of hands?
+
+`02-11-2016 16:51`   `avsm`   i think having a consistent naming convention for replacing "xen/solo5/unix" in the stubs would be useful
+
+`02-11-2016 16:51`   `avsm`   and your new format fits that
+
+`02-11-2016 16:51`   `hannes`   `noddy`: I like your colour of the bikeshed
+
+`02-11-2016 16:51`   `mort___`   what will the example you just gave look like in the new world, concretely?
+
+`02-11-2016 16:51`   `mort___`   (it sounds like a good idea though)
+
+`02-11-2016 16:51`   `noddy`   `mort___`: "native_archive(runtime) = archive-name"
+
+`02-11-2016 16:51`   `avsm`   the litmus test is: if we add a new (say openbsd/vmm) backend, does this require going back and changing any META files, or just altering the mirage tool?
+
+`02-11-2016 16:51`   `hannes`   this "native" confuses me tbh
+
+`02-11-2016 16:52`   `mort___`   so, "native_archive(xen) = nocrypto_stubs" ?
+
+`02-11-2016 16:52`   `avsm`   `hannes`: native is ocamlfind-speak for ocamlopt
+
+`02-11-2016 16:52`   `mort___`   or something else?
+
+`02-11-2016 16:52`   `noddy`   `hannes`: it's different from the ocalm system backing that mirage runtime; this is related to how to compile pure c code and the ocaml runtime it's related to
+
+`02-11-2016 16:52`   `noddy`   `mort___`: native_archive(xen-runtime) = nocrypto_stubs+mirage-xen
+
+`02-11-2016 16:53`   `noddy`   `avsm`: it requires changing *ALL* META files ever.
+
+`02-11-2016 16:53`   `avsm`   but why do we have to enumerate every backend in the META file?
+
+`02-11-2016 16:53`   `djwillia`   (sorry guys i have to run, but good to see you all and i'll be looking for the rest of the transcript later!)
+
+`02-11-2016 16:53`   `avsm`   `djwillia`: see you later!
+
+`02-11-2016 16:53`   `yomimono`   thanks for joining us `djwillia` :)
+
+`02-11-2016 16:53`   `noddy`   `avsm`: if we don't, we have a hard dep on an unproven convention. it's easier to commit to a naming convention for these libraries and just compute that in the tool.
+
+`02-11-2016 16:53`   `mato`   `avsm`: if that backend was done via solo5 then it'd not necessarily mean a new backend
+
+`02-11-2016 16:53`   `avsm`   why not native_mirage = nocrypto_mirage_stubs
+
+`02-11-2016 16:53`   `noddy`   IF people are cool with that.
+
+`02-11-2016 16:53`   `avsm`   well yeah, I guess META can be generated in the topkg world
+
+`02-11-2016 16:54`   `noddy`   in that world, you write META by hand
+
+`02-11-2016 16:54`   `avsm`   currently, but not forever
+
+`02-11-2016 16:54`   `noddy`   actually, should we just drop that and adopt a convetion for naming?
+
+`02-11-2016 16:54`   `hannes`   `noddy`: I struggle that you want to go through 10000 libaries and fix all the META
+
+`02-11-2016 16:54`   `avsm`   I prefer a convention for naming, enforced by the build rules
+
+`02-11-2016 16:54`   `noddy`   `hannes`: you can add dual-logic to the tool. plus, not that many mirage-ready libs out there.
+
+`02-11-2016 16:55`   `noddy`   `avsm`: then we get to drop META lines, but every package with c stubs that runs on mirage needs to have lib<package>+<target>.a
+
+`02-11-2016 16:55`   `noddy`   that's totally doable, the logic can live completely in, say, stubblr. but it couples stuff.
+
+`02-11-2016 16:55`   `avsm`   yeah I prefer that model so we can ensure that the C code we are using is compiled correctly
+
+`02-11-2016 16:55`   `avsm`   I worry quite a bit that we link in incorrect ABIs that work by accident
+
+`02-11-2016 16:56`   `avsm`   we can relax the coupling at a future stage once this works for our existing C code (like tcpip checksums and so on)
+
+`02-11-2016 16:56`   `hannes`   `noddy`: I guess that's true... dual-logic is sth I'd avoid, but the number of mirage-ready C-dependent libs is pretty small, thus we can fix all of them easily
+
+`02-11-2016 16:56`   `avsm`   yes agreed `hannes`
+
+`02-11-2016 16:56`   `noddy`   so.... kill META lines, freeze a stub naming convention in the tool?
+
+`02-11-2016 16:56`   `avsm`   lets fix the 10 we have first, then move onto to the rest of the opam universe :)
+
+`02-11-2016 16:56`   `avsm`   yes, i think that would be a good start
+
+`02-11-2016 16:56`   `noddy`   no there's very few of these out there, really
+
+`02-11-2016 16:57`   `noddy`   a grep will unearth them
+
+`02-11-2016 16:57`   `avsm`   where the naming convention is parameterised by the backend being compiled for
+
+`02-11-2016 16:57`   `hannes`   dual-logic is the new backwards compatibility... a sign that people are too lazy to fix reverse dependencies...
+
+`02-11-2016 16:57`   `avsm`   yeah
+
+`02-11-2016 16:57`   `noddy`   `avsm`: libnocrypto_stubs+mirage-xen.a etc
+
+`02-11-2016 16:57`   `avsm`   ok, lets shift this to email. time's running out and there still `gemma_`'s agenda item
+
+`02-11-2016 16:57`   `yomimono`   +1
+
+`02-11-2016 16:57`   `yomimono`   `noddy`: can you mail mirageos-devel about this?
+
+`02-11-2016 16:58`   `avsm`   but thanks `noddy` -- i think this isnt bikeshedding and really important to get right
+
+`02-11-2016 16:58`   `noddy`   it's a long-term api being baked here.... :(
+
+`02-11-2016 16:58`   `hannes`   I added this release schedule item... can we briefly get an idea when people think a release will be there? this month? next?
+
+`02-11-2016 16:58`   `noddy`   `yomimono`: y will
+
+`02-11-2016 16:58`   `noddy`   next friday
+
+`02-11-2016 16:59`   `avsm`   re: the feedback post, `gemma_` noted in http://reynard.io/2016/11/01/MirageOSFeedback.html that she only got 11 replies
+
+`02-11-2016 16:59`   `avsm`   which is fewer than most attendance at hack events :-)
+
+`02-11-2016 16:59`   `gemma_`   Now it's 14 😁
+
+`02-11-2016 16:59`   `avsm`   progress!
+
+`02-11-2016 16:59`   `avsm`   do prod people to fill it in, would be good to understand how we can improve things
+
+`02-11-2016 17:00`   `avsm`   I notice it's very difficult to get any useful feedback about docs.mirage.io as well -- i have to go around asking people individually to get anyone to respond
+
+`02-11-2016 17:00`   `gemma_`   Yes there's some great feedback so far, and more is certainly appreciated
+
+`02-11-2016 17:00`   `avsm`   (but when people answer its very useful!)
+
+`02-11-2016 17:00`   `yomimono`   `hannes`: I want to cut a beta as soon as we're done making major API changes
+
+`02-11-2016 17:00`   `yomimono`   `hannes`: but I just submitted PRs for a major API change this morning, and that's an attempt to get ready for major API changes I have yet to make re: errors
+
+`02-11-2016 17:01`   `hannes`   `yomimono`: I see you got some PRs just a few minutes before the meeting..
+
+`02-11-2016 17:01`   `yomimono`   `hannes`: yes indeed
+
+`02-11-2016 17:01`   `mato`   `yomimono`: random q, i saw in that PR that you touched some ipv6 bits, so do we actually have working ipv6?
+
+`02-11-2016 17:01`   `hannes`   uhh, and Canopy uses logs now \o/
+
+`02-11-2016 17:01`   `avsm`   high level release schedule: beta as soon as code settles, nov/dec to let beta settle and iterate on docs, nov/dec for self-hosting rollout, jan for stable release when its ready
+
+`02-11-2016 17:01`   `avsm`   `mato`: we have a full ipv6 stack, but no configuration :-)
+
+`02-11-2016 17:01`   `yomimono`   `avsm`: thanks, was just trying to type too much at once :)
+
+`02-11-2016 17:01`   `yomimono`   `mato`: (or automated tests for it afaik)
+
+`02-11-2016 17:02`   `mato`   `avsm`: ah. do we have at least a semi-working example? i can try and test it (have dual stack here)
+
+`02-11-2016 17:02`   `yomimono`   `mato`: there's a ping6 example in mirage-skeleton
+
+`02-11-2016 17:02`   `avsm`   `mato`: in mirage-skeleton, but no tcp yet i think
+
+`02-11-2016 17:02`   `yomimono`   that might get you started
+
+`02-11-2016 17:02`   `hannes`   `avsm`: the correct answer is: we have sth which (maybe?) interoperates with other IPv6 systems in unknown state.  nojb was the only user (on unix afaik, no Xen)..
+
+`02-11-2016 17:03`   `yomimono`   `mato`: if you can tell me more about what you want for testing, I can try to get you something minimal
+
+`02-11-2016 17:04`   `avsm`   `hannes`: yeah, code quality is high, but we obviously need to deploy it
+
+`02-11-2016 17:04`   `hannes`   `avsm`: I'm not even sure which parts of IPv6 are there...
+
+`02-11-2016 17:04`   `mato`   `yomimono`: say a unikernel that does SLAAC (not DHCP) and serves something on TCP
+
+`02-11-2016 17:05`   `avsm`   i gotta run, AOB?
+
+`02-11-2016 17:05`   `noddy`   afk \o_ \O/
+
+`02-11-2016 17:05`   `avsm`   otherwise poor `engil` is asleep, so I shall commit the meeting logs!
+
