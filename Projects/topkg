@@ -9,8 +9,6 @@ Topkg is [the transitory OCaml package builder](http://erratique.ch/software/top
 
 It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), and nicely integrates documentation and metadata retrieval with [odig](http://erratique.ch/software/odig).
 
-There are still some issues with C stubs, we wait for [ocb-stubblr](https://github.com/pqwy/ocb-stubblr) on that front.
-
 ## Libraries ported
 
 - see [list](http://opam.ocaml.org/packages/topkg/)
@@ -25,10 +23,8 @@ There are still some issues with C stubs, we wait for [ocb-stubblr](https://gith
 - [vmnet](https://github.com/mirage/ocaml-vmnet)
 - [cstruct](https://github.com/mirage/ocaml-cstruct)
 - [mirage-xen / -unix](https://github.com/mirage/mirage-platform) (@avsm might have somewhere branches)
-- [mirage-console](https://github.com/mirage/mirage-console) [@samoht PR needs rework](https://github.com/mirage/mirage-console/pull/41)
 - [mirage-tcpip](https://github.com/mirage/mirage-tcpip) [@avsm has a branch](https://github.com/avsm/mirage-tcpip/tree/topkg)
 - [tuntap](https://github.com/mirage/ocaml-tuntap)
-- [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
 - [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
 - [mirage-block](https://github.com/mirage/mirage-block)
 - [mirage-block-solo5](https://github.com/mirage/mirage-block-solo5)
