@@ -16,10 +16,9 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 ## Libraries need porting
 
 - [dns](https://github.com/mirage/dns)
-- [ipaddr](https://github.com/mirage/ocaml-ipaddr)
+- [ipaddr](https://github.com/mirage/ocaml-ipaddr) [verbosemode has a branch](https://github.com/verbosemode/ocaml-ipaddr/tree/topkg)
 - [io-page](https://github.com/mirage/io-page)
 - [mirage-flow](https://github.com/mirage/mirage-flow)
-- [mirage-net-macosx](https://github.com/mirage/mirage-net-macosx)
 - [vmnet](https://github.com/mirage/ocaml-vmnet)
 - [cstruct](https://github.com/mirage/ocaml-cstruct)
 - [mirage-xen / -unix](https://github.com/mirage/mirage-platform) (@avsm might have somewhere branches)
@@ -32,7 +31,6 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 - [mirage-block-unix](https://github.com/mirage/mirage-block-unix)
 - [mirage-block-ramdisk](https://github.com/mirage/mirage-block-ramdisk)
 - [mirage-fs-unix](https://github.com/mirage/mirage-fs-unix)
-- [crunch](https://github.com/mirage/ocaml-crunch)
 - [tar](https://github.com/mirage/ocaml-tar)
 - [fat](https://github.com/mirage/ocaml-fat)
 - [qcow](https://github.com/mirage/ocaml-qcow)
