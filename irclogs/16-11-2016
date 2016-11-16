@@ -1,0 +1,400 @@
+---
+participants: Drup,Hannes__,amirmc,avsm,djwillia,mato,mort___,seangrove,thomasga,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 16-11-2016
+tags: irc,log
+---
+`16-11-2016 16:00`   `avsm`   Greetings! Time for the MirageOS meeting, agenda here: https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`16-11-2016 16:00`   `avsm`   Who's around?
+
+`16-11-2016 16:00`   `yomimono`   hi!
+
+`16-11-2016 16:01`   `amirmc`   o/
+
+`16-11-2016 16:02`   `mato`   waves
+
+`16-11-2016 16:02`   `avsm`   a few people travelling and such today, so lets get started
+
+`16-11-2016 16:03`   `seangrove`   o/
+
+`16-11-2016 16:03`   `avsm`   First up is the release schedule - `yomimono`, take it away
+
+`16-11-2016 16:03`   `yomimono`   i'd hoped to tag a beta yesterday which clearly didn't happen
+
+`16-11-2016 16:03`   `yomimono`   but I'm still hoping to do that this week
+
+`16-11-2016 16:03`   `yomimono`   it's silly to do it before we're done making really huge API changes, and there's one big outstanding one: result errors
+
+`16-11-2016 16:04`   `yomimono`   so I'm trying to get that into close-enough shape to PR and merge first.
+
+`16-11-2016 16:04`   `mato`   what does "tagging a beta" mean exactly?
+
+`16-11-2016 16:04`   `amirmc`   Could we summarise the rough outline of the path to 3.0?
+
+`16-11-2016 16:05`   `amirmc`   and I also have the same question as `mato` :)
+
+`16-11-2016 16:05`   `yomimono`   `mato`: specifying a version (not dev~mirage) for mirage-types then expressing that version constraint for the universe of stuff that's currently in mirage-dev
+
+`16-11-2016 16:05`   `yomimono`   `mato`: also plan on renaming V1, V1_LWT before this change
+
+`16-11-2016 16:05`   `avsm`   So the good news is that once the API churn has stopped, this can happen in the existing mirage-dev; just convert the dev.mirage versions to concrete archivs
+
+`16-11-2016 16:06`   `avsm`   we do need to set upper bounds early on in opam-repository though
+
+`16-11-2016 16:06`   `mato`   `yomimono`: So, in practice, if someone wants to install the beta, what would they do?
+
+`16-11-2016 16:06`   `mato`   `yomimono`: and, conversely, what happens to fixes in between the beta and 3.0?
+
+`16-11-2016 16:07`   `yomimono`   `mato`: similar workflow to how you end up with the mirage3 stuff currently: custom repo, then opam install
+
+`16-11-2016 16:08`   `mato`   so there'll be a short-lived mirage/mirage-dev#beta or something like that?
+
+`16-11-2016 16:08`   `yomimono`   `mato`: depends on the magnitude.  I'd imagined a lot of point "releases" for things within mirage-dev
+
+`16-11-2016 16:08`   `Hannes__`   I guess the ability to specify version constraints in config.ml should also be fixed asap, since otherwise we end up in the same situation as now: we can't express support for a given mirage-types in a unikernel
+
+`16-11-2016 16:08`   `yomimono`   `mato`: something like that, yeah.
+
+`16-11-2016 16:08`   `mort___`   says hi
+
+`16-11-2016 16:08`   `avsm`   that version constraints issue does seem pressing :-/
+
+`16-11-2016 16:08`   `mato`   is just trying to understand how easy it'll be to point users to trying out the beta
+
+`16-11-2016 16:08`   `amirmc`   ^^ same
+
+`16-11-2016 16:09`   `avsm`   A separate remote is a fine way to distribute the beta
+
+`16-11-2016 16:09`   `yomimono`   hannes__: everyone agrees that it would be nice to have, but nobody has had time to do it
+
+`16-11-2016 16:09`   `Hannes__`   It seems to be easy if we remove the opam calls from mirage configure and use a make depend instead
+
+`16-11-2016 16:09`   `mato`   also, is "tagging a beta" dependent on tagging actual versions of all the unreleased packages in mirage-dev?
+
+`16-11-2016 16:09`   `yomimono`   `mato`, `amirmc`: what's your dream workflow for getting the beta?
+
+`16-11-2016 16:09`   `avsm`   One uncomfortable point right now is that `mirage configure` can also invoke `opam pin`, if you activate tracing, so its quite side-effectful
+
+`16-11-2016 16:10`   `yomimono`   mirage configure doesn't do that by itself
+
+`16-11-2016 16:10`   `yomimono`   `avsm`: it gives you some help text telling you that you should do it
+
+`16-11-2016 16:10`   `mato`   `yomimono`: having a separate remote available for trying out the beta (with instructions) is probably good enough for me
+
+`16-11-2016 16:10`   `avsm`   `yomimono`: yeah good point; I just c&p it blindly ;-)
+
+`16-11-2016 16:10`   `djwillia`   `avsm`: where's the best place to learn about "tracing"?
+
+`16-11-2016 16:11`   `amirmc`   `yomimono`: I think something like `opam install mirage.beta1` would work (I'm totally making that up on the spot btw - no idea if it's sensible).
+
+`16-11-2016 16:11`   `avsm`   `djwillia`: https://mirage.io/wiki/profiling
+
+`16-11-2016 16:11`   `mato`   `amirmc`: that would depend on getting all the beta dependencies into upstream opam proper
+
+`16-11-2016 16:11`   `Drup`   `amirmc`: better use the mirage-dev repo for that
+
+`16-11-2016 16:11`   `djwillia`   `avsm`: thanks
+
+`16-11-2016 16:11`   `yomimono`   `amirmc`: would `opam remote add mirage-beta url && opam install mirage.beta1` be significantly worse from your perspective?
+
+`16-11-2016 16:12`   `avsm`   So the real goal of the first beta is to discover any show stoppers in APIs, not to have a fully reproducible beta1. So to some extent, we could even release with just the mirage-dev instructions without tagging releases
+
+`16-11-2016 16:12`   `yomimono`   (which is what drup and `mato` are saying)
+
+`16-11-2016 16:12`   `avsm`   Although tagging some of the core libraries seems prudent
+
+`16-11-2016 16:12`   `amirmc`   Asking people to add a remote and remember to remove it later seems complicated. If that's the best way for now, then fine. :)
+
+`16-11-2016 16:12`   `yomimono`   `avsm`: true, but it would be nice for people to know they have "the beta" rather than some old version, which right now they have no way of knowing
+
+`16-11-2016 16:12`   `mato`   +1
+
+`16-11-2016 16:13`   `yomimono`   if we're going to ask people to try things and report errors, I'd rather be able to know that they're not running into stuff we fixed weeks ago :)
+
+`16-11-2016 16:13`   `mato`   `amirmc`: we can probably add some magic conflicts to ensure that you're either on the beta remote or not (`yomimono`?)
+
+`16-11-2016 16:13`   `amirmc`   If we want people to use mirage-dev, we don't need to mention 'beta1' at all. Just be on mirage-dev for a while.
+
+`16-11-2016 16:13`   `avsm`   right, that's true, so we want to distinguish: mirage.2.9.1, mirage.3.0.0~beta1, mirage.dev~mirage
+
+`16-11-2016 16:14`   `yomimono`   we can express versions within mirage-dev
+
+`16-11-2016 16:14`   `Hannes__`   Calling it beta1 helps!
+
+`16-11-2016 16:14`   `yomimono`   nods
+
+`16-11-2016 16:14`   `amirmc`   But current issue is that if people are trying to be productive a global remote affects other switches.
+
+`16-11-2016 16:14`   `avsm`   Bear in mind that we do not want beta1 to survive in the wild very long; there is only a month-long release window.
+
+`16-11-2016 16:15`   `avsm`   so confining it to the warm confines of mirage-dev would be prudent. It should not hit ocaml/opam-repository
+
+`16-11-2016 16:15`   `Drup`   `amirmc`: jump on the opam 2.0 bandwagon ? :D
+
+`16-11-2016 16:15`   `Hannes__`   after all, there is a schedule?
+
+`16-11-2016 16:15`   `mato`   Sure, but (what amir said) we don't want the beta to potentially break people's existing working mirage 2 setups, whatever those might be
+
+`16-11-2016 16:15`   `amirmc`   drup: heh! one thing at a time :P
+
+`16-11-2016 16:15`   `Hannes__`   `amirmc`: agreed. We can prove a shell script with pins as well
+
+`16-11-2016 16:16`   `Drup`   (it was a joke, even if per-switch repositories are really cool)
+
+`16-11-2016 16:16`   `amirmc`   drup: I know :)
+
+`16-11-2016 16:16`   `avsm`   The overall planning ticket is https://github.com/mirage/mirage/issues/592
+
+`16-11-2016 16:16`   `avsm`   `amirmc`: are you keeping the issue body uptodate with the comments?
+
+`16-11-2016 16:16`   `Hannes__`   S/prove/provide/
+
+`16-11-2016 16:17`   `amirmc`   `avsm`: Is there something missing there?
+
+`16-11-2016 16:17`   `avsm`   `mato`: I think we just have to clearly document the limitations of remotes in OPAM 1.2. We can't solve every upstream tooling problem
+
+`16-11-2016 16:17`   `avsm`   `amirmc`: I dont know, I havent cross checked all the comments, hence my question :)
+
+`16-11-2016 16:18`   `amirmc`   `avsm`: I don't think there's anything to add to that issue. The only thing that isn't clear is what the rough timeline looks like.
+
+`16-11-2016 16:18`   `mato`   `avsm`: Ack.
+
+`16-11-2016 16:19`   `amirmc`   `avsm`: The checkboxes haven't changed and the announcement activity is the same. Just when things are expected to happen.
+
+`16-11-2016 16:19`   `avsm`   `amirmc`: ack, I (literally just now) added another one for the performance harness
+
+`16-11-2016 16:20`   `avsm`   Alright, so we can get a sensible schedule once we do the last of the API churning merges
+
+`16-11-2016 16:20`   `avsm`   and get the V1 renaming in
+
+`16-11-2016 16:20`   `avsm`   but broadly speaking, still aiming for a beta this month with a website update, and a final release in January
+
+`16-11-2016 16:21`   `yomimono`   unless everyone changes their minds and decides that the current error interface and names are just great and nothing needs to change :P
+
+`16-11-2016 16:21`   `avsm`   from experience, it takes a significant amount of time to tag and release, so I would account a few days for that
+
+`16-11-2016 16:21`   `avsm`   and adding upper bounds and so  on
+
+`16-11-2016 16:21`   `mato`   indeed.
+
+`16-11-2016 16:21`   `Hannes__`   But now we've topkg nearly everywhere :D
+
+`16-11-2016 16:21`   `mato`   so IIUC the beta1 remote does not depend on tagging or releasing the component packages?
+
+`16-11-2016 16:22`   `avsm`   `mato`: it makes sense to tag as many as we can
+
+`16-11-2016 16:22`   `avsm`   since that's the only vehicle by which we can constraint other packages
+
+`16-11-2016 16:22`   `yomimono`   `mato`: in practice, the fewer of them we tag the harder it will be to diagnose problem reports
+
+`16-11-2016 16:22`   `yomimono`   but it's not a strict requirement
+
+`16-11-2016 16:22`   `mato`   `yomimono`: hm. i'm away from tomorrow until the end of the week. so won't have time to tag the solo5 packages until i get back.
+
+`16-11-2016 16:23`   `amirmc`   I'm happy to review and walkthrough any instructions relating to the beta process. I'd like to get the early adopters using it.  Just ping whenever's there's something to look at.
+
+`16-11-2016 16:23`   `avsm`   `amirmc`: sounds good!
+
+`16-11-2016 16:23`   `yomimono`   `mato`: is there a reason not to just tag current HEAD in a working universe?
+
+`16-11-2016 16:23`   `avsm`   `mato`: i have solo5 access right? i can do the tags on HEAD if you are away
+
+`16-11-2016 16:24`   `avsm`   jinx :)
+
+`16-11-2016 16:24`   `Hannes__`   I guess an initial upgrade guide would be nice to have for beta testers as well
+
+`16-11-2016 16:24`   `mato`   `avsm`: `yomimono`: what i don't understand is is it just a tag or a full "release", i.e. new opam  version number, changelog, etc.
+
+`16-11-2016 16:24`   `avsm`   i'd be surprised if we tag before Monday though
+
+`16-11-2016 16:24`   `avsm`   It's a full package release
+
+`16-11-2016 16:24`   `avsm`   just not uploaded to ocaml/opam-repository yet
+
+`16-11-2016 16:24`   `avsm`   but instead pushed to mirage/mirage-dev
+
+`16-11-2016 16:24`   `amirmc`   We'd need to point to the mirage-dev branch of skeleton too.  That'll likely be helpful.
+
+`16-11-2016 16:25`   `mato`   `avsm`: `yomimono`: in that case i'd prefer to be around while that's being done.
+
+`16-11-2016 16:25`   `avsm`   ok, so anything burning on any individual issues `yomimono`  (aside from the opam constraint)
+
+`16-11-2016 16:25`   `yomimono`   `mato`: ack.
+
+`16-11-2016 16:25`   `avsm`   `mato`: early next week should be fine
+
+`16-11-2016 16:26`   `mato`   sounds good
+
+`16-11-2016 16:26`   `yomimono`   `avsm`: would like to reiterate the opam constraint.  I doubt that will involve API changes but it's pretty important and it seems no one has looked at it seriously yet
+
+`16-11-2016 16:27`   `avsm`   yeah, it does seem very important :-/
+
+`16-11-2016 16:27`   `avsm`   at least if we hold the beta to mirage-dev, we have December to do it in
+
+`16-11-2016 16:27`   `avsm`   since its only a real disaster once we have incompatible universes in opam stable
+
+`16-11-2016 16:28`   `avsm`   ok, onto the next topic...
+
+`16-11-2016 16:28`   `avsm`   compilers! OCaml 4.04.0 came out, and the package universe is slowly adapting
+
+`16-11-2016 16:28`   `avsm`   thanks `mato` for getting ocaml-freestanding working with it, so Solo5/4.04 should be good to test with
+
+`16-11-2016 16:29`   `avsm`   if anyone sees any packaging issues, please do raise them so that they get attention
+
+`16-11-2016 16:29`   `avsm`   most of the ppx universe should work now (ppx_sexp_conv and so on)
+
+`16-11-2016 16:29`   `yomimono`   xen/4.04 should be working as well, just to be clear
+
+`16-11-2016 16:29`   `yomimono`   please report problems with that too :)
+
+`16-11-2016 16:29`   `avsm`   yes sorry -- both xen and solo5. I'm going to shift mirage-www over today hopefully
+
+`16-11-2016 16:29`   `yomimono`   awesome!
+
+`16-11-2016 16:29`   `avsm`   we are still doing deployment builds on 4.02, no reason not to move now
+
+`16-11-2016 16:31`   `avsm`   Not much about 4.04, except https://github.com/gasche/ocaml-releases-change-explanation/wiki/4.04.0-changes-explanation
+
+`16-11-2016 16:31`   `amirmc`   Side question, Is 4.04 in homebrew yet?
+
+`16-11-2016 16:31`   `avsm`   Not yet, it's too early for the update as there's a 4.04.1 coming out with some important bugfixes
+
+`16-11-2016 16:32`   `amirmc`   ack
+
+`16-11-2016 16:32`   `yomimono`   plays sad trombone
+
+`16-11-2016 16:32`   `avsm`   opam switch should work of course
+
+`16-11-2016 16:32`   `avsm`   alright, onto testing then
+
+`16-11-2016 16:32`   `avsm`   `yomimono`: tracvis seems healthier now?
+
+`16-11-2016 16:32`   `amirmc`   Yup, was wondering when my collection of system-aliased switches was due to break :P
+
+`16-11-2016 16:33`   `yomimono`   `avsm`: not 100% healthy yet but getting there, thanks to you and hannes
+
+`16-11-2016 16:33`   `yomimono`   end of message
+
+`16-11-2016 16:34`   `avsm`   so good news on the CI front -- we do have https://github.com/`avsm`/mirage-dev working and successfully building revdeps
+
+`16-11-2016 16:34`   `avsm`   but its not live yet until i get stable machines, which are deploying as we speak on Scaleway
+
+`16-11-2016 16:34`   `avsm`   the issue is just getting the ton of storage we require
+
+`16-11-2016 16:34`   `yomimono`   correct link? that's your fork of mirage-dev
+
+`16-11-2016 16:34`   `avsm`   sorry https://github.com/`avsm`/mirage-ci
+
+`16-11-2016 16:34`   `yomimono`   awesome!
+
+`16-11-2016 16:34`   `avsm`   i'll move this to mirage/mirage-ci as soon as we have something live on ci.mirage.io
+
+`16-11-2016 16:35`   `avsm`   github support pinged me politely asking why i had a repo with 1 million+ branches being pushed to once a second
+
+`16-11-2016 16:35`   `yomimono`   #1 unicorn generator 2016
+
+`16-11-2016 16:35`   `avsm`   so i think we might want to set up our own git repos to be good citizens :P
+
+`16-11-2016 16:35`   `mato`   :-)
+
+`16-11-2016 16:35`   `thomasga`   (also the CI library is there https://github.com/docker/datakit/tree/master/ci if anyone wants to play with it)
+
+`16-11-2016 16:36`   `avsm`   and talex5 is giving a talk about it tomorrow in London! https://www.meetup.com/London-Functionals/events/235133158/
+
+`16-11-2016 16:36`   `thomasga`   the build/test pipeline is defined with https://github.com/docker/datakit/blob/master/ci/src/cI_s.mli
+
+`16-11-2016 16:37`   `thomasga`   and then all of that get inspected/executed and we have a nice webserver and scheduler and so on
+
+`16-11-2016 16:37`   `avsm`   the way the CI is built is a nice DSL that lets you compose stages together with applicative plugins
+
+`16-11-2016 16:37`   `mato`   `avsm`: wouldn't it be better to host our own git for the huge repos? or is there some reason they been to be on github?
+
+`16-11-2016 16:37`   `mato`   s/been/need/
+
+`16-11-2016 16:37`   `amirmc`   It would be good to allocate some time to write a blog post about the CI work.  To go out after the release, I mean.
+
+`16-11-2016 16:37`   `avsm`   `mato`: yes absolutely, just a matter of getting a stable machine set to do so
+
+`16-11-2016 16:37`   `thomasga`   I really hope and that talex5's talk is recorded :-)
+
+`16-11-2016 16:37`   `yomimono`   +1
+
+`16-11-2016 16:37`   `avsm`   `amirmc`: yes, gemma_ is coordinating the blog posts
+
+`16-11-2016 16:37`   `thomasga`   but yes, we need to write some blog post about that
+
+`16-11-2016 16:38`   `thomasga`   post(s)
+
+`16-11-2016 16:38`   `avsm`   I'll write about the mirage-ci DSls once its live
+
+`16-11-2016 16:38`   `amirmc`   +1
+
+`16-11-2016 16:38`   `thomasga`   I need to describe irmin/datakit relations too
+
+`16-11-2016 16:38`   `amirmc`   +1
+
+`16-11-2016 16:38`   `avsm`   there are Opam_build, Docker_build, Docker_run plugins and hannes is working on a FreeBSD_jail one as well
+
+`16-11-2016 16:38`   `avsm`   more on that next meeting or before in mirageos-devel when its live
+
+`16-11-2016 16:39`   `avsm`   I've also started resurrecting our old Mirage2 performance harness with `mort___` and Takayuki Imada https://github.com/mirage/mirage/issues/685
+
+`16-11-2016 16:39`   `avsm`   we just met this morning, so more on that as the beta gets tagged. it's of course quite important to be able to measure our release :)
+
+`16-11-2016 16:40`   `yomimono`   this is cool! I look forward to seeing it develop
+
+`16-11-2016 16:40`   `mort___`   `avsm`: have you done anything with mirage-perf yet? current harness is rather tied to xenserver specifically (having just looked at it)…
+
+`16-11-2016 16:40`   `avsm`   `mort___`: nope
+
+`16-11-2016 16:40`   `avsm`   there is a nice looking iperf unikernel in there though
+
+`16-11-2016 16:41`   `avsm`   and now we have a proper logging library in v3!
+
+`16-11-2016 16:41`   `mort___`   yes
+
+`16-11-2016 16:41`   `mort___`   am going to bring that up to latest mirage/functoria at least
+
+`16-11-2016 16:41`   `avsm`   awesome
+
+`16-11-2016 16:42`   `avsm`   Alright, onto the hack event!
+
+`16-11-2016 16:42`   `avsm`   http://reynard.io/2016/11/16/CompHack.html
+
+`16-11-2016 16:42`   `avsm`   lots of fun stuff got done -- anyone have any queries about any particular project?
+
+`16-11-2016 16:42`   `yomimono`   I had ?s about mirage-ci which are now very answered :D
+
+`16-11-2016 16:42`   `avsm`   I'm keen to see the local version of the MirageCI that hannes and `thomasga` hacked on :-)
+
+`16-11-2016 16:43`   `avsm`   Also hannes has started organising the next hackathon in Marrakech
+
+`16-11-2016 16:43`   `avsm`   so quite a few physical events in warm and cold climates in the next months, but not many outside EMEA
+
+`16-11-2016 16:43`   `amirmc`   hannes: Can you remind us of the dates again? :)
+
+`16-11-2016 16:43`   `seangrove`   Is the mirage-ci stuff meant to be used by people like me, building stuff using mirage, xor just for the development of mirage itself?
+
+`16-11-2016 16:44`   `seangrove`   And yay for Marrakech!
+
+`16-11-2016 16:44`   `avsm`   `seangrove`: it's actually a bunch of libraries that generates a CLI, so i use it locally with Docker4Mac
+
+`16-11-2016 16:44`   `yomimono`   I think hannes is away atm but the dates last I heard were the first week in march
+
+`16-11-2016 16:44`   `avsm`   there's a 'canary' mode that only builds the master branch, so it's quite convenient for local dev too
+
+`16-11-2016 16:44`   `avsm`   but it's certainly not out of experimental yet, so i'd wait for it to be stable on ci.mirage.io first
+
+`16-11-2016 16:45`   `avsm`   there are a few other users of it now as well (e.g. internally at Docker for our infrastructure), so stability will only get better
+
+`16-11-2016 16:46`   `avsm`   I think that's pretty much it for the written-down-agenda this week
+
+`16-11-2016 16:46`   `amirmc`   FYI, Marrakech is 2-7 March.  I may well have a clash :-/
+
+`16-11-2016 16:46`   `yomimono`   attending for a subset of the dates is OK FWIW
+
+`16-11-2016 16:46`   `yomimono`   (according to mail from hannes)
+
+`16-11-2016 16:47`   `avsm`   does anyone remember how to shut the bot down? :-)
+
