@@ -16,7 +16,6 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 ## Libraries need porting
 
 - [dns](https://github.com/mirage/dns)
-- [ipaddr](https://github.com/mirage/ocaml-ipaddr) [verbosemode has a branch](https://github.com/verbosemode/ocaml-ipaddr/tree/topkg)
 - [io-page](https://github.com/mirage/io-page)
 - [mirage-flow](https://github.com/mirage/mirage-flow)
 - [vmnet](https://github.com/mirage/ocaml-vmnet)
