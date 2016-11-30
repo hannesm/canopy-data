@@ -1,0 +1,456 @@
+---
+participants: GemmaG,amirmc,avsm,djs55,engil,hannes,mato,mort___,reynir,thomasga,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 30-11-2016
+tags: irc,log
+---
+`30-11-2016 16:01`   `avsm`   hello!
+
+`30-11-2016 16:01`   `yomimono`   hi `avsm`!
+
+`30-11-2016 16:01`   `amirmc`   (waves)
+
+`30-11-2016 16:01`   `avsm`   I have just destroyed 4 VMs with a build-a-thon
+
+`30-11-2016 16:01`   `avsm`   so a perfect time for a mirage call :) who else is here? Hi `amirmc`!
+
+`30-11-2016 16:02`   `djs55`   waves
+
+`30-11-2016 16:02`   `hannes`   hello
+
+`30-11-2016 16:03`   `hannes`   should continue with this monster https://0bin.link/paste/f23lPTRK#7n-steVDk6aRiUYjqN2HzprpmAhoMts73T4sCIY9+hR ...
+
+`30-11-2016 16:03`   `amirmc`   I've got to go in 30-ish mins. Not sure if the agenda is ordered but could we start with the MirageOS 3 Update? `yomimono`?
+
+`30-11-2016 16:03`   `yomimono`   update: please review errors pr
+
+`30-11-2016 16:03`   `amirmc`   Agenda is at: https://github.com/mirage/mirage-www/wiki/Call-Agenda (for anyone who's not seen it yet).
+
+`30-11-2016 16:04`   `yomimono`   update: beta not cut yet because errors pr is outstanding
+
+`30-11-2016 16:04`   `yomimono`   (in the sense of unresolved, not in the sense of it's super great)
+
+`30-11-2016 16:04`   `hannes`   errors, then renames, then cut?
+
+`30-11-2016 16:04`   `yomimono`   good god I hope so
+
+`30-11-2016 16:04`   `avsm`   errors, then renames, then deploy infra, then cut
+
+`30-11-2016 16:04`   `avsm`   self-host before tag, shouldnt take too long if everything builds :)
+
+`30-11-2016 16:05`   `amirmc`   errors, then renames, then deploy infra, then cut, then write some stuff :P (still need to help users transition)
+
+`30-11-2016 16:05`   `hannes`   `avsm`: I don't understand what "self-hosted before tag" means
+
+`30-11-2016 16:05`   `avsm`   overall, the build is in good shape. Mainly `yomimono` and `hannes` changes have all settled in and docs.mirage.io is uptodate as of this morning
+
+`30-11-2016 16:06`   `avsm`   `hannes`: deploy mirage-www (and hopefully DNS) using the trees that we are announcing as beta
+
+`30-11-2016 16:06`   `yomimono`   i'm very excited about `hannes`'s build changes :D
+
+`30-11-2016 16:06`   `avsm`   it needs some adaptation to `hannes`  (awesome) build changes
+
+`30-11-2016 16:06`   `yomimono`   already loving getting faster nicer behavior without having to remember --no-opam
+
+`30-11-2016 16:07`   `hannes`   well well, the rather big changes to mirage + functoria showed some problems with the CLI (at least to me), and @`mato` is right that we need to review/design the workflow
+
+`30-11-2016 16:07`   `hannes`   I'm happy that you are happy, and the changes improve mirage imho.  there is now separation between phases, no dependency onto Makefile, and we use opam files for dependency management
+
+`30-11-2016 16:08`   `hannes`   (plus I removed code :D)
+
+`30-11-2016 16:08`   `mato`   \o/
+
+`30-11-2016 16:08`   `avsm`   Yes, so the new scheme that generates an OPAM file is just awesome. I'm going to run past AltGr when I have it running to see if anything can be helped by OPAM2
+
+`30-11-2016 16:09`   `amirmc`   `yomimono`: Could you paste the link for the errors PR? Mainly so it shows up in the logs for this chat.
+
+`30-11-2016 16:09`   `hannes`   one item I'm still not sure about is: does anyone _care_ about "-f <configfile>"?  if not, my brain could more easily come up with a nice deployment workflow
+
+`30-11-2016 16:09`   `avsm`   I haven't tried it in detail yet aside from a smoketest, so I expect it'll take a week or so for people to try it out and report back.
+
+`30-11-2016 16:09`   `avsm`   `hannes`: mirage-www uses that, but could be convinced not to
+
+`30-11-2016 16:09`   `avsm`   it uses src/config.ml in the repo
+
+`30-11-2016 16:09`   `yomimono`   issue at https://github.com/mirage/mirage/issues/698 , pr for block/kv_ro/fs at https://github.com/mirage/mirage/pull/705 .
+
+`30-11-2016 16:10`   `hannes`   (removing -f, settle to one unikernel per directory with a config.ml)
+
+`30-11-2016 16:10`   `hannes`   `avsm`: mirage-skeleton Makefile also use it, but trivial to get rid of... the actual question was: is anyone having multiple config files in a single directory
+
+`30-11-2016 16:11`   `avsm`   `hannes`: not me, since i just lift the reason for having multiple config files into a parameter in one config file, usually
+
+`30-11-2016 16:11`   `mato`   one directory per unikernel seems reasonable to me. there's plenty of precedent in tooling-land for "one directory per project".
+
+`30-11-2016 16:11`   `avsm`   its certainly an ok limmitation for beta, and fix if anyone complains
+
+`30-11-2016 16:11`   `yomimono`   I'd suspect the problem would instead be people naming their only config.ml something else, so they can have a Config module
+
+`30-11-2016 16:11`   `yomimono`   for something in their application
+
+`30-11-2016 16:11`   `yomimono`   that can of course be worked around but is an annoyance
+
+`30-11-2016 16:12`   `hannes`   canopy has Canopy_config... so lots of projects prefix with their project name, which is sensible
+
+`30-11-2016 16:13`   `amirmc`   We should explicitly poll people we know just to check. e.g. sgrove, ericsson folks, etc.
+
+`30-11-2016 16:13`   `hannes`   (and big thanks to `mato`, and `yomimono`, as well as others for reviews of my mirage/functoria changes (also drup!))
+
+`30-11-2016 16:14`   `avsm`   also thanks to drup for fixing the ocamlgraph exception!
+
+`30-11-2016 16:14`   `yomimono`   +1
+
+`30-11-2016 16:14`   `avsm`   Soooo, the open issues remaining are either maddeningly tedious or difficult
+
+`30-11-2016 16:15`   `avsm`   lets start with tedious... the Block/Kv_ro/fs ones that Mindy has been hammering away at
+
+`30-11-2016 16:15`   `avsm`   This completes the move to using Result.t instead of exceptions, but there are a lot of libraries that used the old style
+
+`30-11-2016 16:15`   `avsm`   one open question was fat-filesystem, wasnt it `yomimono` ?
+
+`30-11-2016 16:15`   `yomimono`   yes, I have some patches for it but not a complete rebuild
+
+`30-11-2016 16:16`   `avsm`   That's quite old code and may not be that useful now.  `djs55` -- thoughts on this?
+
+`30-11-2016 16:16`   `avsm`   should we just disable for beta1 or complete the port?
+
+`30-11-2016 16:16`   `mato`   We don't have any other filesystem/persistence solution, do we?
+
+`30-11-2016 16:16`   `hannes`   as mentioned in 698 we're not yet done with errors, it fails e.g. for TLS (customizable errors) and being able to handle errors properly (apart from erroring out)
+
+`30-11-2016 16:16`   `djs55`   I wouldn't use the code for anything serious — it's good enough to synthesise simple disk images containing kernels, ramdisks etc. But we are lacking an alternative at the moment :(
+
+`30-11-2016 16:17`   `avsm`   `mato`: right now crunch is the only other way to go
+
+`30-11-2016 16:17`   `djs55`   ideally there would be some Irmin-on-block or similar
+
+`30-11-2016 16:17`   `avsm`   someone might start working on Irmin-on-block soon, but not started yet so wont be ready for release
+
+`30-11-2016 16:18`   `hannes`   I'd also appreciate a fat-on-block for things where the complexity of irmin is not needed. KISS
+
+`30-11-2016 16:18`   `avsm`   so lacking an alternative, and that it'll take time, should we just leave the library marked as broken for beta1, but keep the functoria runes so that it can be fixed through december?
+
+`30-11-2016 16:18`   `yomimono`   it's completely nonobvious to mirageos users that fat shouldn't be used for anything serious atm
+
+`30-11-2016 16:18`   `mato`   it'd be an interesting project for someone to come up with a persistent key/value store entirely in ocaml (say, something along the lines of LMDB)
+
+`30-11-2016 16:18`   `mato`   `hannes` imo ^^^ is what you actually want
+
+`30-11-2016 16:18`   `avsm`   `mato`: yes, someone may be working on that soon, but not yet confirmed
+
+`30-11-2016 16:19`   `djs55`   the problems I know about with the fat implementation are around locking, but the impact of that depends on the use-case. If people expect to be able to send lots of concurrent FS operations at it safely they'll probably be disappointed; if someone just wants to store a few files and retrieve them again it's ok
+
+`30-11-2016 16:20`   `djs55`   after I've finished my current qcow work I can take a look at fat-filesystem again
+
+`30-11-2016 16:20`   `avsm`   If `djs55` cant fix up fat-filesystem i'll put it on my list. `yomimono` has quite done her time in this part of the stack :P
+
+`30-11-2016 16:20`   `hannes`   `djs55`: \o/
+
+`30-11-2016 16:20`   `yomimono`   `djs55`: I'd appreciate that a lot :D
+
+`30-11-2016 16:21`   `avsm`   This does lead to the hard question though: opening up FLOW to be [>`Msg of string]
+
+`30-11-2016 16:21`   `djs55`   It's better than nothing
+
+`30-11-2016 16:21`   `djs55`   I look forward to irmin on block :)
+
+`30-11-2016 16:21`   `avsm`   that's quite a bit of churn again isnt it, including in the network code?
+
+`30-11-2016 16:21`   `hannes`   `avsm`: imho needed for 3.0, as said in 698 (unfortunately I won't have time for this in december)
+
+`30-11-2016 16:22`   `yomimono`   yeah, but if it's unusable without it, it's better to do it now
+
+`30-11-2016 16:22`   `yomimono`   if it's just FLOW that's actually not too bad
+
+`30-11-2016 16:22`   `avsm`   yeah
+
+`30-11-2016 16:22`   `avsm`   we've punted a bit by making it Ok `Eof so far
+
+`30-11-2016 16:22`   `avsm`   thereby declaring Eof not to be an error :)
+
+`30-11-2016 16:22`   `yomimono`   errrr
+
+`30-11-2016 16:22`   `yomimono`   that's not quite correct
+
+`30-11-2016 16:22`   `yomimono`   It's error closed for writes
+
+`30-11-2016 16:23`   `yomimono`   It wasn't intended to be a punt -- when reading, that's really not a problem
+
+`30-11-2016 16:23`   `avsm`   oh true, we always want to handle Eof on reads as it's a normal case
+
+`30-11-2016 16:23`   `hannes`   `yomimono`: I suspect in block we'll end up in the same issues (e.g. an encrypted layer getting a block, providing a block)
+
+`30-11-2016 16:23`   `yomimono`   if that's not your experience, then yes that's a problem in the design and we should fix it
+
+`30-11-2016 16:23`   `thomasga`   (I completely missed the beginning of the meeting but irmin on block sounds great to me)
+
+`30-11-2016 16:24`   `yomimono`   `hannes`: there are already things that get a block, provide a block in that PR -- see mirage-block
+
+`30-11-2016 16:24`   `avsm`   The thing not clear to me is why "Error `Closed" and not "Ok `Closed", following the same reasoning as Eof
+
+`30-11-2016 16:24`   `yomimono`   because if you tried to write to something and you can't, that's a problem
+
+`30-11-2016 16:24`   `avsm`   isnt it as normal to write to a channel closed by the other side?
+
+`30-11-2016 16:24`   `yomimono`   if you see eof you know it's closed too
+
+`30-11-2016 16:25`   `yomimono`   perhaps I'm being obtuse
+
+`30-11-2016 16:25`   `avsm`   on the read end, yes, but if I'm just writing (e.g. a proxy), then the only way to detect the other side has disappeared is if I get a Closed on write
+
+`30-11-2016 16:25`   `avsm`   the equivalent of Unix.write returning 0
+
+`30-11-2016 16:26`   `avsm`   alright, lets declare this a blocker and continue on the PR? There's consensus that it needs to be addressed before 3.0
+
+`30-11-2016 16:26`   `avsm`   the blocker list is currently looking much smaller, which is good :)
+
+`30-11-2016 16:28`   `avsm`   Ok... how's the Solo5 ELF review going `mato`?
+
+`30-11-2016 16:28`   `mato`   `avsm`: Equivalent of UNIX EPIPE you mean...
+
+`30-11-2016 16:29`   `mato`   `avsm`: That's all done and merged. I'm basically waiting for the network stack key renames to be finalised and merged (#707 and friends), then I can update unikernel-runner and we should be all set to deploy infra using it
+
+`30-11-2016 16:29`   `avsm`   awesome!
+
+`30-11-2016 16:29`   `djs55`   I guess with protocols like TCP sometimes the write will succeed but the data is never received because the remote has gone away whereas sometimes the write happens after the local end knows the remote has gone away and so it fails locally?
+
+`30-11-2016 16:29`   `avsm`   Anyone else got any PRs that haven't been shown attention?
+
+`30-11-2016 16:30`   `yomimono`   `djs55`: yes, I'm thinking about the latter case
+
+`30-11-2016 16:30`   `avsm`   `djs55` `mato`: yes that's the scenario I was thinking of.  You dont always close the channel yourself
+
+`30-11-2016 16:31`   `avsm`   Ok, because people have to dash, rearranging agenda slightly.
+
+`30-11-2016 16:31`   `avsm`   `GemmaG`: you had "ideas for new logo" on the agenda for MirageOS3. exciting!
+
+`30-11-2016 16:32`   `GemmaG`   Yes! Just a a quick go at some ideas to start with: https://github.com/`GemmaG`/gemmag.github.io/tree/master/images/DraftMirageLogos
+
+`30-11-2016 16:32`   `hannes`   there's still this topkg'ing of cstruct, tcpip, mirage-platform... any ideas when + who will do that?  (+the charrua-client safe_foo which I complained on via PM)
+
+`30-11-2016 16:32`   `djs55`   is topkg'ing required for Mirage 3? (sorry for the newbie question)
+
+`30-11-2016 16:32`   `avsm`   `hannes`: i have a topkg of tcpip that needs rebasing. those are not blockers for the beta though
+
+`30-11-2016 16:32`   `thomasga`   the logos looks great!
+
+`30-11-2016 16:33`   `GemmaG`   It would be good to start a conversation about logo ideas and go from there - this was exploratory for now :)
+
+`30-11-2016 16:33`   `amirmc`   `GemmaG`: which image in particular? Are they different or stages?
+
+`30-11-2016 16:33`   `mato`   where's the palm trees? :-)
+
+`30-11-2016 16:33`   `yomimono`   `hannes`: to me? if so I forgot, if not can you explain
+
+`30-11-2016 16:33`   `avsm`   +1 to the logo! I like the 3 stages a lot
+
+`30-11-2016 16:33`   `hannes`   (marrakesh: ~10 people already signed up (you sign up by writing a mail to me))
+
+`30-11-2016 16:33`   `hannes`   `yomimono`: no, to `avsm`
+
+`30-11-2016 16:33`   `mato`   `hannes`: is there a date already set for marrakesh hackathon?
+
+`30-11-2016 16:33`   `thomasga`   about topkg'ing. I was thinking about creating a custom .carcass stuff for mirage projects, and maybe link that with the mirage too to be able to `mirage init` a new project and get a fresh template
+
+`30-11-2016 16:34`   `avsm`   Hang on, could we finish with one thread at a time please?
+
+`30-11-2016 16:34`   `hannes`   `mato`: 2-7 march 2017. i so far only mailed to last years participants. sorry.
+
+`30-11-2016 16:34`   `avsm`   Everyone is just interjecting random things so far.
+
+`30-11-2016 16:34`   `avsm`   Logos: feedback to `GemmaG` please
+
+`30-11-2016 16:34`   `GemmaG`   Yes please - new ideas also welcome. I'll set up a thread
+
+`30-11-2016 16:34`   `avsm`   This is an initial draft, so ideas/feedback to her now, mirageos-devel mail later?
+
+`30-11-2016 16:35`   `avsm`   I like the 3 stages incidentally. Could we use those to mark libraries as alpha/beta/stable for Mirage?
+
+`30-11-2016 16:35`   `thomasga`   (e.g. something like https://gitlab.com/edwintorok/dot_carcass/tree/master but for mirage)
+
+`30-11-2016 16:35`   `amirmc`   `GemmaG`: beware of design by committee ;)
+
+`30-11-2016 16:36`   `thomasga`   for the logos: we need a black&white version of them too
+
+`30-11-2016 16:36`   `avsm`   ok, thanks `GemmaG`! I think an overhauled look and feel of mirage.io by January is feasible too :-) Something simpler than the current one with the logo seems very do-able
+
+`30-11-2016 16:36`   `thomasga`   not sure how the current color scheme will work for that (I guess it could, but need to think about that)
+
+`30-11-2016 16:37`   `avsm`   and a favicon as well i guess
+
+`30-11-2016 16:37`   `avsm`   something has to replace the current llama that has been on the github org as a placeholder since 2008
+
+`30-11-2016 16:37`   `GemmaG`   Sure - I'll work on those and email the list
+
+`30-11-2016 16:37`   `thomasga`   yea. And a big wall poster version.
+
+`30-11-2016 16:37`   `avsm`   I love that llama
+
+`30-11-2016 16:37`   `amirmc`   and the sandcat on the twitter profile
+
+`30-11-2016 16:37`   `avsm`   Yes, `yomimono`'s sandcat!
+
+`30-11-2016 16:37`   `avsm`   Alright, onto the hackathon then. `hannes`!
+
+`30-11-2016 16:37`   `thomasga`   and tee-shirts!
+
+`30-11-2016 16:38`   `avsm`   Did the mail ever go out to  mirageos-devel `hannes` , about the hackathon
+
+`30-11-2016 16:38`   `avsm`   i think it only went to last year's attendees
+
+`30-11-2016 16:38`   `avsm`   is just trying to dig out the email to check, but cant find it
+
+`30-11-2016 16:38`   `hannes`   so, it will happen 2-7 march 2017.  there are spots available.  I'll mail mirageos-devel soon
+
+`30-11-2016 16:38`   `avsm`   awesome
+
+`30-11-2016 16:39`   `GemmaG`   Yeah - also thinking of tshirts for hackathon - will work on them over next few weeks
+
+`30-11-2016 16:39`   `avsm`   for those who cant make it, there will be a cambridge hackathon contingent too
+
+`30-11-2016 16:39`   `avsm`   oh, I got a bunch of ODroid C2s that are more powerful for routing, but are arm64
+
+`30-11-2016 16:39`   `hannes`   275 EUR per person, you can also arrive on 1st and leave on 8th.  you can also just drop by the weekend.  spots are limited due to number of beds.  I try to diversify people
+
+`30-11-2016 16:39`   `hannes`   I don't want to send anybody away (due to limited space or lack of money)
+
+`30-11-2016 16:40`   `avsm`   so book early
+
+`30-11-2016 16:40`   `avsm`   if anyone wants to organise something in their local area as well, then of course also welcome to -- tshirts can be shipped :-)
+
+`30-11-2016 16:40`   `avsm`   ok to pick up the next thread: topkg
+
+`30-11-2016 16:41`   `avsm`   it's not greatly documented so far, and we've had some people starting to help with ports
+
+`30-11-2016 16:41`   `hannes`   if the demand is higher, I can also try to find more accomodation (but I don't really want to organise events for 50+ people)
+
+`30-11-2016 16:41`   `avsm`   `thomasga`: a skeleton repo would be really useful for mirage
+
+`30-11-2016 16:41`   `avsm`   `hannes`: 50+ would be tough in morocco :P
+
+`30-11-2016 16:42`   `thomasga`   `avsm`: ok, I will see what I can do
+
+`30-11-2016 16:42`   `avsm`   generally speaking topkg works well, but there's all the random things we've learnt that need to be written down somewhere. i can help too
+
+`30-11-2016 16:42`   `hannes`   (since I need to enjoy the event by sitting in the sun and get sunburned ;)
+
+`30-11-2016 16:42`   `avsm`   (e.g. VERSION_NUM in META and not VERSION, that sort of thing)
+
+`30-11-2016 16:43`   `avsm`   good news is that the odig format seems to work well, and codoc is making progress
+
+`30-11-2016 16:43`   `avsm`   http://docs.mirage.io/odoc/ may become the default soon, just as soon as some css issues are fixed by upstream
+
+`30-11-2016 16:43`   `djs55`   I like `thomasga`'s idea of some kind of "mirage init" to create a topkg project template
+
+`30-11-2016 16:43`   `avsm`   yeah; agreed.
+
+`30-11-2016 16:44`   `avsm`   especially in the new `opam` file generation world we live in
+
+`30-11-2016 16:44`   `avsm`   Alright, next on agenda was CI
+
+`30-11-2016 16:45`   `avsm`   I'm going to punt massively. I had it working, live, and then destroyed the entire setup 1 hour before this call. I showed it to `yomimono` though :P
+
+`30-11-2016 16:45`   `avsm`   will get it up and running later today i hope
+
+`30-11-2016 16:45`   `yomimono`   it definitely existed
+
+`30-11-2016 16:45`   `avsm`   we have machines on ci.mirage.io for this, and the github webhooks etc are working, and code is at https://github.com/`avsm`/mirage-ci
+
+`30-11-2016 16:45`   `yomimono`   I can 100% verify that it was there and had logs and tested stuff and showed colors and knew about PRs
+
+`30-11-2016 16:45`   `avsm`   will mail the list when it exists for more than a day
+
+`30-11-2016 16:45`   `hannes`   `avsm`: speaking of which, what does "it" and "working" mean?  is it about the opam libraries for now?
+
+`30-11-2016 16:46`   `hannes`   or... since we now have opam files for unikernels, do we have a CI which does reverse deps for unikernels? ;)
+
+`30-11-2016 16:46`   `avsm`   https://github.com/`avsm`/mirage-ci/blob/master/src-bin/mirageCI.ml#L162
+
+`30-11-2016 16:46`   `avsm`   it runs these phases for now, including revdeps
+
+`30-11-2016 16:46`   `avsm`   and so it can easily be extended to do revdeps for opam unikernels
+
+`30-11-2016 16:47`   `avsm`   i'm also adding mirage/mirage-specific tests (e.g. run mirage_skeleton)
+
+`30-11-2016 16:47`   `avsm`   and revdeps can be configured to be allowed-failures
+
+`30-11-2016 16:47`   `avsm`   The CI also resolves all the Git heads into concrete revisions so the script to build it is reproducible
+
+`30-11-2016 16:47`   `hannes`   `avsm`: idea: please use individual unikernels, not mirage-skeleton as a bulk run.
+
+`30-11-2016 16:47`   `avsm`   `hannes`: yes!!
+
+`30-11-2016 16:48`   `avsm`   `hannes`: I'm doing exactly that, just because the Makefile in mirage-skeleton stresses me out with the environment propagation
+
+`30-11-2016 16:48`   `hannes`   (thus skeleton becomes 10*4 projects, and we can add the example unikernels from other repos as well)
+
+`30-11-2016 16:48`   `avsm`   this is much easier now thanks to opam generation. yay
+
+`30-11-2016 16:48`   `hannes`   .oO(looks like opam generation was worth the nights I spent on it)
+
+`30-11-2016 16:48`   `avsm`   :-)
+
+`30-11-2016 16:49`   `avsm`   Last item on agenda is a headsup about performance testing; it's making progress, there is a forward port of iperf, and I chatted with Imada-san about opening up the code and running it regularly under the CI
+
+`30-11-2016 16:50`   `avsm`   hopefully more progress in the next two weeks. we have a bare-metal machine to run them on regularly and reproducibly, and he is working on shell scripting them up to be automated with kvm/xen
+
+`30-11-2016 16:50`   `avsm`   `mort___` helping with that also
+
+`30-11-2016 16:50`   `mort___`   .
+
+`30-11-2016 16:50`   `mato`   excellent! looking forward to trying out the perf tests
+
+`30-11-2016 16:50`   `hannes`   I'm much slower with my CI setup (FreeBSD) -- so far I achieved a) server with IP, b) install via serial-over-lan a custom FreeBSD, now slowly getting towards a system packages build, later a datakit-based CI on there.  plus I've lots of v4+v6 addresses there (and can deploy FreeBSD/solo5) -- https://0bin.link/paste/f23lPTRK#7n-steVDk6aRiUYjqN2HzprpmAhoMts73T4sCIY9+hR
+
+`30-11-2016 16:51`   `avsm`   `hannes`: you have lots of ipv4 addresses??? awesome!
+
+`30-11-2016 16:51`   `avsm`   keen to get FreeBSD/solo5 in the live pool
+
+`30-11-2016 16:51`   `avsm`   alright, AOB?
+
+`30-11-2016 16:51`   `hannes`   `avsm`: well, I host at a VPN provider, they have IP :)
+
+`30-11-2016 16:52`   `avsm`   anything exciting going on with projects? I've got Odroid C2s and am playing with an aarch64 port of Mirage. everything compiles in userspace ELF mode atm :-)
+
+`30-11-2016 16:52`   `mato`   Is everyone happy with the workflow changes? Any concerns?
+
+`30-11-2016 16:52`   `mort___`   have a cubietruck+ but that should be straightforward and not nearly as exciting
+
+`30-11-2016 16:52`   `hannes`   I'll start a new blog with a friend, and for this removed all JS and bootstrap CSS from canopy
+
+`30-11-2016 16:53`   `avsm`   also, the spacetime profiler has been released into opam: https://github.com/lpw25/prof_spacetime
+
+`30-11-2016 16:53`   `hannes`   `mato`: I'm not yet happy.
+
+`30-11-2016 16:53`   `avsm`   `hannes`: +1 to simplifying canopy js
+
+`30-11-2016 16:53`   `mato`   `hannes`: what else would you like to change?
+
+`30-11-2016 16:53`   `avsm`   `mato`: I need to use it more but will have an opinion by next week
+
+`30-11-2016 16:53`   `hannes`   `avsm`: simplify for me is equal to removing... but that's me, like to remove code
+
+`30-11-2016 16:53`   `hannes`   `mato`: I'd want more caching and more determinism
+
+`30-11-2016 16:54`   `hannes`   `mato`: such as: mirage configure <params> --> compile config.XXX -> then get mirage build etc. working... also needs a separate distclean and clean.
+
+`30-11-2016 16:55`   `thomasga`   I also would like random generated names for my unikernels
+
+`30-11-2016 16:55`   `hannes`   atm mirage <subcommand> deletes + recompiles config.XXX every time
+
+`30-11-2016 16:55`   `mato`   right, yeah, i saw that
+
+`30-11-2016 16:55`   `thomasga`   e.g. `mirage build spitting_llama`
+
+`30-11-2016 16:55`   `avsm`   `thomasga`: that sounds suspiciously unrandom
+
+`30-11-2016 16:55`   `hannes`   `thomasga`: I agree, if we get deterministic random (i.e. mirage configure --dhcp true always leads to spitting_llama)
+
+`30-11-2016 16:56`   `thomasga`   or `mirage run beardy_anil`
+
+`30-11-2016 16:56`   `avsm`   I think the call has reached its natural conclusion :)
+
+`30-11-2016 16:56`   `mato`   :-)
+
+`30-11-2016 16:56`   `avsm`   thanks everyone!
+
