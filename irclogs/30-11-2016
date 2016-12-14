@@ -186,7 +186,7 @@ tags: irc,log
 
 `30-11-2016 16:24`   `yomimono`   `hannes`: there are already things that get a block, provide a block in that PR -- see mirage-block
 
-`30-11-2016 16:24`   `avsm`   The thing not clear to me is why "Error `Closed" and not "Ok `Closed", following the same reasoning as Eof
+`30-11-2016 16:24`   `avsm`   The thing not clear to me is why "Error Closed" and not "Ok Closed", following the same reasoning as Eof
 
 `30-11-2016 16:24`   `yomimono`   because if you tried to write to something and you can't, that's a problem
 
