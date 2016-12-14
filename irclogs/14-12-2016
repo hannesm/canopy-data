@@ -1,0 +1,558 @@
+---
+participants: GemmaG,amirmc,avsm,demonimin,djs55,djwillia,engil,hannes,mato,thomasga,yomimono
+author: unpurecamelbot
+title: Irc discussions from #mirage on 14-12-2016
+tags: irc,log
+---
+`14-12-2016 15:59`   `hannes`   morning
+
+`14-12-2016 16:00`   `mato`   evening
+
+`14-12-2016 16:00`   `avsm`   ello ello!
+
+`14-12-2016 16:00`   `yomimono`   afternoon ;)
+
+`14-12-2016 16:00`   `demonimin`   hola
+
+`14-12-2016 16:00`   `amirmc`   yo
+
+`14-12-2016 16:00`   `engil`   bonne nuit
+
+`14-12-2016 16:00`   `yomimono`   so this is our biweekly catchup, the agenda can be seen at https://github.com/mirage/mirage-www/wiki/Call-Agenda
+
+`14-12-2016 16:01`   `yomimono`   unpurecamelbot is logging the meeting & those logs will be posted at canopy.mirage.io
+
+`14-12-2016 16:01`   `yomimono`   (unpurecamelbot's human handler is `engil` - thanks for handling that!)
+
+`14-12-2016 16:02`   `avsm`   yeah especially given the timezone, `engil`!
+
+`14-12-2016 16:02`   `djwillia`   hi all!
+
+`14-12-2016 16:02`   `mato`   hi dan
+
+`14-12-2016 16:02`   `amirmc`   Hi dan!
+
+`14-12-2016 16:03`   `engil`   well that's alright, in the long run I hope it will motivate me to write a more intelligent unpurecamelbot
+
+`14-12-2016 16:03`   `yomimono`   first up on the agenda is mirage-types API changes update
+
+`14-12-2016 16:03`   `yomimono`   the current state of things is: we have result-y errors in mirage-types, but they're not quite right for an important library's use case
+
+`14-12-2016 16:04`   `yomimono`   we've been trying to get them there but they're not there yet, and it's still a blocker for the MirageOS 3 beta we discussed a month ago
+
+`14-12-2016 16:04`   `avsm`   Thanks for doing so much legwork on this issue, `yomimono`
+
+`14-12-2016 16:04`   `yomimono`   discussion is most recently at https://github.com/mirage/mirage/issues/698 and https://github.com/mirage/mirage/pull/729
+
+`14-12-2016 16:05`   `yomimono`   this may not be common knowledge but ocaml-tls and conduit point to forks of mine in mirage-dev
+
+`14-12-2016 16:05`   `hannes`   so, would it be solved by opening the polyvar (i.e. make it non-private)?
+
+`14-12-2016 16:05`   `yomimono`   the patches which allow those packages to build in that universe are unlikely to be merged into ocaml-tls as stands
+
+`14-12-2016 16:05`   `yomimono`   `hannes`: great question, I have not had time to test this hypothesis
+
+`14-12-2016 16:05`   `avsm`   Just so I understand the overall requirement of ocaml-tls, it is that it wants to handle some errors by itself, and pass others through?
+
+`14-12-2016 16:05`   `yomimono`   in fact I would like it a lot if someone else could do this, as I've been spending enough time trying to figure this out that other release stuff is getting neglected
+
+`14-12-2016 16:06`   `hannes`   `avsm`: no. it consumes a flow and provides a flow.  it wants to add errors, which can be handled by a consumer, to the flow error type
+
+`14-12-2016 16:07`   `yomimono`   (I'm adding another item to the agenda as regards API changes but I don't want it to interrupt this discussion)
+
+`14-12-2016 16:08`   `hannes`   (i.e. type error = [ F.error | `Tls_failure of Tls.Engine.failure ])
+
+`14-12-2016 16:08`   `avsm`   ah, so there is an upstream consumer of TLS which has some abstract FLOW errors ( from the underlying FLOW) and then the additional (recoverable) TLS errors
+
+`14-12-2016 16:08`   `avsm`   ok
+
+`14-12-2016 16:08`   `hannes`   exactly, some consumers may treat some TLS failures as recoverable
+
+`14-12-2016 16:09`   `avsm`   I think the person who understands the issue best wrt private types is Jeremy Yallop, and he's offered to look at a distillation of the problem tomorrow morning to set us on the right path
+
+`14-12-2016 16:09`   `avsm`   can we get this into a small self-contained example for him? (In one ml file just illustrating the types)
+
+`14-12-2016 16:09`   `avsm`   then I'm happy to attempt to take on the actual patches from you `yomimono`
+
+`14-12-2016 16:10`   `yomimono`   `avsm`: that's really great to hear, thanks :)
+
+`14-12-2016 16:10`   `avsm`   but I think it's worth pausing on the live trees with this change and getting a firm decision from an OCaml typing expert on the best abstraction approach, and yallop fits that bill :)
+
+`14-12-2016 16:11`   `amirmc`   Great! Just to clarify, this is the last blocker before we can do the beta. Is that right?
+
+`14-12-2016 16:11`   `yomimono`   there's one more API change which is `djs55`'s proposed addition of disconnect (immediate shutdown) to FLOW
+
+`14-12-2016 16:11`   `yomimono`   but that is much less major - we've done similar changes at minor releases in Mirage 2
+
+`14-12-2016 16:11`   `hannes`   plus the V1_* rename..
+
+`14-12-2016 16:11`   `avsm`   That one is thankfully far simpler since many of the implementations already implement disconnect
+
+`14-12-2016 16:12`   `avsm`   just before we get sidetracked
+
+`14-12-2016 16:12`   `yomimono`   `hannes`: I see the V1_ rename as part of the release process itself, but yes you're right that it needs done
+
+`14-12-2016 16:12`   `yomimono`   semantics
+
+`14-12-2016 16:12`   `avsm`   about the Tls errors: `hannes`, we can go through it in person tomorrow with yallop perhaps as well?
+
+`14-12-2016 16:12`   `hannes`   `avsm`: if time permits
+
+`14-12-2016 16:13`   `avsm`   yeah
+
+`14-12-2016 16:13`   `hannes`   (this was my attempt at being british, you could read it as "yes, of course" :)
+
+`14-12-2016 16:13`   `thomasga`   (I'm late but hi!)
+
+`14-12-2016 16:13`   `hannes`   I'm happy to find a solution here, I tried last weekend for >10hours without much success
+
+`14-12-2016 16:13`   `avsm`   ok, let's do that then. Do we have a small file illustrating the problem `yomimono`/`hannes`m? a non-compiling example with comments saying what we want it to do would be ideal :)
+
+`14-12-2016 16:14`   `yomimono`   `hannes`m: I think you're a better person to assemble this, I don't trust myself to be completely correct on what is important in that interface
+
+`14-12-2016 16:15`   `hannes`   not sure whether I've time for this until tomorrow morning..
+
+`14-12-2016 16:16`   `avsm`   lets take it tomorrow morning then
+
+`14-12-2016 16:16`   `avsm`   need to get the trees compiling again tonight before more changes anyway :)
+
+`14-12-2016 16:16`   `yomimono`   yes, I merged a big changeset and then went to bed last night, sorry not sorry :P
+
+`14-12-2016 16:17`   `yomimono`   `avsm`: sounds like a good segue into our next agenda item, CI
+
+`14-12-2016 16:17`   `avsm`   It's deployed! It's live! Bugs are being fixed via it!
+
+`14-12-2016 16:17`   `yomimono`   :D
+
+`14-12-2016 16:18`   `hannes`   but mirage-skeleton worked... maybe this should give us some motivation to extend mirage-skeleton with unikernels using those libraries that failed https://github.com/mirage/mirage/pull/735#issuecomment-267023506
+
+`14-12-2016 16:18`   `yomimono`   +1
+
+`14-12-2016 16:18`   `avsm`   There was a maddening bug due to an incorrect comparison function that talex5 just fixed for me, so the live one now should trigger off PRs just fine
+
+`14-12-2016 16:18`   `avsm`   so what I need now is: input on tests you want impemented; issues on https://github.com/`avsm`/mirage-ci/issues
+
+`14-12-2016 16:18`   `avsm`   samoht suggested a 4.02.3 opam install mirage.2.9.1 revdeps test to check upper bounds for example
+
+`14-12-2016 16:19`   `avsm`   and mirage-skeleton is another one... we can run tests too
+
+`14-12-2016 16:19`   `avsm`   takayuki imada and i have also deployed a bare metal xen machine in packet.net to do performance testing, so he expects to have an update on that over the next few weeks
+
+`14-12-2016 16:20`   `hannes`   nice!
+
+`14-12-2016 16:20`   `avsm`   once those scripts are hooked into ci.mirage.io, we can extend with solo5 perf tests also
+
+`14-12-2016 16:20`   `mato`   can the underlying CI infra run tests which need /dev/kvm? would be useful for solo5/ukvm?
+
+`14-12-2016 16:20`   `avsm`   `mato`: yes -- xen was the only challenge due to the need to edit grub2 configurations, but sorted that yesterday. KVM just works
+
+`14-12-2016 16:20`   `hannes`   I also should rewrap my head around the CI stuff and deploy on my FreeBSD host.
+
+`14-12-2016 16:20`   `avsm`   ah and I also have a freebsd bare metal machine, and an ARM64, and an ARM32 (currently undeployed), so I could use help with some FreeBSD Jail runes `hannes`
+
+`14-12-2016 16:21`   `avsm`   i'm thinking of making the CI OPAM2 only, since then we can use the command wrappers to invoke docker, jails or whatever sandbox we need
+
+`14-12-2016 16:21`   `hannes`   (surprisingly, my blog (using canopy) and other web services run on bhyve+solo5-virtio with 7MB memory (including irmin/git) -- and I don't need to restart canopy every other day (which I needed to do on linux/xen)
+
+`14-12-2016 16:22`   `avsm`   nice!
+
+`14-12-2016 16:22`   `avsm`   https://ci.mirage.io/ref/mirage/mirage/heads%2Fmaster is the link to the CI btw
+
+`14-12-2016 16:22`   `avsm`   `thomasga` and I are learning React.js and stuff to build a nicer UI for it, you'll be glad to hear
+
+`14-12-2016 16:22`   `avsm`   that's it for CI: feedback/feature requests on tests you want would be great!
+
+`14-12-2016 16:23`   `yomimono`   thanks `avsm`! :)
+
+`14-12-2016 16:23`   `avsm`   (ideally as issues on https://github.com/`avsm`/mirage-ci/issues)
+
+`14-12-2016 16:23`   `hannes`   `avsm`: we can talk about jails and runes tomorrow in private
+
+`14-12-2016 16:23`   `avsm`   `hannes`: sure
+
+`14-12-2016 16:23`   `yomimono`   next up I see that `demonimin` is going to work on a disk storage library :D
+
+`14-12-2016 16:24`   `avsm`   yay!!
+
+`14-12-2016 16:24`   `hannes`   \o/ \O/
+
+`14-12-2016 16:24`   `demonimin`   indeed! here's the intro https://lists.xenproject.org/archives/html/mirageos-devel/2016-12/msg00031.html
+
+`14-12-2016 16:24`   `hannes`   did I dream or wasn't there somewhere a more technical intro? ;)
+
+`14-12-2016 16:24`   `avsm`   welcome aboard `demonimin` -- you're building the final link in a long chain there :P
+
+`14-12-2016 16:24`   `demonimin`   yes, I need to update it and make it public
+
+`14-12-2016 16:24`   `mato`   `yomimono`: Just to confirm - what `amirmc` asked - the Resulty errors, `djs55`'s disconnect change and V1 renaming are all that remains for the Beta?
+
+`14-12-2016 16:25`   `demonimin`   I've started prototyping a bit, which means I'll update the design slightly
+
+`14-12-2016 16:25`   `hannes`   (no design is by any means ever finished, glad to hear that you're working on it, `demonimin`)
+
+`14-12-2016 16:26`   `yomimono`   `mato`: we could tag without disconnect changes.  resulty errors (specifically the changes to them needed to get master ocaml-tls building) and V1 renaming are crucial
+
+`14-12-2016 16:26`   `thomasga`   I am pretty keen to use the new block storage library :-)
+
+`14-12-2016 16:26`   `avsm`   yeah, minor interface tweaks are fine as we head towards the final release, but error changes will permeate everything
+
+`14-12-2016 16:26`   `demonimin`   basically I'm focused on an MVP that can run Irmin and provides a somewhat useful kv api
+
+`14-12-2016 16:27`   `mato`   `yomimono`: ack. don't want to interrupt the current discussion, can we come back to this (beta1) before we finish today.
+
+`14-12-2016 16:27`   `avsm`   sounds about right for a few months
+
+`14-12-2016 16:27`   `yomimono`   `mato`: sure
+
+`14-12-2016 16:27`   `thomasga`   `demonimin`: talex5 and I might have a few GiG of CI logs to store on that stuff..
+
+`14-12-2016 16:27`   `avsm`   `demonimin`: interestingly there's been a lot of interest in resurrecting a JavaScript backend for Mirage too, due to the ReasonML work that Facebook has been doing
+
+`14-12-2016 16:28`   `avsm`   so a pure OCaml implementation of a filesystem might end up being mapped to browser storage as well, as talex5 has done in the past with the Irmin blob layer
+
+`14-12-2016 16:28`   `demonimin`   ah, okay
+
+`14-12-2016 16:28`   `avsm`   (this is very much MirageOS 4.0 stuff :-)
+
+`14-12-2016 16:28`   `mato`   `demonimin`: your proposal looks nice. have you considered how hard it would be to allow concurrent readers/writers at the block level? i.e. share a single persistent store between more than 1 (uni)kernel?
+
+`14-12-2016 16:28`   `thomasga`   yup, if if could have anything else first, that would be great
+
+`14-12-2016 16:28`   `hannes`   I'd appreciate first a working block device for xen+solo5 :)
+
+`14-12-2016 16:29`   `demonimin`   it would be difficult, because garbage collection assumes a single writer
+
+`14-12-2016 16:29`   `thomasga`   `mato`: my guess: hard
+
+`14-12-2016 16:29`   `thomasga`   but we can have higher-level lock mechanism
+
+`14-12-2016 16:29`   `demonimin`   I'd provide a distributed kv store at a higher-level, using either Irmin or an etcd design
+
+`14-12-2016 16:29`   `mato`   even allowing just multiple readers?
+
+`14-12-2016 16:30`   `mato`   the reason i ask is that at least multiple readers would make it easy to inspect the store from e.g. the host the unikernel is running on
+
+`14-12-2016 16:30`   `demonimin`   I've removed snapshots from the design because that makes garbage collection much easier, so even that would be hard
+
+`14-12-2016 16:30`   `demonimin`   but you could request a pause in garbage collection maybe
+
+`14-12-2016 16:30`   `thomasga`   `mato`: do you care about outdated data?
+
+`14-12-2016 16:31`   `avsm`   the "memory model" for reads in the presence of any writes is going to be fairly subtle...
+
+`14-12-2016 16:31`   `mato`   `thomasga`: as long as what i get is some kind of consistent snapshot which is not too far out of date that might be enough.
+
+`14-12-2016 16:31`   `avsm`   desperately wants a single host filesystem first...
+
+`14-12-2016 16:31`   `thomasga`   I guess we could have a higher-level cache for concurrent reads if we don't care about consistency too much
+
+`14-12-2016 16:31`   `yomimono`   `avsm`: +1
+
+`14-12-2016 16:31`   `demonimin`   so do I, minimum useful thing first
+
+`14-12-2016 16:32`   `djs55`   A single reader single writer thing that just worked would be great
+
+`14-12-2016 16:32`   `mato`   anyway, i have not thought through this much, so it's just a "what if" question at this stage
+
+`14-12-2016 16:32`   `thomasga`   me too, single reader/single writer would already be very very useful
+
+`14-12-2016 16:32`   `mato`   agree, let's do the minimal thing first
+
+`14-12-2016 16:32`   `demonimin`   I'll consider making gc user-triggered so that another unikernel can inspect, but that's it
+
+`14-12-2016 16:32`   `avsm`   yeah explicit GC works
+
+`14-12-2016 16:32`   `hannes`   I actually make snapshots etc. of virtual block devices in the host system using ZFS... a simple FS would be sufficient for me
+
+`14-12-2016 16:33`   `hannes`   (but then, I'm a spoiled kid having ZFS and zvols)
+
+`14-12-2016 16:33`   `mato`   `hannes`: sure, but for that to work the FS needs to be able to read any snapshot in a consistent fashion
+
+`14-12-2016 16:33`   `avsm`   `demonimin`: a FUSE read-only layer might help too
+
+`14-12-2016 16:33`   `hannes`   `mato`: ack
+
+`14-12-2016 16:33`   `mato`   `hannes`: i don't know if `demonimin`'s design allows for that. if yes, then great
+
+`14-12-2016 16:34`   `mato`   `hannes`: (I use much the same thing for VM backups, create an LVM snapshot of the XFS-formatted vm disks and dump that)
+
+`14-12-2016 16:34`   `demonimin`   `avsm`: decent idea
+
+`14-12-2016 16:35`   `demonimin`   though remember it's a kv store, not a generic filesystem. Fuse would be focused on inspection.
+
+`14-12-2016 16:35`   `hannes`   `mato`: interesting question (for `demonimin` and his design)
+
+`14-12-2016 16:35`   `avsm`   Yeah, hence read-only. No getting caught in the pseudo-POSIX mire
+
+`14-12-2016 16:35`   `demonimin`   oh yes, I had missed that
+
+`14-12-2016 16:36`   `avsm`   Alright, sounds like there's a lot of interest -- take the discussion to the devel list for a wider audience? :-)
+
+`14-12-2016 16:36`   `demonimin`   sure! thanks all for the interest
+
+`14-12-2016 16:36`   `yomimono`   thanks `demonimin`! :D
+
+`14-12-2016 16:37`   `yomimono`   next thing: results of the call survey! `GemmaG`?
+
+`14-12-2016 16:37`   `yomimono`   (I see there's a gist at https://gist.github.com/`GemmaG`/d7ad4149138548a622a4db2a16883cc5 with summary)
+
+`14-12-2016 16:37`   `GemmaG`   Yes! Please see the gist I've started (very rough!)
+
+`14-12-2016 16:38`   `GemmaG`   Some great feedback, and interesting insights into community thoughts on this call and the ecosystem as a whole
+
+`14-12-2016 16:38`   `yomimono`   the link to the raw survey results just punts me to a page that says the survey is over - do you intend to make the raw results visible?
+
+`14-12-2016 16:38`   `GemmaG`   I'd like to create some actionable suggestions from this that we can look into after the release :)
+
+`14-12-2016 16:38`   `avsm`   That's well useful, thanks `GemmaG`!
+
+`14-12-2016 16:39`   `avsm`   I note suggestions like the use of MeetBot could address much of the concurrency confusion
+
+`14-12-2016 16:39`   `GemmaG`   Ah yes - I just closed it and didn't realise that - the results were anonymous so we can make them public if that would be helpful
+
+`14-12-2016 16:39`   `yomimono`   I think we should only do that if the survey told participants that their feedback would be made public
+
+`14-12-2016 16:39`   `avsm`   Agreed.
+
+`14-12-2016 16:39`   `yomimono`   I definitely put information in there that would uniquely identify me
+
+`14-12-2016 16:39`   `hannes`   `avsm`: I have put in this suggestion after I noticed that debian relies on it a lot.  needs someone to either rewrite or set it up
+
+`14-12-2016 16:40`   `avsm`   For this one, I think `GemmaG`'s summary has loads of actionable information to improve the state of the calls
+
+`14-12-2016 16:40`   `avsm`   ...after beta is cut
+
+`14-12-2016 16:40`   `GemmaG`   Ok - they can stay private and I will generalise
+
+`14-12-2016 16:40`   `GemmaG`   Thanks all :)
+
+`14-12-2016 16:40`   `avsm`   `hannes`: yeah!
+
+`14-12-2016 16:40`   `yomimono`   `GemmaG` - thanks for running this and for the excellent summary you've already provided :)
+
+`14-12-2016 16:40`   `avsm`   +1
+
+`14-12-2016 16:40`   `GemmaG`   thanks!
+
+`14-12-2016 16:40`   `amirmc`   +1
+
+`14-12-2016 16:41`   `avsm`   (and to `engil` for his canopy maintenance to get these logs up! he is currently debugging a parsing error :)
+
+`14-12-2016 16:41`   `yomimono`   is there anything else on the subject of the survey?
+
+`14-12-2016 16:41`   `yomimono`   if not, `mato` requested that we come back to the subject of beta1
+
+`14-12-2016 16:41`   `avsm`   only to ask about the hackathon
+
+`14-12-2016 16:42`   `yomimono`   hackathon status: will be rad
+
+`14-12-2016 16:42`   `avsm`   which is an unashamedly irrelevant thing to the survey, but I had to make a connection
+
+`14-12-2016 16:42`   `hannes`   I suspect there is the question about governance of MirageOS -- which we should address after the release (i.e. how are changes done, how are PRs merged, etc.)
+
+`14-12-2016 16:42`   `amirmc`   +1
+
+`14-12-2016 16:42`   `avsm`   `hannes`: yeah -- at least we have this beta cycle to look back on to determine who was actually doing what, and then we can smooth over any repo access issues and general policies based on the experience
+
+`14-12-2016 16:43`   `mato`   +1 (governance should be formalised)
+
+`14-12-2016 16:43`   `hannes`   I should post to the list that 2-7 march 2017, >10 people already signed up (I haven't sent out any mail, sorry, will do when time permits).  275 EUR, held in marocco, marrakesh
+
+`14-12-2016 16:43`   `avsm`   `hannes`: superb
+
+`14-12-2016 16:43`   `hannes`   what I'd also want to achieve is proper documentation similar to the FreeBSD handbook for MirageOS (maintainence guide)
+
+`14-12-2016 16:44`   `hannes`   I'd point governance to e.g. https://tails.boum.org/contribute/merge_policy/ (they seem to do a good job with feature proposals, both discussion and preservation of the advantages/disadvantages)
+
+`14-12-2016 16:44`   `mato`   `hannes`: /me would love it if Mirage were maintenance-free :-)
+
+`14-12-2016 16:45`   `avsm`   back to the immediate topic at hand of beta1
+
+`14-12-2016 16:45`   `mato`   ok
+
+`14-12-2016 16:45`   `mato`   First, I wanted to check if "before everyone heads off for xmas breaks" is still realistic?
+
+`14-12-2016 16:45`   `hannes`   `mato`: since software is never finished, I don't believe we can achieve this... there'll always be updates ;)
+
+`14-12-2016 16:46`   `avsm`   `yomimono`: it looks like the sequence is: 1) get trees building after mirage-types-lwt change (the CI is churning on this right now); 2) determine error interface 3) defer Flow.disconnect post beta?
+
+`14-12-2016 16:46`   `yomimono`   yes and (2) is a huge unknown since it's already taken approximately eight times longer than originally anticipated
+
+`14-12-2016 16:46`   `amirmc`   `mato`: Another way of asking is "who's around to deal with things?"
+
+`14-12-2016 16:46`   `thomasga`   and 2.5 rename V1
+
+`14-12-2016 16:46`   `mato`   Second, I've seen the flurry of opam-metadata-upper-bounds PRs, will these changes be somehow automatically integrated back into the upstream trees, or do I need to do this manually for the Solo5 packages?
+
+`14-12-2016 16:47`   `thomasga`   yomino: I volonteer to help for stabilizing the repos
+
+`14-12-2016 16:47`   `yomimono`   `mato`: I plan to do these automatically but haven't built the tools yet
+
+`14-12-2016 16:47`   `thomasga`   (and to learn how to spell english better)
+
+`14-12-2016 16:47`   `hannes`   `mato`: I guess magic partially appeared and -console, -net (i.e. those I touched last night) are already >= 3.0.0)
+
+`14-12-2016 16:47`   `avsm`   `mato`: I'd encourage "automatically" since that'll be a key part of the post-Mirage3 contribution workflow
+
+`14-12-2016 16:47`   `yomimono`   this is something I plan on doing while not bashing my head against errors anymore
+
+`14-12-2016 16:47`   `avsm`   everything we automate now will be something that lowers the bar to contributions from newcomers post-release
+
+`14-12-2016 16:48`   `thomasga`   `yomimono`: I also volunteer to help to ease the release on any blocking stuff, so feel free to throw things at me
+
+`14-12-2016 16:48`   `mato`   Right, so in terms of the Solo5 packages for release all that remains is some changelogs need to be written and a new release needs to be tagged
+
+`14-12-2016 16:48`   `thomasga`   (e.g. the error stuff scares me a bit, but I can try to help :p)
+
+`14-12-2016 16:49`   `avsm`   i can confirm that throwing stuff at `thomasga` really helps with release stress, `yomimono`
+
+`14-12-2016 16:49`   `yomimono`   :P
+
+`14-12-2016 16:49`   `thomasga`   (as long as it's not to`mato`s)
+
+`14-12-2016 16:49`   `hannes`   eggs?
+
+`14-12-2016 16:49`   `yomimono`   cat toys
+
+`14-12-2016 16:49`   `mato`   The changelogs can probably just say "Release for Mirage 3.0 beta1" or does anyone really want more detail than that for the solo5 packages? `hannes`? `djwillia`?
+
+`14-12-2016 16:49`   `thomasga`   yea, or just code :p
+
+`14-12-2016 16:49`   `thomasga`   (or CI logs)
+
+`14-12-2016 16:50`   `avsm`   `mato`: `djwillia`: yeah starting the tagging process will remove the number of dev packages we have
+
+`14-12-2016 16:50`   `yomimono`   `mato`: possibly there are other changes that have been merged in master for solo5 packages that should bementioned
+
+`14-12-2016 16:50`   `yomimono`   `mato`: but for the mirage3 api conforming stuff, I think that's sufficient
+
+`14-12-2016 16:50`   `hannes`   `mato`: for solo5 it is not much of an issue IMHO, for mirage we should have extensive changelog, similar to what OCaml has
+
+`14-12-2016 16:51`   `thomasga`   `hannes`: do you want that for all packages? or just for the mirage signatures + tool updates?
+
+`14-12-2016 16:51`   `djwillia`   `mato`: yeah i agree the changelog for solo5 should be just "release..."
+
+`14-12-2016 16:51`   `yomimono`   it would be amazing to have something like the wiki gasche put together for the 4.04 ocaml release
+
+`14-12-2016 16:51`   `thomasga`   anyway, it's a lot of work to get all right and it will take time
+
+`14-12-2016 16:51`   `hannes`   `thomasga`: for all packages which have a release history, esp. important for mirage since there are lots of breaking changes, and we'll be in business to move old code to new code.
+
+`14-12-2016 16:52`   `yomimono`   but I intend to write something higher-level than the CHANGES.md in mirage/mirage for the mirage.io blog, which others can help to iterate on
+
+`14-12-2016 16:52`   `amirmc`   +1
+
+`14-12-2016 16:52`   `GemmaG`   https://github.com/gasche/ocaml-releases-change-explanation/wiki/4.04.0-changes-explanation
+
+`14-12-2016 16:52`   `thomasga`   `hannes`: ok so we need tooling for gathering all CHANGES into the same place
+
+`14-12-2016 16:52`   `mato`   `hannes`: rightm i think we're in agreement for the solo5 components -- they've never been officially released yet (I don't count the initial versions in OPAM as a "release")
+
+`14-12-2016 16:52`   `mato`   `hannes`: so the versions for mirage 3 can just say "release for mirage 3"
+
+`14-12-2016 16:52`   `thomasga`   yea, that would be great. Although, to be honnest, I don't think we will break many existing programs :p
+
+`14-12-2016 16:52`   `avsm`   `thomasga`: I believe that "odig changes" might do a lot of the work for us now
+
+`14-12-2016 16:53`   `thomasga`   `mato`: yes, makes sense to me too
+
+`14-12-2016 16:53`   `avsm`   ok, so `amirmc` `GemmaG` and I are meeting tomorrow to go through the release checklist, so we'll add "changelog" to the pile
+
+`14-12-2016 16:53`   `hannes`   `thomasga`: gasche's thing is awesome, and I hope we have the resources to put that together for mirage[-types/types-lwt/runtime], in addition to blog posts (which are highly appreciated)
+
+`14-12-2016 16:53`   `avsm`   `hannes`: `thomasga`: a convenient way to update the changelog is to port existing code and just note what we did
+
+`14-12-2016 16:54`   `thomasga`   well, I don't have any unikernel, so not breaking change for me :p
+
+`14-12-2016 16:54`   `hannes`   `avsm`: I went for mirage+functoria several times through the git log
+
+`14-12-2016 16:54`   `yomimono`   look under your seat, `thomasga`
+
+`14-12-2016 16:54`   `yomimono`   you get a unikernel!
+
+`14-12-2016 16:54`   `hannes`   `thomasga`: oh, mirage-seal is out of order? ;P
+
+`14-12-2016 16:54`   `avsm`   `hannes`: yeah i meant the annotated changelog
+
+`14-12-2016 16:55`   `GemmaG`   I'm also pulling together a range of blog posts/articles from OCL on related Mirage projects
+
+`14-12-2016 16:55`   `hannes`   `thomasga`: there's likely breakage due to mirage-types-lwt ocamlfind package introduced by myself 15 hours ago in your irmin/git..
+
+`14-12-2016 16:55`   `avsm`   I've started penning some Docker ones on vpnkit datakit, just notes at the moment
+
+`14-12-2016 16:55`   `yomimono`   `mato`: anything else related to beta1?
+
+`14-12-2016 16:56`   `thomasga`   V1 -> Mirage_types
+
+`14-12-2016 16:56`   `mato`   `yomimono`: i think that's all from me
+
+`14-12-2016 16:56`   `hannes`   `thomasga`: or V1 -> Mirage ?
+
+`14-12-2016 16:56`   `thomasga`   (and ok, maybe I have a few unikernels lurking around)
+
+`14-12-2016 16:56`   `yomimono`   Mirage_types is long :(
+
+`14-12-2016 16:56`   `thomasga`   `hannes`: let's keep the names consistent
+
+`14-12-2016 16:56`   `mato`   `yomimono`: i'd appreciate a heads up on when you intend to start the tagging process, once you think we're ready for it
+
+`14-12-2016 16:56`   `thomasga`   `mirage-types` is the opam package already
+
+`14-12-2016 16:57`   `yomimono`   `mato`: copy that.
+
+`14-12-2016 16:57`   `avsm`   why not just Mirage?
+
+`14-12-2016 16:57`   `yomimono`   Mirage is already the library for the frontend stuff
+
+`14-12-2016 16:57`   `thomasga`   because it's in the `mirage-types` package
+
+`14-12-2016 16:57`   `yomimono`   default_network etc
+
+`14-12-2016 16:57`   `hannes`   I'm all for just Mirage (and Mirage_LWT)
+
+`14-12-2016 16:57`   `avsm`   oh yeah, for the configuration
+
+`14-12-2016 16:58`   `yomimono`   OK, that's all the agenda stuff, we can keep discussing names though
+
+`14-12-2016 16:58`   `mato`   do we no longer have a need for the V1 in the name?
+
+`14-12-2016 16:58`   `yomimono`   nope
+
+`14-12-2016 16:58`   `avsm`   the frontend stuff is easier to change (mainly mirage-skeleton) than forcing all our other libraries to type Mirage_types
+
+`14-12-2016 16:58`   `thomasga`   I find it too long too, but I really like consistent names too
+
+`14-12-2016 16:58`   `avsm`   Rresult uses Rresult.R
+
+`14-12-2016 16:58`   `avsm`   Mirage.M
+
+`14-12-2016 16:58`   `avsm`   its fairly opaque though
+
+`14-12-2016 16:59`   `hannes`   (I'll give my name vote to `thomasga`)
+
+`14-12-2016 16:59`   `thomasga`   I'll vote for me
+
+`14-12-2016 16:59`   `thomasga`   anyway, I not fully convinced yet, I just don't want to have to remember 10 different names
+
+`14-12-2016 17:00`   `avsm`   I'll give my name to `thomasga`, unless he chooses to call it some weird French module name
+
+`14-12-2016 17:00`   `yomimono`   mirthulhu
+
+`14-12-2016 17:00`   `amirmc`   It'll be named after an animal.
+
+`14-12-2016 17:00`   `thomasga`   (e.g. in Mirage2 we had to install `mirage-types-lwt`, use the `mirage-types.lwt` library and open `V1_LWT`)
+
+`14-12-2016 17:00`   `avsm`   sounds like the end of the call though! should we release unpureocamlbot from his burden?
+
+`14-12-2016 17:00`   `amirmc`   +1
+
+`14-12-2016 17:00`   `mato`   +1
+
+`14-12-2016 17:00`   `yomimono`   +1
+
+`14-12-2016 17:00`   `thomasga`   let's call it egarim then :p
+
+`14-12-2016 17:01`   `thomasga`   +1 too
+
+`14-12-2016 17:01`   `avsm`   thanks everyone! and `yomimono` for MCing expertly
+
