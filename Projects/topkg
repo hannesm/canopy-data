@@ -15,7 +15,7 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 
 ## Libraries need porting
 
-- [dns](https://github.com/mirage/dns)
+- [dns](https://github.com/mirage/ocaml-dns)
 - [io-page](https://github.com/mirage/io-page)
 - [vmnet](https://github.com/mirage/ocaml-vmnet)
 - [cstruct](https://github.com/mirage/ocaml-cstruct)
@@ -26,9 +26,8 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 - [mirage-block-xen](https://github.com/mirage/mirage-block-xen)
 - [mirage-block-unix](https://github.com/mirage/mirage-block-unix)
 - [tar](https://github.com/mirage/ocaml-tar)
-- [fat](https://github.com/mirage/ocaml-fat)
 - [xen-evtchan](https://github.com/mirage/ocaml-evtchn)
 - [xen-gnt](https://github.com/mirage/ocaml-gnt)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
 - [charrua](https://github.com/haesbaert/charrua-core)
-- see also [errors from odig](http://docs.mirage.io/#errors)
+- see also [errors from odig](http://docs.mirage.io/ocamldoc_/#errors)
