@@ -1,0 +1,206 @@
+---
+participants: tbd
+author: avsm
+title: Irc discussions from #mirage on 04-01-2017
+tags: irc,log
+---
+
+```
+[16:01] <avsm> greetings!
+[16:02] <demonimin> hello to all of you!
+[16:02] <yomimono> so! I claimed we'd have a biweekly catchup
+[16:03] <dinosaure> hi!
+[16:03] <avsm> wasn't there a leap week in 2016 yomimono?
+[16:03] <yomimono> I don't see unpureocamlbot :(
+[16:03] <thomasga> \o/
+[16:03] <yomimono> avsm: leap second, leap day, maybe leap week, why not?
+[16:04] == djs55 [~Adium@194.72.166.2] has joined #mirage
+[16:04] <yomimono> engil, avsm: summon bot friend?
+[16:04] <hannes> we can copy&paste https://irclog.whitequark.org/mirage/2017-01-04 afterwards
+[16:04] <avsm> yeah, and I can relieve engil from bot duties in two weeks with a mirage irc logger. Need to rebuild canopy with modern libraries anyway.
+[16:05] <yomimono> OK, sounds like a plan to me.  Agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda for those who would like to look or add any items.
+[16:05] <djwillia> hi all happy new year
+[16:05] <yomimono> hi djwillia :)
+[16:06] <avsm> hi djwillia! same to you all :)
+[16:06] <yomimono> so our first agenda item of 2017 is, unsurprisingly, mirageos 3 and progress to it
+[16:06] <hannes> avsm: the canopy push hook seems to be not working on mirage/canopy-data
+[16:06] <avsm> hannes: its working; canopy is not rebuilding succesfully due to parsing errors. Will look later.
+[16:07] <avsm> mirage3: firstly a huge props to everyone on getting the errors changes in!
+[16:07] <yomimono> I very lazily compiled a list of things which had URLs set somewhere other than github.com/mirage in mirage-dev, i'd appreciate it if folks who've been working on updating packages could have a look to see if anything is on there that should be upstreamed still
+[16:07] <avsm> its utterly barking mad how many libraries changed and how many compile now :)
+[16:07] <yomimono> http://pastebin.com/kG1U8xj2 , I see some false positives already but just have a look and maybe @ a maintainer if you already have PRs in
+[16:07] <thomasga> (some are still not compiling unfortunately :p)
+[16:07] <hannes> i've canopy etc deployed with current mirage-dev + irimin pr :D
+[16:07] <yomimono> :D
+[16:08] <thomasga> but yes, we have a pretty big collection of (almost compatible) libraries now :-)
+[16:08] <hannes> thomasga: big thanks for all the PRs and work (same to @yomimono and others involved)
+[16:09] <yomimono> massive props to everyone who did work on this, particularly thomasga who did such a huge push on errors and splitting the types into separate packages
+[16:09] <avsm> A reasonably stable URL for finding out where to help fix breakage is: https://ci.ocaml.io/mirage/mirage-dev/ref/heads/master
+[16:09] <avsm> this is the mirage-dev OPAM remote building regularly
+[16:09] <hannes> howr regularly?
+[16:09] <avsm> very regularly. like, always
+[16:09] <avsm> on every commit
+[16:09] <thomasga> @yomimono: vchan can point to mirage now, I have merged my PR
+[16:09] <thomasga> (I'll make a PR)
+[16:10] <yomimono> thomasga: yay!
+[16:10] <yomimono> there are two things that haven't yet been split out of mirage/types/V1.mli into their own packages: tcpip and channel
+[16:11] <thomasga> I'm pretty happy with the new errors and library split
+[16:11] <thomasga> channel is split
+[16:11] <yomimono> I'm working on tcpip - I have tcpip + mirage-protocols + mirage-protocols-lwt, doing a mirage-stacks as well
+[16:11] <yomimono> thomasga - I thought so but then git and less said otherwise, must have a stale branch, great to hear
+[16:11] <thomasga> https://github.com/mirage/mirage-channel
+[16:11] <avsm> yomimono: i will abandon my topkg port of tcp on the basis of extreme bitrot: after 4 weeks :)
+[16:11] <hannes> thomasga: there's still https://github.com/mirage/mirage/blob/master/types/V1.mli#L551
+[16:11] <thomasga> but maybe I didn't propagate everything yet
+[16:12] <thomasga> woops
+[16:12] <thomasga> https://github.com/mirage/mirage-channel/commit/3b6ca38573179ab787b3283adb379411de4eb75a
+[16:12] <thomasga> I'll make a PR to remove the dead-code in mirage-types
+[16:13] <avsm> quick question re: remotes testing. I need a set of "package roots" to install from something like mirage/mirage-dev, but its too noisy to try to build every single package in `packages/*`. or should we just do that anyway?
+[16:13] <avsm> alternatively we could have a packages.txt tht describe the root ones that we want installed on every push to the remote
+[16:14] <thomasga> @avsm: yes we should be everything
+[16:14] <hannes> avsm: imho: build every package under packages/* (is likely too noise for opam-repository, but good for mirage-dev)
+[16:14] <thomasga> the current tests are not enough
+[16:14] <yomimono> try everything, if it's too noisy we can remove things
+[16:14] <hannes> (and try a build-test as well for each package)
+[16:14] <thomasga> I've catched errors way to late while trying to build mirage-www
+[16:14] <yomimono> afk a sec, sorry
+[16:14] <thomasga> (while mirage-dev was building just fine)
+[16:15] * yomimono finishes keeping cat from escaping to pleasant -15C outside
+[16:15] <thomasga> @yomimono (when you're back): are you looking at spliting the remaining signatures from V1? I think that's really the last missing piece for starting to cut releases
+[16:15] <hannes> thomasga: for that, we should have a unikernel remote repository
+[16:15] <avsm> ok, every package it is then. I'll activate that on mirage-dev later on
+[16:16] <yomimono> thomasga: yes. nearly finished as a matter of fact
+[16:16] <thomasga> hannes: agreed. mirage-skeleton is not enough to tests all the combinations
+[16:16] <hannes> (by that I mean to have an opam repository containing all the unikernel we have, opam files generate by `foreach backend: mirage configure -t $backend`)
+[16:17] == kayceesrk [~kayceesrk@global-5-142.nat-2.net.cam.ac.uk] has joined #mirage
+[16:17] <hannes> yomimono: \o/
+[16:17] <thomasga> yomimono: sweet!
+[16:17] <thomasga> we can share the work to start releasing mirage-dev packages if you want :-)
+[16:17] <yomimono> then will submit a PR to rename V1/V1_LWT, although maybe we can just remove them
+[16:18] <hannes> +1 for just removing them
+[16:18] == agarwal1975 [~anonymous@65.209.60.146] has quit [Quit: agarwal1975]
+[16:18] <avsm> or leave them with a polymorphic variant that points to the new place
+[16:18] <avsm> as Core does with polymorphic comparison
+[16:18] <yomimono> thomasga: if you're still available that would be amazing
+[16:18] <thomasga> mirage-types it's quite useful place for documentation
+[16:18] <yomimono> avsm: example? not sure I understand what you mean
+[16:19] <avsm> oh, btw, you can stage PRs on mirage/opam-repository instead of ocaml/opam-repository if you'd like
+[16:19] <yomimono> thomasga: it should just be links to the real docstrings in the individual repos though, otherwise it will get out of date
+[16:19] <yomimono> and then there should probably just be a link elsewhere, no need for the modules
+[16:20] <thomasga> yomimono: I was planning to continue doing some mirage work until the end of the week, after that I can help a bit but will be less available. So as soon as you split the last sigs, we can start releasing the split packages in opam-repo
+[16:20] <hannes> yomimono: but error handling conventions, and guidelines etc. should be kept in mirage-types imho
+[16:21] <avsm> yomimono: in Core, they do things like: val (==) : [ `Consider_using_phys_equal ] -> [ `Consider_using_phys_equal ] -> [ `Consider_using_phys_equal ]
+[16:21] <avsm> using error messages as a documentation side channel :)
+[16:21] <yomimono> oh, interesting
+[16:21] <thomasga> I think it is a good idea to keep something like: http://docs.mirage.io/mirage-types/V1/index.html
+[16:22] <thomasga> e.g. it's useful when writing a unikernel to know what is available
+[16:22] <yomimono> thomasga, hannes: OK, in that case rename rather than remove, and it's a good occasion to do doc review (as MirageOS 3 is in general)
+[16:23] <thomasga> but it should be discouraged to depend on V1 directly (and we should rename it into Mirage_types).
+[16:23] <thomasga> +1
+[16:23] == vramana [~Thunderbi@183.82.65.104] has quit [Read error: Connection reset by peer]
+[16:23] <hannes> yomimono, thomasga: +1
+[16:23] <avsm> sounds good to me
+[16:24] <yomimono> on that topic, I had an item for "docs wishlist and blog post volunteers" but I think unless we have volunteers who want to talk right now, that's better on the mailing list
+[16:24] <avsm> one location for Merlin browsing would also be useful -- i often just use V1_LWT as a reference while I write code
+[16:24] <avsm> yomimono: I'm definitely on for this one next week. It's on my list after the CI is stable (which it is now)
+[16:24] <yomimono> mirage-types and mirage-types-lwt are useful metapackages for installing everything
+[16:24] <thomasga> (also we should probably consider merging V1_LWT and V1 into a single Mirage_type sig)
+[16:25] <yomimono> avsm: awesome
+[16:26] <thomasga> I should maybe try to run a solo5 unikernel and blog about it :p
+[16:26] <yomimono> thomasga: perhaps we could remove V1_LWT entirely
+[16:26] <yomimono> thomasga: yes!!
+[16:26] <hannes> thomasga: I'd move the ipaddr, cstruct, io_page stuff into Mirage_types, and keep a Mirage_types_lwt for the 'a io
+[16:27] <avsm> I've also published a few updates to various web packages in opam now (jekyll-format especially) so the mirage-www rewrite is easier now
+[16:27] <avsm> mostly a matter of ripping out html generation into a separate library and then leaving mirage-www much simpler from a runtime perspective
+[16:27] <thomasga> hannes: good point. I'll open a ticket to discuss about this (the remaining bits to do to kill V1)
+[16:27] <yomimono> +1
+[16:28] <yomimono> avsm: you have at least 1 user for something that generates blogs from jekyll and doesn't require me to manage a non-ocaml toolchain
+[16:28] <avsm> yeah
+[16:28] <def`> avsm: one location?
+[16:28] <hannes> avsm: great.  is by any chance a CI task possible which runs mirage configure on selected subdirs and commits to a unikernel opam repository mentioned above on your todo?
+[16:29] <avsm> hannes: yeah ive got unikernel deployment on there
+[16:29] <avsm> unfortunately i got a polite note from github telling me to stop doing so much automated pushing
+[16:29] <avsm> so am setting up a gitlab instance for the binary deployments
+[16:29] <hannes> avsm: awesome! :) I'll try to find some time to look into porting your stuff to a FreeBSD CI
+[16:29] <avsm> (but perhaps it doesnt need a web UI at all)
+[16:29] <avsm> hannes: that would be great!
+[16:29] <thomasga> avsm: can you open an issue on docker/datakit, we should be able to batch some of the pushes
+[16:30] <avsm> thomasga: ok
+[16:30] <djwillia> avsm: can i ask some noob-ci questions?
+[16:30] <avsm> of course!
+[16:30] <djwillia> avsm: is ukvm a backend in the ci?
+[16:30] <hannes> (I managed to relocate myself to my winter office https://twitter.com/h4nnes/status/816611786636009472)
+[16:30] <avsm> everyone is a noob-ci -- its only about 3 days old in live deployment :-)
+[16:30] <djwillia> :)
+[16:31] <avsm> djwillia: sort of -- right now it is just build testing everything, so it is doing ukvm via solo5
+[16:31] <avsm> but the next stage is to aadd a build pipeline for mirage configure -> deploy
+[16:31] <djwillia> I'm wondering how to get the ci in my development workflow because it seems super useful
+[16:31] <avsm> which will commit the binary kernel
+[16:31] <avsm> djwillia: i'll send out a detailed message about how to deploy your own. talex5 has done a great job of making it fairly self-contained
+[16:31] <hannes> djwillia: I just had the very same idea earlier today when doing some opam-signing work
+[16:31] <hannes> avsm: yay! :)
+[16:31] <avsm> i'm running two distinct public instances: https://ci.mirage.io and https://ci.ocaml.io
+[16:32] <thomasga> djwillia: I am also working on a way to run the CI on your local machine (possible but a bit awkward to do at the moment)
+[16:32] <djwillia> i have some pretty massive changes to solo5/ukvm that i want to make sure don't break things
+[16:32] <avsm> it just needs a few more iterations to eke out bugs so you dont all get hammered by them
+[16:32] <djwillia> ok cool
+[16:32] <avsm> djwillia: i can activate it for those repos in solo5
+[16:32] <thomasga> but yea, talex5+avsm self-contained deployment are also looking very good
+[16:33] <hannes> djwillia: what is contained in the massive changes? (if we can divert the agenda to news from solo5 land for a bit)
+[16:33] <djwillia> my big changes are that i now have the working backend for running ukvm on MacOSX Hypervisor.framwork more-or-less up-to-date with the code in the current ukvm master
+[16:33] <avsm> it's running on https://ci.ocaml.io/pr on multiple orgs for instance
+[16:33] <yomimono> agenda diversion approved, I'm curious too
+[16:33] <avsm> djwillia: amazing! I've also got OSX testing on the roadmap :)
+[16:34] <djwillia> what it means is that a solo5/ukvm unikernel (the same binary) can be run on either Linux (with kvm) or MacOSx (with Hypervisor.framework)
+[16:34] <hannes> djwillia: neat! :D
+[16:34] <reynir> o/
+[16:35] <djwillia> it's going to take a bunch of time working with mato to get it merged, but i figured CI might be really useful during that process
+[16:35] * yomimono high-fives reynir
+[16:35] <thomasga> djwillia: this is amazing.
+[16:35] <avsm> djwillia: https://twitter.com/copumpkin/status/816328698974654465
+[16:35] <avsm> good timing!
+[16:35] <thomasga> I want to write a blog post on how to run solo5/mirage on OSX :-)
+[16:36] <hannes> djwillia: of course, I'd like a vmmapi.h (FreeBSD/bhyve) version as well (but don't have time for this atm)
+[16:36] <djwillia> it doesn't use hyperkit, but just the Hypervisor.framework directly
+[16:37] <avsm> djwillia: thats fine -- hyperkit isnt a necessary dependency
+[16:37] <hannes> djwillia: i understand, and the only API in FreeBSD which is exposed atm (and used by bhyve) is vmmapi.h
+[16:37] <avsm> cant wait to try this :-)
+[16:38] <djwillia> I haven't looked at vmmapi.h, but I expect it will be pretty quick after this change
+[16:38] <hannes> \o/
+[16:38] <djwillia> in my branch ukvm now has a top half/bottom half
+[16:39] <djwillia> and Hypervisor.framework is low-level enough that most of the VMCS setup is explicitly done, so will be able to be reused for FreeBSD
+[16:39] == agarwal1975 [~anonymous@65.209.60.146] has joined #mirage
+[16:40] <djwillia> I think when I was looking at xhyve it may be even more low level than Hypervisor.framework, but I really think ti would be small changes
+[16:40] <avsm> djwillia: let me know when you'd like to activate CI and point me at some PRs
+[16:41] <avsm> so I've got quite a queue of requests written down now. I'll migrate avsm/mirage-ci over to mirage/mirage-ci and mail the list soon
+[16:41] <djwillia> avsm: sounds good!
+[16:42] <hannes> what have we left on the agenda?
+[16:42] <avsm> hackathon!
+[16:42] == brson [~brson@corp-nat.p2p.sfo1.mozilla.com] has joined #mirage
+[16:42] <yomimono> hannes is already doing good hype by sharing nice photos of a warm-looking place
+[16:43] <hannes> as mentioned, I already went closer to the event.  I have a moroccon phone number, venue is paid for 30 people (10 places still open, but sufficiently many people interested)
+[16:44] <hannes> physically I'll spend the weeks until the retreat here in mirleft, morocco. http://marrakech2017.mirage.io has hack retreat information
+[16:44] <avsm> if anyone wants to hack on self-hosted arm64, i have several boxes i can pass onto people
+[16:44] <avsm> i have much desire for a 64-bit arm ukvm backend
+[16:44] <avsm> but we can have Intel NUCs as well of course
+[16:45] <hannes> I have an intel nuc with me and FreeBSD/bhyve and several wireless and wired connections (headless).  we can use this to deploy our infrastructure in marrakesh :)
+[16:45] <yomimono> perhaps a canopy instance for folks to write in would be nice for organizing gear
+[16:47] <yomimono> I'll remember to check in on that at the next meeting
+[16:47] <avsm> for those who cant travel due to lectures etc there will be a mini cambridge hacking contingent
+[16:47] <avsm> if anyone needs funding, please get in touch with GemmaG or me
+[16:47] <hannes> djwillia, avsm: do you have time to join us in marrakech?
+[16:47] <avsm> hannes: unsure yet, but keen to for at least the weekend if possible!
+[16:48] <djwillia> hannes: trying to figure it out, will let you know as soon as I can!
+[16:48] <hannes> avsm: yes, that is a possibility to join just for the (possibly extended) weekend
+[16:48] <hannes> djwillia: mato signed up, btw :)
+[16:49] <djwillia> i have no doubt it would be a good time hanging out with you guys :)
+[16:49] <hannes> djwillia: and as ricardo as well
+[16:49] <avsm> will definitely need some sun by then :-)
+[16:50] <djwillia> yes i will ask him; i know he wants to go
+[16:52] <avsm> cool, sounds like it'll be tagging time for the next few weeks then!
+[16:52] <yomimono> Any other topics folks wanted to bring up, while we're here and paying attention?
+[16:52] == copumpkin [~copumpkin@haskell/developer/copumpkin] has joined #mirage
+[16:52] <yomimono> If not, I'll go finish up some stacks :D
+[16:52] <copumpkin> avsm: hi!
+[16:53] <avsm> greetings copumpkin! and -> djwillia is the Hyperkit.framework hacker :-)
+```
