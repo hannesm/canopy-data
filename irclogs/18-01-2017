@@ -1,0 +1,227 @@
+---
+participants: tbd
+author: avsm
+title: Irc discussions from #mirage on 18-01-2017
+tags: irc,log
+---
+
+```
+[16:05] <yomimono> first on the agenda (still and as usual) is a mirageos 3 update
+[16:05] <yomimono> beta is assembling!  issue at https://github.com/mirage/mirageos-3-beta/issues/1
+[16:05] <yomimono> mato has already submitted packages for solo5, hannesm has been publishing stuff into opam, I'm working on the huge list of stuff under my name there
+[16:06] <avsm> This is a crazy huge release; never becomes clearer than when you see how many things need to get tagged
+[16:06] <mort___1> yomimono: just to check— is the best way to help to add that as a remote (and remove mirage-dev), and then see what breaks?
+[16:07] <hannes> I avoid releases by deleting code and libraries ;)
+[16:07] <yomimono> once there are things in it, yes :)
+[16:07] <yomimono> mort___1: if your name is in that issue, please do the things the issue asks you to do
+[16:07] <yomimono> (that applies to you only peripherally but that's not the case for everyone here)
+[16:07] <yomimono> hannes: yes, you're very virtuous :P
+[16:08] <yomimono> FIN
+[16:08] <avsm> yomimono: do you need gentle CI attention on mirageos-3-beta as well as mirage-dev then?
+[16:08] <yomimono> once there are things there, yes
+[16:09] <avsm> ok, ping me then and the CPUs shall spin
+[16:09] <yomimono> thanks :)
+[16:10] <yomimono> if nothing else for MirageOS 3, avsm will update us on CI
+[16:10] <yomimono> (I hope!)
+[16:11] <avsm> Sure -- its sort of a segway. There is now support in the CI for building differential bulk builds
+[16:11] <avsm> what this means is that we can build a full package snapshot from ocaml/opam-repository (the stable set), and then add mirage/mirage-dev as an additional opam remote, and compare what has changed
+[16:11] <avsm> so this skips already broken packages and tells us what has regressed (or indeed, progressed into now building)
+[16:12] <avsm> There is one such mega build ongoing in https://ci.ocaml.io/mirage/opam-repository/ref/heads/bulk right now
+[16:12] <avsm> One limitation at the moment is that we cant view the history of builds in the UI, so if there is an ongoing build we cant see the last successful one.
+[16:13] <avsm> But talex5 is working on that feature in datakit-ci, so it'll get there eventually. For now, I'll just post to mirageos-devel with regressions (the ones I dont fix)
+[16:13] <talex5> You could just tag bulk as bulk.old before updating it.
+[16:13] <talex5> The caching means it won't actually build anything again.
+[16:13] <avsm> I'm also provisioning a machine for dedicated bulk building soon, so if you have a remote you want tested, or some new combination of compiler/distro, let me know
+[16:13] <avsm> talex5: how does that work? I have a branch called 'bulk', not a tag
+[16:14] <talex5> Or a branch, it doesn't matter.
+[16:14] <avsm> oh, and add bulk.old to the filter that runs this test. If I called it "bulk.last", that even makes it sounds like a legitimate solution. I'll do that, thanks!
+[16:15] <avsm> Also talex5 has added live log streaming to it today, which is kind of cool for the insomniacs that want to watch builds as they happen in CI :)
+[16:15] <talex5> I will fix the history in the CI eventually too ;-)
+[16:15] <avsm> Has anyone been using the CI results? I've not had much feedback (aside from complaints on ocaml/opam-repository that people are getting stressed out by all the distro failures)
+[16:16] <hannes> I've been insomniac for some days and fixed constraints and builds here and there. really nice :)
+[16:16] <avsm> yay!
+[16:16] <hannes> I'd still like to have a manual for how to setup my own locally (and would then set one up running FreeBSD) :D
+[16:17] <avsm> next on the list is to expose the git state repository so you can clone failures from the CLI directly
+[16:17] <avsm> hannes: yeah, a manual is en route :-P
+[16:17] <avsm> that's the CI update -- ARM is en route soon i hope, once mirage3 itself stabilises
+[16:17] <hannes> (but mainly busy with (procrastinating) opam signing these days.. it wil be there soon :)
+[16:17] <avsm> yay for opam signing!
+[16:19] <avsm> FIN CI
+[16:19] <yomimono> next up we have an item on the call feedback survey - GemmaG posted a summary of the results at http://reynard.io/2017/01/18/MirageIRCFeedback.html  and an issue at https://github.com/mirage/mirage-www/issues/512
+[16:20] <avsm> thanks for the detailed follow through here GemmaG! I hope this becomes a semi-regular thing; I am keen to see how opinions evolve as we move past our current release binge into more stable use of MirageOS3
+[16:20] <GemmaG> Yes - some ideas for small improvements we could make to the call/planning for the call - please add suggestions to the issue
+[16:21] <yomimono> no replies to the request for a summarizer for today's meeting -- if you wanted summaries, please consider being the change you wish to see in the world :)
+[16:21] <GemmaG> More of an update I suppose than a discussion point for today, but if everyone takes a look at the issue and we can start implementing them :)
+[16:21] <avsm> my friends Cut and Paste can be joined by Delete and Reword
+[16:22] <GemmaG> Adding the schedule to mirage.io might be a good place to start, and I'll look to see if Meetbot ticks some boxes
+[16:22] == thomasga [~thomasga@194.72.166.2] has quit [Quit: Leaving.]
+[16:23] <avsm> Ah yes, I've been working on mirage-www to that regard... should I bring that up now?
+[16:23] <GemmaG> Yes :)
+[16:23] * yomimono reorders agenda
+[16:23] <yomimono> sure
+[16:23] <avsm> hurrah for mutable infrastructure
+[16:23] <avsm> well, mirage-www has got its branches in a twist at the moment
+[16:24] <avsm> mort___1 and yomimono ported it to mirage3 APIs, and some mirage3 content
+[16:24] <avsm> the issue is that its quite hard to update the website (and hence docs) when local trees are broken, and particularly so with OPAM1 remotes being global (so cant use switches for this)
+[16:25] <avsm> so I've taken the top half of the website (the HTML generation) and am factoring it out into something Jekyll based that can be rebuilt using a normal GitHub Pages setup
+[16:25] <avsm> then the HTML is taken by the website skeleton and run as a normal  HTTPS unikernel, but without a lot of the build-time libraries being needed
+[16:25] <amirmc> +1 for something jekyll-like
+[16:25] <mato> (belated) hi all
+[16:26] <djwillia> hi mato
+[16:26] <avsm> alright, so in the short term I'm writing Jekyll templates and will output HTML, and rip out the existing cowabloga "logic", and hopefully make the site more accessible
+[16:26] <mort___1> avsm: if it's any use, my site (mort.io) already does exactly that (generate HTML with jekyll, route+serve with a unikernel). the .travis.yml and Makefile may be of use
+[16:26] <mort___1> (drives jekyll in a container to avoid installing gobs of node.js etc)
+[16:26] <avsm> mort___1: that is of great use. I shall ping you when I have something! I want to do it for my own site and document how to use it too
+[16:26] <amirmc> avsm: so would this be similar to the flow that I/others used some time ago?
+[16:27] <avsm> mort___1: ruby not node.js. get your dynamic typing prejudices straight :-)
+[16:27] <avsm> amirmc: I'm not sure... what flow did you/others use some time ago?
+[16:27] <mort___1> avsm: sorry— is there a difference? :p
+[16:28] <amirmc> I used jekyll to make the HTML, and then the skelton example to make the unikernel (from the html). Wrote a post a long time ago about the travis glue.
+[16:28] <avsm> warning: there will be a website redesign while doing this as I'll grab a moden-ish Jekyll template that reduces that amount of javascript etc in use. Any objections to anyone who utterly loves the current design?
+[16:28] <mort___1> avsm: no objections at all.
+[16:28] <djwillia> i remember reading that from you amirmc.  Also I remember reading one from yomimono doing something similar maybe with octopress
+[16:28] <hannes> avsm: +11
+[16:28] <djwillia> +1
+[16:28] <amirmc> another warning: Liquid templating can be a pain.
+[16:29] <avsm> amirmc: yes that sounds right, I remember your post now! -- except now we can use the latest goodies like a staging config.ml and a Docker/Jekyll template as mort___1 suggested
+[16:29] == thomasga [~thomasga@194.72.166.2] has joined #mirage
+[16:29] <avsm> amirmc: yeah, I ran into Liquid tags last night. My jekyll-format OPAM library has the beginning of an interpreter for it in ocaml
+[16:29] <amirmc> avsm: Cool. I look forward to updating my own site too!
+[16:30] <avsm> does anyone have any opinions about logos? Has GemmaG heard anything further about http://reynard.io/2016/11/30/MirageLogo.html ?
+[16:30] <yomimono> ime everyone has a lot of opinions about logos, you might want to reframe that :P
+[16:30] <amirmc> yup
+[16:30] == copy` [uid125493@gateway/web/irccloud.com/x-acchmxfwlqvflcri] has joined #mirage
+[16:30] <avsm> well everyone has opinions, but nothing substantive has made its way back to me beyond GemmaG's blog post (which handily comes accompanied by an actual logo)
+[16:31] <avsm> Bear in mind that we have a llama I found on the Internet 7 years ago as our current logo...
+[16:31] <amirmc> I'd like us to get a professionally designed logo. But that requires a budget.
+[16:31] <amirmc> There's also a sandcat on the twitter account.  Some consistency would be good.
+[16:31] <hannes> +1 to what amirmc said
+[16:32] <avsm> +1 to what specifically?
+[16:32] <avsm> We have a tabled proposal for a logo
+[16:32] <avsm> If it's an improvement over what we have right now, I'm inclined to tak eit
+[16:32] <mort___1> I missed GemmaG's post originally. FWIW: I like the logo sketches and colours, I suspect the subtlety of the stages would be lost, I didn't spot the "m" initially and thought it a fancy modernist camel. And consistency definitely good (though I guess the question is what we chose to be consistent with :)
+[16:33] * mato is quite happy with both the llama and gemmag's proposal
+[16:33] <avsm> I'm not particularly keen on bikeshedding over some future professional logo if one already exists
+[16:33] <mato> +1
+[16:33] <GemmaG> Happy to start an issue for further discussion
+[16:33] <thomasga> I like Gemma proposals
+[16:34] <mato> GemmaG: could you make some scaled renders for common icon sizes? (favicon, (gr)avatar, etc?)
+[16:34] <djwillia> +1 to gemma's
+[16:34] <mato> GemmaG: would help to get a feel for how the logo scales (pun intended)
+[16:34] <avsm> I've had several +1s, and I realise people may not want to -1 in a public forum. Please feel free to do so privately to me if you dont want to do so to the author.
+[16:34] <amirmc> Let's take this to an issue tracker then.
+[16:34] <avsm> However, I'm not keen on blocking and further on this in the runup to release
+[16:35] <avsm> And I have a _strong_ preference for a logo designing within the community than outside
+[16:35] <GemmaG> @mato - sure will look into it :)
+[16:35] <hannes> avsm: amirmc: mainly the "consistency would be nice".  I like GemmaG proposals (esp left bottom one), and would be happy to use them right now, but if there's budget at some point, I do like professional made logos (as the OCaml one)
+[16:35] <avsm> hannes: sounds good, this can all evolve over time as well, but I'm mainly thinking about the next month and the runup to the release
+[16:35] <mato> avsm: +3.141592 for logo not blocking the release...
+[16:36] <amirmc> Logo is not a release blocker.
+[16:36] * yomimono laughs
+[16:36] <avsm> Thanks everyone, this is a big help. I'll go ahead with the website reconstruction then.
+[16:37] <avsm> The Ruby will be temporary mort___1 :-) I'm slowly working on an OCaml liquid stager
+[16:37] <avsm> but Jekyll is a wonderful tool so far, lots of things work out of the box
+[16:37] <mort___1> avsm: so long as the Ruby stays inside its Docker box, I've no problem with Ruby… :)
+[16:38] <avsm> And a big thank you to everyone's who contributed docs so far. I'll post to the list about the new website. I think it'll be much easier and more fun to work on a new website to relaunch with mirage3 with the latest instructions than to keep tweaking the current one
+[16:39] <avsm> and to circle back to why I brought this up -- the new website can also include calendars/etc for these meetings
+[16:39] <mato> TBH I'm quite fond of the current look, in contrast to a lot of recent blogs/websites (in the IT world) that all seem to look very much the same
+[16:39] <mato> But that's a different discussion ...
+[16:39] <mort___1> yomimono avsm: I have a git etiquette / usage question about how to continue to contribute to the update of the hello-world page on mirage-www — i wanted to add to yomimono work so far but couldn't figure out how best to make a PR to do so. I made one against yomimono fork in the end, but that doesn't seem ideal
+[16:40] <avsm> mato: that's wonderful to hear. I've only received complaints about the current layout :P
+[16:40] <amirmc> *laughs (gets paint pots)*
+[16:40] <hannes> can the new website use js_of_ocaml and we can compile the website as a unikernel in the browser? :)
+[16:40] <yomimono> mort___1: it's fine to just grab my branch and commit on top of it, then submit as a separate PR
+[16:40] <mort___1> yomimono avsm: but if the plan is now to wait until avsm finishes the update to jekyll etc, then I'll just hold off and port my new text over
+[16:40] <yomimono> for that matter you can discard all that history, it doesn't bother me
+[16:41] <yomimono> mort___1: put the text somewhere visible please
+[16:41] <mort___1> yomimono: ok thanks. my git-fu is … limited ...
+[16:41] <yomimono> I don't want to block on doc writing
+[16:41] <yomimono> let me rephrase: I don't want to block doc writing on a technical redesign
+[16:41] <mort___1> right— i'll create a new branch, issue a PR directly to mirage/mirage-www, and then update that while avsm fiddles with jekyll. ta!
+[16:41] <yomimono> hannes: rad idea, so future
+[16:41] <avsm> mort___1: fine plan
+[16:42] <avsm> i'll worry about resyncing
+[16:42] <avsm> i have a simple scheme: write a generator from src/data.ml to the_posts format, so i can just rerun it
+[16:43] <avsm> alright! sounds good to me
+[16:43] <avsm> FIN doc from my end
+[16:43] <reynir> \o
+[16:44] <yomimono> reynir: ?
+[16:44] <reynir> Just hello, heh
+[16:44] <yomimono> whew
+[16:44] <avsm> hello! :)
+[16:44] <yomimono> hi!
+[16:44] <reynir> Hi :-)
+[16:45] <avsm> what was next on the reordered mutable agenda :-)
+[16:45] <yomimono> solo5!
+[16:45] <yomimono> "additional backend status? Hypervisor.framework and ARM64."
+[16:45] <yomimono> Not sure who added it but maybe djwillia has something to say? :)
+[16:45] <mato> I think avsm added that?
+[16:45] <amirmc> If he didn't, I would have done ;)
+[16:45] <avsm> I did! sneakily
+[16:46] <djwillia> i put a big PR into the solo5 repository last week sometime
+[16:46] <djwillia> it basically splits the ukvm code into a top half and a bottom half
+[16:46] <avsm> djwillia: i loved that you refactored ukvm to add a ukvm backend
+[16:46] <avsm> Behold the recursive hypervisor
+[16:46] <djwillia> the top half is an abstract view of what the ukvm interface to the unikernel is
+[16:47] <djwillia> the bottom half is "platform-specific", either KVM/Linux or Hypervisor.framework/MacOSx
+[16:47] <djwillia> as hannes noted last week, at some point perhaps we can have vmmapi/FreeBSD as well
+[16:48] <amirmc> For those following the notes, the PR is: https://github.com/Solo5/solo5/pull/150
+[16:48] <hannes> djwillia: the virtio code is separate (and not expressed in terms of a bottom half), or?
+[16:48] <djwillia> this all only applies to the ukvm "backend"
+[16:49] <djwillia> so it's still the case that the solo5/mirage unikernel can be built with 2 backends: virtio or ukvm
+[16:49] <mato> hannes: the virtio drivers are part of the virtio backend
+[16:49] <avsm> djwillia: there is also a really nice new simple privilegeseparated hypervisor in OpenBSD-current
+[16:49] <avsm> so that's a clear target for this
+[16:50] <djwillia> the unikernel binary (with the ukvm backend) can be run on either ukvm-bin or uhvf-bin now
+[16:50] <hannes> that is really sweet!
+[16:50] <mato> djwillia: I guess this will have to wait until the Mirage 3 release is out for merging...?
+[16:50] <djwillia> a goal was to keep the same binary: make sure the ukvm interface is THE interface
+[16:51] <djwillia> i think so, because I'm sure there'll be a bit of iteration
+[16:51] <djwillia> the effects on the rest of the mirage ecosystem are small
+[16:51] <avsm> djwillia: how about support for networking in osx? different drivers?
+[16:51] <mato> djwillia: agreed.
+[16:51] <djwillia> same "driver" in the unikernel, but different network implementation in the unikernel monitor
+[16:52] <djwillia> ukvm-bin uses Linux tap devices to provide the network
+[16:52] <avsm> makes sense
+[16:52] <djwillia> uhvf-bin uses the MacOSx vmnet framework
+[16:52] <avsm> in Docker for Mac, we just went ahead and linked in mirage-block to hyperkit to get an OCaml disk backend in userspce
+[16:52] <avsm> could do similar with mirage-net-macosx via ctypes, to the unikernel monitor
+[16:53] <djwillia> the "disk" is done the same way in both uhvf-bin ukvm-bin: a file exposed as a block device
+[16:54] <djwillia> avsm: i'm not sure i understand your comment on mirage-block and hyperkit
+[16:54] <djwillia> one issue that I don't know how to solve is with the build
+[16:54] <amirmc> 6mins left and one agenda item to go.  Can I suggest you continue this after :)
+[16:54] <djwillia> ok, sure one other thing to note on that agenda item:
+[16:54] <avsm> djwillia: we just fill in the "read/write block" C functions with a Mirage library that translates them into a concrete on-disk format. So all the format logic is in OCaml using the Mirage libraries. I can fill you on this offline
+[16:55] == ricarkol [81221413@gateway/web/freenode/ip.129.34.20.19] has quit [Ping timeout: 260 seconds]
+[16:55] <djwillia> some people from ARM have contacted us about porting ukvm to ARM64, and seem enthusiastic to join the community, so hopefully we'll see them here soon
+[16:55] <hannes> \o/
+[16:56] <djwillia> avsm: ok, we'll chat offline, thanks
+[16:56] <yomimono> :D
+[16:56] <avsm> ARM64 port ongoing too!
+[16:56] <amirmc> :D
+[16:56] <avsm> (by them)
+[16:56] == brson [~brson@172.56.6.65] has joined #mirage
+[16:56] <avsm> FIN?
+[16:56] <djwillia> so that means ukvm will hopefully have a "platform" backend and an "architecture" backend, but we'll have to think about how to do that cleanly
+[16:56] <djwillia> yeah, ok FIN
+[16:57] <mato> djwillia: yup, agree, working out the design and separation of arch/backend/frontend will be interesting !
+[16:57] <yomimono> last up is the hack retreat!  http://marrakech2017.mirage.io
+[16:58] <hannes> 30 registered (16 were not there last year) so far, 6 people I do not know yet in person :)
+[16:58] <yomimono> I put my sunscreen, portable projector, and pile of computers in a bag, so i'm ready
+[16:58] <hannes> looking forward to that, still missing djwillia and ricarkol
+[16:58] <avsm> so awesome!
+[16:59] <hannes> rudi grinberg will join us e.g. :) (and some people from the tails community https://tails.boum.org/)
+[16:59] <djwillia> for me - it's looking like I won't be able to go due to some personal stuff
+[16:59] <mato> indeed, looking forward to it !
+[16:59] <hannes> djwillia: :(
+[16:59] <mato> :(
+[16:59] <avsm> rudi is going! argh, I have to figure out how to make it down
+[16:59] <hannes> avsm: you should as well regster! :)
+[16:59] <avsm> i will show up mysteriously from the shadows wearing sunglasses and a wide brimmed hat
+[16:59] <djwillia> ricarkol wants to go, but needs to figure some stuff out, he'll let know in a day or two
+[16:59] <hannes> I have an air mattress with me (already in southern morocco), thus there is always an extra spot to sleep :)
+[16:59] <avsm> possibly riding a camel
+[16:59] <djwillia> hannes mato: i'm bummed, you guys will have so much fun
+[17:00] <avsm> djwillia: for those that cant make it we're having a hacking week in cambridge anyway. organise one in IBM and get all the spots chatting on irc :)
+[17:00] <hannes> my plan is to make maybe the same event again in autumn (at the same place)... but i've to discuss this with the host, they're pretty happy with us :)
+```
