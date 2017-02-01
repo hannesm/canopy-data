@@ -185,4 +185,10 @@ tags: irclogs
 [16:48] <mort___1> (or taka's perf harness maybe?)
 [16:48] <mort___1> yes, maybe i should point him at those tools first
 [16:49] <mort___1> thanks all
+[16:49] <yomimono> thanks mort! look forward to seeing what your student puts together :D
+[16:49] <talex5> mirage-logs also forwards Logs debug to the trace buffer, so anything using that will produce some annotations.
+[16:49] <mort___1> me too … ;)
+[16:49] <mort___1> ah! thanks @talex5 that's useful to know
+[16:49] <yomimono> feel free to direct them my way for whatever you think I can be helpful with :)
+[16:50] <avsm> talex5: ah very good point. Cohttp should definitely use more Logs
 ```
