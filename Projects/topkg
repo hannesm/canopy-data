@@ -15,7 +15,6 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 
 ## Libraries need porting
 
-- [dns](https://github.com/mirage/ocaml-dns) [PR](https://github.com/mirage/ocaml-dns/pull/126)
 - [io-page](https://github.com/mirage/io-page)
 - [vmnet](https://github.com/mirage/ocaml-vmnet)
 - [cstruct](https://github.com/mirage/ocaml-cstruct)
