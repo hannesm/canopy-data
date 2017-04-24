@@ -1,0 +1,205 @@
+---
+participants: amirmc,avsm,Drup,hannes,lobo,mato_,reynir,talex5,yomimono
+author: yomimono
+title: IRC discussions from #mirage biweekly catchup on 12th April 2017
+tags: irc,log
+---
+
+15:01   `yomimono`   hi folks! It's been 2 weeks (a fortnight!) since our last catchup, so let's have another one :)
+15:01   `amirmc`     `waves>
+15:01   `yomimono`   the agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda ; please feel free to add items there!
+15:02   `yomimono`   (there's only one right now and it looks lonely)
+15:02   `lobo`   hi
+15:02   `avsm`   only one you say
+15:02   `yomimono`   oh, there are more, yay!
+15:02   `amirmc`   two. avsm added one about docs
+15:02   `avsm`   only two you say!
+15:02   `yomimono`   that's what I get for not refreshing the page every second
+15:03   `yomimono`   so first item: folks may have noticed that the irc logs from the last several meetings aren't on https://canopy.mirage.io , and that updates to https://github.com/mirage/canopy-data aren't being reflected
+15:03   `yomimono`   we had a discussion on the mailing list about how to fix this but it isn't fixed :(
+15:04   `yomimono`   and we're pointing folks to the out-of-date pioneer projects page there from https://github.com/mirage/mirage-www/wiki/Pioneer-Projects , which is a pretty hostile thing to do
+15:04   `avsm`   so I think we need to rebuild all those machines
+15:04   `avsm`   the current setup is really manual
+15:05   `avsm`   If you can bear with me till next end of next week, I am hopeful of bringing new machines up on Rackspace for this
+15:05   `avsm`   It won't get done by Friday though...
+15:06   `avsm`   It would be lovely to be able to mirror on GitHub wiki, but that's also quite tricky due to different formats :(
+15:06   `amirmc`   I think we've had at least one potential Outreachy student ask on the mailing list so there's a short term problem with where to point them.
+15:06   `mato_`   What exactly is the problem? Does it really require new machines, or can we solve it with some simple scripting?
+15:06   `yomimono`   Can we even update the page on Canopy to point out that it's no longer authoritative?
+15:06   `yomimono`   Or is it so broken that we can't do that?
+15:06   `avsm`   mato_: the current machine is some ancient vm
+15:07   `avsm`   yomimono: it's pretty broken, my key doesnt work :)
+15:07   `yomimono`   Aha.
+15:07   `avsm`   we could point them directly at canopy-data
+15:07   `avsm`   which is less pretty, but does contain the relevant files
+15:08   `yomimono`   So the set of work to do is actually, build and run a new VM to serve canopy-data
+15:08   `mato_`   Does canopy not run as a unikernel?
+15:08   `yomimono`   not fix the existing VM, which unless engil has a key is impossible
+15:08   `hannes`   mato_: it does for me.
+15:08   `yomimono`   mato: my thought exactly, I would think we could fix this that way
+15:09   `mato_`   precisely, there are several of us here that have capacity to deploy unikernels
+15:09   `hannes`   I can also host more Canopy unikernels (have a machine, IP, and bandwidth)
+15:09   `mato_`   ^^^^
+15:09   `avsm`   the one deployed on canopy.mirage was a unix-www when done
+15:09   `avsm`   i think there was some problem with irmin/sha on xen, so it wasnt
+15:09   `yomimono`   avsm: yes, that was before people put in a lot of work to get it running on xen I think :)
+15:09   `avsm`   if someone else wants to that would be great
+15:10   `mato_`   so, someone just needs to get the data out of it and into a unikernel version, right?
+15:10   `avsm`   Yes indeed, that's how old the existing machine is :-)
+15:10   `amirmc`   Deploying another unikernel elsewhere and updating the DNS might be a solution.
+15:10   `avsm`   mato_: all the data is on mirage/canopy-data
+15:10   `avsm`   just needs someone to deploy it elsewhere and i can swap the dns
+15:10   `yomimono`   do we have a volunteer for that? hannes or mato maybe? most whale people are up against deadlines this week
+15:10   `avsm`   and update the webhook secret
+15:10   `mato_`   i know nothing about canopy, but can give it a shot
+15:11   `hannes`   but there are some ceveats... the whole DNS setup seems to be a single point of failure... I'm still slightly annoyed that tls.openmirage.org is a A record and fails certificate validation, instead of doing a CNAME record
+15:11   `amirmc`   Is that a separate issue?
+15:12   `avsm`   well it's not a single point of failure -- it's just updated via gandi and/or easydns
+15:12   `yomimono`   amirmc: Yes.
+15:12   `avsm`   i'd like to delegate those to a unikernel soon as well, but need some new machines provisioned first
+15:13   `amirmc`   Ok, then lets address them independently. (1) mato will try and deploy canopy elsewhere and avsm will update DNS (2) deal with the TLS issue.
+15:13   `avsm`   i got packet.net working today (baremetal), and should have an open vlan on ocamllabs.cl.cam.ac.uk soon,thatissuitable
+15:13   `hannes`   198.167.222.211
+15:14   `hannes`   avsm: as offered several times, I do have IP, memory, and even yet another subnet... and can deploy unikernels
+15:14   `avsm`   go for it -- that's fine for canopy
+15:14   `hannes`   the above one would be working for your favourite canopy instance
+15:14   `hannes`   avsm: even for NS
+15:14   `avsm`   but not for dns; that needs 2 separate nets for the dns authoritative. could use yours+cambridge for that
+15:15   `hannes`   avsm: I do have 2 separate nets...
+15:15   `avsm`   let's solve canopy first...
+15:15   `hannes`   194.150.168.144/28 is the other one
+15:15   `avsm`   nice!
+15:15   `hannes`   but atm chasing a network packet bug... and travelling the next days
+15:16   `avsm`   ok, sounds like mato can deploy canopy then, and then will tackle dns after that works
+15:17   `avsm`   hopefully that wasn't mato running away in fear :-)
+15:18   `yomimono`   this is a concrete task with a person assigned to it, so I'll call it good
+15:18   `yomimono`   avsm: you have the next item, docs.mirage.io ?
+15:18   `amirmc`   Agreed :)
+15:19   `avsm`   am just planning the next iteration of docs.mirage.io
+15:19   `avsm`   it's perpetually a bit broken; e.g. https://hub.docker.com/r/unikernel/mirage/builds/b52vxbvbzbptvza5trbfxpm/
+15:19   `avsm`   is failing due to one of the minor packages, websocket
+15:19   `avsm`   so my plan is to break it up into smaller documentation chunks -- one for the mainstream mirage packages, and remove stuff like the webstack
+15:20   `avsm`   and slowly re-add things
+15:20   `avsm`   initially I just added lots of packages so we could get coverage of the odoc tool as it was being developed
+15:20   `avsm`   but do people generally prefer more packages with slower updates of the site as we fix breakage (which needs to happen anyway!) or fewer packages
+15:21   `avsm`   note that ocaml/opam-repository now has much better reverse depenedncy testing in the CI, so new packages tend not to break other existing packages as much as they used to
+15:21   `hannes`   since it does cross-references, at least I'd prefer to have a very mirage-centered (as in: every package in there compiles and is useful for mirage) site
+15:21   `yomimono`   the site is most useful when it has all of the highly interconnected libraries in it
+15:21   `yomimono`   (I think I just rephrased hannes)
+15:22   `avsm`   yeah, in agreement. Most of the packages there fit that bill, and/or are tooling related (e.g. opam-lib)
+15:22   `avsm`   any thoughts on notifications on build breakage?
+15:22   `avsm`   i'm rebuilding it every day, but the emails just go straight to me
+15:22   `hannes`   I don't see a reason to have opam-lib in there. there should maybe be a opam-docs.ocaml.org for that purpose!?
+15:22   `Drup`   might be useful to have one stable mirage-centric version, and one that contains basically the whole universe
+15:22   `avsm`   we don't have a choice if we want, e.g. topkg-care in there hannes
+15:23   `Drup`   (it might be more of a task for the opam ci though ...)
+15:23   `avsm`   Drup: i did build one that was the entire coinstallable universe
+15:23   `avsm`   unfortunately it tripped up unexpectedly
+15:23   `avsm`   we dont check for the coinstallability of _depexts)
+15:23   `Drup`   oh :/
+15:23   `avsm`   so the full universe cant have the OS deps satisfied. we need nixos :)
+15:23   `avsm`   i hand edited it into submission, but need to exert some editorial influence and hand add libs i think
+15:24   `avsm`   but yes -- docs.ocaml.org will eventually contain such a large hackage-style doc repository
+15:24   `Drup`   alternatively, separate creation of cmis and documentation generation
+15:25   `avsm`   yes! this is the sort of thing that needs build system changes -- jbuilder could do that in theory, but not in general for all build systems
+15:25   `Drup`   the ci creates cm(t)is, sends them to a documentation generator that doesn't need any of the runtime things
+15:25   `avsm`   hm yeah, we could extract the cmti and generate the odig crc database independently indeed
+15:25   `avsm`   the opam ci is generating ~100GB of artefacts a day atm :)
+15:25   `avsm`   ok thanks -- I'll look into that. Good idea Drup!
+15:26   `hannes`   avsm: I don't see a good reason to have topkg-care in there... as said, I'd prefer to have a docs.mirage.io containing all the libraries which can be used on top of mirageos unikernels, excluding the build supporting and release supporting libraries.
+15:26   `Drup`   (since opam tracks installed files, it should be fairly easy to see what cm(t)is are produced, as long as opam-ci also tests instalation)
+15:26   `avsm`   hannes: but then where do we go for the mirage tooling itself?
+15:26   `avsm`   for the docs
+15:26   `hannes`   avsm: docs-tooling.mirage.io ?
+15:26   `avsm`   sure, we could have a separate site
+15:27   `avsm`   i'll look into making clusters
+15:27   `avsm`   subdirectories are probably easier given how odig works
+15:27   `avsm`   the issue then is cross-references wont work across those clusters
+15:27   `talex5`   avsm: how about using less verbose logging in mirage-ci?
+15:27   `talex5`   You can still configure opam to dump out the full logs on error.
+15:27   `amirmc`   I'd like to understand why two docs site would be better than one. cc hannes
+15:28   `avsm`   talex5: purpose of the CI is to spot the errors, difficult without logging :)
+15:28   `hannes`   avsm: there are no references _to_ topkg-care from anywhere... and of course you'd have astring etc. installed multiple times
+15:28   `hannes`   amirmc: since I'm usually interested in what can I use on top of mirageos, rather than a fuzzy collection of libraries, some of which work on mirageos, other don't
+15:29   `avsm`   i guess. it's not very elegant to repeat the Astring docs in multiple places
+15:29   `hannes`   (as said, this is my opinion only, and I've to run now)
+15:29   `avsm`   but they could end up being different versions, so your point is very valid
+15:29   `avsm`   thanks -- i'll experiment and report back
+15:29   `Drup`   hannes: isn't all this solved if we get better authoring of documentation based on opam tags, and proper tagging of mirage libraries in opam ?
+15:29   `hannes`   avsm: then keep it to doc: "http://erratique.ch/software/astring/doc" ...
+15:29   `avsm`   yes I'll have a play to see if we can cluster the packages effectively with tags
+15:29   `avsm`   hannes: that's not cross referenced, which was the point of odoc
+15:30   `amirmc`   This seems like a UI or search problem to me
+15:30   `hannes`   avsm: I don't think we have a single authority for documentation of a single library
+15:30   `avsm`   i think we can find something that satisfies all of these constraints -- just needs improvements in the front end generator i expect, to customise larger clusters of libraries
+15:30   `avsm`   hannes: we do in that they have to be coinstallable with the mirage universe
+15:31   `avsm`   so (e.g.) cmdliner 1.0 wouldnt have been in docs.mirage.io for a while due to the conflicts
+15:31   `avsm`   therefore making mirage the authority for the versions in docs.mirage.io
+15:32   `avsm`   thanks, this is very helpful -- i'll have a play with it next week when I have a bit more time
+15:33   `Drup`   avsm: btw, about cmis, fabrice proposed to send me all the cmis of all the versions in opam repo, so ocamlpro seems to already have something in place for that
+15:33   `avsm`   opam-builder and opam-ci would both have that
+15:33   `avsm`   i could also add in a post-installation hook to record the cmi against its crc
+15:33   `Drup`   (that was in the context of dowsing, the type-directed search thing I started to work on)
+15:34   `avsm`   it would be amazing to have an error message directed search :) ("what version of the package do i need to make this damn thing compile")
+15:34   `avsm`   I think that's it for docs from me...
+15:35   `yomimono`   cool, want to tell us about the hackathon writeup blog post then?
+15:35   `yomimono`   I read it, nice memories :)
+15:35   `avsm`   https://github.com/mirage/mirage-www/pull/549/files -- thanks hannes gemmag for the bulk of it!
+15:35   `avsm`   ive added a few stragglers; will mail the list shortly with it
+15:35   `avsm`   will merge it tomorrow am
+15:36   `amirmc`   Side-question: Is the CI/CD pipeline all working again? It's been a while since I checked/asked.
+15:36   `avsm`   i think so -- updates are going through to the site...
+15:36   `avsm`   any reason to think it isnt?
+15:36   `avsm`   (I havent noticed missing updates, but of course they are difficult to spot cos they're missing)
+15:36   `yomimono`   https://github.com/mirage/mirage-www/issues/531
+15:37   `yomimono`   avsm: "things are uptodate on the deployment machine but not pushed to the repo -- sorting now"
+15:37   `yomimono`   are they sorted?
+15:37   `amirmc`   The scripts folder hasn't been updated in the repo so I think it's out of sync with whatever's on the deploy machine
+15:37   `avsm`   i think the difficulty is that for some reason, ocaml-ci-scripts contains mirage code
+15:37   `amirmc`   Yeah, what yomimono said :)
+15:37   `avsm`   and mort just ran away who wrote that...
+15:38   `avsm`   it's a bit of a mess, since we cant easily figure out who is using the scripts in ocaml-ci-scripts
+15:38   `yomimono`   ocaml-ci-scripts has a mirage script that really only makes sense for mirage-www
+15:38   `avsm`   or for other sites like mirage-www that are crunched up (i think decks used to use it)
+15:38   `avsm`   it would be very helpful if someone could deprecate the ocaml-ci-scripts one somehow
+15:38   `yomimono`   https://github.com/ocaml/ocaml-ci-scripts/pull/162 , it's annoying to use for other unikernels
+15:39   `avsm`   or better still, create a new one for mirage3 not in ocaml-ci-scripts
+15:39   `yomimono`   I would be fine with having mirage-www provide its own scripts
+15:39   `avsm`   yeah
+15:39   `yomimono`   it can source common stuff if that makes sense
+15:39   `avsm`   it does make sense...
+15:39   `yomimono`   and then merging the PR I link above
+15:40   `yomimono`   OK, that's movement forward: pull mirage-www's deployment scripts out of ocaml-ci-scripts as step 1
+15:40   `amirmc`   Can we note that on the issue?
+15:40   `yomimono`   avsm: can you surface the versions in use somewhere?
+15:40   `yomimono`   since they're not in the repo
+15:40   `avsm`   sure, lets coordinate offline on that
+15:42   `yomimono`   amirmc: added a comment, see whether you agree.
+15:42   `yomimono`   https://github.com/mirage/mirage-www/issues/531
+15:42   `yomimono`   all done?
+15:42   `yomimono`   avsm, you put up an agenda item for lwt 3.0.0 (and I see drup is also here who may have something to say about that)
+15:43   `avsm`   last thing I added was on some big PRs coming into opam-repository that'll affect the package universe. Lwt 3.0 changes the core libraries: https://github.com/ocaml/opam-repository/pull/8956 -- and then I'm also adapting cstruct to make ppx/async/lwt all explicit separate packages, and then Cohttp in a similar style. So there'll be a lot of churn for these and revdeps to be added. So expect a month of packaging noise but hopefully not
+15:43   `avsm`   the end result is fewer depopts, and more explicit packages (install ppx_cstruct if you want cstruct+ppx, nice and obvious)
+15:44   `avsm`   e.g. hannes quite reasonably doesn't want a dependency on ppx for his libs, and it's a waste to pull that in as a hard dependency when he just uses the library.
+15:46   `yomimono`   the move to explicit packages will be great. :)
+15:46   `avsm`   yeah i'm hoping this will be uncontroversial
+15:47   `avsm`   but many, many Prs are being merged into opam-repository with constraint fixes, for Core, Lwt versions, so please let any of the maintainers know if you spot problems
+15:47   `avsm`   that's all from me :)
+15:47   `amirmc`   Side-question: When is opam 2.0 due to arrive? The beta was a while ago and I assumed it'd be out by now. I've not really kept up with discussions btw.
+15:47   `Drup`   lwt is not (yet) completely splitted
+15:47   `avsm`   amirmc: the beta is still being iterated on, so "this summer" is a rough estimate
+15:48   `Drup`   (like, I think ppx is not separated ?)
+15:48   `avsm`   especially opam build is being changed due to feedback
+15:48   `avsm`   Drup: yeah it would be great to separate that out
+15:48   `Drup`   avsm: you need to mention that to anton on the bug tracker
+15:49   `avsm`   Drup: I'm waiting for the current wave of splits to be solved first :-)
+15:49   `Drup`   issue is that it breaks everything each time
+15:49   `avsm`   that's true
+15:49   `Drup`   so it might be better if you really want it to yell now, before 3.0 is in opam repository
+15:50   `avsm`   commented, thanks!
+15:51   `Drup`   in general, the current way the split is done is .. hackish. Cf last week's discussion about jbuilder
+15:53   `yomimono`   that discussion seems concluded!
+15:53   `yomimono`   any other business?
+15:54   `avsm`   lots of hacking to do! quite fun using mirage3 at the moment :)
+15:54   `avsm`   thanks everyone!
+15:54   `yomimono`   indeed, thanks folks! :) 
