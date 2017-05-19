@@ -2,7 +2,7 @@
 author: matildah
 title: NTP
 abstract: network time protocol implementation
-tags: active project, protocol
+tags: active project, protocol, help needed
 ---
 
 - [code](https://github.com/matildah/mirage-ntp)
@@ -10,4 +10,4 @@ tags: active project, protocol
 
 The [Network Time Protocol (NTP)](https://en.wikipedia.org/wiki/Network_Time_Protocol) is used to synchronise clocks on the Internet.  A pure OCaml implementation of the protocol itself, as well as integration into MirageOS would benefit unikernels to not rely on dom0 for clock information.  This includes to extend the current Clock API to be able to set the current time (offset).
 
-Status: Kia is working on it via [Outreachy](https://wiki.gnome.org/Outreachy/2015/DecemberMarch) at [mirage-ntp](https://github.com/matildah/mirage-ntp)
+Status: Kia worked on it via [Outreachy](https://wiki.gnome.org/Outreachy/2015/DecemberMarch) at [mirage-ntp](https://github.com/matildah/mirage-ntp) in 2016.
