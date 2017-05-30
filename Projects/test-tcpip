@@ -1,0 +1,17 @@
+---
+title: more tests for mirage-tcpip
+author: [yomimono](https://somerandomidiot.com) (Mindy Preston)
+abstract: add performance & correctness tests for network stack
+tags: active project, help needed
+---
+
+[mirage-tcpip](https://github.com/mirage/mirage-tcpip) contains modules for using the Ethernet, IPv4, IPv6, ARP, TCP, and UDP protocols.  Automated tests (some using [mirage-vnetif](https://github.com/magnuss/mirage-vnetif) for an in-memory representation of a network device) exist, but a considerable amount of the code is not covered by them.
+
+Goals and motivations:
+
+* move test backends to mirage-vnetif, so network protocol implementations other than those in mirage-tcpip can use them more easily
+* improve documentation around the testing infrastructure, so contributors to mirage-tcpip can easily write more and better tests
+* add coverage metrics to the automated test runs, so we can see how much we improve
+* incorporate randomized testing into the automated test suite, so we can have better coverage with less human programming time
+* add (and represent the results of) performance tests, particuarly for TCP, so we can identify regressions and improvements
+* improve test coverage significantly, particularly for TCP (the most complicated module of those currently in common use) and IPv6 (a module which has not been in common use, but in which there is significant interest), so we can be more confident in the correct behavior of these modules
