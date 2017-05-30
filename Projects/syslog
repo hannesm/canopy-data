@@ -5,7 +5,7 @@ tags: active project, protocol
 abstract: a syslog implementation in OCaml
 ---
 
-*Status:* running, syslog-reporter would be nice
+*Status:* running, and [syslog is well integrated in MirageOS 3](http://docs.mirage.io/mirage/Mirage/index.html#type-syslog_config) via [logs-syslog](https://github.com/hannesm/logs-syslog).
 
 [Syslog](https://tools.ietf.org/html/rfc5424) is a standard protocol used to convey event notification messages. It would be nice to have a unikernel that could act as a `syslogd` receiver. The unikernel would listen appropriately (initially in cleartext though SSL/TLS support is also desirable), receive and verify syslog messages, and then write them into an Irmin store.
 
