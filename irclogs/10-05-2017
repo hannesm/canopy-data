@@ -1,0 +1,569 @@
+---
+participants: Drup,amirmc,ansiwen,apache2,avsm,dudelson,hannes,mato,reynir,ricarkol,talex5,thomasga,yomimono
+author: lobo
+title: Irc discussions from #mirage on 10-05-2017
+tags: irc,log
+---
+`10-05-2017 15:00`   `avsm`   ello ello 
+
+`10-05-2017 15:00`   `thomasga`   ola ola 
+
+`10-05-2017 15:00`   `reynir`   hi 
+
+`10-05-2017 15:01`   `yomimono`   hi! 
+
+`10-05-2017 15:02`   `avsm`   Greetings! A quiet week this time I think as lots travelling -- glad you could join us from Austin, Mindy :-) 
+
+`10-05-2017 15:02`   `avsm`   Agenda at https://github.com/mirage/mirage-www/wiki/Call-Agenda#10-may-2017 
+
+`10-05-2017 15:02`   `avsm`   Who's here? 
+
+`10-05-2017 15:02`   `yomimono`   points at self 
+
+`10-05-2017 15:03`   `avsm`   jumps 
+
+`10-05-2017 15:03`   `avsm`   We may be talking into the void this time around, so lets have a catchup for the benefit of the archives :-) 
+
+`10-05-2017 15:03`   `Drup`   I'm half here, half writing 
+
+`10-05-2017 15:03`   `dudelson`   hi everyone 
+
+`10-05-2017 15:03`   `avsm`   Good effort Drup! 
+
+`10-05-2017 15:04`   `talex5`   . 
+
+`10-05-2017 15:04`   `Drup`   (and looking for a postdoc too, but that's more of a background task, heh) 
+
+`10-05-2017 15:04`   `avsm`   Alright, lets get started! I've been looking at ways to report on the myriad of repositories a bit more effectively 
+
+`10-05-2017 15:04`   `amirmc`   o/ 
+
+`10-05-2017 15:05`   `avsm`   One thing that seems to be working for DataKit is a github query tool I wrote called Hesternus. It generates reports like: https://github.com/moby/datakit/tree/master/reports 
+
+`10-05-2017 15:05`   `avsm`   I've been doing them weekly for DataKit/Irmin and the associated ecosystem of libraries (9P etc) 
+
+`10-05-2017 15:05`   `avsm`   So if it's useful, I did a test run on Mirage and the resulting report looks manageable every two weeks 
+
+`10-05-2017 15:06`   `thomasga`   I think that would be pretty great 
+
+`10-05-2017 15:06`   `avsm`   any opinions for/against? I like having the dev reports in the repo 
+
+`10-05-2017 15:06`   `thomasga`   the DataKit reports are very useful (at least to me :p) 
+
+`10-05-2017 15:06`   `yomimono`   opinions for! 
+
+`10-05-2017 15:06`   `amirmc`   +1 
+
+`10-05-2017 15:06`   `avsm`   Great! I'm hoping they'll expand out in time -- e.g. this week we have exciting filesystem developments :-) 
+
+`10-05-2017 15:06`   `yomimono`   :D 
+
+`10-05-2017 15:06`   `avsm`   Ok, I'll plan on doing bi-weekly mirage ones, possibly out of sync with these calls 
+
+`10-05-2017 15:06`   `thomasga`   I was thinking of maybe expending the scope of these to more storage-related bits of MirageOS (even if not used by Irmin/DataKit yet) 
+
+`10-05-2017 15:06`   `avsm`   https://github.com/moby/vpnkit/pull/219/files#diff-7fe8e9bfa3de59cc8404e45a19753971 is another one 
+
+`10-05-2017 15:07`   `amirmc`   Aggregating them into a stream of posts would also be useful. So they can be injected into the RSS feed. That can come later though. :) 
+
+`10-05-2017 15:07`   `avsm`   thomasga: agreed -- it's too big to have the dev reports for mirage cover the 90+ repos, so a storage-focussed one in the datakit repo is convenient enough to follow 
+
+`10-05-2017 15:07`   `avsm`   +1 amirmc 
+
+`10-05-2017 15:07`   `avsm`   Alright; and also feel free to PR changes against historical reports -- they are code like any other in the git repo :-) 
+
+`10-05-2017 15:07`   `yomimono`   bi-weekly mirage ones on the off-week for calls would be great; would give us something to seed call agenda too maybe 
+
+`10-05-2017 15:07`   `yomimono`   (and remind that the call is the week following) 
+
+`10-05-2017 15:08`   `avsm`   yomimono: +1 -- it might be slightly off (the monday instead of wednesday) due to calendaring, but i'll work it out and mail the list with details 
+
+`10-05-2017 15:08`   `avsm`   and if you have anything you'd like included i miss, just email me or whatever in the first instance and i'll include 
+
+`10-05-2017 15:08`   `yomimono`   avsm: awesome, thank you! 
+
+`10-05-2017 15:09`   `avsm`   no problemo! https://github.com/avsm/hesternus is the raw repo tool for anything that wants to generate their own 
+
+`10-05-2017 15:09`   `thomasga`   (that's a hard-to-say name, btw :p) 
+
+`10-05-2017 15:09`   `avsm`   only if you're not a native latin speaker 
+
+`10-05-2017 15:09`   `thomasga`   ha yes, sorry me 
+
+`10-05-2017 15:09`   `yomimono`   (for name background, ctrl-f hesternus in https://en.wikipedia.org/wiki/Camelops ) 
+
+`10-05-2017 15:09`   `yomimono`   (TIL!) 
+
+`10-05-2017 15:09`   `avsm`   it means yesterday in latin and is a sort of camel, im told :P 
+
+`10-05-2017 15:10`   `thomasga`   (I only speak modern latin) 
+
+`10-05-2017 15:10`   `avsm`   it's all greek to me 
+
+`10-05-2017 15:10`   `avsm`   Alright! onto code, there has been a surge of porting libraries to jbuilder, and topkg integration has appeared 
+
+`10-05-2017 15:10`   `amirmc`   It's the camel name because it's an extinct one… 
+
+`10-05-2017 15:10`   `avsm`   https://github.com/mirage/mirage/issues/818 has the link to topkg integration 
+
+`10-05-2017 15:10`   `avsm`   now, there is something utterly amazing about jbuilder samoht and i discovered today 
+
+`10-05-2017 15:10`   `avsm`   you can clone multiple repos into a subdirectory tree 
+
+`10-05-2017 15:10`   `avsm`   type in "jbuilder build" at the toplevel, and it builds them all in one go 
+
+`10-05-2017 15:11`   `avsm`   referring to opam-installed packages if it can't find them locally 
+
+`10-05-2017 15:11`   `avsm`   so this is effectively an "automatic pin with incremental build" 
+
+`10-05-2017 15:11`   `avsm`   it's _amazing_ for day-to-day dev as there's no more need for `opam update -u` all the time 
+
+`10-05-2017 15:11`   `avsm`   and builds seem to be 4-5x faster for larger source trees 
+
+`10-05-2017 15:11`   `avsm`   so all in all, it's really making progress and showing concrete improvements 
+
+`10-05-2017 15:11`   `yomimono`   that also goes pretty far toward addressing sgrove's problems with nondeterministic packaging, right? 
+
+`10-05-2017 15:12`   `avsm`   yes, big time, since we can vendor all the source 
+
+`10-05-2017 15:12`   `yomimono`   er, nondeterministic solutions for package installation 
+
+`10-05-2017 15:12`   `avsm`   opam basically gets out of the way of day-to-day dev 
+
+`10-05-2017 15:12`   `avsm`   but remains working entirely for end users and publishing 
+
+`10-05-2017 15:12`   `thomasga`   I've been using the "build all the world" feature today to bisect a weird error in a dependency, that's pretty great 
+
+`10-05-2017 15:12`   `avsm`   we still need to do some work on hannes' point about building more esoteric repositories (like ctypes or nocrypto), but this model supports those ones being installed by opam 
+
+`10-05-2017 15:12`   `talex5`   I used it today to test datakit while modifying the 9p library :-) 
+
+`10-05-2017 15:13`   `thomasga`   also the topkg-builder integration works great 
+
+`10-05-2017 15:13`   `thomasga`   https://github.com/diml/topkg-jbuilder 
+
+`10-05-2017 15:13`   `avsm`   yay thomasga and talex5 -- i used it to build mirage-ci while modifying datakit :-) 
+
+`10-05-2017 15:13`   `yomimono`   avsm: thanks for updating on that point, it would have been my next question 
+
+`10-05-2017 15:13`   `thomasga`   watermarking + almost full release cycle almost on par 
+
+`10-05-2017 15:13`   `yomimono`   this topkg integration looks cool though :) 
+
+`10-05-2017 15:13`   `avsm`   so I think we can consider jbuilder a cautious green light to do more porting -- but if anyone has time to look at "complex" repositories that would be helpful 
+
+`10-05-2017 15:13`   `thomasga`   the only missing bits is doc generation 
+
+`10-05-2017 15:14`   `avsm`   right: docgen is on Jeremie's list 
+
+`10-05-2017 15:14`   `thomasga`   and we need to check how this works for C stubs 
+
+`10-05-2017 15:14`   `thomasga`   (with xen-specific flags) 
+
+`10-05-2017 15:14`   `Drup`   I still kind of agree with bunzli, it's weird to use topkg like that, and the feature might be better of bundled inside jbuilder directly 
+
+`10-05-2017 15:14`   `avsm`   yep -- so now is the time to try all of this while diml has time to make our requested changes 
+
+`10-05-2017 15:14`   `thomasga`   e.g. there are still a few unknown to use it as the base for the mirage tool 
+
+`10-05-2017 15:14`   `avsm`   Drup: that seems in scope as well; the bridge was very straightforward though 
+
+`10-05-2017 15:15`   `thomasga`   I think the integration can go further 
+
+`10-05-2017 15:15`   `thomasga`   but the current state is already great :-) 
+
+`10-05-2017 15:15`   `avsm`   if anyone is in Cambridge on May 25th, we'er going to have an interactive jbuilder-a-thon, free lunch here: https://beta.doodle.com/poll/wbafc2uakn8igzfq#table 
+
+`10-05-2017 15:15`   `thomasga`   anyway, I really like working with jbuilder and topkg, I am not sure how I use to do anything before that :-) 
+
+`10-05-2017 15:15`   `avsm`   yeah, it's making coding fun again :-P 
+
+`10-05-2017 15:16`   `mato`   waves, belatedly 
+
+`10-05-2017 15:16`   `avsm`   hi mato! 
+
+`10-05-2017 15:16`   `thomasga`   (similar to the merlin gap) 
+
+`10-05-2017 15:16`   `avsm`   Reminder: posting experiences about jbuilder and/or problems to https://github.com/mirage/mirage/issues/818 is encouraged so we can keep track 
+
+`10-05-2017 15:16`   `Drup`   moving the mirage-generated build system to jbuild would be an interesting exercise 
+
+`10-05-2017 15:16`   `thomasga`   Drup: indeed 
+
+`10-05-2017 15:16`   `mato`   the jbuilder functionality you described sounds awesome, is there a tl;dr howto on it somewhere? 
+
+`10-05-2017 15:16`   `avsm`   Drup: yeah, and mirage could clone all the dependent code 
+
+`10-05-2017 15:17`   `avsm`   mato: there is a manual and quickstart guide in https://github.com/janestreet/jbuilder 
+
+`10-05-2017 15:17`   `avsm`   but even more easily just copy some jbuild files from existing repos 
+
+`10-05-2017 15:17`   `avsm`   there is a list of some that have been ported in https://github.com/mirage/mirage/issues/818 
+
+`10-05-2017 15:17`   `Drup`   (and it just might be abstract enough so that we could finally split the generic build part from the mirage part, and get all the ad-hoc stuff in functoria) 
+
+`10-05-2017 15:17`   `apache2`   is it possible to include Ctypes in a mirageos unikernel? 
+
+`10-05-2017 15:17`   `mato`   avsm thanks 
+
+`10-05-2017 15:17`   `Drup`   (but that's a side point) 
+
+`10-05-2017 15:17`   `apache2`   I get an error complaining about lack of the "Str" module 
+
+`10-05-2017 15:17`   `avsm`   apache2: yes if you do stubgen, but it needs a bit of effort to cross compile 
+
+`10-05-2017 15:18`   `apache2`   ok 
+
+`10-05-2017 15:18`   `Drup`   apache2: use re, get rid of str :p 
+
+`10-05-2017 15:18`   `avsm`   hm, definietly shouldn't need Str. that's a very deprecated module 
+
+`10-05-2017 15:18`   `Drup`   avsm: it's not deprecated, unfortunatly 
+
+`10-05-2017 15:18`   `apache2`   avsm: so it's easier if I extend the Cstruct stuff to allow me to leak the pointer to a cstruct buffer? 
+
+`10-05-2017 15:19`   `avsm`   Drup: morally, if not officially :-) 
+
+`10-05-2017 15:19`   `apache2`   (all I need is to be able to allocate a page, write to it, and get the pointer to it 
+
+`10-05-2017 15:19`   `avsm`   apache2: yeah for the moment 
+
+`10-05-2017 15:19`   `avsm`   ctypes is missing some build glue to be totally automatic 
+
+`10-05-2017 15:19`   `apache2`   ok, thanks! 
+
+`10-05-2017 15:19`   `thomasga`   would be great to have a ctype-jbuilder bridge btw :p 
+
+`10-05-2017 15:19`   `avsm`   do file an issue on cstruct if you have any problems 
+
+`10-05-2017 15:19`   `avsm`   thomasga: i think there is one... 
+
+`10-05-2017 15:19`   `thomasga`   ha.. 
+
+`10-05-2017 15:20`   `apache2`   avsm: thanks, I will try to have a go at it. 
+
+`10-05-2017 15:20`   `avsm`   on the release front, cstruct, cohttp, github, will all have jbuilder releases with their opam packages split up into explicit ones 
+
+`10-05-2017 15:20`   `avsm`   thanks to rgrinberg for vast amounts of work on this 
+
+`10-05-2017 15:20`   `thomasga`   datakit had a release for jbuilder too, I am currently porting irmin 
+
+`10-05-2017 15:20`   `Drup`   there should also be decent support for incremental jsoo compilation 
+
+`10-05-2017 15:20`   `thomasga`   (next is ocaml-git) 
+
+`10-05-2017 15:21`   `apache2`   avsm: do you know if there's a reason the ppx doesn't expose a method to cast a cstruct.t to the record defined inside [%%cstruct ]? It does generate convenience functions for [%%cenm ] whic is super nice 
+
+`10-05-2017 15:21`   `apache2`   [%%cenum ] ** 
+
+`10-05-2017 15:21`   `avsm`   apache2: since there is no type definition generates for a cstruct.t 
+
+`10-05-2017 15:21`   `avsm`   but there is one for cenum 
+
+`10-05-2017 15:21`   `apache2`   oh, never heard about jbuilder. is there a gap between jbuilder and topkg or are they equivalent? 
+
+`10-05-2017 15:21`   `avsm`   the original cstruct was just meant to be a bunch of views over a Cstruct.t 
+
+`10-05-2017 15:22`   `avsm`   apache2: jbuilder is a build tool -- it replaces ocamlbuild and oasis 
+
+`10-05-2017 15:22`   `apache2`   ah alright 
+
+`10-05-2017 15:22`   `avsm`   topkg is a release management tool, so now there is a bridge between it and jbuilder 
+
+`10-05-2017 15:22`   `apache2`   I guess I use topkg with ocamlbuild 
+
+`10-05-2017 15:22`   `avsm`   so e.g. https://github.com/moby/datakit is a large-scale use of both 
+
+`10-05-2017 15:22`   `avsm`   that's right -- and that'll continue to work indefinitely too 
+
+`10-05-2017 15:23`   `amirmc`   Are we getting off topic a little :) 
+
+`10-05-2017 15:23`   `amirmc`   https://conferences.oreilly.com/oscon/oscon-tx/public/schedule/detail/57097 
+
+`10-05-2017 15:23`   `avsm`   jbuilder shines for large-scale development, but does no harm in the small 
+
+`10-05-2017 15:23`   `amirmc`   Oops, I meant to link to https://github.com/mirage/mirage-www/wiki/Call-Agenda#10-may-2017 
+
+`10-05-2017 15:23`   `avsm`   amirmc: we're on the jbuilder topic 
+
+`10-05-2017 15:23`   `apache2`   avsm: do I need to do anything magical to build cstruct for mirage, or can I just modify the default package? 
+
+`10-05-2017 15:23`   `avsm`   just modify the package 
+
+`10-05-2017 15:23`   `avsm`   it's used in all mirage libs 
+
+`10-05-2017 15:24`   `avsm`   alright, anything else in jbuilder-land? 
+
+`10-05-2017 15:24`   `Drup`   btw, something of interest 
+
+`10-05-2017 15:24`   `avsm`   thanks for all the hard buildsystem porting work and for the issues and feedback to jeremie! can create issues on https://github.com/janestreet/jbuilder/issues 
+
+`10-05-2017 15:24`   `apache2`   thank you for the help! 
+
+`10-05-2017 15:25`   `avsm`   apache2: very welcome -- do ask anything more on devel list / issues / etc if you run into blockers 
+
+`10-05-2017 15:26`   `avsm`   next topic; welcome David Udelson from GSoc! Working on Irmin HTTP REST API. Is David here? 
+
+`10-05-2017 15:26`   `dudelson`   waves 
+
+`10-05-2017 15:26`   `dudelson`   happy to be here! 
+
+`10-05-2017 15:26`   `avsm`   welcome! 
+
+`10-05-2017 15:26`   `amirmc`   Yay! Welcome! 
+
+`10-05-2017 15:26`   `yomimono`   hooray! congratulations & welcome :) 
+
+`10-05-2017 15:26`   `avsm`   if you hit rough waters once you see the Irmin signatures... well, thomasga is right there :-) 
+
+`10-05-2017 15:27`   `thomasga`   Welcome David! :-) 
+
+`10-05-2017 15:27`   `avsm`   (but seriously, they're much more accessible now with Irmin 1.0 :-) 
+
+`10-05-2017 15:27`   `dudelson`   thanks everyone. I'm hoping to dive into the nitty-gritty of the irmin codebase next week 
+
+`10-05-2017 15:27`   `dudelson`   this week is finals week unfortunately 
+
+`10-05-2017 15:27`   `amirmc`   Good luck! :) 
+
+`10-05-2017 15:27`   `Drup`   Do you have previous ocaml experience ? 
+
+`10-05-2017 15:27`   `avsm`   erk, good luck! 
+
+`10-05-2017 15:28`   `thomasga`   dudelson: I am moving files a bit in the Irmin repo (to use jbuilder) but should be finished before the end of the week 
+
+`10-05-2017 15:28`   `dudelson`   Drup: just a little, I took my first functional programming course last semester 
+
+`10-05-2017 15:28`   `dudelson`   so I have ocaml basics 
+
+`10-05-2017 15:28`   `avsm`   great; feel free to post any queries to the list as well if you're stuck on other channels 
+
+`10-05-2017 15:28`   `Drup`   Right, you'll have to get familiars with functors I guess :p 
+
+`10-05-2017 15:29`   `dudelson`   thomasga: thanks for the heads up, I'll keep that in mind 
+
+`10-05-2017 15:29`   `thomasga`   if you have any questions related to ocaml #ocaml is a good place to ask :-) 
+
+`10-05-2017 15:29`   `amirmc`   dudelson: I just found my way to https://github.com/JordanGreissman/gobi :) 
+
+`10-05-2017 15:29`   `yomimono`   yes, seconding #ocaml - very friendly there and lots of knowledgeable folks 
+
+`10-05-2017 15:29`   `thomasga`   (I need to run — I'll catch up the minutes later) 
+
+`10-05-2017 15:29`   `yomimono`   later thomasga! 
+
+`10-05-2017 15:30`   `dudelson`   functors and GADTs are giving me a bit of a hard time right now 
+
+`10-05-2017 15:30`   `dudelson`   again, hopefully next week I will be able to dig into those 
+
+`10-05-2017 15:30`   `yomimono`   it'll all still be there next week ;) 
+
+`10-05-2017 15:30`   `avsm`   yeah, start with some really simple apps and work your way up 
+
+`10-05-2017 15:30`   `avsm`   and you'll have Gobi ported to Irmin and Git in no time 
+
+`10-05-2017 15:30`   `dudelson`   amirmc: hope you like it :) It's very much a work in progress but is a lot of fun to hack on 
+
+`10-05-2017 15:31`   `avsm`   next topic: Solo5 multiarch status update. We have access to POWER hardware now thanks to IBM, which I need to configure as well, and am working on ARM64 right now (when not on this call) 
+
+`10-05-2017 15:31`   `reynir`   Does irming use gadts? 
+
+`10-05-2017 15:31`   `avsm`   mato! what's happening in the land of multiple architecture support in solo5? can we shed our chains of x86? 
+
+`10-05-2017 15:31`   `reynir`   sorry irmin 
+
+`10-05-2017 15:31`   `avsm`   reynir: sort of, the depyt library does (to do type descriptions) 
+
+`10-05-2017 15:32`   `avsm`   various places elsewhere do as well 
+
+`10-05-2017 15:32`   `reynir`   Interesting, thanks 
+
+`10-05-2017 15:32`   `dudelson`   avsm: one last thing: I sent you, yomimono, and thomas a logistics email, but I didn't get any replies. Did you receive it? 
+
+`10-05-2017 15:32`   `Drup`   depty is probably a bit violent as an introduction to GADTs 
+
+`10-05-2017 15:32`   `avsm`   dudelson: oops, probably still in my backlog. will look after this call... 
+
+`10-05-2017 15:32`   `mato`   avsm: I was waiting for an ack on the multiarch PR, got that from ricarkol today so will merge tomorrow. 
+
+`10-05-2017 15:32`   `dudelson`   avsm: great, thank you! 
+
+`10-05-2017 15:33`   `mato`   avsm: Then I need to work with the ARM folks to help them rebase (?) their work onto the new order of things. 
+
+`10-05-2017 15:34`   `avsm`   mato: amazing! i am working on booting https://github.com/linuxkit/linuxkit on ARM64 at the moment, so could try out early patches there 
+
+`10-05-2017 15:34`   `mato`   avsm: I'm not sure what the best strategy is there -- they have a long lived branch off ancient master, but the new structure of things on the guest and host sides is entirely different. 
+
+`10-05-2017 15:34`   `avsm`   the nice folks at packet.net have given us several 96 core arm64 boxes (!) 
+
+`10-05-2017 15:34`   `avsm`   mato: is there a lot of variance between arm64 boards, or can we have a fairly unified codebase? 
+
+`10-05-2017 15:34`   `mato`   avsm: There's also armyofdockerness at the lab to which mort has given me access, so I can test on that. 
+
+`10-05-2017 15:34`   `avsm`   great. my main worry with arm64 is that we'll have lots of weird compile-time configuration flags for different hardware 
+
+`10-05-2017 15:35`   `avsm`   and am hoping arm64 has made some of that complexity go away unlike arm32 
+
+`10-05-2017 15:35`   `mato`   avsm: I have no idea, but it's a port to KVM on ARM64, so I don't expect much variance. 
+
+`10-05-2017 15:35`   `mato`   avsm: but then everything about arm is weird that way, so i'm expecting to be surprised. 
+
+`10-05-2017 15:35`   `avsm`   well, i'm hopeful we can hold the single-binary line for a while :-) 
+
+`10-05-2017 15:36`   `avsm`   thanks for all the hard work on this; i'll run some aarch64 ocaml mirage bulk builds by end of week 
+
+`10-05-2017 15:36`   `avsm`   I am working on building the base containers 
+
+`10-05-2017 15:36`   `avsm`   for those with arm64, you can now do "docker run -it avsm/multiarch-experiment ocaml" and automatically obtain either an arm64 or x86_64 container depending on where you run it 
+
+`10-05-2017 15:37`   `mato`   what are you using to push the muliarch manifests to the hub? 
+
+`10-05-2017 15:37`   `avsm`   so no need for anything special on arm anymore -- i'm expanding that out so that we can CI automatically on arm64 and ppc64le as well 
+
+`10-05-2017 15:37`   `avsm`   mato: a custom datakit-ci plugin that builds the multi arch containers and then pushes a unified manifest using the registry v2 spec 
+
+`10-05-2017 15:37`   `avsm`   i'll have it published on github by end of week -- it needs some modifications to datakit-ci that i'm working with talex5 on 
+
+`10-05-2017 15:38`   `avsm`   its also easy to add other arches, so i have ppc64le (from ibm), arm32 and then x86_32 
+
+`10-05-2017 15:38`   `mato`   avsm: do you know of any self-contained tool to push multiarch images? 
+
+`10-05-2017 15:38`   `avsm`   mato: yes https://github.com/estesp/manifest-tool 
+
+`10-05-2017 15:38`   `mato`   thx. 
+
+`10-05-2017 15:39`   `avsm`   just use the --from-args option and you dont even need an intermediate file; it's great 
+
+`10-05-2017 15:39`   `mato`   ricarkol: hey. we were just discussing solo5, I got your OK on the multiarch PR, will merge later today/tomorrow AM. 
+
+`10-05-2017 15:39`   `avsm`   any other questions about solo5 anyone? 
+
+`10-05-2017 15:39`   `avsm`   (and hi ricarkol!) 
+
+`10-05-2017 15:39`   `ricarkol`   Yes mato, all good from my side. Ah, and im working on the gdb PR. 
+
+`10-05-2017 15:40`   `ricarkol`   Hi avsm 
+
+`10-05-2017 15:40`   `mato`   awesome! getting a better gdb implementation will be great 
+
+`10-05-2017 15:40`   `avsm`   that'll be useful indeed... 
+
+`10-05-2017 15:40`   `mato`   (gdb server, that is) 
+
+`10-05-2017 15:40`   `amirmc`   avsm: I have a side question about arm 
+
+`10-05-2017 15:40`   `yomimono`   ricarkol mato: do the instructions for gdb on ukvm on the solo5 readme still work? 
+
+`10-05-2017 15:40`   `yomimono`   (I can try them myself, just thought I'd ask while you're both here) 
+
+`10-05-2017 15:41`   `ricarkol`   It needs some non-documented changes to the makefile,, 
+
+`10-05-2017 15:41`   `mato`   yomimono: almost, but I'm not sure what the current hook to get ukvm built with the GDB module via mirage is 
+
+`10-05-2017 15:42`   `yomimono`   ricarkol mato: is UKVM_MODULES no more? 
+
+`10-05-2017 15:42`   `ricarkol`   Yes, just add the module 
+
+`10-05-2017 15:43`   `yomimono`   thanks :) 
+
+`10-05-2017 15:43`   `avsm`   and finally! OSCON is on! and amirmc and yomimono are speaking! 
+
+`10-05-2017 15:43`   `avsm`   what's happening in Austin? 
+
+`10-05-2017 15:44`   `yomimono`   furious computering in the speakers lounge 
+
+`10-05-2017 15:44`   `mato`   yomimono: I'm not sure.... I changed a bunch of stuff in ukvm-configure on master, need to check. 
+
+`10-05-2017 15:44`   `mato`   yomimono: however for the version in opam the instructions should work 
+
+`10-05-2017 15:44`   `yomimono`   mato: great, thank you! :) 
+
+`10-05-2017 15:44`   `avsm`   yomimono: dont forget to raid the sticker collection 
+
+`10-05-2017 15:45`   `yomimono`   I'm going to try to squeeze it in to demo time, if time permits 
+
+`10-05-2017 15:45`   `avsm`   good idea -- debugging is so much easier in ukvm than with xen backend 
+
+`10-05-2017 15:45`   `avsm`   assuming gdb works, of course :-) 
+
+`10-05-2017 15:45`   `amirmc`   yomimono and I met someone from Netflix who wrote something about dealing with multiple repos. I'm hoping to chat to her later on. 
+
+`10-05-2017 15:45`   `avsm`   amirmc: ah yes, the interesting blog post -- most interesting. 
+
+`10-05-2017 15:46`   `avsm`   my laptop battery is dying, so i need to gently fade into the dark offline night before i am abruptly terminated 
+
+`10-05-2017 15:46`   `hannes`   I'd like to raise three more things (sorry if this is not a good time) -- what happened to the issue day? can someone tell what to do with https://github.com/mirage/mirage-tcpip/pull/309 ? 
+
+`10-05-2017 15:46`   `mato`   yomimono: Uh... (just checked), actually those instructions are bogus. They were valid back when we put all of the generated build runes into the Makefile. 
+
+`10-05-2017 15:46`   `mato`   yomimono: I.e. pre the reintroduction of "mirage build" 
+
+`10-05-2017 15:46`   `avsm`   hannes: tis good time, meeting is done! 
+
+`10-05-2017 15:46`   `hannes`   and, avsm, would you mind to enter the zone into https://github.com/mirage/ns.mirage.io/issues/1 so that we can run our own ns.mirage.io!? 
+
+`10-05-2017 15:46`   `yomimono`   hannes: I got sick and then traveled and didn't do either of those things 
+
+`10-05-2017 15:46`   `avsm`   i suspect tcpip pr is blocked until yomimono is done travelling 
+
+`10-05-2017 15:47`   `yomimono`   or until someone writes some tests 
+
+`10-05-2017 15:47`   `yomimono`   I'm not the only person who can do that 
+
+`10-05-2017 15:47`   `yomimono`   :) 
+
+`10-05-2017 15:47`   `avsm`   hannes: its in my infrastructure queue, been behind with some pressing ocaml rebuilds but will do so this week i hope 
+
+`10-05-2017 15:47`   `avsm`   gandi was also being unhelpfully unresponsive when i tried 
+
+`10-05-2017 15:48`   `avsm`   i must drop, thanks all! 
+
+`10-05-2017 15:48`   `hannes`   avsm: never try to export your data out of comapnies storages ;) 
+
+`10-05-2017 15:48`   `hannes`   so, the tcp/ip thing will have to wait until this newly introduced feature gets tests before you're willing to fix any regression? 
+
+`10-05-2017 15:48`   `mato`   yomimono: (I'm checking to see what the current magic to get GDB working with mirage on ukvm is) 
+
+`10-05-2017 15:49`   `amirmc`   I have head off. Just FYI, yomimono and I will be talking about and showing demos of MirageOS 3 later today. (https://conferences.oreilly.com/oscon/oscon-tx/public/schedule/detail/57013). 
+
+`10-05-2017 15:49`   `yomimono`   hannes: I'm not convinced that your fix is correct which is why I insist on tests 
+
+`10-05-2017 15:50`   `yomimono`   if you want to PR reversion of the feature set and change the opam depends and release a 3.1.1 that's fine with me 
+
+`10-05-2017 15:50`   `yomimono`   it's not a full reversion, we don't have a full test case to test it against, and it's clear that we don't understand what the code is doing in the fuller context 
+
+`10-05-2017 15:50`   `hannes`   yomimono: well, I'm sure it breaks something with jumbo frames, but I just don't know how to test these... and no, sorry. 
+
+`10-05-2017 15:51`   `hannes`   nvm then 
+
+`10-05-2017 15:52`   `yomimono`   we have several maintainers and core team members for this project and there's no good reason this should be blocked on me 
+
+`10-05-2017 15:52`   `yomimono`   if you aren't satisfied with my level of service I might suggest that you bring this problem to djs55, the author of the original patchset, and a participant in the thread 
+
+`10-05-2017 15:53`   `hannes`   yomimono: thanks for taking care of this issue! 
+
+`10-05-2017 15:54`   `yomimono`   hannes: thanks for bringing it up, it is definitely something we need to fix and it shows that we need to do better about testing *before* merge, not after 
+
+`10-05-2017 15:55`   `mato`   yomimono: So... unfortunately the GDB instructions will not work for Mirage. This is because in the lead up to Mirage 3, we changed to not generating a Makefile and calling out to the Mirage tool itself. 
+
+`10-05-2017 15:55`   `mato`   yomimono: And in the process of that I forgot about the UKVM_MODULES thing. 
+
+`10-05-2017 15:56`   `yomimono`   mato: aw, OK. thanks for looking into it. 
+
+`10-05-2017 15:57`   `mato`   yomimono: there is a workaround, but it's not really suited to a demo... 
+
+`10-05-2017 15:57`   `yomimono`   it already looked a bit fiddly :( 
+
+`10-05-2017 15:57`   `yomimono`   so I'll plan to mention that it's possible but not include it, I think 
+
+`10-05-2017 15:58`   `mato`   yomimono: Yeah, I'm not sure what a good fix would be, in any case would involve some changes in the mirage tool, so not something we can do right now. will think about it. 
+
+`10-05-2017 15:58`   `yomimono`   mato: thank you :) 
+
+`10-05-2017 15:58`   `yomimono`   I need to run as well, talk starting very shortly 
+
+`10-05-2017 15:58`   `yomimono`   (someone else's thankfully!) 
+
+`10-05-2017 15:59`   `ansiwen`   seliopou: around? 
+
+

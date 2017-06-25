@@ -1,0 +1,467 @@
+---
+participants: Drup,Kensan,TImada,avsm,demonimin,djs55,dstolfa,hannes,mato,mort___,reynir,ricarkol,talex5,yomimono
+author: lobo
+title: Irc discussions from #mirage on 21-06-2017
+tags: irc,log
+---
+`21-06-2017 15:00`   `yomimono`   xclock informs me that it's just after 10AM local time, which means it must be time for our biweekly catchup meeting! 
+
+`21-06-2017 15:00`   `yomimono`   you can see (and add to) the agenda at https://github.com/mirage/mirage-www/wiki/Call-Agenda . 
+
+`21-06-2017 15:01`   `avsm`   greetings! 
+
+`21-06-2017 15:01`   `yomimono`   now is a great time to say hi if you want it known that you're here and paying attention :) 
+
+`21-06-2017 15:01`   `talex5`   Hi! 
+
+`21-06-2017 15:01`   `Kensan`   Hi there. 
+
+`21-06-2017 15:02`   `Drup`   I'm present and slowly decomposing into a puddle because of the heat. 
+
+`21-06-2017 15:02`   `djs55`   waves 
+
+`21-06-2017 15:02`   `avsm`   cambridge is... toasty 
+
+`21-06-2017 15:02`   `Drup`   it's 36° in my room 
+
+`21-06-2017 15:02`   `mato`   waves 
+
+`21-06-2017 15:03`   `yomimono`   is this going to be the year that your continent discovers ice? 
+
+`21-06-2017 15:03`   `yomimono`   and why it should be available cheaply and in plenty everywhere? 
+
+`21-06-2017 15:03`   `mato`   Only 29C in my home office, insulation is holding up (for now) 
+
+`21-06-2017 15:04`   `yomimono`   This explains all the pictures of AC units on my twitter feed. 
+
+`21-06-2017 15:05`   `yomimono`   Sending wishes of cool breezes to you all... 
+
+`21-06-2017 15:05`   `yomimono`   our first agenda item is from mato, with an update on solo5? 
+
+`21-06-2017 15:05`   `mato`   Yup. 
+
+`21-06-2017 15:06`   `mato`   I wanted to update folks seeing as I'm off on holiday for two weeks on Friday. 
+
+`21-06-2017 15:06`   `mato`   The actual update is here: https://gist.github.com/mato/3fd3dce942befb5b428b54820aa1a194 
+
+`21-06-2017 15:06`   `mato`   Shall I paste it here, or will everyone just go off and skim it? 
+
+`21-06-2017 15:06`   `avsm`   reading it! 
+
+`21-06-2017 15:06`   `yomimono`   that's a lot to paste, folks should go read it IMO 
+
+`21-06-2017 15:07`   `avsm`   does openlibm not have an upstream aarch64 target? 
+
+`21-06-2017 15:07`   `avsm`   thats surprising 
+
+`21-06-2017 15:07`   `mato`   It has one, but the actual state of it is unclear. 
+
+`21-06-2017 15:08`   `mato`   There have also been a few aarch64-related commits to master since the version we're on (0.5.4), so someone is doing something. 
+
+`21-06-2017 15:09`   `avsm`   interesting -- it would be good to not be the only user on aarch64 :) 
+
+`21-06-2017 15:09`   `mort___`   . 
+
+`21-06-2017 15:09`   `avsm`   great progress on arm64 though! 
+
+`21-06-2017 15:09`   `dstolfa`   o/ 
+
+`21-06-2017 15:09`   `avsm`   hi mort___ ... 
+
+`21-06-2017 15:09`   `mato`   kensan: One thing to keep in mind for you (from my status report) is that I'd like to merge the rest of the Muen bits after the API rework is done. 
+
+`21-06-2017 15:09`   `mato`   kensan: So, it'll take a while yet, hope that's ok with you. 
+
+`21-06-2017 15:10`   `Kensan`   mato: Sure thing, no hurry from my side. 
+
+`21-06-2017 15:10`   `mato`   kensan: Oh, and thanks for hosting me on Friday, it was good to meet up in person! 
+
+`21-06-2017 15:10`   `Kensan`   mato: Yes indeed! Was a pleasure :) 
+
+`21-06-2017 15:11`   `mato`   ricarkol: Since you joined late, I've just pointed folks to my Solo5 status update: https://gist.github.com/mato/3fd3dce942befb5b428b54820aa1a194 
+
+`21-06-2017 15:11`   `ricarkol`   Thanks mato 
+
+`21-06-2017 15:11`   `mato`   ricarkol: ...which updates on the state of the various works in progress. Also note I'll be on holiday for 2wks starting Friday. 
+
+`21-06-2017 15:11`   `avsm`   ricarkol: someone who might be interested in this solo5 direction is phil estes at ibm too 
+
+`21-06-2017 15:12`   `avsm`   he's been doing really good work on integrating other sandboxing features like user namespaces into software 
+
+`21-06-2017 15:12`   `yomimono`   mato: I'm on holiday starting right when you get back, and probably not reliably reachable until 20th July, so probably best to coordinate with someone else for release if you think you'll be ready before then 
+
+`21-06-2017 15:12`   `ricarkol`   Ah great, thanks for the pointer avsm. 
+
+`21-06-2017 15:13`   `hannes`   what I miss from the report (thx for the report) is the state of Hypervisor.Framework + solo5!? 
+
+`21-06-2017 15:13`   `mato`   hannes: That's up to Dan, I've not heard from him in a while. Maybe ricarkol knows? 
+
+`21-06-2017 15:14`   `avsm`   coordinate with me for the release mato 
+
+`21-06-2017 15:14`   `ricarkol`   Not sure if Dan is working on the Hypervisor.Framework + Solo5 PR. Will ping him. 
+
+`21-06-2017 15:15`   `yomimono`   anything else on solo5? 
+
+`21-06-2017 15:15`   `hannes`   ricarkol: thx. imho would be nice to have that rebased + merged into master.. 
+
+`21-06-2017 15:16`   `mato`   hannes: It needs more than just a rebase since afaict the last version is from before the multi-backend refactor. 
+
+`21-06-2017 15:17`   `yomimono`   let's move on :) next up we had an item on jbuildering all the things from avsm and djs55 
+
+`21-06-2017 15:17`   `mato`   yomimono: I think we can move on. 
+
+`21-06-2017 15:17`   `yomimono`   mato: agreed :P 
+
+`21-06-2017 15:18`   `yomimono`   also in this agenda item is a link to a mirage/mirage PR which I'd missed -- it's a bit unclear from the text alone exactly what the scope of these changes are, can someone elaborate? 
+
+`21-06-2017 15:18`   `yomimono`   the PR in question is https://github.com/mirage/mirage/pull/839 
+
+`21-06-2017 15:19`   `yomimono`   this PR changes the build system for mirage-types but not the mirage frontend tool, it seems? 
+
+`21-06-2017 15:20`   `djs55`   I think we've jbuildered quite a lot of things now. I think avsm is going to take a look at mirage-platform, whose build is quite complicated. 
+
+`21-06-2017 15:20`   `djs55`   while doing the jbuildering we took the opportunity to remove more depexts, which led to some package refactoring e.g. io-page-unix now exists 
+
+`21-06-2017 15:21`   `avsm`   essentially the mirage/mirage PR is demonstrating the workflow 
+
+`21-06-2017 15:21`   `djs55`   I believe it's possible to use "opam source" to grab lots of library sources and then use "jbuilder" in the root for a concurrent build of everything 
+
+`21-06-2017 15:21`   `avsm`   its not a complete port yet -- functoria and the CLI tool also need porting (quite easy, just not done yet) 
+
+`21-06-2017 15:22`   `djs55`   I'm not totally sure what the best-practice is these days for doc generation — the question came up on the functoria jbuilder PR 
+
+`21-06-2017 15:22`   `avsm`   but the PR demonstrates the cool productivity gains: you just clone a bunch of related repositories, and they are automatically built in the right order and incrementally. This is an awesome way to revise an interface in mirage-types, build all the dependents, and then cut individual opam releases 
+
+`21-06-2017 15:22`   `avsm`   djs55: i think `jbuilder build @doc` is all you need -- https://github.com/janestreet/jbuilder/issues/154 
+
+`21-06-2017 15:23`   `avsm`   but the progress in the past few weeks is that we've ported 20+ libraries to jbuilder, and also found several inconsistencies while removing boilerplate (e.g. in manual META files) 
+
+`21-06-2017 15:23`   `avsm`   so i think this is a very very good direction -- but its a good time for others to also get involved and express opinions on the mirage/mirage PR -- most particularly, express any blocking problems now 
+
+`21-06-2017 15:24`   `avsm`   i would like to migrate docs.mirage.io to be a purely jbuilder build in the next couple of weeks -- in this scheme, the doc generation takes ~1-2 minutes _vs_ the 40 minute (!) build time it is now. 
+
+`21-06-2017 15:24`   `hannes`   I've seen lots of CI failures where PRs got merged... is this travis CI now considered obsolete and merging even with CI errors is considered ok? 
+
+`21-06-2017 15:24`   `avsm`   there are some mega PRs coming in from conduit, cohttp, dns and tcpip 
+
+`21-06-2017 15:24`   `avsm`   hannes: nope, I've been fixing CI whereever Ive spotted errors 
+
+`21-06-2017 15:24`   `djs55`   all the debian CI builds are failing on travis since the recent debian release 
+
+`21-06-2017 15:25`   `djs55`   https://github.com/ocaml/ocaml-ci-scripts/issues/171 
+
+`21-06-2017 15:25`   `avsm`   any specific failures in mind? Debian is screwed due to the testing/unstable switch -- ive now updated the base images to account for this 
+
+`21-06-2017 15:25`   `djs55`   ah great 
+
+`21-06-2017 15:27`   `hannes`   avsm: I saw lots of red crosses when looking over PRs - most recent https://github.com/mirage/ocaml-cstruct/pull/157 https://github.com/mirage/mirage/pull/845 
+
+`21-06-2017 15:28`   `avsm`   the cstruct one is an infra failure for fedora (also upstream flaky atm): system-python: /builddir/build/BUILD/hawkey-0.6.4/src/sack.c:354: load_ext: Assertion `ret == 0' failed. 
+
+`21-06-2017 15:29`   `avsm`   and the mirage/mirage one is travis failing on all jobs 
+
+`21-06-2017 15:29`   `avsm`   so overall we are in pretty good shape with travis -- but its getting overwhelmed by the number of repos we have 
+
+`21-06-2017 15:29`   `avsm`   all the jbuildered packages that have been refreshed should be green now 
+
+`21-06-2017 15:30`   `avsm`   and we just need a freebsd build bot -- ive got a machine now,so will setup surf build in the short term when i get a chance 
+
+`21-06-2017 15:30`   `hannes`   avsm: good to hear! thanks to djs, samoht and avsm for the jbuilder porting!!! 
+
+`21-06-2017 15:30`   `djs55`   I've found the ocaml/opam-repository CI to be good — the revdeps testing highlights lots of interesting things. 
+
+`21-06-2017 15:30`   `djs55`   sorry for the disruption it has caused! hopefully we're passed the worst of that 
+
+`21-06-2017 15:30`   `avsm`   yeah and posting on discuss.ocaml.org is pretty useful with breaking changes 
+
+`21-06-2017 15:30`   `demonimin`   Consider https://github.com/mirage/mirage/pull/841 for one instance of Travis flakiness 
+
+`21-06-2017 15:31`   `avsm`   demonimin: yeah ... 
+
+`21-06-2017 15:31`   `Drup`   avsm: do you intend to also port mirage's generated build system too ? 
+
+`21-06-2017 15:31`   `avsm`   drup: yes once the rest has settled 
+
+`21-06-2017 15:31`   `avsm`   we should be able to just `jbuilder build` instead of `mirage build` -- jeremie is happy to add an output-obj rule (there is a PR on jbuilder) 
+
+`21-06-2017 15:32`   `yomimono`   anything else on jbuilder? 
+
+`21-06-2017 15:33`   `hannes`   well... the mirage build is rather tricky, I bet jbuilder is (not yet!?) ready for that.. e.g. on the functoria PR djs mentioned that dontlink is not supported, which is crucial for MirageOS unikernels.. 
+
+`21-06-2017 15:33`   `mort___`   (to save updating all the instructions again, perhaps `mirage build` could invoke jbuilder rather than the user doing it?) 
+
+`21-06-2017 15:33`   `avsm`   hannes: we were just chatting about stubs and dontlink ... I think we need to clean up that whole affair 
+
+`21-06-2017 15:33`   `avsm`   and specifically dontlink should not be vital -- it can be done at the very end link rather than in every library 
+
+`21-06-2017 15:33`   `yomimono`   avsm: is there a document with a roadmap of expected next actions related to this somewhere? 
+
+`21-06-2017 15:34`   `yomimono`   or a roadmap at all really 
+
+`21-06-2017 15:34`   `avsm`   yomimono: nope, but there should be #818 i think was my attempt but i havent had the bandwidth to keep it fully updated 
+
+`21-06-2017 15:34`   `yomimono`   aha, yes, that's what I faintly remembered 
+
+`21-06-2017 15:34`   `avsm`   ill rectify that... 
+
+`21-06-2017 15:35`   `avsm`   part of this was us convincing ourselves that jbuilder was a worthy replacement before committing to it. and then the floodgates opened up and hundreds of ports came flying in and we got bowled over 
+
+`21-06-2017 15:35`   `hannes`   avsm: I'm talking about the fringe of a MirageOS unikernel above. it is not needed for functoria-runtime or mirage-runtime AFAIK... I guess a proper solution for cross compilation is what is needed for MirageOS unikernels (I talked a bit with dbuenzli about that) 
+
+`21-06-2017 15:35`   `yomimono`   some conversation either there or on mirageos-devel about "clean[ing] up that whole affair" would be great, instead of just getting the PR one day 
+
+`21-06-2017 15:35`   `yomimono`   :) 
+
+`21-06-2017 15:35`   `avsm`   hannes: yeah. the good thing is that jbuilder supports cross compilation with workspaces, so need to figure that out 
+
+`21-06-2017 15:35`   `hannes`   yomimono: +1 
+
+`21-06-2017 15:35`   `avsm`   yomimono: yes indeed, completely agreed. there have been various discussions on mirage-platform about the issue with hannes djs55, but scattered as usual
+
+`21-06-2017 15:36`   `mato`   +1 for long-form discussion on cross-compilation 
+
+`21-06-2017 15:36`   `avsm`   before we can get to that though, it would be _very useful_ to get some opinions on the basics of jbuilder 
+
+`21-06-2017 15:36`   `avsm`   it will be difficult to move to another system, so objections late in the port will not be helpful :) 
+
+`21-06-2017 15:36`   `hannes`   avsm: that sounds great. a document about how a unikernel should be compiled would be rather useful (before deciding that jbuilder is mature enough to do so)... 
+
+`21-06-2017 15:36`   `avsm`   once we've got mirage/mirage ported to it, then we can start depending on some of its more advanced features 
+
+`21-06-2017 15:37`   `avsm`   hannes: yeah -- step 1) is how ocaml should be compiled (which we are doing now and almost done) and step 2) is the C linkage model we want 
+
+`21-06-2017 15:38`   `avsm`   i think i might kick this discussion off on discuss.ocaml.org - i'm liking it for long form discussions 
+
+`21-06-2017 15:38`   `hannes`   I personally would also be in favour to use an opam switch for cross-compilation to get rid of zarith-xen / foobar-xen / foobar-freestanding packages... 
+
+`21-06-2017 15:38`   `avsm`   hannes: yes!!!! 
+
+`21-06-2017 15:38`   `hannes`   (this is not real cross-compilation, not talking about compiling your arm unikernel on your x86 host) 
+
+`21-06-2017 15:38`   `mato`   One thing to note is that having "real" cross compilation may imply having a "real" C cross-compiler around. 
+
+`21-06-2017 15:39`   `demonimin`   (I was surprised to see my jbuilder-built stublib work on first try with a mirage tool-built unikernel — that was nice) 
+
+`21-06-2017 15:39`   `avsm`   hurrah demonimin :-) 
+
+`21-06-2017 15:40`   `mato`   hannes: Ah, we mean different things by "real" cross-compilation. The current approach (for most host/build OSes) does not do a "real" cross build but can work without having a full cross (fsvo) toolchain installed. "Cleaning that up" may require moving to a full cross toolchain. 
+
+`21-06-2017 15:41`   `avsm`   lets talk about this more longform...probably too long for this irc meeting 
+
+`21-06-2017 15:41`   `mato`   Yup 
+
+`21-06-2017 15:41`   `yomimono`   OK, let's move on then 
+
+`21-06-2017 15:41`   `yomimono`   talex5 had a bit to share about capnp-rpc 
+
+`21-06-2017 15:41`   `yomimono`   this says "fuzzing" in it so let's definitely hear about it :D 
+
+`21-06-2017 15:41`   `talex5`   Have been doing lots of AFL fuzzing. 
+
+`21-06-2017 15:42`   `talex5`   I'm hoping AFL can discover all the TODOs in the code... 
+
+`21-06-2017 15:42`   `talex5`   that would give me some confidence the tests are covering lots of cases. 
+
+`21-06-2017 15:42`   `talex5`   Anyway, it seems reasonably stable in its current form, though lots left to do: 
+
+`21-06-2017 15:42`   `talex5`   https://github.com/mirage/capnp-rpc/issues 
+
+`21-06-2017 15:43`   `yomimono`   cool, thanks talex5 :) 
+
+`21-06-2017 15:43`   `talex5`   There's an example using it at: https://github.com/linuxkit/linuxkit/tree/master/projects/miragesdk/examples/https-unikernel 
+
+`21-06-2017 15:43`   `talex5`   Though that's pinning an older version and needs a bit of updating. 
+
+`21-06-2017 15:43`   `talex5`   That's all from me. 
+
+`21-06-2017 15:44`   `yomimono`   Thanks! next up was TImada on solo5-ukvm netmap 
+
+`21-06-2017 15:44`   `TImada`   Hi all, 
+
+`21-06-2017 15:45`   `TImada`   Please read the pdf file in the agenda ... 
+
+`21-06-2017 15:45`   `avsm`   hi! 
+
+`21-06-2017 15:45`   `yomimono`   direct link: http://www.cl.cam.ac.uk/%7Eti259/temp/netmap_v01.pdf :) 
+
+`21-06-2017 15:45`   `avsm`   http://www.cl.cam.ac.uk/%7Eti259/temp/netmap_v01.pdf 
+
+`21-06-2017 15:45`   `avsm`   :-) 
+
+`21-06-2017 15:45`   `TImada`   Thanks! 
+
+`21-06-2017 15:46`   `TImada`   I implemented packet handling optimization in the host OS side by using Netmap as shown in the page 2. 
+
+`21-06-2017 15:47`   `yomimono`   for a *very* nice performance improvement, I see! 
+
+`21-06-2017 15:47`   `TImada`   This optimaization targets only packet sending. 
+
+`21-06-2017 15:47`   `avsm`   this is a very very good update TImada. netmap looks like a big win! 
+
+`21-06-2017 15:47`   `hannes`   TImada: is your modified solo5 code available? 
+
+`21-06-2017 15:47`   `TImada`   and includes VMExits overhead coming with data storing operation. 
+
+`21-06-2017 15:48`   `mato`   TImada: Can you summarize in 2 sentences what netmap "needs" from Solo5/ukvm to run in the "queued" mode you describe in the PDF? 
+
+`21-06-2017 15:48`   `TImada`   haness: Yes, but it requires a tricky procedure to use ..., sorry. I need to write a readme file. 
+
+`21-06-2017 15:49`   `mato`   TImada: Is it essentially just a memory region mapped from the host, or something more than that? 
+
+`21-06-2017 15:50`   `TImada`   mato: memory mapping would be enough. 
+
+`21-06-2017 15:51`   `TImada`   I have already finished testing memory mapping of Netmap ring buffers. 
+
+`21-06-2017 15:51`   `mato`   TImada: How does the guest get woken up if it's polling/sleeping inside the monitor (ukvm)? 
+
+`21-06-2017 15:51`   `mato`   TImada: Does netmap provide a fd or something you can poll() on the host side? 
+
+`21-06-2017 15:52`   `TImada`   mato: Yes, Netmap provides a fd for poll() like functions. The current implementation uses ppoll() similaly. 
+
+`21-06-2017 15:53`   `mato`   TImada: excellent. that's what I needed to know. thanks. 
+
+`21-06-2017 15:53`   `yomimono`   great! :) anything else on this, TImada? 
+
+`21-06-2017 15:53`   `mato`   So it's basically poll() for notifications/slow path and shared memory for the fast path. 
+
+`21-06-2017 15:54`   `TImada`   Currently, I'm implementing ring buffer manipulation functionality in the guest OS layer to reduce the VMExits overhead. That's all from me. 
+
+`21-06-2017 15:54`   `TImada`   mato: Yes! 
+
+`21-06-2017 15:54`   `yomimono`   sorry, I'm lagging badly, perhaps self-governance for the last 5 minutes of the call :) 
+
+`21-06-2017 15:54`   `yomimono`   next up was g2p (denominin here I think?) on wodan 
+
+`21-06-2017 15:55`   `demonimin`   Hi! I've fixed many bugs, so it's a good time for a status update 
+
+`21-06-2017 15:56`   `demonimin`   I was looking into performance improvements, but hit some bugs in alternative Map implementations. Speak up if you know a good Map-like struct. 
+
+`21-06-2017 15:56`   `avsm`   as context: wodan is demonimin's pure ocaml filesystem bases on hitchhiker trees and optimised for flash 
+
+`21-06-2017 15:56`   `demonimin`   currently I fill a 16Mb filesystem in 2s which isn't impressive, but most of it is in-memory bookkeeping. 
+
+`21-06-2017 15:57`   `demonimin`   after that I'd like to serve as an Irmin backend, which will require forward-porting irmin-chunk to current Irmin APIs 
+
+`21-06-2017 15:57`   `avsm`   i'd be happy with a slow and rock solid first implementation 
+
+`21-06-2017 15:58`   `avsm`   great to see AFL fuzzing in there from the start, just like with capnproto 
+
+`21-06-2017 15:58`   `demonimin`   yes. fuzzing is hard to do because of the large state space (512b sectors is the minimum), and it hasn't uncovered any bugs. 
+
+`21-06-2017 15:59`   `demonimin`   The new url is https://github.com/g2p/wodan, if you want to try it, see runner/unikernel.ml for an example 
+
+`21-06-2017 16:01`   `demonimin`   Well, that's it I think. There's still some features to add, and possibly one or two format changes. 
+
+`21-06-2017 16:01`   `talex5`   How are you fuzzing it? By feeding it random structures, or random operations? 
+
+`21-06-2017 16:01`   `mato`   demonimin: Does it run on Mirage/Solo5? 
+
+`21-06-2017 16:01`   `demonimin`   it does 
+
+`21-06-2017 16:01`   `mato`   Cool. I'll try it. 
+
+`21-06-2017 16:02`   `demonimin`   I feed it a prepared image, modified by AFL, and do one more insert on it 
+
+`21-06-2017 16:02`   `demonimin`   I also do random operations on it without afl, which has been fruitful 
+
+`21-06-2017 16:03`   `mato`   yomimono: By the way, there are lots of interesting updates today, can the logs be (at least) copy/pasted somewhere pointed to from the Wiki? 
+
+`21-06-2017 16:03`   `avsm`   this is awesome -- i wonder what a direct capnproto -> filesystem would look like 
+
+`21-06-2017 16:03`   `yomimono`   mato: yes, we can manually put them into canopy and add a link 
+
+`21-06-2017 16:03`   `hannes`   (since we're running at the end, I'd like to mention two things: a) in several issues/PRs we discussed error behaviour (e.g. netif.write with buffers bigger than MTU; block write with non-aligned offsets, ...) -- can we somehow document these behaviours at the interface level (do we want to have common behaviour also for errors?)) -- b) how long does it take to extract a zone file from ghandi (to run our own)? https://github.com/mirage/ns.mirage.io/issues/1 
+
+`21-06-2017 16:03`   `hannes`   (so far 2 months) 
+
+`21-06-2017 16:03`   `yomimono`   in the absence of our dear imaginaryfriend 
+
+`21-06-2017 16:03`   `avsm`   mato: yomimono any chance of a quick issue on mirage-www -- djs55 and i are fixing the build 
+
+`21-06-2017 16:03`   `demonimin`   a redis/memcache-like would be cool 
+
+`21-06-2017 16:04`   `avsm`   sorry hannes, its only ever brought up on these calls when i dont have access. doesnt get on my todo list properly. I'm emailing myself now... 
+
+`21-06-2017 16:04`   `mato`   avsm: issue on mirage-www for what? 
+
+`21-06-2017 16:04`   `reynir`   I'm tempted to make an IRC bot for reminding people (me) when the meeting is about to start 
+
+`21-06-2017 16:04`   `avsm`   the irc logs, need to modify code slightly to have an option to link to whitequarks summaries 
+
+`21-06-2017 16:05`   `yomimono`   reynir: please do :) 
+
+`21-06-2017 16:05`   `avsm`   reynir: yeah! 
+
+`21-06-2017 16:05`   `avsm`   unibactrian 
+
+`21-06-2017 16:05`   `avsm`   a one humped camel bot 
+
+`21-06-2017 16:05`   `hannes`   (another instance of non-symmetric behaviour seems to be flow.write (and esp. console.write))... 
+
+`21-06-2017 16:05`   `reynir`   Heh 
+
+`21-06-2017 16:05`   `yomimono`   hannes: it's true that underspecified error behavior is a problem currently and will get worse as we have more implementations of common signatures 
+
+`21-06-2017 16:06`   `avsm`   gotta run -- but specifying the invariants in the mirage-types seems like the right direction 
+
+`21-06-2017 16:06`   `avsm`   thanks all! 
+
+`21-06-2017 16:06`   `yomimono`   both documentation and testing seem like important ways to deal with that 
+
+`21-06-2017 16:06`   `yomimono`   here's the contract, here's how we know that this implementation meets it 
+
+`21-06-2017 16:07`   `hannes`   yomimono: a compliance test suite for a given interface X would be great to have, yes! :D 
+
+`21-06-2017 16:07`   `yomimono`   I started trying to do this for mirage-fs some time ago but got bogged down badly pretty quickly 
+
+`21-06-2017 16:07`   `djs55`   IIRC mirage-block has a functor which passes through requests after checking alignment etc. I don't think it's used anywhere yet 
+
+`21-06-2017 16:08`   `yomimono`   (incidentally if anyone's feeling helpful about IRC logs, https://github.com/mirage/canopy-data/issues/16 ) 
+
+`21-06-2017 16:08`   `yomimono`   (coupon is good for several green github squares) 
+
+`21-06-2017 16:09`   `yomimono`   djs55: interesting; did it come from some other implementation that was using it for testing? 
+
+`21-06-2017 16:09`   `yomimono`   (IIRC all the mirage-block stuff was pulled together from common code in many block libraries during 3.0 migration? or possibly I'm misremembering) 
+
+`21-06-2017 16:10`   `djs55`   I think it was an experiment that was never completed 
+
+`21-06-2017 16:11`   `djs55`   It's called `mirage_block_safe` but it has no users 
+
+`21-06-2017 16:11`   `yomimono`   ah yes, I remember this now -- specifically I remember thinking "what is this, it has no users" 
+
+`21-06-2017 16:12`   `djs55`   I see it every now and then and it reminds me that we don't check alignment properly :) 
+
+`21-06-2017 16:13`   `hannes`   (to drop in https://github.com/mirage/mirage-flow/issues/4 is the FLOW.write behaviour which looks non-uniform, also in solo5 I think the resolution is that Console.write may do a partial write).. 
+
+`21-06-2017 16:15`   `mato`   hannes: The Console case is (IMHO) a red herring -- at the Solo5 level I see no point in reporting that a partial write happened. 
+
+`21-06-2017 16:16`   `mato`   hannes: So I guess, if you want to be pedantic, the Solo5 documentation can mention that you could get a partial write in which case the data will just be discarded. 
+
+`21-06-2017 16:16`   `mato`   But I don't see what else can be done. 
+
+`21-06-2017 16:16`   `yomimono`   I think the general issue is valid though; we have poorly-defined and inconsistent semantics for some important primitives which should be the same across implementations 
+
+`21-06-2017 16:16`   `hannes`   mato: I agree. and would lobby to revert this "console is a flow"... while the interface is similar, there's no support for read on console, and write may be partial. 
+
+`21-06-2017 16:17`   `hannes`   mato: (just to prevent anyone from trying to use a console as a flow and get reliable data transfer) 
+
+`21-06-2017 16:17`   `mato`   hannes: I've not looked into the Mirage Flow semantics in detail, so I don't have any huge opinion on that. 
+
+`21-06-2017 16:17`   `yomimono`   I think "console is a flow" is extremely misleading 
+
+`21-06-2017 16:17`   `yomimono`   but I think that's enough me-too'ing from here 
+
+`21-06-2017 16:19`   `mato`   Anyhow, what I'm trying to do for the Solo5 C APIs in #200 and related is in a similar vein -- document and enforce the various edge and failure cases. 
+
+`21-06-2017 16:20`   `mato`   ...and eliminate undefined behaviour, with some preference to cutting "scope" from an API if it makes sense. 
+
+`21-06-2017 16:21`   `mato`   e.g. L2 network I/O insists that you deal in whole packets only, Block I/O insists on whole blocks, etc. 
+
+`21-06-2017 16:21`   `hannes`   mato: I appreciate and support your #201! I just try to raise some awareness of missing documentation and maybe not everything where some types match should be the same interface :) 
+
+`21-06-2017 16:22`   `mato`   +1 
+
+`21-06-2017 16:23`   `hannes`   (in the hope that someone will be bored enough to do something about it) 
+
+

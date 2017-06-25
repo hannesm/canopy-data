@@ -1,0 +1,421 @@
+---
+participants: amirmc,avsm,dinosaure,djs55,djwillia,hannes,mato,mort___,rgrinberg,thomasga,yomimono
+author: lobo
+title: Irc discussions from #mirage on 26-04-2017
+tags: irc,log
+---
+`26-04-2017 15:01`   `avsm`   Greetings everyone! Call agenda at https://github.com/mirage/mirage-www/wiki/Call-Agenda -- feel free to append anything you'd like to discuss to that. 
+
+`26-04-2017 15:01`   `mato`   waves 
+
+`26-04-2017 15:02`   `hannes`   hello 
+
+`26-04-2017 15:02`   `amirmc`   yo 
+
+`26-04-2017 15:02`   `yomimono`   =^.^= 
+
+`26-04-2017 15:02`   `avsm`   glad you escaped the thunderstorm yomimono :-) 
+
+`26-04-2017 15:04`   `yomimono`   same :) 
+
+`26-04-2017 15:04`   `avsm`   Hi djs55 djwillia! getting started with the agenda at https://github.com/mirage/mirage-www/wiki/Call-Agenda 
+
+`26-04-2017 15:04`   `djwillia`   hi! 
+
+`26-04-2017 15:04`   `djs55`   waves 
+
+`26-04-2017 15:04`   `avsm`   starting with the canopy discussion from last week -- looks like its live now mato! 
+
+`26-04-2017 15:04`   `avsm`   tell us more... 
+
+`26-04-2017 15:05`   `avsm`   any drama in the setup? 
+
+`26-04-2017 15:06`   `avsm`   ...or hannes if mato has disappeared. 
+
+`26-04-2017 15:06`   `hannes`   I don't know anything about canopy setup, sorry 
+
+`26-04-2017 15:06`   `yomimono`   I asked mato whether it was worth writing a blog post about and he said not really, it was a fairly standard xen deployment 
+
+`26-04-2017 15:06`   `mato`   yeah 
+
+`26-04-2017 15:06`   `yomimono`   (sorry to speak for you mato) 
+
+`26-04-2017 15:07`   `avsm`   oh, so its not running on solo5? 
+
+`26-04-2017 15:07`   `mato`   there's nothing particularly interesting about it, all the specifics are to do with my dom0 
+
+`26-04-2017 15:07`   `avsm`   ok! at some point I'll gather all the infrastructure under mirage.io into one place, but its great to have it for now 
+
+`26-04-2017 15:07`   `mato`   not at the moment since i wasn't sure what state hannes' network access was and the only machine i have with public ipv4 addresses spare is a xen box 
+
+`26-04-2017 15:08`   `avsm`   I hear that the original purpose of it (for GSoC) has been successful, and that we got one GSoC student accepted 
+
+`26-04-2017 15:08`   `avsm`   is that confirmed thomasga? 
+
+`26-04-2017 15:08`   `yomimono`   gsoc hasn't announced acceptances yet 
+
+`26-04-2017 15:08`   `yomimono`   and they're QUITE strict about not doing it before you should 
+
+`26-04-2017 15:08`   `thomasga`   nothing is public yet, still disccusing about it 
+
+`26-04-2017 15:08`   `yomimono`   so you won't hear about that until the student does 
+
+`26-04-2017 15:08`   `yomimono`   assuming there is one 
+
+`26-04-2017 15:08`   `avsm`   oh ok, so just wait for confirmation on that 
+
+`26-04-2017 15:09`   `avsm`   The next item is about moving more infrastructure onto a Mirage3 base, specifically DNS 
+
+`26-04-2017 15:09`   `hannes`   avsm: is centralising infrastructure of mirage.io a goal for you? 
+
+`26-04-2017 15:09`   `avsm`   hannes: centralising information about the mirage.io infrastructure is a goal for me, not the infra itself 
+
+`26-04-2017 15:09`   `avsm`   specifically who runs what, and is responsible for it 
+
+`26-04-2017 15:10`   `hannes`   avsm: we talked last time that we could run our very own ocam-dns as authoritative nameserver -- there are some IPs and machines available -- after talking with mato y'day in a pub, I thought I'd just bring this up here again 
+
+`26-04-2017 15:10`   `avsm`   definitely would like to. The last time I set this up it was just lacking an effective update story, and I was hoping that we could have a canopy-style setup where ocaml-dns-server clones off a GitHub repo for its zonefiles 
+
+`26-04-2017 15:10`   `mato`   +1, and i'm happy to document anything that's set up, though some of that may need a private repo (not sure) 
+
+`26-04-2017 15:11`   `hannes`   specifically if we can get a zone dump, we can get started and then, once the setup is there, migrate from ghandi to our NS... (NB: I run NS for nqsb.io using ocaml-dns since months without problems) 
+
+`26-04-2017 15:11`   `avsm`   i think we have all the pieces now to drive mirage.io DNS off a github repo, just like canopy -- wdyt? 
+
+`26-04-2017 15:11`   `hannes`   I would not integrate any unneeded git code and push hooks in there, just use a zonefile in a git repo and recompile on the other end whenever that changes.. 
+
+`26-04-2017 15:12`   `avsm`   that's fine by me 
+
+`26-04-2017 15:12`   `mato`   +1 
+
+`26-04-2017 15:12`   `hannes`   (https://github.com/hannesm/ns.nqsb.io is the stuff I use for ns.nqsb.io +sn.nqsb.io FWIW) 
+
+`26-04-2017 15:12`   `avsm`   if you want to create a mirage/ns.mirage.io repo and put a test zone file in there, i can send a PR with the full zonefile 
+
+`26-04-2017 15:12`   `hannes`   avsm: will do this week 
+
+`26-04-2017 15:12`   `mort___`   curses broken irc client and says hi quietly 
+
+`26-04-2017 15:12`   `avsm`   awesome! and hello mort :-) 
+
+`26-04-2017 15:13`   `avsm`   If anyone else would like to deploy infrastructure on their own nodes, please do feel free to step in. It would be great to have DNS in particular spread out among as many backends as we can find 
+
+`26-04-2017 15:14`   `avsm`   This does bring us up to the next agenda item, which is a couple of pressing bugs in two libraries: TCP/IP and DNS. 
+
+`26-04-2017 15:14`   `avsm`   I'll start with the DNS one; https://github.com/mirage/ocaml-dns/issues/137 
+
+`26-04-2017 15:14`   `avsm`   Since it's hot in our discussion cache... 
+
+`26-04-2017 15:14`   `hannes`   I implemented a recursive resolver and run into trouble ; TL;DR: is anyone maintaining ocaml-dns? 
+
+`26-04-2017 15:14`   `avsm`   The library is super old, and needs an update to all the nice modern libraries we have. It is increasingly difficult to maintain it as a monolithic opam package with lots of optional dependencies 
+
+`26-04-2017 15:15`   `avsm`   So... I suggested on the issue we continue what rgrinberg wrote a nice blog post about: http://rgrinberg.com/posts/optional-dependencies-considered-harmful/ 
+
+`26-04-2017 15:15`   `avsm`   split it up into multiple OPAM packages, and then modernise the parser/printer in particular 
+
+`26-04-2017 15:15`   `hannes`   avsm: the problem imho is already in the "core", sorting out subpackages won't help there much... 
+
+`26-04-2017 15:15`   `yomimono`   I think avsm's proposal is "why not both" 
+
+`26-04-2017 15:16`   `avsm`   hannes: it helps a lot, since we can just fix and rev the core without having to fix the lwt/async/mirage backends all at once 
+
+`26-04-2017 15:16`   `hannes`   it uses exceptions all over, hashtables, ..., does not comply with RFC1025 
+
+`26-04-2017 15:16`   `djs55`   I think both are problems: the core APIs aren't good plus I got really confused by the depopts when I last tried to fix and test something 
+
+`26-04-2017 15:16`   `avsm`   so i suggest doing the opam breakup first, fixing all the revdeps with upper bounds, and then having the freedom to make an exception-free parsing core 
+
+`26-04-2017 15:16`   `avsm`   mort___ : istr you touched the core last with the big cstruct port... 
+
+`26-04-2017 15:17`   `hannes`   (and I actually have by now an exception-free parser of DNS frames, and a sensible Name.compare) 
+
+`26-04-2017 15:17`   `mort___`   wow, is it that long since anyone touched it? :) 
+
+`26-04-2017 15:17`   `mort___`   maybe 
+
+`26-04-2017 15:17`   `avsm`   it has been some time :-) 
+
+`26-04-2017 15:17`   `avsm`   i can start the build/revdep breakup after we finish the cstruct/cohttp one i think 
+
+`26-04-2017 15:18`   `avsm`   and djs55/magnuss have offered to look at the parsing core after, and I think it could use some AFL magic as well while we're there 
+
+`26-04-2017 15:18`   `avsm`   so now's a good time to chime in on https://github.com/mirage/ocaml-dns/issues/137 with any asks you have 
+
+`26-04-2017 15:18`   `mort___`   hannes: if you already have fixes that would be appropriate to apply, what would be the easiest way to take those in? before or after the breakup avsm suggests? (which i agree is necessary to do) 
+
+`26-04-2017 15:18`   `avsm`   good question...should we apply some emergency fixes? 
+
+`26-04-2017 15:19`   `hannes`   mort___: well, I removed the bits I don't care about. pretty sure there are modules which do not compile anymore 
+
+`26-04-2017 15:19`   `djs55`   The code works pretty well given there are still compliance bugs in it. I'm not sure anything is urgent?perhaps we need to schedule some time to read through the RFCs carefully too and write tests 
+
+`26-04-2017 15:20`   `avsm`   hannes: i'd be surprised if something doesnt actually compile in there -- everything should be a depopt somewhere 
+
+`26-04-2017 15:20`   `avsm`   it's just a maze of optionally activated findlib modules 
+
+`26-04-2017 15:20`   `mort___`   true. maybe better to break it up first and then (carefully? :) replace parsing code with hannes' modern versions? 
+
+`26-04-2017 15:21`   `avsm`   agreed. 
+
+`26-04-2017 15:21`   `hannes`   sorry, I stole pieces of name and packet, and removed the bits I do not need. I might put the code at some point somewhere 
+
+`26-04-2017 15:21`   `avsm`   it's a good chance to look at using angstrom perhaps, and benchmark it+flambda 
+
+`26-04-2017 15:21`   `avsm`   hannes: understood. 
+
+`26-04-2017 15:22`   `avsm`   thomasga: i wonder if some of romaine's experience with git might come in useful here 
+
+`26-04-2017 15:22`   `hannes`   djs55: this depends on the use case -- as mentioned, I implemented a recursive resolver, and run into lots of trouble 
+
+`26-04-2017 15:22`   `avsm`   thomasga: (from the perspective of making a fast parser that's also flambda friendly) 
+
+`26-04-2017 15:23`   `djs55`   I'm personally less interested in performance than correctness (for my use cases) 
+
+`26-04-2017 15:23`   `hannes`   (such as requesting for an a record for ssl.engineering.nyu.edu which returns name in all caps) 
+
+`26-04-2017 15:24`   `rgrinberg`   For something like dns, won't bitstring work better? 
+
+`26-04-2017 15:24`   `avsm`   rgrinberg: ironically, the original version used bitstring 
+
+`26-04-2017 15:24`   `mort___`   i'm not putting bitstring back in :) 
+
+`26-04-2017 15:24`   `mort___`   took it out once, that was enough 
+
+`26-04-2017 15:24`   `djs55`   I think the use of hashtables in the label decompressor is a bit hairy (and independent of cstruct vs bitstring) 
+
+`26-04-2017 15:25`   `mort___`   (istr it wasn't as efficient as expected either, or at least there was some perforamnce surprsie. can't recall…) 
+
+`26-04-2017 15:25`   `mort___`   djs55: agree 
+
+`26-04-2017 15:25`   `rgrinberg`   Interesting. So bitstring is to be avoided or it just didn't fit here? 
+
+`26-04-2017 15:25`   `avsm`   yes the issue with bitstring is manipulating string fragments on the heap (lots of them) 
+
+`26-04-2017 15:25`   `thomasga`   avsm: I don't know anyone called romaine :p 
+
+`26-04-2017 15:25`   `avsm`   and the packets come in as bigarrays 
+
+`26-04-2017 15:25`   `rgrinberg`   dinosaure: ! 
+
+`26-04-2017 15:26`   `thomasga`   non 'e' at the end then :p 
+
+`26-04-2017 15:26`   `hannes`   that's how I do label decompression https://gist.github.com/hannesm/c6392878751bec2e82abe1e58468dcfa 
+
+`26-04-2017 15:26`   `hannes`   less loopy, no hashtables, also allows pointers to Z :) 
+
+`26-04-2017 15:26`   `avsm`   rgrinberg: i think there was a port of bigstring to use cstruct, but then you run into issues if it comes in via two cstructs due to an IP fragment. So I'm wondering if writing a 'cstruct list' parser for Angstrom would be better, as we can then write the DNS parsing in a nice combinator style 
+
+`26-04-2017 15:28`   `djs55`   hannes: looks much nicer to me! 
+
+`26-04-2017 15:28`   `hannes`   as djs mentioned on github, maybe there should be a separate library dealing with Name.t... 
+
+`26-04-2017 15:28`   `mort___`   sheds a tear for the long past feeling of satisfaction achieved when he finally fixed the pointer parsing to always terminate (or so he believes), while also being unable to argue against hannes' code being much nicer 
+
+`26-04-2017 15:29`   `avsm`   Yes I like dsheets' suggestion of minimising the dependency cone of ipaddr, so we just have a dns-name opam package 
+
+`26-04-2017 15:29`   `avsm`   Alright -- lets move discussion of this to the issue and water it with mort___'s tears for his old code: https://github.com/mirage/ocaml-dns/issues/137 
+
+`26-04-2017 15:29`   `hannes`   (oh, sorry, that was sheets) 
+
+`26-04-2017 15:29`   `djs55`   mort__: sorry! I think it's more to do with the age of the code, we've all grown in our OCaml writing skillz (or so I believe) 
+
+`26-04-2017 15:29`   `avsm`   A much quicker one is tcpip: https://github.com/mirage/mirage-tcpip/pull/309 
+
+`26-04-2017 15:30`   `yomimono`   with a bug in the initial patch and several wrong suggestions to fix it I concluded that there should be some tests for this 
+
+`26-04-2017 15:30`   `mato`   (my laptop battery is at 8% and i left my power adapter at the office, so may disappear before the end of the call if it runs out...) 
+
+`26-04-2017 15:30`   `yomimono`   I'm writing them 
+
+`26-04-2017 15:30`   `avsm`   Turns out that all the relevant functions to unbreak the feature are now exposed in Mirage3, specifically IP.mtu (hurrah! thanks yomimono) 
+
+`26-04-2017 15:30`   `hannes`   mort___: it's only because I don't understand this part https://github.com/mirage/ocaml-dns/blob/master/lib/name.ml#L96-L108 
+
+`26-04-2017 15:30`   `mort___`   djs55: no apology required 
+
+`26-04-2017 15:30`   `avsm`   yomimono: thanks, tests useful. 
+
+`26-04-2017 15:30`   `mort___`   :) 
+
+`26-04-2017 15:30`   `avsm`   this tcpip one cropped up for good reasons: with more backends, we are now getting more interesting ethernet interfaces to send traffic over! 
+
+`26-04-2017 15:31`   `hannes`   the TCP-IP issue... I'm curious how nobody else discovered it in a package released since a month... 
+
+`26-04-2017 15:31`   `avsm`   because it doesnt happen on xen, right? 
+
+`26-04-2017 15:31`   `avsm`   only on virtio 
+
+`26-04-2017 15:32`   `yomimono`   `it` being the crash, not the wrong behavior 
+
+`26-04-2017 15:32`   `avsm`   yeah 
+
+`26-04-2017 15:32`   `hannes`   avsm: maybe now its time to look into what mirage-net-xen actually does if it receives a frame > its mtu!? 
+
+`26-04-2017 15:32`   `avsm`   s/mirage-net-xen/xen :-) 
+
+`26-04-2017 15:32`   `hannes`   avsm: well, IIRC mirage-net-xen has page size / 2 for every outgoing frame 
+
+`26-04-2017 15:33`   `djs55`   if the frame makes it to the backend I expect it'll be silently dropped in dom0 
+
+`26-04-2017 15:33`   `avsm`   its up to the linux dom0 bridging stack, as its just a feature flag iirc 
+
+`26-04-2017 15:33`   `hannes`   and I don't remember what it attempts to do with oversized frames 
+
+`26-04-2017 15:34`   `avsm`   yomimono: sounds like you're writing tests so you've got the TCP issue in hand wrt a release? 
+
+`26-04-2017 15:34`   `avsm`   (I'm trying to move onto your agenda item before your battery runs out :-) 
+
+`26-04-2017 15:34`   `yomimono`   avsm: yes. 
+
+`26-04-2017 15:34`   `avsm`   ok! next up: issue runthrough and tagging party on 9 May 2017, time TBA yomimono 
+
+`26-04-2017 15:34`   `avsm`   tell us more! 
+
+`26-04-2017 15:35`   `mato`   yomimono: is this a 3.1 release in disguise? :-) 
+
+`26-04-2017 15:35`   `yomimono`   amirmc and I are giving a MirageOS 3 talk at OSCON and I think it would be nice to clean our house up a bit before we (potentially) have people over 
+
+`26-04-2017 15:35`   `yomimono`   mato: no, when we do a 3.1 release you'll know about it ;) 
+
+`26-04-2017 15:36`   `yomimono`   I'd like to coordinate a time for maintainers to run through issues in the family of repositories we have 
+
+`26-04-2017 15:36`   `hannes`   yomimono: sounds great. should we have some place to collect feature requests (such as "revive freebsd kernel backend" etc., which are filling the github issues?) 
+
+`26-04-2017 15:36`   `avsm`   sounds great to me. could we standardise on our issue labels? 
+
+`26-04-2017 15:36`   `yomimono`   hannes: yes! and I think that place is canopy 
+
+`26-04-2017 15:36`   `yomimono`   I'd like to create a few more homes for things smaller than pioneer projects 
+
+`26-04-2017 15:37`   `yomimono`   small bugfix/feature requests and intermediate ones 
+
+`26-04-2017 15:37`   `amirmc`   +1 for things smaller than pioneer projects 
+
+`26-04-2017 15:37`   `yomimono`   avsm: yes, I'll send out a mailing list message about labels 
+
+`26-04-2017 15:37`   `avsm`   sounds good to me, in my calendar 
+
+`26-04-2017 15:38`   `yomimono`   the reason for a specific date is that it's very easy to put this kind of thing off until later, and I find it useful to have social pressure to do it with others 
+
+`26-04-2017 15:38`   `avsm`   absolutely, and I think it'll relieve a lot of ambient pressure of ancient issues weighing down on our repos 
+
+`26-04-2017 15:38`   `yomimono`   in the absence of others' input about specific timing I'll just announce it at a time that's convenient for CST 
+
+`26-04-2017 15:38`   `yomimono`   er, CDT, sorry, which is UTC-5 
+
+`26-04-2017 15:38`   `avsm`   UK afternoon is good for me 
+
+`26-04-2017 15:38`   `hannes`   it is unlikely I'll have time on 9th -- meeting with justin cappos during that week... but I'll see what I can do 
+
+`26-04-2017 15:39`   `yomimono`   cool, thanks hannes and avsm :) 
+
+`26-04-2017 15:39`   `amirmc`   And it's the day before the talk so there's immediate value for anyone who drop by afterwards — just so you know your efforts matter :) 
+
+`26-04-2017 15:40`   `avsm`   excellent :-) 
+
+`26-04-2017 15:40`   `avsm`   next up is a small procedural thing: https://github.com/mirage/mirage-tcpip/issues/270 rebases the whole repository to restore pre-2012 history 
+
+`26-04-2017 15:41`   `avsm`   if anyone objects, speak up there please. but i'd like to push this one through even if it inconveniences a few PRs, since otherwise we lose history on our contributors 
+
+`26-04-2017 15:41`   `hannes`   is it correct? (as in, the HEAD of it compared to the current HEAD is equal)? 
+
+`26-04-2017 15:42`   `avsm`   thomasga? 
+
+`26-04-2017 15:42`   `avsm`   i havent diffed the two branches personally 
+
+`26-04-2017 15:43`   `avsm`   (Cant do it via git as they have different roots) 
+
+`26-04-2017 15:43`   `yomimono`   it's missing a few recent commits (sorry thomasga) 
+
+`26-04-2017 15:44`   `avsm`   ok, so it's ok after a last `diff` sanity check across both branches i guess 
+
+`26-04-2017 15:44`   `avsm`   Last item: good news on the infrastructure front -- we have more x86 machines and also impending access to ARM64 (96-core packet.net) and POWER (64le/be) thanks to IBM (yay djwillia!) 
+
+`26-04-2017 15:45`   `avsm`   this is in preparation for an overhaul of the OCaml/OPAM infrastructure, particularly with OPAM2 and new features like hannes' conex on the horizon, but it should also be usable by Mirage 
+
+`26-04-2017 15:45`   `hannes`   does mirage run on power? 
+
+`26-04-2017 15:45`   `avsm`   No, but now it can... this is just in time for the ARM64 merge of solo5, so we can CI that as soon it lands 
+
+`26-04-2017 15:46`   `avsm`   OCaml runs on POWER but is struggling with CI, so that's obviously a prerequisite before a Mirage port 
+
+`26-04-2017 15:46`   `avsm`   Not sure how interested djwillia is in a Solo5/Mirage POWER port 
+
+`26-04-2017 15:46`   `avsm`   but we have the machine coming in soon so yay :-) 
+
+`26-04-2017 15:46`   `mato`   This'll be a physical machine somewhere? 
+
+`26-04-2017 15:47`   `avsm`   sort of, it's on an IBM cloud 
+
+`26-04-2017 15:47`   `avsm`   depending on what we need its either physical or a VM 
+
+`26-04-2017 15:47`   `avsm`   but we should get serial 
+
+`26-04-2017 15:47`   `mato`   ack 
+
+`26-04-2017 15:48`   `avsm`   that's pretty much it for the agenda. was there anything else to bring up? 
+
+`26-04-2017 15:48`   `hannes`   oh, related to infrastructure: I went through buerocracy and got an object identifier from IANA registered to Camelus Dromedarius :) 
+
+`26-04-2017 15:48`   `avsm`   ah yes! excellent name... 
+
+`26-04-2017 15:48`   `hannes`   in case someone wants a sub-OID, please let me know 
+
+`26-04-2017 15:49`   `hannes`   (OIDs are used in ASN.1 based data exchanges: SNMP, X.509, LDAP, X.500, ...) 
+
+`26-04-2017 15:49`   `djwillia`   (avsm POWER would be cool - I have no experience with it but people here at IBM say it's an awesome HW platform) 
+
+`26-04-2017 15:49`   `thomasga`   (for the mirage-tcpip rebase, I posted the recipe on the issue: basically I've just changed the first commit in the history to point to the last one on the old branch) 
+
+`26-04-2017 15:50`   `djwillia`   (but they might be biased :) 
+
+`26-04-2017 15:50`   `thomasga`   (so it's easy to redo if some commits are missing) 
+
+`26-04-2017 15:51`   `avsm`   djwillia: we're doing everything to make it easier, but I'm guessing that it'll take someone to drive the final push for a mirage release with POWER to come from IBM or a user 
+
+`26-04-2017 15:51`   `dinosaure`   rgrinberg: hmmhmm ? 
+
+`26-04-2017 15:52`   `avsm`   dinosaure: TL;DR considering using angstrom to rewrite the dns parsing core more safely, and wondering about your experiences with building fast code using it in git; https://github.com/mirage/ocaml-dns/issues/137 
+
+`26-04-2017 15:52`   `hannes`   there's amirmc + yomimono agenda item of talking about mirage at oscon... 
+
+`26-04-2017 15:52`   `dinosaure`   oh ok, I will look :) 
+
+`26-04-2017 15:52`   `avsm`   oops, I didnt refresh. Go ahead amirmc yomimono 
+
+`26-04-2017 15:52`   `amirmc`   I think we already covered it. Spread the love! 
+
+`26-04-2017 15:53`   `yomimono`   does that mean "RT if u agree"? 
+
+`26-04-2017 15:53`   `amirmc`   Something like that. :) 
+
+`26-04-2017 15:53`   `avsm`   i'd just like to say how great yomimono's oreilly profile pic is 
+
+`26-04-2017 15:53`   `yomimono`   hahaha 
+
+`26-04-2017 15:53`   `yomimono`   thanks 
+
+`26-04-2017 15:53`   `amirmc`   Who else has access to the Mirage twitter account? I assume it's cool if I send a tweet from it. 
+
+`26-04-2017 15:54`   `mato`   waves (battery at 3%, need the rest to hibernate...) 
+
+`26-04-2017 15:54`   `yomimono`   later mato! 
+
+`26-04-2017 15:54`   `djwillia`   avsm yomimono: I had to look it up and now I'll have nightmares... I don't remember yomimono having so many eyes... 
+
+`26-04-2017 15:55`   `avsm`   Thanks everyone! That wraps up the week 17 meeting of 2017. May week 18 be kind to you, and see you in week 19. 19 is the fifth happy number and the third happy prime, fwiw 
+
+`26-04-2017 15:55`   `yomimono`   the better to see all things with 
+
+`26-04-2017 15:55`   `yomimono`   avsm: :D 
+
+`26-04-2017 15:55`   `amirmc`   _looks up happy numbers_ 
+
+`26-04-2017 15:56`   `hannes`   avsm: should this infrastructure document you're planning maybe just be a canopy page? 
+
+`26-04-2017 16:06`   `avsm`   hannes: not yet, it has financials in it also so private for now 
+
+`26-04-2017 16:13`   `hannes`   avsm: https://github.com/mirage/ns.mirage.io has a placeholder zone file, and working code (based on mirage-skeleton example) 
+
+

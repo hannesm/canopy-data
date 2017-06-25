@@ -1,0 +1,591 @@
+---
+participants: Drup,Ricarkol,avsm,djs55,dstolfa,kensan,lobo,mato,mort___,talex5,thomasga,yomimono
+author: lobo
+title: Irc discussions from #mirage on 07-06-2017
+tags: irc,log
+---
+`07-06-2017 15:00`   `mort___`   yo! 
+
+`07-06-2017 15:01`   `mato`   waves 
+
+`07-06-2017 15:01`   `lobo`   hi 
+
+`07-06-2017 15:01`   `mort___`   time for the fortnightly meeting. i believe i'm down to try to push an agenda or something :) 
+
+`07-06-2017 15:01`   `kensan`   Hello 
+
+`07-06-2017 15:01`   `mort___`   desperately seeks agenda 
+
+`07-06-2017 15:01`   `yomimono`   hi! 
+
+`07-06-2017 15:01`   `mato`   mort___: I believe there is a template here: https://github.com/mirage/mirage-www/wiki/Call-Agenda 
+
+`07-06-2017 15:02`   `dstolfa`   waves 
+
+`07-06-2017 15:02`   `mort___`   mato: thanks, got it! 
+
+`07-06-2017 15:02`   `mort___`   https://github.com/mirage/mirage-www/wiki/Call-Agenda#7-june-2017 
+
+`07-06-2017 15:02`   `mort___`   if anyone has last minute items, please add now 
+
+`07-06-2017 15:02`   `mort___`   …and if anyone feels disposed towards creating some edited minutes, please do! The Community will Thank You! :) 
+
+`07-06-2017 15:03`   `mort___`   do we do canopy bot currently? if so, could appropriate runes be invoked 'cos i am lame and don't know them 
+
+`07-06-2017 15:03`   `avsm`   nope, whitequark's logs are the new canopy for now :) 
+
+`07-06-2017 15:03`   `dstolfa`   I have an idea I'd like to share, and am kind of curious of the general interest in Mirage for that, but it's low priority so you can take the floor, and when you're done, or in some off-time I can lay it out :) 
+
+`07-06-2017 15:03`   `mato`   canopy bot has been MIA for some time now :-( 
+
+`07-06-2017 15:03`   `avsm`   dstolfa: awesome! 
+
+`07-06-2017 15:04`   `mort___`   dstolfa: yup! added to the end of the agenda 
+
+`07-06-2017 15:04`   `mort___`   mato: aww! :( 
+
+`07-06-2017 15:04`   `mort___`   everyone- right, let's start 
+
+`07-06-2017 15:04`   `mort___`   first up: project updates, solo5 refactor (arm? muenSK?) 
+
+`07-06-2017 15:04`   `mort___`   who's got this— mato? 
+
+`07-06-2017 15:04`   `mato`   yep 
+
+`07-06-2017 15:05`   `mort___`   cool, floor is yours :) 
+
+`07-06-2017 15:05`   `mato`   ok, so, ARM64 Solo5/ukvm port has a PR (https://github.com/Solo5/solo5/pull/193), iterative review is in progress 
+
+`07-06-2017 15:06`   `mato`   the Solo5 + ukvm refactor multiarch/backend has mostly stood up to the introduction to ARM but some quirks still need to be worked on 
+
+`07-06-2017 15:07`   `mato`   I've merged kensan's excellent work on a Muen SK port, next steps are tracked here: 
+
+`07-06-2017 15:07`   `mato`   https://github.com/Solo5/solo5/issues/194 
+
+`07-06-2017 15:07`   `mato`   This has also led me to some long-needed cleanups in the mirage-solo5 mid-layers and OCaml<->C bindings 
+
+`07-06-2017 15:08`   `mort___`   looking very nice! 
+
+`07-06-2017 15:08`   `mato`   So I'm working on tightening the spec of the current Solo5 public APIs (as defined here: 
+
+`07-06-2017 15:08`   `mato`   https://github.com/Solo5/solo5/blob/master/kernel/solo5.h) 
+
+`07-06-2017 15:08`   `avsm`   wow, does the ARM64 solo5 port build if we pin some PRs? or does it need associated ocaml-freestanding work on the libm etc? 
+
+`07-06-2017 15:09`   `mato`   Solo5 builds. Mirage/Solo5 does not, that needs some ocaml-freestanding work (not much) 
+
+`07-06-2017 15:10`   `mort___`   naively pattern matching against gh ids, kensan — anything to add re muenSK? 
+
+`07-06-2017 15:10`   `avsm`   mato: nice! 
+
+`07-06-2017 15:10`   `avsm`   also, what are the chances of getting meunSK into automated CI? 
+
+`07-06-2017 15:10`   `mato`   Re specc'ing the APIs, I will file an issue/PR on Github for this and also a thread on the mirage list. I'm kind of surprised the current mirage-solo5 bindings work at all :) 
+
+`07-06-2017 15:10`   `avsm`   most things never hit the corner cases :-) 
+
+`07-06-2017 15:11`   `mato`   avsm: The Solo5 part of it is already in CI. 
+
+`07-06-2017 15:11`   `kensan`   mort___: Just happy, that the port got merged so smoothly :) What is missing is automated testing as the other platforms (virtio/ukvm). 
+
+`07-06-2017 15:11`   `avsm`   kensan: yeah im wondering how we might deploy an e2e test -- are there other examples of meun apps being tested? 
+
+`07-06-2017 15:11`   `kensan`   avsm: For that I need to build/setup a docker container for building Muen and running it on the Bochs emulator. 
+
+`07-06-2017 15:12`   `kensan`   avsm: Its certainly doable and we want a nice docker setup for upstream too as it provides an easy way to a stable build environment. 
+
+`07-06-2017 15:12`   `mato`   kensan: Given that the bochs emulation is so insanely slow, if there's a chance of getting Muen to boot on new Linux kernels under nested KVM that would be worth getting to work. 
+
+`07-06-2017 15:12`   `kensan`   avsm: The dependencies for Muen are a bit involved. 
+
+`07-06-2017 15:13`   `kensan`   mato: Yeah, we experimented a bit and Muen started up and was running but there are some issues with nested virtualization. 
+
+`07-06-2017 15:13`   `mato`   (aside/FYI) I will be in Zurich for a short trip end of next week, and will be visiting kensan 
+
+`07-06-2017 15:13`   `kensan`   mato: Will have to give it another shot with the latest Linux kernel/KVM combo. 
+
+`07-06-2017 15:14`   `mort___`   ok— is that all on the solo5 refactor? 
+
+`07-06-2017 15:14`   `kensan`   avsm: Can you be more specific re: other examples of Muen apps 
+
+`07-06-2017 15:15`   `mato`   kensan: avsm: I think we can take this OOB to #solo5 slack or elsewhere, so as to not hold up the agenda? 
+
+`07-06-2017 15:15`   `kensan`   avsm: Due to limitations of Bochs everything that needs hardware and acurate time/passing time cannot currently be tested. Maybe this is possible via nested virtualization with KVM. 
+
+`07-06-2017 15:15`   `avsm`   oh i was just wondering what we had to do to setup a runtime of Muen -- ive never done it before 
+
+`07-06-2017 15:16`   `avsm`   can it take it OOB also 
+
+`07-06-2017 15:16`   `kensan`   mato: Ok, sure. 
+
+`07-06-2017 15:16`   `mort___`   ok— muenSK / solo5 being taken offline, solo5/ARM64 work considered to be progressing well 
+
+`07-06-2017 15:16`   `mort___`   moving on— jbuilder ports? avsm? djs55? others? 
+
+`07-06-2017 15:16`   `kensan`   (avsm: See documented steps on project website: https://muen.sk) 
+
+`07-06-2017 15:17`   `dstolfa`   kensan: I like that domain :D 
+
+`07-06-2017 15:17`   `djs55`   I've been going around repos and performing maintenance, adding topkg and jbuilder support 
+
+`07-06-2017 15:17`   `mort___`   I have observed a number of PRs going in with jbuilder-ness in them — I haven't observed showstoppers yet. I think I even saw Lwt get done…? 
+
+`07-06-2017 15:17`   `djs55`   To amortize the cost of doing releases we've been doing other mainenance too 
+
+`07-06-2017 15:18`   `djs55`   for example we've been splitting out optional findlib subpackages into top-level opam packages 
+
+`07-06-2017 15:18`   `avsm`   kensan: thanks; i'll investigate and read up on it 
+
+`07-06-2017 15:18`   `mato`   I've not looked into jbuilder yet for the solo5-related packages; too much other work to do and TBH the current topkg setup works fine. 
+
+`07-06-2017 15:18`   `avsm`   on jbuilder, the active one right now is ocaml-conduit 
+
+`07-06-2017 15:18`   `djs55`   and we've been correcting errors like linking in `cstruct.ppx` (the actual PPX rewrite engine) by accident 
+
+`07-06-2017 15:18`   `mort___`   djs55: cool; are there any best practice docs / examples to point others at to help? 
+
+`07-06-2017 15:18`   `yomimono`   mort: lwt's not done, it has a PR milestoned for 3.1.0 
+
+`07-06-2017 15:18`   `djs55`   https://mirage.io/wiki/packaging — this is the best so far 
+
+`07-06-2017 15:18`   `avsm`   mato: there's one overriding reason to use jbuilder -- you can just git clone multiple repos and `jbuilder build` and `jbuilder runtest` them without mucking around with opam pins 
+
+`07-06-2017 15:19`   `mort___`   djs55: thanks 
+
+`07-06-2017 15:19`   `avsm`   I am tantalisingly close to getting a full build with this opam-free setup; just a few more ports to do (including mirage/mirage which I can have a PR almost ready for) 
+
+`07-06-2017 15:19`   `mort___`   yomimono: ah, sorry 
+
+`07-06-2017 15:19`   `thomasga`   @djs55 @mort___: I have some notes to add to that wiki page, my plan is to find some time to push them before the end of the week 
+
+`07-06-2017 15:19`   `mort___`   thomasga: excellent :) 
+
+`07-06-2017 15:19`   `djs55`   there has been a little bit of breakage here and there because of the findlib -> top-level opam split. The actual jbuilder-ification is fairly simple 
+
+`07-06-2017 15:20`   `thomasga`   yea, jbuilder has found quite a bit of linking issues so far 
+
+`07-06-2017 15:20`   `thomasga`   I guess it's good 
+
+`07-06-2017 15:20`   `thomasga`   (linking issues which were existing before but never exploded … yet) 
+
+`07-06-2017 15:21`   `djs55`   that's true — some things suddenly failed because they didn't declare `lwt.unix` as a dependency I think 
+
+`07-06-2017 15:21`   `avsm`   yeah i am finding a few weird inconsistencies in almost every port i do 
+
+`07-06-2017 15:21`   `djs55`   and certainly linking all the PPX code into unikernels wasn't intended :) 
+
+`07-06-2017 15:21`   `avsm`   mato: i'll take a look at porting the solo5 repos next week probably 
+
+`07-06-2017 15:21`   `avsm`   is the issue with linking ppx into unikernels fixed now? 
+
+`07-06-2017 15:21`   `mort___`   idly muses whether we can claim changing the build system made unikernels smaller 
+
+`07-06-2017 15:22`   `avsm`   mort___: it does, since this also sets us up nicely for the LTO compiler variant. it really benefits from finer dependency control 
+
+`07-06-2017 15:22`   `mort___`   ok— sounds like jbuilder-ification is well underway and generally seems to be a good thing. anything more to say on that? 
+
+`07-06-2017 15:22`   `avsm`   and jbuilder passes in fewer archives to the compiler since it splits things up into more subdirs 
+
+`07-06-2017 15:22`   `mort___`   avsm: well, i suppose we always claimed that the smarts was in the build process… :) 
+
+`07-06-2017 15:23`   `Drup`   (when do we change the mirage tool's generated build system again ? :p) 
+
+`07-06-2017 15:23`   `mort___`   just to be clear— has anyone yet come across a reason that applying jbuilder is *not* the right thing to do? 
+
+`07-06-2017 15:23`   `avsm`   indeed :-) 
+
+`07-06-2017 15:23`   `avsm`   drup: not a huge amount needs to change there, just generating a jbuild file alongside the opam file 
+
+`07-06-2017 15:24`   `avsm`   no blockers to jbuilder for me yet. not tried mirage-xen yet, but mirage-clock and its stubs seem to work 
+
+`07-06-2017 15:24`   `avsm`   the Configurator system is also a lot simpler than the old myocamlbuild.ml files 
+
+`07-06-2017 15:24`   `djs55`   I've found jbuilder very easy to use and it seems to cover all the usual cases AFAICT 
+
+`07-06-2017 15:24`   `mort___`   djs55 avsm: ok. i'll assume silence means there are no others either. excellent! 
+
+`07-06-2017 15:24`   `avsm`   mirage-clock: https://github.com/mirage/mirage-clock/pull/30/files for the curious 
+
+`07-06-2017 15:24`   `mort___`   next up— capnp. that's talex5 i guess? 
+
+`07-06-2017 15:25`   `talex5`   Yes. 
+
+`07-06-2017 15:25`   `mort___`   floor is yours :) 
+
+`07-06-2017 15:25`   `thomasga`   mort___: also on the jbuiler front, integration with `topkg doc` is now working so `topkg publish` will also work and push docs on github-pages 
+
+`07-06-2017 15:25`   `talex5`   Coming along nicely. There's a demo at: https://github.com/talex5/linuxkit/tree/https-unikernel/projects/https-unikernel 
+
+`07-06-2017 15:25`   `thomasga`   (the only remaining issue is lack of top-level index) 
+
+`07-06-2017 15:26`   `talex5`   I'm currently testing interop with Python, and that seems to work too. 
+
+`07-06-2017 15:26`   `mort___`   (thomasga: great; i guess this might be mentioned in your update to the wiki page djs55 pointed at?) 
+
+`07-06-2017 15:26`   `talex5`   But the code is full of TODOs, so be careful! 
+
+`07-06-2017 15:26`   `thomasga`   (yes) 
+
+`07-06-2017 15:26`   `thomasga`   @talex5: can I use capnp in a unikernel? 
+
+`07-06-2017 15:27`   `talex5`   Maybe. If core_kernel works there. 
+
+`07-06-2017 15:27`   `thomasga`   e.g. any unix dependencies? 
+
+`07-06-2017 15:27`   `talex5`   I hope to remove that at some point. 
+
+`07-06-2017 15:27`   `mort___`   talex5: cool 
+
+`07-06-2017 15:27`   `talex5`   You'll need to stop using Lwt_io for the messages, but that's easy. 
+
+`07-06-2017 15:27`   `mort___`   looking at readme, `—http /tmp/http.sock` suggests maybe not? 
+
+`07-06-2017 15:27`   `thomasga`   that would be great :-) I think Base is supposed to work better than Core_kernel without unix and on js 
+
+`07-06-2017 15:27`   `avsm`   to add a little background to capnp: the author has created a new https://github.com/capnproto organisation for all languages to go into, and ocaml is there now thanks to talex5 and the original author 
+
+`07-06-2017 15:28`   `thomasga`   yes, I guess we need to sort out how to pass channels to unikernels too 
+
+`07-06-2017 15:28`   `thomasga`   but that's an other discussion 
+
+`07-06-2017 15:28`   `avsm`   so there's more of a community of implementations there -- and a unikernel backend is just one option as it can be used via Lwt too 
+
+`07-06-2017 15:28`   `talex5`   This is all hugely hacked up for today's demo. Next week I'll start removing the hacks... 
+
+`07-06-2017 15:28`   `mort___`   thomasga: a discussion for another day i think? 
+
+`07-06-2017 15:29`   `mort___`   talex5: heh, cool :) 
+
+`07-06-2017 15:29`   `mort___`   ok— anything else on capnp? 
+
+`07-06-2017 15:29`   `talex5`   Nope. 
+
+`07-06-2017 15:29`   `mort___`   else, next up: irmin and the rest api. thomasga i presume? 
+
+`07-06-2017 15:29`   `mort___`   (talex5: great, good look for demo :) 
+
+`07-06-2017 15:29`   `mort___`   *luck 
+
+`07-06-2017 15:30`   `Drup`   Completely orthogonal question: does the ocaml capnp lib handles reading only partial parts of the serialized data structure ? 
+
+`07-06-2017 15:30`   `avsm`   if anyone wants to watch the demo, it'll be here in 30 minutes online https://forums.mobyproject.org/t/2017-06-07-linuxkit-security-sig-meeting/58 
+
+`07-06-2017 15:30`   `talex5`   Drup: you mean only reading the fields it needs to look at? Yes. 
+
+`07-06-2017 15:31`   `thomasga`   David (@dudelson on GitHub) is working on writing a new high-level REST API for Irmin 
+
+`07-06-2017 15:31`   `thomasga`   https://github.com/mirage/irmin/issues/415 is the main issue 
+
+`07-06-2017 15:31`   `mort___`   (this is outreachy isn't it?) 
+
+`07-06-2017 15:32`   `mort___`   (as in, an outreachy project) 
+
+`07-06-2017 15:32`   `thomasga`   (not sure he's on the channel) 
+
+`07-06-2017 15:32`   `avsm`   GSoC 
+
+`07-06-2017 15:32`   `mort___`   sorry, GSoC 
+
+`07-06-2017 15:32`   `mort___`   yes 
+
+`07-06-2017 15:32`   `avsm`   i think he is probably on the bus back from boston, where there was an ocaml compiler hacking session yesterday https://discuss.ocaml.org/t/ocaml-hacking-session-at-mit-cambridge-us-on-june-6th/334/27 
+
+`07-06-2017 15:33`   `mort___`   great 
+
+`07-06-2017 15:33`   `thomasga`   he has also started to publish plans to document Irmin better: https://github.com/mirage/irmin/issues/451 which is great 
+
+`07-06-2017 15:33`   `thomasga`   anyone wanted to help is welcome :-) 
+
+`07-06-2017 15:33`   `mort___`   double great :) 
+
+`07-06-2017 15:33`   `avsm`   also havent had much feedback on them, but we are continuing to publish datakit weekly dev reports as they asre useful for us -- they are in the reports/ directory of the repo and cover irmin and related filesystem activity as well https://github.com/moby/datakit/blob/master/reports/2017-06-04.md 
+
+`07-06-2017 15:33`   `mort___`   …and, slightly ahead of schedule: next up, dev reports 
+
+`07-06-2017 15:33`   `avsm`   in this age of notifications, git committing our progress seems safest :) 
+
+`07-06-2017 15:33`   `mort___`   (unless more to say on irmin) 
+
+`07-06-2017 15:33`   `thomasga`   also made new release of ocaml-git (0.11), Irmin (1.2.0) and soon datakit. 
+
+`07-06-2017 15:33`   `avsm`   oh sorry, missed that in the agenda mort! 
+
+`07-06-2017 15:34`   `mort___`   thomasga: cool. 
+
+`07-06-2017 15:34`   `thomasga`   sorry, 1.11 for ocaml-git 
+
+`07-06-2017 15:34`   `mort___`   avsm: that's ok, we like keen ;) so— dev reports, can we do mirage? 
+
+`07-06-2017 15:34`   `mort___`   (thomasga: thanks!) 
+
+`07-06-2017 15:35`   `mort___`   possibly there's an implicit, do we want to do mirage there as well? 
+
+`07-06-2017 15:35`   `thomasga`   the new datakit release will be pretty great, as you would be able to have bijective sync between Git and GitHub with one CLI tool, see https://github.com/moby/datakit/pull/587#issuecomment-305491315 
+
+`07-06-2017 15:35`   `thomasga`   (e.g to store issues and other metadata in Git) 
+
+`07-06-2017 15:35`   `avsm`   wow! 
+
+`07-06-2017 15:36`   `mort___`   (y) 
+
+`07-06-2017 15:36`   `avsm`   i'd missed that completely samoht -- very nice, no more daeons needed 
+
+`07-06-2017 15:36`   `thomasga`   yup, all the 9p split mess was to arrive to this :-) 
+
+`07-06-2017 15:36`   `avsm`   makes sense :-) 
+
+`07-06-2017 15:37`   `avsm`   so.... i'm looking for volunteers to help me with mirage reports. While the report generator just about works, I dont have time to maintain linuxkit, datakit, vpnkit *and* mirage reports weekly :-) 
+
+`07-06-2017 15:37`   `mato`   Random question regarding OCaml<->C bindings, before I forget. Who's our resident expert on this? Jeremy? Just thinking of who to ping about reviewing my mirage-solo5 bindings changes. 
+
+`07-06-2017 15:37`   `avsm`   so i am thinking of a mirage dev report every 2 weeks, but it really needs input from the core team to be useful 
+
+`07-06-2017 15:37`   `mort___`   mato: can we hold that for a second just to finish off the agenda please? 
+
+`07-06-2017 15:38`   `mato`   sure 
+
+`07-06-2017 15:38`   `avsm`   i think the dev reports are really useful to grow our community 
+
+`07-06-2017 15:38`   `thomasga`   avsm: I am happy to help reviewing the report 
+
+`07-06-2017 15:38`   `avsm`   but i'm struggling to find anyone else really pushing them out 
+
+`07-06-2017 15:38`   `mort___`   avsm: perhaps worth saying what "help with mirage reports" means in practice? 
+
+`07-06-2017 15:38`   `yomimono`   avsm: it might be useful to point at the tool you use to generate them (hesternus, right?) 
+
+`07-06-2017 15:39`   `thomasga`   I think that means translating: that PR has been merged into a nice sentence which make sense. 
+
+`07-06-2017 15:39`   `avsm`   there is the generation of the reports, which takes some time, but and is quite mechanical (I am fine doing that and automating them) 
+
+`07-06-2017 15:39`   `yomimono`   "assemble a report on activity" sounds hard, but "contribute your human intelligence to this thing a robot did" is easier 
+
+`07-06-2017 15:39`   `avsm`   yeah -- the second half is turning them into a story of the two weeks, and joining up all the multiple PRs into one sentence explaining what it's for 
+
+`07-06-2017 15:39`   `thomasga`   and add the english prose needed to make the report easy to read (instead of just going through a list of items) 
+
+`07-06-2017 15:39`   `avsm`   and what's happening next week and so on 
+
+`07-06-2017 15:40`   `avsm`   I'm not sure what the right answer is here wrt distributing the work, so i'm happy to try doing it myself to start with 
+
+`07-06-2017 15:40`   `thomasga`   and add blog posts, interesting links/talks, etc 
+
+`07-06-2017 15:40`   `avsm`   but i just wanted to be clear that it takes a lot of time, and that i will need help eventually or stop doing them -- so getting critical feedback on them while they happen is useful 
+
+`07-06-2017 15:40`   `mort___`   what tools for doing this — editing a text file and committing it somewhere? editing a wiki? editing a PR? 
+
+`07-06-2017 15:40`   `avsm`   all the dev reports are in the reports/ directory of the relevant repo 
+
+`07-06-2017 15:40`   `avsm`   datakit, vpnkit, hyperkit, and soon mirage/mirage 
+
+`07-06-2017 15:40`   `mort___`   …and the tool is https://github.com/avsm/hesternus, correct? 
+
+`07-06-2017 15:41`   `avsm`   https://github.com/moby/datakit/tree/master/reports 
+
+`07-06-2017 15:41`   `avsm`   yeah but the tool is less important (i still need to upstream various things) 
+
+`07-06-2017 15:41`   `avsm`   its more edits on the resulting text 
+
+`07-06-2017 15:41`   `avsm`   one interesting aspect of this style of reporting is that the reports can be edited any time in the tree 
+
+`07-06-2017 15:41`   `avsm`   so going back and fixing errors and adding clarifications helps newcomers who are browsing them 
+
+`07-06-2017 15:41`   `avsm`   now, these existing reports cover a total of 15 repos 
+
+`07-06-2017 15:42`   `avsm`   but the mirage trove is now *107* repos 
+
+`07-06-2017 15:42`   `thomasga`   yiikes 
+
+`07-06-2017 15:42`   `avsm`   so you can see why i'm reluctant to casually do one :-) 
+
+`07-06-2017 15:42`   `avsm`   but also why i think its very important that we do 
+
+`07-06-2017 15:42`   `thomasga`   I am happy to help review 
+
+`07-06-2017 15:42`   `yomimono`   practically speaking we need at least two people (who don't often go on holiday/to conferences together) to be willing to do this 
+
+`07-06-2017 15:42`   `mort___`   i guess i can chip in too 
+
+`07-06-2017 15:42`   `mort___`   i have never knowingly been on holiday with thomasga 
+
+`07-06-2017 15:42`   `thomasga`   (as it keeps me up-to-date on updates in the MirageOS land) 
+
+`07-06-2017 15:42`   `mato`   so, the reports for X (X = mirage, datakit, ...) are a kind of "(bi)-weekly news" for project X? 
+
+`07-06-2017 15:42`   `avsm`   btw, it's a superb way to keep track of whats going on in general 
+
+`07-06-2017 15:43`   `avsm`   mato: yeah 
+
+`07-06-2017 15:43`   `avsm`   bi-weekly dev news 
+
+`07-06-2017 15:43`   `avsm`   it's been an experiment so far in datakit linuxkit and vpnkit, but i really like it 
+
+`07-06-2017 15:43`   `avsm`   what i'm trying to determine is how useful it is for anyone else :-) 
+
+`07-06-2017 15:43`   `thomasga`   yea me too, these reports are very useful (at least to me :p) 
+
+`07-06-2017 15:43`   `yomimono`   I'm willing to help but my availability in the short term is bad (a few offline holidays coming up) and in the long term is a bit unsure 
+
+`07-06-2017 15:44`   `avsm`   also i think ideally it should be someone who isn't directly maintaining a huge amount of code in the short term, as it just adds workload 
+
+`07-06-2017 15:44`   `avsm`   which is why im happy to do it -- and if mort could help that would be fantastic 
+
+`07-06-2017 15:44`   `avsm`   (i.e. not yomimono mato samoht who are busy hacking) 
+
+`07-06-2017 15:44`   `mort___`   ok— in the interests of moving forwards: the request is there, it'll be a good way to get an overview of the project for anyone who's interested, and thomasga and myself are happy to help out. if anyone else has experience or views on how the existing reports for linuxkit, datakit, vpnkit have been, good or bad, please also feel free to make them known 
+
+`07-06-2017 15:44`   `avsm`   that's a perfect summary, thanks mort :-) 
+
+`07-06-2017 15:45`   `mort___`   but i figure we may end up trying these out for mirage for at least a few times anyway to see whether they seem useful 
+
+`07-06-2017 15:45`   `mort___`   right 
+
+`07-06-2017 15:45`   `mort___`   i think that's done— aob, dstolfa ? 
+
+`07-06-2017 15:45`   `avsm`   also if you are lurking and you *dont* find them useful, thats even more useful to know 
+
+`07-06-2017 15:45`   `dstolfa`   mort___: Sure thing, if all is done :) 
+
+`07-06-2017 15:45`   `mort___`   (yes— all feedback welcome) 
+
+`07-06-2017 15:45`   `mort___`   dstolfa: i believe it is, yes. floor is yours :) 
+
+`07-06-2017 15:46`   `dstolfa`   Right, so, I've been working on using a tracing system (currently DTrace exclusively) to trace VMs in a global state, I've discussed this with you mort___ over Skype and mentioned it here previously. 
+
+`07-06-2017 15:46`   `dstolfa`   So, I was wondering if MirageOS would be interested in support for something like that, so you could trace your unikernels from the host in a global state 
+
+`07-06-2017 15:46`   `mato`   What does "in a global state" mean? 
+
+`07-06-2017 15:46`   `dstolfa`   Of course, DTrace currently acts on CTF, which doesn't support OCaml, but to start, the C bits of Solo5 would be just fine (fbt) 
+
+`07-06-2017 15:47`   `dstolfa`   mato: So, you basically get execution context every time a probe fires and you can conditionally do thnigs 
+
+`07-06-2017 15:47`   `dstolfa`   things* 
+
+`07-06-2017 15:47`   `avsm`   i would really like dtrace probes in ocaml 
+
+`07-06-2017 15:47`   `mort___`   dstolfa: i understood that talex5 trace toolkit produced CTF already...? 
+
+`07-06-2017 15:47`   `dstolfa`   You can modify the VM state, you can conditionally do things to other VMs and so on 
+
+`07-06-2017 15:47`   `dstolfa`   mort___: Oh, wasn't aware :) 
+
+`07-06-2017 15:47`   `avsm`   i took a look at this a while back but all the bindings were quite importable -- freebsd had diverged from osx, and so on 
+
+`07-06-2017 15:47`   `dstolfa`   avsm: Yes, but the providers are generally very similar. 
+
+`07-06-2017 15:47`   `mort___`   (i've had a project student doing some work on magpie-like request extraction and clustering using the tracing output this year) 
+
+`07-06-2017 15:47`   `mort___`   (nearly finished now) 
+
+`07-06-2017 15:48`   `dstolfa`   What would have to be done is you'd have to build a fbt-like utility in Solo5 
+
+`07-06-2017 15:48`   `talex5`   Yes: https://github.com/mirage/mirage-profile produces CTF 
+
+`07-06-2017 15:48`   `dstolfa`   talex5: Awesome :) 
+
+`07-06-2017 15:48`   `dstolfa`   mort___: I believe Lucian was doing something similar to what I am with Xen, but his goal was provenance analysis and kept the state host <-> guest, but not across different guests 
+
+`07-06-2017 15:48`   `thomasga`   it would be great to be able to trace a unikernel :-) Although I know that a blog post is saying that it's not possible :troll: 
+
+`07-06-2017 15:49`   `mort___`   sorry to be naive: fbt = http://dtrace.org/guide/chp-fbt.html 
+
+`07-06-2017 15:49`   `mort___`   thomasga: indeed, motivation comes in many forms 
+
+`07-06-2017 15:49`   `mort___`   ? 
+
+`07-06-2017 15:49`   `dstolfa`   mort___: fbt is basically a DTrace provider that dynamically patches in kernel entry/return points and fires a probe 
+
+`07-06-2017 15:49`   `mort___`   (argh, swap the last two lines) 
+
+`07-06-2017 15:49`   `dstolfa`   In this case, it would be vastly simpler than it is in say, FreeBSD 
+
+`07-06-2017 15:49`   `dstolfa`   Because you could virtualize DTrace (I already have that) 
+
+`07-06-2017 15:49`   `avsm`   hm so we do need to look into how to get ocaml to generate dtrace probes to imprve things a lot 
+
+`07-06-2017 15:49`   `avsm`   i think that would be a nice compiler project 
+
+`07-06-2017 15:50`   `avsm`   but if there's a single place with dtrace interfaces it would be most useful 
+
+`07-06-2017 15:50`   `dstolfa`   In essence, you can pass in virtio-dtrace on the PCI slot and have it act as DTrace 
+
+`07-06-2017 15:50`   `avsm`   i.e. tracking down what freebsd vs osx do here is an exercise in some tedium :-) 
+
+`07-06-2017 15:50`   `dstolfa`   So the guest itself would really just have to interface with that 
+
+`07-06-2017 15:50`   `avsm`   oh nice, a virtio device is a neat trick! 
+
+`07-06-2017 15:51`   `mato`   is also naive about DTrace, what "flows" over that virtio device? 
+
+`07-06-2017 15:51`   `dstolfa`   Basically, the flow takes a "slow" async path through the virtio device in terms of control messages (enable probes, advertise providers/probes and so on), and a fast path with VMCALL/VMMCALL to fire a probe synchronously to keep the execution context 
+
+`07-06-2017 15:51`   `dstolfa`   That way, you can be sure what state you're in and conditionally do other things to other guests 
+
+`07-06-2017 15:52`   `dstolfa`   So you could say, do aggregations across various guests on how many packets they're transmitting 
+
+`07-06-2017 15:52`   `dstolfa`   For MirageOS, this might be interesting because you would gain access to something like DTrace out of the box, without actually having to implement DTrace in the guest and you could trace it just like a container 
+
+`07-06-2017 15:53`   `dstolfa`   Of course, there's overhead, but such is life with hypervisors 
+
+`07-06-2017 15:53`   `mort___`   that sounds like a useful thing. some overhead is always acceptable :) 
+
+`07-06-2017 15:54`   `dstolfa`   Ideally, this would be a more generic thing to support other tracing systems such as eBPF and future ones, so we're not stuck with one tracing system's architecture, but initially it's DTrace-only 
+
+`07-06-2017 15:54`   `mort___`   sounds sensible 
+
+`07-06-2017 15:55`   `dstolfa`   And with unikernels, it would be even easier than say, normal guests 
+
+`07-06-2017 15:55`   `dstolfa`   Because you could load the CTF at bootup time of the unikernel and be sure that no new CTF will pop up 
+
+`07-06-2017 15:55`   `dstolfa`   So you can efficiently maintain CTF containers for data types 
+
+`07-06-2017 15:56`   `mort___`   yes, the implication of static-ness for a dynamic tracing framework seems interesting too 
+
+`07-06-2017 15:57`   `dstolfa`   Either way, for this to work, all that would need to be done is building something that will patch up Solo5 while running and hooking into the virtio device 
+
+`07-06-2017 15:57`   `dstolfa`   Which isn't particularly complex, it's got a couple of control messages with limited control 
+
+`07-06-2017 15:57`   `avsm`   this sounds very sensible to me - is there any integration for non unikernels? 
+
+`07-06-2017 15:58`   `avsm`   this sounds useful for a virtio VM running linux 
+
+`07-06-2017 15:58`   `mort___`   sounds like mato djwillia would be the people to advise on the detail…? 
+
+`07-06-2017 15:58`   `dstolfa`   avsm: Yes, I'm doing this for any type of a guest 
+
+`07-06-2017 15:58`   `mato`   dstolfa: On ukvm there ain't no such thing as virtio, so we'd have to invent a device to run the control messages over. 
+
+`07-06-2017 15:58`   `mort___`   (and ricarkol) 
+
+`07-06-2017 15:58`   `dstolfa`   mato: Right, it's definitely doable. I've added support to the DTrace framework to seamlessly create a device like that 
+
+`07-06-2017 15:58`   `mato`   "device" == communication channel of some description; this is all on the medium/long-term roadmap 
+
+`07-06-2017 15:59`   `mort___`   in the interests of time as we're about to hit the buffers: anyone else got anything to say or do we declare generally enthusiastic support for this fine idea? :) 
+
+`07-06-2017 15:59`   `dstolfa`   The only reason it's a virtio device on my side is because it's easy to program and build asynchronously 
+
+`07-06-2017 15:59`   `avsm`   i'm heading off to sell mirage/solo5 to the linux security community :-) thanks everyone! dstolfa, keen to hear more about this work, and I'd like to get ocaml dtrace support soonish and can look into that 
+
+`07-06-2017 16:00`   `mort___`   ok— thanks everyone! are we done? 
+
+`07-06-2017 16:00`   `thomasga`   I need to run too, thanks all. (and yes, enthusiastic suspport for tracing unikernels) 
+
+`07-06-2017 16:00`   `dstolfa`   That'd be all from me without diving too much into the details of the implementation :) 
+
+`07-06-2017 16:01`   `dstolfa`   mort___: If you'd like to chat more about this, I should be in Cambridge starting 1st of July and onwards 4 years or so :) 
+
+`07-06-2017 16:01`   `mato`   dstolfa: +1 on tracing from me 
+
+`07-06-2017 16:02`   `mort___`   dstolfa: great! yes please :) let's arrange something offline... 
+
+`07-06-2017 16:02`   `Ricarkol`   dstolfa: can you connect over slack please? Have some questions 
+
+`07-06-2017 16:02`   `dstolfa`   mort___: Sure thing. I should be in the computer lab starting 3rd of July to settle in 
+
+`07-06-2017 16:03`   `dstolfa`   Ricarkol: Currently only have a FreeBSD machine in my hands, and I'm not aware of a client 
+
+`07-06-2017 16:03`   `mort___`   ok— official meeting done 
+
+
