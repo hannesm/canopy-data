@@ -1,0 +1,241 @@
+---
+participants: amirmc,avsm,djwillia,djwillia`,mort___,thomasga,yomimono
+author: lobo
+title: Irc discussions from #mirage on 01-03-2017
+tags: irc,log
+---
+`01-03-2017 16:01`   `yomimono`   Hi folks! 
+
+`01-03-2017 16:01`   `djwillia`   hi! 
+
+`01-03-2017 16:01`   `yomimono`   Sorry for the very late announcement, but we'll be having our biweekly catchup right about now. 
+
+`01-03-2017 16:01`   `amirmc`   hi! 
+
+`01-03-2017 16:02`   `yomimono`   If you have items to add to the agenda, or you'd like to have a look, it's at the top of this page: https://github.com/mirage/mirage-www/wiki/Call-Agenda . 
+
+`01-03-2017 16:02`   `yomimono`   We're a bit shorthanded both because of the late announcement, and because many people are traveling today or have just arrived at the hack retreat, so I expect it to be a short catchup :) 
+
+`01-03-2017 16:03`   `yomimono`   first on the agenda -- this is our first catchup since MirageOS 3 was released on Thursday of last week :D 
+
+`01-03-2017 16:03`   `amirmc`   Yay! 
+
+`01-03-2017 16:03`   `yomimono`   as perhaps you have seen from the shiny new /topic ! 
+
+`01-03-2017 16:03`   `yomimono`   thanks a ton, amirmc, for doing the coordination and press work :) 
+
+`01-03-2017 16:04`   `amirmc`   I'm glad it landed in time. :) 
+
+`01-03-2017 16:05`   `yomimono`   we have a few folks going through the new tutorial & building their first Mirage 3 unikernels at the hack retreat :D I expect lots of issues and PRs 
+
+`01-03-2017 16:05`   `avsm`   hello! Sounds like network connectivity is great at the retreat :-) 
+
+`01-03-2017 16:06`   `yomimono`   errrrrrrr 
+
+`01-03-2017 16:06`   `yomimono`   wellllllll 
+
+`01-03-2017 16:06`   `yomimono`   not exactly ;) 
+
+`01-03-2017 16:06`   `yomimono`   but good enough, maybe! 
+
+`01-03-2017 16:07`   `yomimono`   I put an agenda item for hack retreat discussion on the end of the agenda, but the only other item is Irmin 1.0 (yay!) 
+
+`01-03-2017 16:08`   `yomimono`   I don't see samoht here, so I can't congratulate/thank him :( 
+
+`01-03-2017 16:08`   `amirmc`   I added an item, which we can cover before or after the hack retreat 
+
+`01-03-2017 16:09`   `thomasga`   Bonjour! 
+
+`01-03-2017 16:09`   `avsm`   Speak of the unicolonel, and he arrives! 
+
+`01-03-2017 16:09`   `mort___`   . 
+
+`01-03-2017 16:09`   `yomimono`   bonjour, monsieur! 
+
+`01-03-2017 16:10`   `yomimono`   thomasga: I put an agenda item up for Irmin 1.0 - congratulations & thank you :) 
+
+`01-03-2017 16:10`   `thomasga`   Thanks :-) 
+
+`01-03-2017 16:11`   `avsm`   Yes! A huge milestone :-) Also interesting to see KC's ezirmin layer 
+
+`01-03-2017 16:11`   `thomasga`   I am writing a blog post, I have an early draft available somewhere 
+
+`01-03-2017 16:11`   `avsm`   he told me he's going to port it to Irmin 1.0 soon, and he has a bunch of notes on the API that he will mail to the miragos-devel list soon 
+
+`01-03-2017 16:11`   `thomasga`   I am looking for a better running example than "distributed metric collection" 
+
+`01-03-2017 16:11`   `thomasga`   avsm: great! 
+
+`01-03-2017 16:12`   `thomasga`   hopefully he likes it better than the pre-1.0 API 
+
+`01-03-2017 16:12`   `thomasga`   anyone using the new API is welcome to send some feedback. I am pretty ok (and happy) to make a quick 1.1 release with the feedback if needed. 
+
+`01-03-2017 16:13`   `avsm`   yeah, but he ran into a few issues when setting up a large distributed cluster 
+
+`01-03-2017 16:13`   `avsm`   so I guess post-1.0 Irmin will be the multi-host modes :-) 
+
+`01-03-2017 16:14`   `thomasga`   yup, the "distributed" part is not as well tested than the rest 
+
+`01-03-2017 16:14`   `thomasga`   I am really looking forward having a Git server implementation 
+
+`01-03-2017 16:14`   `thomasga`   so we can sort all of this out more easily 
+
+`01-03-2017 16:15`   `thomasga`   Fortunately dinosaure is making a lot of progress :-) 
+
+`01-03-2017 16:16`   `yomimono`   :D 
+
+`01-03-2017 16:16`   `yomimono`   he is hacking hard RIGHT NOW. 
+
+`01-03-2017 16:16`   `avsm`   glad to hear it :-) 
+
+`01-03-2017 16:17`   `yomimono`   everyone OK to move on? 
+
+`01-03-2017 16:17`   `yomimono`   waits for latency bar to drop to 0 
+
+`01-03-2017 16:17`   `avsm`   +1 
+
+`01-03-2017 16:17`   `yomimono`   must be fine! next item is the hack retreat - a bunch of us are here. afaik there's not a dedicated canopy instance like we had last time, but we can try to get one with the mirage 3 patches 
+
+`01-03-2017 16:18`   `yomimono`   a bunch of rad T-shirts just arrived - thanks gemma! :D 
+
+`01-03-2017 16:18`   `yomimono`   thanks again to hannes for organizing. :) 
+
+`01-03-2017 16:19`   `yomimono`   I am done talking now! 
+
+`01-03-2017 16:20`   `avsm`   Would the existing Canopy not work? 
+
+`01-03-2017 16:20`   `avsm`   Or do you need a local one due to latency? 
+
+`01-03-2017 16:20`   `amirmc`   More t-shirts arriving on Friday 
+
+`01-03-2017 16:20`   `yomimono`   Is the existing one running Mirage3 + Irmin1? 
+
+`01-03-2017 16:21`   `avsm`   It would be great if you could capture the early user experiences -- feel free to dump them into emails to me if there's nowhere else to put them :-) 
+
+`01-03-2017 16:21`   `amirmc`   Existing canopy probably isn't on Mirage3 yet 
+
+`01-03-2017 16:21`   `avsm`   Also: if anyone wants to test `opam2 build` that would be awesome 
+
+`01-03-2017 16:21`   `avsm`   yomimono: amirmc: its still on mirage too, but its the live one 
+
+`01-03-2017 16:21`   `avsm`   you should be able to git clone the repo and merge all your stuff in there, and push to live mirage/canopy-data whenever you have net 
+
+`01-03-2017 16:21`   `amirmc`   Support was added though (by thomasga) 
+
+`01-03-2017 16:22`   `yomimono`   Sounds good :D 
+
+`01-03-2017 16:23`   `amirmc`   Last item on the agenda is blog posts. 
+
+`01-03-2017 16:24`   `amirmc`   i.e. who can write some and by when :) 
+
+`01-03-2017 16:25`   `amirmc`   So far we've had content by Hannes, Mindy, and Thomas. Is there anyone else who can write up something related to Mirage 3? 
+
+`01-03-2017 16:25`   `avsm`   I'm working on documenting the CI at the moment so I can hand it off to more people :) 
+
+`01-03-2017 16:25`   `avsm`   so could be a spinoff post about how that works on mirage.io, but am focussing on actual docs content 
+
+`01-03-2017 16:26`   `amirmc`   avsm: docs first makes sense but can we commit to a date for a post? Otherwise this might get forgotten. I tried to make a schedule but it's pretty thin (https://github.com/mirage/mirage-www/issues/513) 
+
+`01-03-2017 16:27`   `avsm`   I can't commit at the moment sadly -- but I'll update the issue when I make progress. I've got a stack of infrastructure work (like fixing up docs.mirage.io) that takes priority at the moment 
+
+`01-03-2017 16:28`   `avsm`   Would be great to see more articles from the newcomers though -- anyone at the retreat who'd be willing to narrate their projects? 
+
+`01-03-2017 16:28`   `amirmc`   If there's anyone else who has things they can write up, please do post on that issue. 
+
+`01-03-2017 16:28`   `amirmc`   Happy to help copy/edit with enough notice (i.e. couple of days). 
+
+`01-03-2017 16:30`   `avsm`   thanks! I'm on a campaign to document the project infrastructure :-) 
+
+`01-03-2017 16:31`   `avsm`   yomimono: the more i think about it, the more a clone of mirage/canopy-data makes sense 
+
+`01-03-2017 16:31`   `avsm`   you dont need an actual live copy of canopy running there 
+
+`01-03-2017 16:32`   `yomimono`   no, what I'm proposing is port canopy to mirage3 + irmin1, host that somewhere else 
+
+`01-03-2017 16:32`   `amirmc`   You should only need to push git logs, right? Unless I misunderstood how canopy works. 
+
+`01-03-2017 16:32`   `yomimono`   the net is fine for stuff like git push/git pull 
+
+`01-03-2017 16:32`   `yomimono`   it's just not great for realtime stuff 
+
+`01-03-2017 16:33`   `avsm`   ah i see -- do you have a machine you can host a git server on? 
+
+`01-03-2017 16:33`   `avsm`   sorry, a canopy/mirage server 
+
+`01-03-2017 16:33`   `yomimono`   can repurpose an aws instance 
+
+`01-03-2017 16:33`   `avsm`   (since you can use the live github.com/mirage/canopy-data for the content) 
+
+`01-03-2017 16:34`   `amirmc`   Is there much work needed for a port? 
+
+`01-03-2017 16:34`   `amirmc`   https://github.com/Engil/Canopy/pull/79 
+
+`01-03-2017 16:34`   `yomimono`   oh, this *is* ported for irmin1 
+
+`01-03-2017 16:34`   `yomimono`   I thought for some reason this was either almost-mirage3 or mirage3 without irmin1 
+
+`01-03-2017 16:34`   `amirmc`   Indeed. So should just need to be built. 
+
+`01-03-2017 16:35`   `amirmc`   And presumably pointed at canopy-data 
+
+`01-03-2017 16:35`   `amirmc`   And run from somewhere 
+
+`01-03-2017 16:35`   `yomimono`   https://github.com/Engil/Canopy/pull/62 should be closed I think 
+
+`01-03-2017 16:36`   `avsm`   closed 
+
+`01-03-2017 16:36`   `yomimono`   thanks :) 
+
+`01-03-2017 16:38`   `yomimono`   I don't have any problem with just replacing canopy.mirage.io with the irmin1 + mirage3 version, but I don't know who's managing that 
+
+`01-03-2017 16:39`   `amirmc`   Replacing would be ideal. 
+
+`01-03-2017 16:39`   `thomasga`   yomimono: the dev version of canopy already works with Irmin1 + mirage3 
+
+`01-03-2017 16:40`   `yomimono`   I clearly know the least about the current state of this of anyone in the conversation, so tell me what to do and I'll do it :) 
+
+`01-03-2017 16:40`   `thomasga`   (and I don't have access to that repo or to the domain name), I think Hannes has all the keys 
+
+`01-03-2017 16:40`   `thomasga`   (or Engil) 
+
+`01-03-2017 16:41`   `amirmc`   I don't think it's hannes :) 
+
+`01-03-2017 16:42`   `amirmc`   I think we're done with the agenda items, right? 
+
+`01-03-2017 16:42`   `yomimono`   thomasga: what's "the dev version"? I don't see any releases or a dev branch? 
+
+`01-03-2017 16:42`   `yomimono`   or is that just master on engil/canopy? 
+
+`01-03-2017 16:42`   `yomimono`   has nothing to add 
+
+`01-03-2017 16:43`   `thomasga`   yes sorry, it's just master 
+
+`01-03-2017 16:44`   `yomimono`   thanks :) 
+
+`01-03-2017 16:45`   `amirmc`   I've gotta go. I'l bring 15 t-shirts with me to Marrakech. I hope people can remember their sizes. 
+
+`01-03-2017 16:45`   `yomimono`   my torso may have changed size since arriving at priscilla ;) 
+
+`01-03-2017 16:46`   `amirmc`   There's probably a joke in here about tagines and 'you are what you eat'. I look forward to joining that club :P 
+
+`01-03-2017 16:47`   `yomimono`   amirmc and anyone else who's still on their way, we look forward to your arrival :) 
+
+`01-03-2017 16:47`   `yomimono`   I think the meeting might be over! 
+
+`01-03-2017 16:48`   `amirmc`   Slightly off-topic question then. How did people get from the airport to the medina and how much didi it cost? 
+
+`01-03-2017 16:49`   `djwillia``   thanks all, have fun at the retreat and sorry to be missing it! 
+
+`01-03-2017 16:49`   `yomimono`   djwillia: we're sorry you're missing it too! :( 
+
+`01-03-2017 16:49`   `yomimono`   amirmc: good price is 70 dirham, but some people have paid 100-150 
+
+`01-03-2017 16:49`   `yomimono`   sorry, those are taxi prices 
+
+`01-03-2017 16:49`   `yomimono`   there's also a bus, which mattg took 
+
+`01-03-2017 16:49`   `yomimono`   talex5 walked and arrived kinda sweaty and possibly dehydrated, can't say I'd recommend it 
+
+`01-03-2017 16:50`   `amirmc`   Useful info, thanks! 
+
+`01-03-2017 16:50`   `amirmc`   bye for now 

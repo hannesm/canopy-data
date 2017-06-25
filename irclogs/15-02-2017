@@ -1,0 +1,333 @@
+---
+participants: amirmc,djs55,djwillia,hannes,lobo,mort___,reynir,seangrove,talex5,thomasga,vbmithr_
+author: lobo
+title: Irc discussions from #mirage on 15-02-2017
+tags: irc,log
+---
+`15-02-2017 15:55`   `thomasga`   hello 
+
+`15-02-2017 15:56`   `reynir`   hello 
+
+`15-02-2017 15:57`   `amirmc`   o/ 
+
+`15-02-2017 16:00`   `thomasga`   meeting starting soon, please update the agenda if you want to discuss about stuff not in there yet 
+
+`15-02-2017 16:00`   `thomasga`   agenda: https://github.com/mirage/mirage-www/wiki/Call-Agenda 
+
+`15-02-2017 16:00`   `thomasga`   logs: https://irclog.whitequark.org/mirage/2017-02-15 
+
+`15-02-2017 16:00`   `reynir`   oh! I always forget the meetings! o/ 
+
+`15-02-2017 16:00`   `vbmithr_`   Hi 
+
+`15-02-2017 16:01`   `djs55`   waves 
+
+`15-02-2017 16:01`   `thomasga`   we are still looking for someone to take "human-readable" notes of this meeting, if you are interested please do :-) (and send me a summary to put online) 
+
+`15-02-2017 16:01`   `thomasga`   Mindy is travelling and asked me to run the meeting 
+
+`15-02-2017 16:01`   `mort___`   . 
+
+`15-02-2017 16:01`   `thomasga`   so let's start! 
+
+`15-02-2017 16:01`   `hannes`   hello! 
+
+`15-02-2017 16:02`   `thomasga`   first item on the agenda (https://irclog.whitequark.org/mirage/2017-02-15) is: hack retreat! 
+
+`15-02-2017 16:02`   `thomasga`   @hannes? 
+
+`15-02-2017 16:02`   `hannes`   it will happen. we're 34ish people right now :) 
+
+`15-02-2017 16:03`   `hannes`   still room for spontaneous guests (up to a certain level) :) 
+
+`15-02-2017 16:03`   `thomasga`   I've read the introduction that people sent on the mailing list, that looks like a pretty nice bunch of people! 
+
+`15-02-2017 16:04`   `hannes`   are there any specific questions? ;) 
+
+`15-02-2017 16:04`   `thomasga`   apparently not :-) 
+
+`15-02-2017 16:04`   `hannes`   I try to prepare some small service doing dhcp and dns using mirageos (and dnsupdate) for running locally :) 
+
+`15-02-2017 16:04`   `thomasga`   do you plan to write blog posts? 
+
+`15-02-2017 16:04`   `thomasga`   using canopy or something else? 
+
+`15-02-2017 16:05`   `hannes`   I hope to also deploy a local git server, with canopy locally and mirrored off-site :) 
+
+`15-02-2017 16:05`   `thomasga`   so that people not at the hackaton can see what is going on? 
+
+`15-02-2017 16:05`   `thomasga`   (like me ? bouhouhou) 
+
+`15-02-2017 16:05`   `hannes`   yes, we will! for sure! :) stay tuned 
+
+`15-02-2017 16:05`   `thomasga`   great! 
+
+`15-02-2017 16:05`   `mort___`   +1 :) 
+
+`15-02-2017 16:06`   `lobo`   hi 
+
+`15-02-2017 16:06`   `hannes`   thomasga: you're really not coming? :( 
+
+`15-02-2017 16:06`   `thomasga`   very low probability. Still not 0, so there is (a little) hope. 
+
+`15-02-2017 16:06`   `hannes`   I'm optimistic! :D (should I just book you some plane tickets? ;) 
+
+`15-02-2017 16:07`   `thomasga`   If nobody has more questions about the hackaton in Marroco, let's pass to the next item: Mirage3! 
+
+`15-02-2017 16:07`   `thomasga`   Mindy is traveling, so she can't do an update. (I believe this meeting will be quick :p) 
+
+`15-02-2017 16:08`   `thomasga`   but the tracking issue for the release is https://github.com/mirage/mirage/issues/592 
+
+`15-02-2017 16:08`   `thomasga`   lots of boxes are ticked 
+
+`15-02-2017 16:09`   `thomasga`   https://github.com/mirage/mirageos-3-beta contains all the tagged packages 
+
+`15-02-2017 16:09`   `hannes`   thomasga: amirmc any news on the press release front? I guess the release is more or less tested now, and djs55 and thomasga busily add irmin+fs packages to the beta repo!? 
+
+`15-02-2017 16:09`   `thomasga`   (which will be released soon) 
+
+`15-02-2017 16:09`   `mort___`   looks like mostly docs, deployable services, performance harness, blog posts / press releases left. 
+
+`15-02-2017 16:09`   `mort___`   are we going to hold the release up on the performance harness? 
+
+`15-02-2017 16:09`   `mort___`   i guess the docs and blog posts are being worked on… ? 
+
+`15-02-2017 16:10`   `thomasga`   I have just added git.1.10.0, and I am planning to add Irmin.1.0.0 in there at one point (hopefully before the end of the week, but everything takes always more time than I expect...) 
+
+`15-02-2017 16:10`   `mort___`   i'll pick up getting mirage-perf working again (had forgotten about that) 
+
+`15-02-2017 16:10`   `djs55`   unfortunately the CI on mirageos-3-beta seems to be out of disk space 
+
+`15-02-2017 16:11`   `hannes`   I don't think performance was a priority item of Mirage3 (though, intuitively it will be faster) ;) 
+
+`15-02-2017 16:11`   `mort___`   intuitive speed— the best kind ;) 
+
+`15-02-2017 16:11`   `thomasga`   djs55: we need to wait for @avsm to come back to fix the CI :-/ we need a more automated solution 
+
+`15-02-2017 16:11`   `thomasga`   Mindy wrote a draft of the release blog post: https://github.com/yomimono/mirage-www/blob/mirageos-3-post/tmpl/blog/mirage-3.0-released.md 
+
+`15-02-2017 16:11`   `thomasga`   feedback welcome 
+
+`15-02-2017 16:12`   `thomasga`   (you can add the feedback on the tracking issue for release, on GitHub mirage#592) 
+
+`15-02-2017 16:13`   `thomasga`   @amirmc: anything to add related to the press release? everything is under control? 
+
+`15-02-2017 16:14`   `thomasga`   hannes: are you still planning to work on the blog post "how MirageOS 3 got smaller and less magical"? 
+
+`15-02-2017 16:14`   `hannes`   thomasga: yes. WIP 
+
+`15-02-2017 16:14`   `hannes`   draft be there at the end of this week 
+
+`15-02-2017 16:14`   `thomasga`   @talex5: any chance that you can pick up the ""error handling in MirageOS" draft RFC into currently-accurate document" task? 
+
+`15-02-2017 16:14`   `seangrove`   Sounds exciting! 
+
+`15-02-2017 16:14`   `thomasga`   otherwise I can try to do it :-) 
+
+`15-02-2017 16:15`   `talex5`   Hmm, well my proposal was for something different. I think we should close that PR. 
+
+`15-02-2017 16:15`   `thomasga`   also, I am planning to write some docs for Irmin 1.0 
+
+`15-02-2017 16:15`   `thomasga`   @talex5: it's probably useful to document a bit more how the error are now handled in Mirage. @djs55 had some related issues with qcow2 
+
+`15-02-2017 16:16`   `thomasga`   but I can try to do it 
+
+`15-02-2017 16:17`   `thomasga`   (I am still reviewing the list of things to do for the release) For the changelogs, I think Mindy has made some toolings, I'll check with her with is the status of that task. 
+
+`15-02-2017 16:17`   `mort___`   my impression from yesterday evening was that she won't directly include teh changelogs in the blog post but will have something that points to the github provided diffs-between-tags 
+
+`15-02-2017 16:18`   `thomasga`   ok 
+
+`15-02-2017 16:18`   `mort___`   (but yes, check with her, she knows :) 
+
+`15-02-2017 16:18`   `thomasga`   @seangrove is there anything that you would like to see for the release? 
+
+`15-02-2017 16:19`   `seangrove`   thomasga: No, we're neck-deep in non-mirage-related stuff right now, so just watching from the sidelines 
+
+`15-02-2017 16:19`   `thomasga`   something that you think will excite potential users? 
+
+`15-02-2017 16:19`   `thomasga`   ok no pb 
+
+`15-02-2017 16:19`   `thomasga`   if you think of anything, please tell us :-) 
+
+`15-02-2017 16:19`   `amirmc`   Sorry, I was afk. Press Release is delayed on getting a date, which means co-ordinating with multiple parties. It's taken a while as there hasn't been a date that works for everyone. I've been chasing it and will let folks know as soon as I have more info. The content of the press release also needs to be reviewed by a bunch of people (e.g. LinuxFoundation, et al). First draft is pretty much ready for that. 
+
+`15-02-2017 16:20`   `thomasga`   should we still decouple the actual opam release and blog post stream and the press release? 
+
+`15-02-2017 16:20`   `thomasga`   (it's probably best, right?) 
+
+`15-02-2017 16:20`   `amirmc`   To summarise, there are two blockers for the Press Release. 1. deciding a date and 2. getting the content approved. I'm working on both. 
+
+`15-02-2017 16:20`   `amirmc`   Blog post pre-empts the press-release. 
+
+`15-02-2017 16:20`   `thomasga`   great, thanks 
+
+`15-02-2017 16:21`   `hannes`   and we plan to have it done before the hack retreat, don't we? 
+
+`15-02-2017 16:21`   `amirmc`   i.e. if a 3.0 post goes out, then no-one will be interested in writing articles about the release. They're kind of coupled. 
+
+`15-02-2017 16:21`   `djwillia`   amirmc: would it be possible for you to share the press release draft at this point? I'd still like to get IBM to make its quote :) 
+
+`15-02-2017 16:21`   `amirmc`   Unless we want to have blog posts about specific features, rather than an overview post. That should be fine. 
+
+`15-02-2017 16:21`   `mort___`   amirmc: ok— so the press release has to come before the blog posts, but the opam releases could trickle out before? 
+
+`15-02-2017 16:22`   `djwillia`   and i feel like i've been neglecting that 
+
+`15-02-2017 16:22`   `amirmc`   djwillia: Yes, I'll share it once I've had various marketing depts sign off on it :) 
+
+`15-02-2017 16:22`   `thomasga`   I am a bit confused with the dependencies between all the releases. It's a bit weird to just release in opam without publishing a blog post. 
+
+`15-02-2017 16:23`   `mort___`   it sounds like we're arguing ourselves to a state where everything is gated on the press release then 
+
+`15-02-2017 16:23`   `thomasga`   so we keep everything in a separate remote until the press release is out? 
+
+`15-02-2017 16:23`   `thomasga`   and no blog post? 
+
+`15-02-2017 16:23`   `mort___`   itym: blog post after press release? 
+
+`15-02-2017 16:24`   `amirmc`   Yes, it would be weird to release that way. We can't release without explain to people what changed. But we can't tell people what changed without pre-empting our own announcement (shrug) 
+
+`15-02-2017 16:24`   `thomasga`   do we really care about the press release? :p 
+
+`15-02-2017 16:24`   `amirmc`   yes 
+
+`15-02-2017 16:24`   `amirmc`   we do 
+
+`15-02-2017 16:24`   `thomasga`   is there any chance that this will happen before the hackaton? 
+
+`15-02-2017 16:24`   `amirmc`   We can still do a chai of posts like we did for 2.0 though. 
+
+`15-02-2017 16:25`   `mort___`   we also care about developer sanity :) so minimising time between packages being ready and release going out would be very useful 
+
+`15-02-2017 16:25`   `amirmc`   It's only the _announcement_ post (i.e. "here's 3.0!") that we shouldn't do. 
+
+`15-02-2017 16:25`   `mort___`   given the many api changes, i'm not sure how many pacakges can be released (and thus blogged about) incrementally 
+
+`15-02-2017 16:25`   `thomasga`   not much 
+
+`15-02-2017 16:25`   `hannes`   amirmc: for me (at least) it would be helpful to have in some issue a proposed timeline (with as precise dates as possible) for the release 
+
+`15-02-2017 16:25`   `amirmc`   They can be blogged about in the context of the beta quite easily. 
+
+`15-02-2017 16:26`   `amirmc`   hannes: I agree. And we keep thinking we had this but dates shift and code wasn't ready. 
+
+`15-02-2017 16:27`   `thomasga`   code is ready now, so we can have a new timeline :-) 
+
+`15-02-2017 16:27`   `hannes`   amirmc: then as soon as you have dates 
+
+`15-02-2017 16:27`   `mort___`   ok. so we start publishing a sequence of blog posts about "Mirage v3 beta components". meanwhile amirmc pushes forwards with the press release and we finally flip the switch in opam and put a summary "we released!" post live when the press release goes out … ? 
+
+`15-02-2017 16:27`   `hannes`   thomasga: I couldn't find the right irmin release to run canopy on mirage3 yet ;P 
+
+`15-02-2017 16:27`   `thomasga`   hum. code is "almost" ready now. 
+
+`15-02-2017 16:28`   `amirmc`   mort___: that would work for me. And means we can link to those posts from the press release itself (which is a nice bonus) 
+
+`15-02-2017 16:28`   `mort___`   thomasga: yes, so we can start blogging it while the PR catches up (and we find remaining bugs, finish updating docs, etc) 
+
+`15-02-2017 16:28`   `hannes`   (as stated above, I'll have the post on less magic and less code ready by the end of this week) 
+
+`15-02-2017 16:28`   `mort___`   amirmc: yes, true 
+
+`15-02-2017 16:28`   `thomasga`   @mort___ @amirmc: as long as the beta doesn't long for 3 months, that looks good :p 
+
+`15-02-2017 16:29`   `mort___`   thomasga: amen to that :) 
+
+`15-02-2017 16:29`   `amirmc`   For an example of how that worked for 2.0, see: http://www.marketwired.com/press-release/xen-project-introduces-new-mirage-os-release-1931602.htm 
+
+`15-02-2017 16:29`   `mort___`   that's what I meant about developer sanity — we don't want things queuing up against the "beta" repos for too long 
+
+`15-02-2017 16:29`   `amirmc`   In that case we'd explicitly planned a blog post series before the release. 
+
+`15-02-2017 16:29`   `mort___`   else people feel compelled to submit issues / PRs against v2 versions 
+
+`15-02-2017 16:30`   `thomasga`   @amirmc: can you sync with Mindy to check how she wants to run things? And try to come up with a timeline? 
+
+`15-02-2017 16:30`   `amirmc`   I want this announcement (and code) to go out as much as everyone else. 
+
+`15-02-2017 16:30`   `amirmc`   mindy's in the loop on all that stuff already :) 
+
+`15-02-2017 16:30`   `mort___`   yup understood :) 
+
+`15-02-2017 16:30`   `mort___`   cool 
+
+`15-02-2017 16:31`   `djs55`   I've been merging v3 things to components master branches for v3 now. This means that it's harder to get stuff to build than it was before (missing remote == odd errors). If it's going to be a while before the official release perhaps we should go round and edit all the READMe files 
+
+`15-02-2017 16:31`   `thomasga`   sure, but it seems that having a timeline and communicating to the team seems to something quite important now :-) 
+
+`15-02-2017 16:31`   `amirmc`   Blockers are as mentioned earlier 1. Dates and 2. Approvals from various parties. :) 
+
+`15-02-2017 16:31`   `amirmc`   Unless we decide not to do a Press Release at all. 
+
+`15-02-2017 16:32`   `mort___`   i think that for graduation from LF it would be nice 
+
+`15-02-2017 16:32`   `amirmc`   That's off the table for now 
+
+`15-02-2017 16:32`   `mort___`   (oh, hadn't realised) 
+
+`15-02-2017 16:32`   `amirmc`   Since no-one really knows what it means :) 
+
+`15-02-2017 16:33`   `mort___`   amirmc: ok, so i guess the question is: how long until you think you can get a date nailed down from the various parties involved? 
+
+`15-02-2017 16:33`   `thomasga`   @amirmc: do you have some estimates for the dates? Is that days/weeks/months? (curious about what to expect here) 
+
+`15-02-2017 16:33`   `mort___`   we can then take a view on whether we can feasibly wait that long given how ready things are 
+
+`15-02-2017 16:34`   `thomasga`   (we might have lost Amir :p) 
+
+`15-02-2017 16:35`   `thomasga`   any other topic to discuss for the release? 
+
+`15-02-2017 16:35`   `amirmc`   I'll work on it and get back to you but the lead time is about a week or two (since people have to co-ordinate with journalists etc). 
+
+`15-02-2017 16:35`   `mort___`   in the meantime, perhaps we start releasing blog posts referring to components for mirage v3 beta 
+
+`15-02-2017 16:35`   `thomasga`   ok great 
+
+`15-02-2017 16:35`   `mort___`   amirmc: that's a week or two until we have a date, which may be some weeks later? 
+
+`15-02-2017 16:37`   `amirmc`   mort__: It's a minimum amount of time required. i.e. if dates were not a blocker, we could do it in a week or so. 
+
+`15-02-2017 16:37`   `mort___`   ok cool 
+
+`15-02-2017 16:37`   `thomasga`   last item in our agenda: progress on Irmin 1.0. 
+
+`15-02-2017 16:38`   `thomasga`   I am planning to merge https://github.com/mirage/irmin/pull/397 very soon 
+
+`15-02-2017 16:38`   `amirmc`   Let me know if there are points I've not covered. I've been trying to read and type at the same time but I probably missed stuff. 
+
+`15-02-2017 16:38`   `thomasga`   I have made a new release of ocaml-git (where references can be updated using test-and-set) and with better windows support. 
+
+`15-02-2017 16:39`   `amirmc`   thomasga: The folks at Ericsson have been using Irmin a lot (v0.11 I believe). Any tips on how to move to the newer version (before release) would be helpful :) 
+
+`15-02-2017 16:39`   `thomasga`   I will try to address/close the issues labeled with 1.0 on irmin bug tracker: https://github.com/mirage/irmin/labels/1.0 
+
+`15-02-2017 16:39`   `thomasga`   @amirmc: yes, I am planning to write docs 
+
+`15-02-2017 16:40`   `thomasga`   but I am focusing first of rewriting everything :-) 
+
+`15-02-2017 16:40`   `mort___`   thomasga: everything is … everything ;) is there anything that would benefit from wider testing? 
+
+`15-02-2017 16:40`   `thomasga`   and I will try to update canopy too 
+
+`15-02-2017 16:41`   `mort___`   (ie., where you don't already need to know irmin :)) 
+
+`15-02-2017 16:42`   `thomasga`   the test suite is pretty complete, so I think that should be ok. I know the Git push/fetch protocol has some issues, this is *not* addressed in that release 
+
+`15-02-2017 16:42`   `mort___`   ok cool 
+
+`15-02-2017 16:42`   `hannes`   will finally release -- after ~10 rewrites -- conex -- this week! http://berlin.ccc.de/~hannes/conex.png :D 
+
+`15-02-2017 16:42`   `thomasga`   but I hope @dinosaure will fix all the issues related to push/fetch 
+
+`15-02-2017 16:43`   `mort___`   hannes: yay! thomasga: yes! 
+
+`15-02-2017 16:43`   `thomasga`   anything else to discuss? 
+
+`15-02-2017 16:44`   `thomasga`   if not, I call the end of that meeting! Merci everyone 
+
+`15-02-2017 16:44`   `mort___`   au revoir! 
+
+`15-02-2017 16:44`   `thomasga`   meeting notes: https://irclog.whitequark.org/mirage/2017-02-15 
+
+`15-02-2017 16:44`   `djwillia`   thanks all! 

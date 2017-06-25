@@ -1,0 +1,195 @@
+---
+participants: Drup,amirmc,djwillia,dudelson,hannes,mort___,talex5,thomasga,yomimono
+author: lobo
+title: Irc discussions from #mirage on 15-03-2017
+tags: irc,log
+---
+`15-03-2017 16:02`   `yomimono`   it's 16.00 UTC and it's been 2 weeks since our last catchup! must be time for another one. 
+
+`15-03-2017 16:02`   `mort___`   . 
+
+`15-03-2017 16:02`   `amirmc`   o/ 
+
+`15-03-2017 16:02`   `thomasga`   \~o~/ 
+
+`15-03-2017 16:03`   `djwillia`   hi all! how was the retreat? 
+
+`15-03-2017 16:03`   `yomimono`   so sunny :D 
+
+`15-03-2017 16:03`   `yomimono`   and so pull-request-ful :D 
+
+`15-03-2017 16:03`   `yomimono`   insufficient djwillias though :( 
+
+`15-03-2017 16:03`   `amirmc`   Indeed. 
+
+`15-03-2017 16:04`   `yomimono`   in fact, first item on the agenda over at https://github.com/mirage/mirage-www is thanking hannes for organizing it :D 
+
+`15-03-2017 16:04`   `yomimono`   stands up and applauds loudly 
+
+`15-03-2017 16:05`   `mort___`   +1 to that 
+
+`15-03-2017 16:06`   `yomimono`   we had a few asks from hannes during the hack retreat that are lingering: a request that people write up their experiences, and a request for folks to exchange keys for for conex 
+
+`15-03-2017 16:06`   `yomimono`   I haven't done either of those things D: but I hope to do both of them soon. 
+
+`15-03-2017 16:07`   `amirmc`   +1 to write ups. It would be great to get something up on the website :) 
+
+`15-03-2017 16:10`   `yomimono`   sounds like not much more to say about that? 
+
+`15-03-2017 16:10`   `djwillia`   hannes sent me a mail saying the next one is in the works? 
+
+`15-03-2017 16:10`   `djwillia`   for the end of November? 
+
+`15-03-2017 16:10`   `yomimono`   yes! the hostel in marrakesh is reserved for early December/end of November 
+
+`15-03-2017 16:11`   `yomimono`   I don't recall the exact dates, but I expect hannes will send mail once it's sufficiently confirmed 
+
+`15-03-2017 16:12`   `yomimono`   other questions/comments? 
+
+`15-03-2017 16:13`   `yomimono`   hearing none! I stuck an agenda item up for some releases I did early this week: mirage 3.0.1 (and 3.0.2 with a better color fix), also tcpip 3.1.0 
+
+`15-03-2017 16:14`   `yomimono`   all contain a lot of work from the hack retreat and I was delighted to note new names in the changelogs :D 
+
+`15-03-2017 16:14`   `talex5`   Great! These will simplify the installation of mirage-firewall nicely :-) 
+
+`15-03-2017 16:14`   `yomimono`   djs55: tcpip 3.1.0 contains your mtu changes, notably 
+
+`15-03-2017 16:16`   `yomimono`   we should release mirage-nat and mirage-firewall soon as well, which got a lot of hack retreat work 
+
+`15-03-2017 16:17`   `yomimono`   if anyone else has major work in the pipeline which they expect to see released soon, please shout :) 
+
+`15-03-2017 16:18`   `yomimono`   ...moving on then ;) 
+
+`15-03-2017 16:18`   `yomimono`   we've gotten a lot of GSoC interest on the mailing list lately 
+
+`15-03-2017 16:19`   `yomimono`   I'd appreciate a bit of attention to the items at http://canopy.mirage.io/tags/help%20needed (source at https://github.com/mirage/canopy-data) 
+
+`15-03-2017 16:19`   `yomimono`   particularly if you have smaller wishlist stuff 
+
+`15-03-2017 16:19`   `yomimono`   or if you have grand plans for which you require assistance! 
+
+`15-03-2017 16:20`   `amirmc`   Also if you can no longer act as mentor right now. We should try to keep that list fresh for folks who are browsing for projects :) 
+
+`15-03-2017 16:21`   `Drup`   I should really freshen up the stuff I wanted to post on functoria 
+
+`15-03-2017 16:21`   `amirmc`   Drup Yes, please! 
+
+`15-03-2017 16:23`   `amirmc`   Druo: D'you have anything written up anywhere public? I don't see any functoria items in the current list. 
+
+`15-03-2017 16:24`   `Drup`   There is an thread on the mailing list 
+
+`15-03-2017 16:24`   `Drup`   Where I detail things a bit. It seemed like anil wanted to rework things a bit. The process to add projects was not extremly clear, and I got busy with other things 
+
+`15-03-2017 16:26`   `yomimono`   the canopy maintenance mentioned last meeting is still an issue, as far as I know 
+
+`15-03-2017 16:27`   `yomimono`   I haven't had time to invest in that bit of infrastructure this week and don't think I will in the next few :( 
+
+`15-03-2017 16:28`   `Drup`   amirmc: the name of the thread is "Pioneer project propositions" 
+
+`15-03-2017 16:28`   `amirmc`   As a side-note, I'm curious about adding a project to re-do how we manage such projects. Basically, each project would be a GitHub Issue (tagged appropriately) and we'd generate a page based on those issues. It'd need tooling but would be more generally useful. Old issue is at: https://github.com/Unikernel-Systems/unikernel.org/issues/30 
+
+`15-03-2017 16:29`   `amirmc`   Drup: That'd be this thread then (for the sake of the IRC logs). https://lists.xenproject.org/archives/html/mirageos-devel/2016-08/msg00015.html 
+
+`15-03-2017 16:31`   `dudelson`   From a GSoC applicant's perspective, I think using github issues would be very convenient 
+
+`15-03-2017 16:31`   `dudelson`   that way we could have a thread where we could ask for clarification on the projects, etc. 
+
+`15-03-2017 16:31`   `amirmc`   Indeed. You get a number of benefits, including a (kind of) ready-made mailing list 
+
+`15-03-2017 16:32`   `amirmc`   It's also a lot clearer what progress has been made on a given project and if anyone is already working on it (e.g. via assigning it) 
+
+`15-03-2017 16:32`   `Drup`   Yeah, I think it would be better to just list all the issues that are tagged "junior job" or something like that 
+
+`15-03-2017 16:32`   `dudelson`   also being able to cross-reference other tickets nicely 
+
+`15-03-2017 16:33`   `amirmc`   I dislike the term 'junior' but in principle, yes it would make things a lot easier. 
+
+`15-03-2017 16:33`   `amirmc`   It's a project itself to build the tooling though. We still need an aggregate view for applicants to look through. 
+
+`15-03-2017 16:34`   `amirmc`   Those issues would be across multiple repos too. 
+
+`15-03-2017 16:34`   `amirmc`   Any takers? ;) 
+
+`15-03-2017 16:35`   `yomimono`   rudenoise's dashboard would be a reasonable starting point for that project 
+
+`15-03-2017 16:35`   `dudelson`   Please correct me if I'm wrong, but that tooling would also enable you to generate a page of "mirage starters", right? 
+
+`15-03-2017 16:35`   `dudelson`   Since I'm new to the project I wanted an easy ticket so I could get familiar with the codebase 
+
+`15-03-2017 16:35`   `amirmc`   dudelson: What does 'mirage starters' mean? 
+
+`15-03-2017 16:36`   `amirmc`   dudelson: Oh, I see what you mean 
+
+`15-03-2017 16:37`   `yomimono`   dudelson: that would be part of the goal, yeah 
+
+`15-03-2017 16:38`   `amirmc`   My guess is that 'getting familiar' might itself be repo-dependent. :) 
+
+`15-03-2017 16:40`   `amirmc`   Anyway, I'm happy to help anyone who' like to tackle a project to redo how we manage the pioneer projects. It'd likely involve using the github libs (and that's assuming those libs and the API provide enough of what we need). 
+
+`15-03-2017 16:41`   `yomimono`   that's great amirmc :) we should make an addition to canopy-data for that! 
+
+`15-03-2017 16:41`   `amirmc`   I'll write something up and add it later today. 
+
+`15-03-2017 16:42`   `yomimono`   awesome! thank you! 
+
+`15-03-2017 16:42`   `yomimono`   if there are no more words on that... 
+
+`15-03-2017 16:43`   `yomimono`   ...last item is "MeetBot, can someone set this up?" which would require me to say "any last words" less frequently 
+
+`15-03-2017 16:43`   `yomimono`   there has been a TODO for this on the call agenda wiki for quite some time. 
+
+`15-03-2017 16:44`   `yomimono`   info on MeetBot is linked there to https://wiki.debian.org/MeetBot . 
+
+`15-03-2017 16:44`   `amirmc`   And an example of the output it can generate is at http://meetbot.debian.net/debconf-team/2017/debconf-team.2017-01-16-15.33.html 
+
+`15-03-2017 16:46`   `amirmc`   It needs someone to set it up so we can start using it. I notice that our own camelbot isn't pushing logs anymore so we're directing people to logs that someone just happens to be keeping :) 
+
+`15-03-2017 16:46`   `yomimono`   yes, the log situation has gotten even more dire recently; previously we had the raw meeting logs and now the best I can link to is the entire day's traffic :( 
+
+`15-03-2017 16:46`   `yomimono`   gjaldon's summary of the last-but-one meeting was great but requires some manual labor and doesn't seem too sustainable 
+
+`15-03-2017 16:47`   `yomimono`   I can't commit to having it ready for the next meeting in two weeks, but I can at least give it a shot since it seems there's no extremely-keen volunteer 
+
+`15-03-2017 16:47`   `yomimono`   best-effort bot delivery, I guess. 
+
+`15-03-2017 16:48`   `hannes`   morning 
+
+`15-03-2017 16:48`   `hannes`   (sorry, was in a meeting till now) 
+
+`15-03-2017 16:48`   `yomimono`   o hai! 
+
+`15-03-2017 16:48`   `amirmc`   Thanks yomimono :) 
+
+`15-03-2017 16:48`   `yomimono`   we were just moving on to the final item: GSoC/Outreachy candidates 
+
+`15-03-2017 16:48`   `hannes`   [the mail was already sent, the dates are there: 29th nov - 6th dec] 
+
+`15-03-2017 16:49`   `yomimono`   aha, thanks! 
+
+`15-03-2017 16:49`   `amirmc`   That final item was me just checking that the candidates had received responses, to see where things stood, and also figure out how many we have interested. 
+
+`15-03-2017 16:50`   `yomimono`   I've counted 3 interested GSoC students from the mailing list so far. I haven't heard from anyone directly about this Outreachy round yet. 
+
+`15-03-2017 16:51`   `yomimono`   FWIW if anyone has questions about either program, lars_kurth and I are co-administrators. If you see anyone who's asked a question that's gone unanswered, feel free to nudge or cc me. 
+
+`15-03-2017 16:52`   `yomimono`   If you have questions that you'd like to ask more privately, please also feel free to contact me - I was also an Outreachy participant with Mirage/Xen in 2014. 
+
+`15-03-2017 16:52`   `yomimono`   (I can't speak for the GSoC student experience directly, unfortunately.) 
+
+`15-03-2017 16:53`   `amirmc`   I guess that was the last item then? 
+
+`15-03-2017 16:53`   `yomimono`   refreshes wiki page 
+
+`15-03-2017 16:53`   `yomimono`   so it would appear! any other business? 
+
+`15-03-2017 16:54`   `yomimono`   HEARING NONE 
+
+`15-03-2017 16:54`   `yomimono`   pounds gavel 
+
+`15-03-2017 16:55`   `hannes`   just has to thank everyone participating the retreat. 
+
+`15-03-2017 16:56`   `hannes`   (was overwhelmed to see so many nice people working on various topics, and opening so many PRs) 
+
+`15-03-2017 16:56`   `amirmc`   *thanks hannes/hana for setting it all up* 
+
+`15-03-2017 16:57`   `yomimono`   +100 

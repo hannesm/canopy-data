@@ -1,0 +1,331 @@
+---
+participants: Drup,amirmc,avsm,demonimin,djwillia,gemmag,hannes,lobo,mato,reynir,rgrinberg,talex5,thomasga,yomimono
+author: lobo
+title: Irc discussions from #mirage on 29-03-2017
+tags: irc,log
+---
+`29-03-2017 15:01`   `yomimono`   hi folks! 
+
+`29-03-2017 15:01`   `mato`   hey ho 
+
+`29-03-2017 15:01`   `thomasga`   \o/ 
+
+`29-03-2017 15:01`   `yomimono`   it having been two weeks (give or take a couple hours) since our last biweekly (fortnightly) catchup, we should probably have another one 
+
+`29-03-2017 15:01`   `reynir`   o/ 
+
+`29-03-2017 15:01`   `lobo`   hi 
+
+`29-03-2017 15:02`   `amirmc`   . 
+
+`29-03-2017 15:02`   `yomimono`   as usual the agenda is at https://github.com/mirage/mirage-www/wiki/Call-Agenda 
+
+`29-03-2017 15:02`   `yomimono`   it's rather short this week but the first item will probably get a lot of discussion :) 
+
+`29-03-2017 15:03`   `yomimono`   said item: Build system RFC (see [mirage/mirage#818](https://github.com/mirage/mirage/issues/818) and the [email thread](https://lists.xenproject.org/archives/html/mirageos-devel/2017-03/msg00035.html)) 
+
+`29-03-2017 15:04`   `hannes`   what is the purpose of that agenda item? collecting random comments + opinions about jbuilder here? or anything in particular? 
+
+`29-03-2017 15:05`   `yomimono`   I was just looking at the page history wondering who should be talking now ;) 
+
+`29-03-2017 15:05`   `yomimono`   so it looks like amirmc added this agenda item a while ago, is he here? 
+
+`29-03-2017 15:05`   `yomimono`   oh, you've just said ., you definitely are 
+
+`29-03-2017 15:05`   `reynir`   Yes, <5 minutes ago 
+
+`29-03-2017 15:05`   `amirmc`   I added after avsm mentioned on the email list. I figured it might be worth talking about now., so it was meant as a reminder. 
+
+`29-03-2017 15:06`   `amirmc`   If there are no comments, or things to chat about synchronously, then we can keep it on the issue. 
+
+`29-03-2017 15:06`   `yomimono`   well, my question about this is whether anyone has taken the time to follow hannes and talex5's advice on how to proceed with evaluating jbuilder 
+
+`29-03-2017 15:06`   `demonimin`   I use ppx.lwt currently, hopefully that will get ported 
+
+`29-03-2017 15:07`   `yomimono`   namely "lease try some difficult packages first -- i.e. those which need C libraries to be compiled for multiple targets" 
+
+`29-03-2017 15:08`   `mato`   I agree with hannes' assessment. 
+
+`29-03-2017 15:08`   `hannes`   other issues include: how to execute (depopt) tests? how to build docs? how to release packages with jbuilder (is sth like topkg lint fulfilled by construction?)? 
+
+`29-03-2017 15:08`   `thomasga`   I have been trying jbuilder a bit and it is *very* fast 
+
+`29-03-2017 15:09`   `Drup`   Contributions to lwt are welcome. 
+
+`29-03-2017 15:09`   `thomasga`   but I really don't want to regress on the publishing workflow that we have with topkg 
+
+`29-03-2017 15:09`   `hannes`   and - keeping moving parts low - maybe someone should finish the topkg ports first? maybe someone can come up with a topkg which calls out to jbuilder instead of ocamlbuild (it seems avsm doesn't think this is a good idea) 
+
+`29-03-2017 15:09`   `mato`   hannes: +1 
+
+`29-03-2017 15:10`   `yomimono`   yes, I would really hate to lose the workflow automation of topkg 
+
+`29-03-2017 15:10`   `thomasga`   for me that's the only blocker, until then I am pretty happy to continue experimenting 
+
+`29-03-2017 15:10`   `yomimono`   I don't think it's sensible to take an approach that regresses there 
+
+`29-03-2017 15:10`   `hannes`   don't get me wrong -- I'd really love to get rid of ocamlbuild, and jbuilder looks promising 
+
+`29-03-2017 15:10`   `rgrinberg`   sounds like we should wait until topkg + jbuilder is ready then. Although I don't know how that would look like 
+
+`29-03-2017 15:10`   `rgrinberg`   Did daniel say something about supporting jbuilder in topkg? 
+
+`29-03-2017 15:11`   `Drup`   he will not do it himself 
+
+`29-03-2017 15:11`   `thomasga`   yes, he said he was happy to relicense some bits of code if it helps 
+
+`29-03-2017 15:11`   `rgrinberg`   hannes: the question about depopts is easy in your situation. You should get rid of them and have proper sub packages. 
+
+`29-03-2017 15:11`   `yomimono`   https://github.com/mirage/mirage/issues/818#issuecomment-288704645, "I think it would be much more productive that jbuilder provides a topkg-like release workflow by itself" 
+
+`29-03-2017 15:11`   `thomasga`   and that someone should copy/paste the bits of code needed inside jbuilder 
+
+`29-03-2017 15:11`   `demonimin`   as I understand it, daniel wanted jbuilder to present the same api as topkg for use in opam 
+
+`29-03-2017 15:13`   `thomasga`   topkg works by calling the build system with a list of targets 
+
+`29-03-2017 15:13`   `thomasga`   which are the one the package wants to install 
+
+`29-03-2017 15:13`   `thomasga`   I guess `jbuilder build <the list of targets>` should work 
+
+`29-03-2017 15:13`   `hannes`   rgrinberg: let me rephrase this, you mean the solution is to always have a 1:1 correspondence of opam and ocamlfind packages? and never have some foo.bar package? 
+
+`29-03-2017 15:13`   `thomasga`   and yes, I tend to agree about removing depopts 
+
+`29-03-2017 15:14`   `thomasga`   (when possible) 
+
+`29-03-2017 15:14`   `rgrinberg`   never is a strong word. but a strong preference against depopts is what we'd wnt 
+
+`29-03-2017 15:14`   `thomasga`   a "a 1:1 correspondence of opam and ocamlfind packages" seems like a good idea too 
+
+`29-03-2017 15:14`   `thomasga`   (e.g. less names) 
+
+`29-03-2017 15:15`   `hannes`   then I'd expect someone to clean up e.g. tcpip using jbuilder as a PoC... and maybe also enlighten people on how to relese multiple packages out of a single repository at once.. 
+
+`29-03-2017 15:16`   `thomasga`   @hannes: for the multi-pacakges per repo, see https://github.com/mirage/irmin/blob/master/Makefile#L38 
+
+`29-03-2017 15:16`   `hannes`   (I agree that a 1:1 opam to ocamlfind is a good idea) 
+
+`29-03-2017 15:16`   `hannes`   thomasga: no jbuilder in there afaics 
+
+`29-03-2017 15:18`   `thomasga`   ha ok. So let me rephrase my position: until we have the same workflow as we have today with topkg, I think it is very unwise to switch the mirage packages to jbuilder. 
+
+`29-03-2017 15:18`   `thomasga`   I think we all agree here 
+
+`29-03-2017 15:18`   `thomasga`   (e.g. Mirage3 without topkg would have been a nightmare to manage) 
+
+`29-03-2017 15:19`   `rgrinberg`   that's b/c ya'll have 50 repos ;) 
+
+`29-03-2017 15:19`   `thomasga`   :-) 
+
+`29-03-2017 15:19`   `rgrinberg`   thomasga: are you convinced by daniel's assesment that jbuilder should reimplement the parts of topkg that it is missing? 
+
+`29-03-2017 15:19`   `hannes`   thomasga: well... this raises two questions: what are the mirage packages? are these PRs on various repos about jbuilder getting merged? 
+
+`29-03-2017 15:20`   `thomasga`   @hannes: as far as I know only the _oasis repos are getting relifted with jbuildee 
+
+`29-03-2017 15:20`   `thomasga`   I'd say: oasis < jbuilder < topkg 
+
+`29-03-2017 15:20`   `thomasga`   (today) 
+
+`29-03-2017 15:20`   `rgrinberg`   hannes: some packages have never been topkg'd in the first place. Also for packages that strongly rely on depopts today, I believe that splitting them into proper opam sub packages is more important than a smooth release process. 
+
+`29-03-2017 15:21`   `thomasga`   rgrinberg: I am not sure how to merge topkg and jbuilder features, but I would trust Daniel on this one 
+
+`29-03-2017 15:21`   `thomasga`   I think he said someone should just "vendor" topkg inside jbuilder 
+
+`29-03-2017 15:22`   `hannes`   rgrinberg: counterarguments include https://github.com/mirage/ocaml-uri/pull/100 https://github.com/mirage/ocaml-ipaddr/pull/64 
+
+`29-03-2017 15:22`   `talex5`   I think the problem is that there is quite a lot of overlap between topkg (which creates an opam .install file) and jbuilder (which does too, as I understand it). 
+
+`29-03-2017 15:22`   `rgrinberg`   hannes: those don't have depopts 
+
+`29-03-2017 15:22`   `rgrinberg`   so the gain from jbuilder is marginal 
+
+`29-03-2017 15:23`   `Drup`   I think packages such as lwt are a better targets 
+
+`29-03-2017 15:23`   `thomasga`   agreed 
+
+`29-03-2017 15:23`   `talex5`   So topkg+jbuilder would result in duplication of some metadata. 
+
+`29-03-2017 15:23`   `hannes`   rgrinberg: yes, they're (against your statement earlier) moving some topkg'ed package to jbuilder... 
+
+`29-03-2017 15:23`   `thomasga`   talex5: clearly need to sort that kind of overlap too 
+
+`29-03-2017 15:23`   `Drup`   big, multiple sub packages, C bindings, ppx and camlp4, currently uses oasis 
+
+`29-03-2017 15:24`   `rgrinberg`   talex5: the overlap is as follows AFAIK: generation of .merlin, pkg.install, and META files. All of those things should clearly be done by jbuilder though 
+
+`29-03-2017 15:24`   `Drup`   If someone (aka rgrinberg) can converts that and make a guide, lot's of packages can be converted 
+
+`29-03-2017 15:24`   `rgrinberg`   hannes: i might have misspoke, I think transitioning to jbuilder from topkg only makes sense if your package suffers from depopts 
+
+`29-03-2017 15:25`   `thomasga`   btw, I have a repo with multiple packages, C bindings, tests and jbuilder work great 
+
+`29-03-2017 15:25`   `Drup`   (and it'll polish about the initial rough edges to make everything fit) 
+
+`29-03-2017 15:25`   `talex5`   Yes, so the ideal system would be jbuilder + something for handling releases (possibly based on topkg's release system). 
+
+`29-03-2017 15:25`   `Drup`   -about 
+
+`29-03-2017 15:25`   `thomasga`   but I will need to publish some packages at one point :p 
+
+`29-03-2017 15:25`   `hannes`   thomasga: including multiple targets/crosscompilation for the C artifacts? 
+
+`29-03-2017 15:25`   `yomimono`   good point about lwt, Drup, wihch I don't want to see get lost 
+
+`29-03-2017 15:26`   `thomasga`   hannes: not yet 
+
+`29-03-2017 15:26`   `thomasga`   also topkg has a nice watermarking system, doc generation, etc 
+
+`29-03-2017 15:26`   `hannes`   (I'm really easy, please port to jbuilder -- I just won't do any of it (did sufficent oasis -> topkg work), and expect the same featureset as before) 
+
+`29-03-2017 15:26`   `thomasga`   lots of coold stuff 
+
+`29-03-2017 15:26`   `Drup`   (I'm personally a lot more favorable to jbuilder's project descriptions that to topkg's lack of it) 
+
+`29-03-2017 15:27`   `Drup`   (so when edges get a bit rounder, I might port ocsigen stuff to it) 
+
+`29-03-2017 15:27`   `thomasga`   if someone can just do a mix of both system (e.g. fast builds + nice release workflow) that would just be great 
+
+`29-03-2017 15:28`   `rgrinberg`   Drup: yeah, that's pretty clear. This is where I see the friction between topkg and jbuilder though. topkg shouldn't need its project description DSL when used with jbuilder 
+
+`29-03-2017 15:30`   `rgrinberg`   thinking out loud: a jbuilder flavor jbuilder will simply construct its project description data structure from the jbuild sexps. or use jbuilder's api. 
+
+`29-03-2017 15:32`   `yomimono`   an attempt to summarize: most people would be fine with switching to jbuilder if it didn't regress on the publishing workflow provided by topkg 
+
+`29-03-2017 15:32`   `yomimono`   it would be some work to do and that work would be helped by a nice complicated example port like lwt 
+
+`29-03-2017 15:32`   `yomimono`   with a nice writeup 
+
+`29-03-2017 15:33`   `yomimono`   I don't expect any movement on this without some work to provide jbuilder with the functionality we're missing and some work to provide the example mentioned above 
+
+`29-03-2017 15:33`   `yomimono`   further comments or explanations of my misunderstanding welcome 
+
+`29-03-2017 15:33`   `hannes`   another feature missing in jbuilder seems to be mli-only modules... 
+
+`29-03-2017 15:34`   `rgrinberg`   porting lwt to jbuilder just to for an example is pretty cruel :P. it's likely a massive task. But I think a typcial project with cstubs/ppx is in order. 
+
+`29-03-2017 15:34`   `thomasga`   need to run sorry, but I fully agree with the summary! 
+
+`29-03-2017 15:34`   `hannes`   it's not all about release workflow, also actual missing features... the cross-compilation of C code, atm usin ocl-stubblr etc., would be another feature we need for some libraries 
+
+`29-03-2017 15:34`   `Drup`   rgrinberg: well, most people who learned oasis learned it by looking at lwt's oasis (written by diml!), why not repeat history ? :D 
+
+`29-03-2017 15:35`   `yomimono`   thanks hannes, that's a good point 
+
+`29-03-2017 15:36`   `hannes`   but it is obviously not a all-or-nothing thing: different packages can use different build systems (and luckily those with c bindings are rather rare in the mirage ecosystem) 
+
+`29-03-2017 15:36`   `rgrinberg`   hannes: is that essential? just rename your .mli to .ml :P Agreed on the other points though. 
+
+`29-03-2017 15:36`   `rgrinberg`   Yeah, if topkg was a decent wrapper around both systems, you could argue that the transition could be done gradually 
+
+`29-03-2017 15:37`   `hannes`   rgrinberg: yes, tis is essential. no, renaming is not an option. 
+
+`29-03-2017 15:37`   `rgrinberg`   is symlinking an option? :) 
+
+`29-03-2017 15:37`   `yomimono`   No. 
+
+`29-03-2017 15:37`   `hannes`   no. doesn't work on windows. 
+
+`29-03-2017 15:38`   `hannes`   and mli files are distributed/installed, whereas ml are not. if you duplicate the files (copy), each change will have to be done twice 
+
+`29-03-2017 15:38`   `rgrinberg`   ok then a manual rule that copies .mli -> .ml is probably doable. hannes if you think it's essential you should leave a comment here: https://github.com/janestreet/jbuilder/issues/9 
+
+`29-03-2017 15:38`   `rgrinberg`   I couldn't come up with any arguments why I couldn't do without it 
+
+`29-03-2017 15:39`   `hannes`   a copy rule at build time may be an ok solution.. i will not distract myself into another build system 
+
+`29-03-2017 15:40`   `mato`   rgrinberg: Random question (since I literally *just* ran into this), is the jbuilder dependency on bash absolutely necessary? 
+
+`29-03-2017 15:40`   `rgrinberg`   there's no hard dependency on bash. just make sure not to use bash in your jbuilder rules 
+
+`29-03-2017 15:41`   `hannes`   (mato: I use an old opam-repo snapshot atm without any newish sexplib etc. to avoid any of the struggle) 
+
+`29-03-2017 15:41`   `mato`   right, so it's the downstream's (in this case ppx_ast's) fault? 
+
+`29-03-2017 15:42`   `rgrinberg`   https://github.com/janestreet/ppx_ast/blob/master/src/jbuild#L29 
+
+`29-03-2017 15:42`   `rgrinberg`   that seems suspcious 
+
+`29-03-2017 15:42`   `hannes`   AFAICS jbuilder explicitly calls out to bash. unclear why. 
+
+`29-03-2017 15:43`   `mato`   hannes: https://github.com/janestreet/jbuilder/pull/36 
+
+`29-03-2017 15:43`   `yomimono`   unless there are further points that could be helped by synchronous discussion, I'd like to propose that we move on 
+
+`29-03-2017 15:45`   `yomimono`   hearing no objections: next item is meetbot, which I said last time I'd try to take a look at by this meeting 
+
+`29-03-2017 15:45`   `yomimono`   do or do not, there is no try, and in this case I did not 
+
+`29-03-2017 15:45`   `rgrinberg`   okay! 
+
+`29-03-2017 15:46`   `yomimono`   if we have other volunteers to look into that, I would be happy to see someone else take the time and set it up 
+
+`29-03-2017 15:46`   `yomimono`   otherwise I'll try to find time before our next meeting in April 
+
+`29-03-2017 15:46`   `yomimono`   other items? 
+
+`29-03-2017 15:46`   `mato`   um 
+
+`29-03-2017 15:47`   `amirmc`   I can add an AOB item about blog posts for the website about the hackathon. 
+
+`29-03-2017 15:47`   `yomimono`   please do 
+
+`29-03-2017 15:47`   `mato`   well, as of about an hour ago,I have all the standalone ukvm tests passing on FreeBSD/vmmapi 
+
+`29-03-2017 15:47`   `djwillia`   nice mato@ 
+
+`29-03-2017 15:48`   `yomimono`   that's great! 
+
+`29-03-2017 15:48`   `mato`   I *would* have had a mirage unikernel tested on FreeBSD by now, were it not for random breakage in the MirageOS dependencies on FreeBSD 
+
+`29-03-2017 15:48`   `hannes`   mato: nice! what about clock? 
+
+`29-03-2017 15:48`   `mato`   hannes: I've solved clock, but can't test it properly w/o Mirage, which I can't install because blah. 
+
+`29-03-2017 15:48`   `djwillia`   the high level story for Solo5/ukvm is there are a bunch of in-progress ports that are hopefully going to merge together into a big happy family soon
+
+`29-03-2017 15:49`   `djwillia`   originally we had the virtio and ukvm backends for Solo5 (both x86) 
+
+`29-03-2017 15:49`   `hannes`   amirmc: to address your topic: gemma mentioned she has collected posts, and there'll be sth likely this week... avsm likely knows more 
+
+`29-03-2017 15:49`   `gemmag`   amirmc: I've collected the 10 trip reports we have received so far as well as some photos - I'm expecting a few more, then passing over to avsm 
+
+`29-03-2017 15:50`   `djwillia`   ukvm only ran on Linux/KVM on an x86 
+
+`29-03-2017 15:51`   `djwillia`   now some collaborators from ARM have got it running on Linux/KVM on ARM 
+
+`29-03-2017 15:51`   `amirmc`   hannes gemmag: great! 
+
+`29-03-2017 15:51`   `avsm`   i can do a consolidated edit of the blogpost and send a PR to mirage-www 
+
+`29-03-2017 15:51`   `avsm`   djwillia: have they actually booted on arm64 now? thats awesome! 
+
+`29-03-2017 15:51`   `djwillia`   and mato has got it running on FreeBSD/vmmapi.h, and I have got it working on MacOSX/Hyperisor.framework 
+
+`29-03-2017 15:52`   `djwillia`   the thing that makes all this difficult is that there are multiple "platforms" as well as multiple "architectures" 
+
+`29-03-2017 15:52`   `djwillia`   mato has a plan to make them all live happily together, which he is testing out with the FreeBSD port 
+
+`29-03-2017 15:53`   `djwillia`   avsm: i'm not sure if it's arm64 or arm32, mato do you know? 
+
+`29-03-2017 15:54`   `djwillia`   the cool thing about this is that on all of these platform/arch combos we should be able to run the tiny "unikernel monitor" (ukvm) instead of needing a more general-purpose VMM like QEMU 
+
+`29-03-2017 15:54`   `mato`   djwillia: avsm: arm64 
+
+`29-03-2017 15:54`   `djwillia`   awesome! 
+
+`29-03-2017 15:56`   `yomimono`   thanks for the updates mato and djwillia :) 
+
+`29-03-2017 15:56`   `mato`   yeah, i think things are coming together rather nicely, hopefully april will be the month where Solo5 (and thus Mirage) gains a bunch of new targets 
+
+`29-03-2017 15:58`   `yomimono`   :D that's a great note on which to conclude I think! 
+
+`29-03-2017 15:58`   `yomimono`   thanks, everyone! 
+
+`29-03-2017 15:59`   `mato`   thanks yomimono for coordinating 
+
+`29-03-2017 15:59`   `djwillia`   thanks! 
+
+`29-03-2017 16:02`   `avsm`   thanks! 
