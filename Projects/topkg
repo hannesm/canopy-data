@@ -2,7 +2,7 @@
 title: topkg porting
 author: mirageos devs
 abstract: status of topkg ported libraries
-tags: active project, core, help needed
+tags: project done, core
 ---
 
 Topkg is [the transitory OCaml package builder](http://erratique.ch/software/topkg/doc/Topkg), well-designed and slicker than oasis.
@@ -15,15 +15,6 @@ It also enforces naming policies for metadata (LICENSE, README, CHANGES, etc), a
 
 ## Libraries need porting
 
-- [io-page](https://github.com/mirage/io-page)
-- [vmnet](https://github.com/mirage/ocaml-vmnet)
-- [cstruct](https://github.com/mirage/ocaml-cstruct)
 - [mirage-xen / -unix](https://github.com/mirage/mirage-platform) (@avsm might have somewhere branches)
-- [mirage-tcpip](https://github.com/mirage/mirage-tcpip) [@avsm has an outdated branch](https://github.com/avsm/mirage-tcpip/tree/topkg)
-- [mirage-net-xen](https://github.com/mirage/mirage-net-xen)
-- [mirage-block-xen](https://github.com/mirage/mirage-block-xen)
-- [mirage-block-unix](https://github.com/mirage/mirage-block-unix)
-- [xen-evtchan](https://github.com/mirage/ocaml-evtchn)
-- [xen-gnt](https://github.com/mirage/ocaml-gnt)
 - [mirage-block-ccm](https://github.com/sg2342/mirage-block-ccm)
 - see also [errors from odig](http://docs.mirage.io/ocamldoc_/#errors)
