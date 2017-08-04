@@ -1,0 +1,213 @@
+---
+participants: djs55,demonimin,talex5,mato,mort___,avsm,thomasga,hannes,djwillia,haesbaert
+author: amirmc
+title: Irc discussions from #mirage on 19-07-2017
+tags: irc,log
+---
+
+You can see `whitequark`'s irclogs for a better formatted version of the logs over at https://irclog.whitequark.org/mirage/2017-07-19
+
+The logs below are copied over from there, without formatting.
+
+<hr>
+ 
+15:00 <djs55> ok I think it's time for the weekly call. The agenda is here: https://github.com/mirage/mirage-www/wiki/Call-Agenda 
+15:00 <demonimin> o/ 
+15:00 <djs55> The first item is: https://github.com/mirage/capnp-rpc update - @talex5 
+15:01 <talex5> Making quite good progress. I completed level 1 support this week: https://github.com/mirage/capnp-rpc/milestones 
+15:01 * mato waves 
+15:01 <talex5> However, the fuzzing has found a rather tricky race, where messages sometimes arrive out of order. 
+15:01 <talex5> Currently chasing that down. 
+15:02 <talex5> But if anyone wants to test it, please go ahead. You're unlikely to hit this case in normal usage. 
+15:02 <djs55> What are your release plans btw? 
+15:03 <talex5> I want to update my PR adding RPC support on the main capnp repo to use a better API, then I can release that. 
+15:03 <djs55> Sounds good. I look forward to trying it on my next RPC-requiring project! 
+15:04 <djs55> Next item on the agenda: https://github.com/mor1/dommage/ and the website(s) - @mor1 
+15:05 <mort___> . 
+15:05 <mort___> ooh, perfect timing 
+15:05 <mort___> (after someone moved me up the agenda :) 
+15:05 <djs55> (I guess @mor1 on github == mort__ here) 
+15:05 <mort___> yup 
+15:05 <mort___> right, so, dommage 
+15:06 <mort___> i got bored of waiting for travis to build about a million packages every time i pushed commits, so i decided to containerise building things with mirage 
+15:06 <mort___> dommage is a script that attempts to do that 
+15:06 <mort___> i ported the travis config for my website over to use it; it seems to work ok 
+15:07 <mort___> i've done / am doing the same for mirage-decks and mirage-tutorial, updating both to mirage v3 at teh same time 
+15:07 <mort___> there's a PR in place against mirage-www to use dommage, but there are some outstanding requests / comments made against the pr that i've not addressed yet 
+15:07 * avsm waves -- on via dodgy mobile connection 
+15:07 <mort___> (largely, iirc: make a release; write a blog post or other form of instruction) 
+15:08 <avsm> that would be great. the other thing that would help keep mirage-www working is to activate the 'cron' build in travis 
+15:08 <mort___> the net effect of this for my site at least was that travis build times are down from ~18min to ~3-4min 
+15:08 <avsm> that will let it build every day 
+15:08 <mort___> also i have the same build environment on my mac as on travis so hopefully if/when i get more weird packaging mismatch errors, i can actually track them down 
+15:08 <thomasga> if we have a cron job, someone will have to look at if it fails or not :-) 
+15:09 <thomasga> (which is probably a good idea) 
+15:09 <djs55> travis might send email — IIRC I get some when I break things sometimes 
+15:09 <avsm> it sends email indeed 
+15:09 <mort___> travis can be made to send email on failure and on success, independently 
+15:09 <djs55> @mort__ being able to reproduce the CI failures locally is high on my wish list! 
+15:09 <mort___> eg https://github.com/mor1/mor1.github.io/blob/master/.travis.yml#L7-L12 
+15:10 <mort___> djs55: dommage is the answer… ;) 
+15:10 <mort___> i'll try and write that post later today 
+15:10 <mort___> as it's been a week or so, i'll probably also tweak the script now i've had a chance to reflect on them 
+15:11 <djs55> a post sounds like a good idea — partly when I read the PR I didn't understand the overall design… a post would definitely help me understand better 
+15:11 <mort___> i'll also try and make a release (though i note that we've generally only ever gone from master on ocaml/ocaml-ci-scripts anyway) 
+15:11 <djs55> ok, shall we move on to the next item? (interrupt me quickly if not) 
+15:11 <avsm> same here. I'd like to reconcile mort's obvious enthusiasm for dommage with my disinterest in yet another caching layer :-) 
+15:11 <mort___> (or from some arbitrary set of pins) 
+15:11 <mort___> djs55: cool 
+15:12 <djs55> ok I think we can move on to: adding end-to-end tests to functoria @samoht 
+15:12 <mort___> avsm: do we have many already? if having mirage-www bulid from scratch every time is a positive design goal, happy for the PR to be closed since it's clearly in conflict with that 
+15:12 <thomasga> So I have added more tests to functoria, while trying to debug an issue with cross-stage persistence of configuration keys 
+15:13 <avsm> mort___: not sure -- lets discuss out of band once i've read the post. no strong opinion yet 
+15:13 <avsm> thanks for all the tests thomasga ! 
+15:13 <thomasga> this is able to tests nice things if the output is the same on `mirage configure —help` and `mirage help configure` 
+15:13 <thomasga> and if config.ml is present or not, etc 
+15:14 <thomasga> e.g. a lots of stuff which has gone wrong in the past 
+15:14 <thomasga> (and which is usually hard to test) 
+15:14 <djs55> thank you for volunteering to write difficult tests :) 
+15:14 <thomasga> so now I am a bit less afraid to modify functoria :-) 
+15:14 <avsm> i'm keen to see yallop's patch merged, that cleans up the main.ml output 
+15:15 <thomasga> yea, that would be great 
+15:15 <thomasga> I have few new ideas for functoria (including generating multiple unikernels using one config.ml) but nothing really concrete yet. 
+15:16 <thomasga> and I feel a bit more confident to experiment with it now that there are some tests. Anyway, that's all for my update :-) 
+15:16 <djs55> perhaps you could describe your ideas in an issue? just to get early feedback 
+15:16 <thomasga> yes I will! 
+15:16 <djs55> ok, the next agenda item appears to be: removal of OS module - @djs55 @avsm have patches to eliminate it entirely, but depends on xen -> ocaml-freestanding and removal of old platform code 
+15:17 <avsm> OS can die now! It was originally a "global module" hack before functoria, but we never fully purged it in mirage3 
+15:17 <djs55> exactly — I think we've all been chipping away at it 
+15:17 <avsm> so I took a look at this, prompted by hannes' OS.Env removal PR that has been lingering 
+15:17 <avsm> turns out there were a bunch of phantom dependencies on mirage-unix that i removed and nothing broke 
+15:18 <avsm> and the only real user of it is OS.Xs in the xen backend -- which ironically isnt portable. So i've got patches to pull that out into a separate library now that can be explicitly depended on 
+15:18 <hannes> well, OS still contains the main loop, no? where should that code go? mirage-runtime? 
+15:18 <avsm> right, the only function left is the `run` function -- that should be explicitly called from functoria 
+15:18 <avsm> since it knows exactly which backend is in use 
+15:18 <avsm> there's no need for an abstraction layer 
+15:19 <thomasga> not sure how easy it is to do this, currently `run` is defined in the prelude where there is not conditionals 
+15:19 <avsm> if only we had a functoria expert in the room 
+15:19 <thomasga> but I guess this could be put in a device which depends on the target 
+15:20 <avsm> yeah that would work -- the final device that triggers the rest 
+15:20 <hannes> since OS is used indirectly by mirage-entropy (and nocrypto IIRC), what/how is the redesign of the platform-specific bits of these libraries (currently it uses mirage-os-shim)!? 
+15:20 <avsm> yeah so mirage-entropy and some xen lifecycle stuff came up 
+15:20 <avsm> i think we also need to extend functoria to add a lifecycle device, and have mirage-entropy depend on those for the startup hooks 
+15:21 <avsm> that also makes it easier to have service triggers for on-demand unikernels that want to key off suspend/resume events (i'm thinking of qubes) 
+15:21 <thomasga> could you write up this somewhere? I am happy to try to find a new design where all of this fits 
+15:21 <thomasga> (I am very happy to not have the OS module anymore) 
+15:21 <avsm> sure. it got delayed as i thought i'd do a quick upgrade of the mirage-xen backend to ocaml-freestanding, and got dragged screaming into the seventh level of minios header hell 
+15:21 <thomasga> I can also have a go at implementing the functoria bits for it 
+15:22 <thomasga> (once we set up on the design) 
+15:22 <avsm> thanks! i'll write it up 
+15:22 <mato> Hmm, it's not just "run", there's also the other scheduler functions that go with it. 
+15:22 <mato> eg. wait_for_work 
+15:22 <avsm> i've also got a design in mind for fixing the c stub situation, which it turns out is fairly easy once the OS module disappears 
+15:22 <avsm> mato: none of those are exposed to the unikernel 
+15:22 <thomasga> @mato: this depends on the backend engine 
+15:23 <avsm> and if they currently are, they need to go through the device layer 
+15:23 <thomasga> so you can pick the one you choose at configuration time 
+15:23 <mato> Not to the unikernel, but the device drivers do use them. 
+15:23 <avsm> mato: right, but they depend explicitly on mirage-solo5 
+15:23 <mato> yup 
+15:23 <avsm> there's no need for an OS.Foo abstraction layer 
+15:23 <djs55> The xen device drivers explicitly depends on mirage-xen, which is ok 
+15:23 <avsm> my patches to the mirage-block/net-xen ones depend on mirage-xen explicitly now 
+15:23 <avsm> jinx :) 
+15:24 <djs55> ok, so it sounds like avsm is going to do a short writeup and post somewhere? (mailing list?) 
+15:24 <avsm> issue probably 
+15:25 <avsm> will mail list to point to it 
+15:25 <djs55> ok great, and then we can make sure we've covered all the cases 
+15:25 <djs55> that's probably enough for that agenda item — avsm needs the time to work on the minios headers 
+15:26 <djs55> the next item is: conduit/dns/tcp/cohttp release progress: https://discuss.ocaml.org/t/ann-major-releases-of-cohttp-conduit-dns-tcpip/571, merge later this week. https://github.com/ocaml/opam-repository/pull/9824 - @avsm again! :) 
+15:26 <avsm> nuff said thats not on the thread 
+15:26 <avsm> just been a lot of work by rgrinberg --thanks! 
+15:26 <avsm> it makes all the libraries a lot easier to clean up and AFL, so I'll be tackling your Dns.Name issues rsn hannes 
+15:27 <djs55> I thought the discuss post was helpful — especially the table of "old name" "new name" 
+15:27 <hannes> avsm: oh, I've a udns library... 
+15:27 <avsm> but please do go to some effort to jump the constraint 
+15:27 <avsm> hannes: that's fine... if there's a smaller more focussed library thats no bad thing 
+15:27 <avsm> we have a few million users of the current one though, so it needs fixing :P 
+15:28 <hannes> which is not API compatible, has test cases, no lwt/async/multicast dns/... ; and a working recursive resolver and authoritative nameserver 
+15:28 <hannes> enjoy fixing then 
+15:28 <avsm> by fixing, i am also open to considering a ninja switch of the core to udns 
+15:28 <thomasga> hannes: where's the code? :-) 
+15:28 <avsm> and maintaining the Lwt/Async adapters in the current lib 
+15:29 <mort___> hannesm: where is udns? the obvious github search didn't find anything ... 
+15:30 <hannes> thomasga, mort___: on my own server, where the datacentre has a scheduled downtime for the next 2 hours 
+15:30 <mort___> ah :) the perils of the cloud… 
+15:30 <avsm> np, if you could mail the list when you've got it up, i'm happy to take a look 
+15:30 <mort___> +1 
+15:30 <hannes> but I'm using it since ~2 months locally (the recursive resolver), it works for me 
+15:31 <thomasga> would be nice to see if it works for Docker for Mac and Windows users too :p 
+15:31 <hannes> thomasga: as said, there is a different API 
+15:32 <thomasga> that's fine 
+15:33 <djs55> ok, shall we move on to the next topic? 
+15:33 <djs55> it is: https://github.com/mirage/mirage-stable is now building a smaller doc subset with only freshest packages. See here for temporary url: http://server.mirage-stable-docs.5b43e282.svc.dockerapp.io/ 
+15:34 <avsm> im building a version of the docs site with only the latest packages 
+15:34 <avsm> so there's an opam remote with the right constraints 
+15:34 <avsm> anyone mind if i switch the docs site over to this smaller one? 
+15:34 <mort___> what is meant by "only freshest packages"? 
+15:34 <avsm> and then introducing new packages requires they match the global constraint set in mirage-stable 
+15:35 <avsm> only the newest versions 
+15:35 <mort___> oh, you mean only latest releases rather than all past releases? 
+15:35 <avsm> so e.g.. cohttp.0.99 conflicts with lots of packages atm 
+15:35 <avsm> no i mean do not just build an older version of a release due to a conflict 
+15:35 <avsm> i want the latest mirage releases to be documented; not an older version since a package that uses it pulled the opam build back to an older mirage release 
+15:36 <thomasga> I think that's fine. 
+15:36 <thomasga> Something that we should solve at one point is where to point at the default documentations for the packages. 
+15:36 <djs55> so if the latest package can't be installed due to conflicts it is omitted? So it's fully up-to-date coinstallable packages? Seems like a nice incentive to fix your package to get it in the list :) 
+15:36 <mort___> still a bit confused but probably fine. trying to work out what happens when packages do conflict 
+15:36 <avsm> if they conflict the tree doesnt build :) 
+15:37 <avsm> so mirage-stable is intended as a small set of packages that have a reasonable chance of building 
+15:37 <thomasga> (but this could be decided later, having a stable global location for package documentation is a good first step) 
+15:37 <avsm> and then we have other clusters (e.g. mirage-block-backends) for libs that use that 
+15:37 <thomasga> avsm: is it easy to produce a list of packages not in the "fresh" list? 
+15:37 <avsm> hm 
+15:37 <avsm> i'll go with "yes" 
+15:38 <thomasga> and ping the maintainers? 
+15:38 <avsm> i'm working on a tool that'll possibly make that easier 
+15:38 <thomasga> cool 
+15:38 <avsm> i'll update on that later if it works 
+15:39 <demonimin> will it be a new site, or will some urls break? 
+15:39 <avsm> i think some urls might break 
+15:39 <avsm> but do shout if you're affected 
+15:39 <avsm> and can try to fix that 
+15:40 <avsm> i need to find out how to customise odig/odoc as well 
+15:41 <djs55> ok, I think that brings us to the end of the formal agenda. Any other topics worth bringing up right now? Important issues? Anything unnecessarily blocked? 
+15:41 <mort___> one quick thing from me 
+15:41 <mort___> i have a PR in against mirage/mirage to update the tool so that `-kv_ro archive` works again 
+15:42 <hannes> avsm: thanks for putting the zone of mirage.io into the issue. I'll get us some NS sorted (once my hardware is reachable again)! 
+15:42 <mort___> any chance anyone could look at it? (it's pretty small) 
+15:42 <mort___> it would unblock mirage-decks buildings 
+15:42 <djs55> mort__: could you ping me on it and I'll take a look 
+15:42 <mort___> (the combined slide decks are too big for FAT or Crunch) 
+15:42 <mort___> djs55: will do, thanks! 
+15:42 <thomasga> @mort___: I have fixed the CI scripts on mirage/mirage, could you rebase to make it green? 
+15:43 <mato> hannes: can you ping me in the mirage.io NS issue? I don't think I get notifications from it. 
+15:43 <thomasga> (and I can review it too when it's green) 
+15:43 <mort___> thomasga: ah, ok sure 
+15:44 <djs55> ok I think we can declare the meeting over. Back to normal IRC chat ;) 
+15:44 <hannes> I've also a typo fix open on mirage... in general I don't merge my own PRs in the mirage organisation (and appreciate everybody else who doesn't merge their own PRs, but waits for a review..) 
+15:45 <mort___> (yup, merging own PRs feels … wrong ...) 
+15:45 <mato> Quick Solo5 ARM64 status update: I've reviewed Wei Chen's latest changes, then went on a code simplification spree and replaced 300 lines of page table setup code with ~15 + comments. So, once Solo5/solo5#193 is merged the rest should be pretty quick, I have PRs waiting for ocaml-freestanding and mirage-solo5. 
+15:45 <mato> Using the branches in those PRs I can successfully build and run the skeleton network example :-) 
+15:46 <mato> (w/o any manual hacks) 
+15:46 <djwillia> that's quite a simplification! great job mato! 
+15:46 <mato> djwillia: It basically ditches all the guest page table setup, since (I verified) that KVM on ARM64 behaves the same as on x86. 
+15:47 <hannes> (and as mentioned on the mailing list, in case you want to deploy MirageOS ukvm unikernels, I can share my resources (physical machine and IPs) now! :) -- see https://hannes.nqsb.io/Posts/VMM later when it is up again ;) 
+15:48 <djwillia> mato: how much arch-specific stuff remains on the guest side? 
+15:48 <mato> djwillia: In the "kernel" you mean? 
+15:49 <djs55> regarding review: I suspect we have quite a long RTT in some places, perhaps because people are busy / miss the notification / (I'm sure lots of other reasons). I wonder if there's a way to maintain some kind of prioritised list of things needing review. I wonder if people with merge power should promise to review someone else's PR before submitting their own, to avoid too much focus on PR creation and not enough on PR review. (Or to fix 
+15:49 <djs55> a bug before adding a feature, that kind of thing) 
+15:49 <djwillia> mato: yes, i know we've talked about it in the past but I'm still wondering how close we are to putting all arch setup (except perhaps the I/O stubs) in ukvm 
+15:50 <djs55> I really like the github "allow edits from maintainers" feature and try to push extra patches where I can rather than ping the original author and go to sleep again 
+15:50 <hannes> djs55: appreciated. GitHub additionally nowadays has a "request review from XXX" button, where you can ping others to take a look 
+15:51 <djwillia> mato: we've been thinking a little bit more lately about how hard it would be to put a ukvm unikernel into a SGX enclave and although it's still intel, we would need the guest to entirely run in ring 3 
+15:51 <djs55> hannes: that's true, that's also a good feature which I under-use 
+15:51 <mato> djwillia: Not a lot arch-specific that's interesting, basically only the exception handlers. 
+15:52 <mato> djwillia: Hmm, perhaps we should do a separate catch up to sync our respective plans/ideas for Solo5 going forward? 
+15:52 <djwillia> mato: and with the ARM simplifications it seems it'll stay that way, which is great 
+15:52 <djwillia> mato: yes, we've been meaning to, we can coordinate on slack or something 
+15:52 <mato> djwillia: Ok, let's do that. 
+15:55 <mato> djs55: Thans for driving the meeting btw, very efficient :-) 
+15:55 <mato> It's been ages since we finished early ... 
+15:56 <djs55> heh hopefully it wasn't too quick. It's hard to tell if someone is typing a paragraph or not 
+15:57 <haesbaert> hi o/ 
