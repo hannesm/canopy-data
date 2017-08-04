@@ -1,0 +1,167 @@
+---
+participants: avsm,mort___,demonimin,djs55,djwillia,rgrinberg,hannes,talex5,dinosaure,TImada,yomimono,kensan,reynir
+author: amirmc
+title: Irc discussions from #mirage on 05-07-2017
+tags: irc,log
+---
+
+You can see `whitequark`'s irclogs for a better formatted version of the logs over at https://irclog.whitequark.org/mirage/2017-07-05
+
+The logs below are copied over from there, without formatting.
+
+<hr>
+
+15:03 <avsm> greetings everyone! 
+15:03 <mort___> . 
+15:04 <demonimin> ohai 
+15:04 * djs55 waves 
+15:04 <avsm> apologies for the late reminder :) 
+15:04 <djwillia> hi all! 
+15:04 <avsm> Agenda is up at: https://github.com/mirage/mirage-www/wiki/Call-Agenda#5th-july-2017 
+15:05 <avsm> lets get started! feel free to append to the agenda while we're chatting 
+15:05 <avsm> First item on the list is the jbuilder porting update. The overall set of packages that are/arenot jbuildered up is at https://gist.github.com/avsm/9a7ca626f8fe2154525561d9b196ce47 
+15:06 <avsm> it's quite an impressively growing list on the 'yes-jbuild.txt' -- 93 packages have been ported in around a month 
+15:06 <avsm> of the remaining no- ones, a significant number are currently in the process of being released, over at https://github.com/mirage/mirage-dev 
+15:06 <avsm> that includes tcp, conduit, cohttp, dns, charrua 
+15:07 <avsm> so that then leaves around 50 dependencies which aren't yet ported, but we're well over the hump 
+15:07 <avsm> of the ones that aren't, it's a few clusters: lwt (which has been ported in its trunk), dbuenzli's libraries (he's looking at it), and then mirage-entropy/platform and a few tricky C stubs ones 
+15:08 <rgrinberg> Big ones remaining are Daniel's packages and the tls dependency cone 
+15:08 <avsm> yeah, the tls dependency cone is tricky -- i'm starting on x509/nocrypto next 
+15:08 <avsm> mirage-entropy is currently holding us back for some reason, so it definitely needs an update as well 
+15:08 <rgrinberg> First make sure hannes is on board before you do work 
+15:09 <rgrinberg> I might have rushed in to port tls :) 
+15:09 <avsm> yeah. either way I'd like the port to make sure it works. Nocrypto seems to have a lot of outstanding PRs, so will need to ping David Kaloper as well 
+15:09 <avsm> did you do a tls port: 
+15:09 <hannes> well, I raised several questions in the PR, and got no real answer to them. 
+15:09 <avsm> aha, i missed that one! 
+15:10 <avsm> which PR is it? 
+15:10 <hannes> (one of them were whether the documentation is the same or not -- the underlying issue is that we still don't have an API for TLS, and we're not willing to expose all the private things. this is why it is in the current state.) 
+15:11 <rgrinberg> hannes: which answers do you think are unsatisfactory? In my opinion it's only the bisect one which is lacking 
+15:11 <talex5> avsm: https://github.com/mirleft/ocaml-tls/pull/367 
+15:11 <hannes> rgrinberg: all of them: what is the difference in docs? what is the difference of binaries? 
+15:11 <avsm> the jbuilder documentation is pretty much only odoc 
+15:12 <rgrinberg> You wanna see some sample sizes for binaries? Or the result of ocamlobjinfo? 
+15:12 <rgrinberg> I think I misunderstood what you were getting at 
+15:13 <dinosaure> o/ 
+15:13 <hannes> size and contents - and evaluation of what is different, and why (you partially answered that) 
+15:14 <avsm> the substantive questions in that PR seem to be about preserving the current warning set (which can be done cleanly with jbuilder) and ensuring the compilation scheme is equivalent 
+15:14 <avsm> and coverage testing is also important to have 
+15:15 <avsm> the massive immediate advantage of jbuilder is compilation times (4-6x in various packages) and boilerplate removal (no META or merlin maintenance) 
+15:15 <hannes> I'll look into that PR once david commented. 
+15:15 <avsm> and also the subdirectory builds, which I'll come to next 
+15:15 <rgrinberg> What do you mean by ensuring the compilation scheme is equivalent? It has to change to at least get rid of packs 
+15:16 <avsm> the pack removal was a stumbling block in an earlier topkg port as well https://github.com/mirleft/ocaml-tls/pull/337#issuecomment-256101552 
+15:17 <avsm> so we're hitting a library design question as part of the port now 
+15:17 <hannes> well, if compilation time is the only advantage, I don't care too much... the time I spend thinking about code is much higher than the time I compile. 
+15:17 <avsm> i.e. its not just a simple build syastem switch 
+15:17 <avsm> hannes: the "only advantage" is not consistent with what I just said. I listed two other things above in the same sentence block. 
+15:18 <hannes> if it is a preserving build system switch, it is simple. but writing a tls.mli requires some effort. 
+15:18 <avsm> the diffstat overall from porting to jbuilder has been a massive removal of code from our repos overall 
+15:18 <avsm> much like the oasis->topkg ports were 
+15:18 <hannes> avsm: the diffstat in that PR in question is +16 lines. the metadata duplication is immense since now there are 3 opam files which contain 95% the same informaion. 
+15:19 <avsm> and the ability to do a single-directory build is transformative for the overall project 
+15:19 <hannes> (but I don't see any value in arguing about this longer here, see my message from 16:14) 
+15:20 <avsm> Fair -- I'll ping David as well to see if we can make progress on this. 
+15:21 <avsm> djs55 is looking into the stub design in general -- that's also an area where the jbuilder workspace method needs to be clarified 
+15:21 <avsm> once that's done, we'll have a better view into all the different mechanisms 
+15:22 <avsm> it would be _really_ nice to purge oasis though -- otherwise we'll end up with a combination of oasis, ocamlbuild/topkg, jbuilder when the dust settles 
+15:23 <avsm> and part of that is figuring out answers to questions like what tls.mli and public APIs for more libraries are. a good idea overall to do this regardless of build system :) 
+15:24 <djs55> I'll do some experiments with stubs and see if I can propose something 
+15:24 <avsm> to quickly cover the rest of the work : I'm moving stable packages into a metarepo at https://github.com/mirage/mirage-stable that contains a "mirage-core" package that only has dependencies and version constraints. This will be how doc generation happens soon, so you can just add packages there to show up on docs.mirage.io 
+15:25 <djs55> I'd like to look at the flow disconnect/close (half-close) issue again soon — if I can make a prototype change across a bunch of libraries at once using that repo it would be very handy 
+15:26 <avsm> ok -- i'll see if i can use 'git subtree' to import the yes-jbuild packages into one tree that builds 
+15:26 <avsm> it works locally -- just havent published it yet 
+15:26 <avsm> stedolan also suggested that he could build a single AFL binary from all the library tests 
+15:26 <avsm> which would be a very efficient way of fuzz testing every library in the tree 
+15:27 <avsm> but before all that; i'll do some measurements of build and binary sizes with jbuilder and post on that, to make sure we can quantify the benefits 
+15:28 <avsm> any other queries jbuilder related? 
+15:30 <avsm> lets move on! thanks for all the efforts from everyone so far -- in particular, our ppx story is far far cleaner now and we are not accidentally linking it into the resulting unikernels :) 
+15:30 <avsm> next up: TImada has an update on solo5/netmap! 
+15:30 <TImada> Hi, 
+15:30 <TImada> download http://www.cl.cam.ac.uk/~ti259/temp/netmap_v02.pdf 
+15:31 <TImada> I have tested Netmap buffer in the guest OS layer, and it achieved good performance as shown in the page5. 
+15:32 <avsm> 3.36x performance is impressive! 
+15:32 <TImada> Yes! :-) 
+15:33 <avsm> does netmap require linux kernel patches these days? 
+15:33 <avsm> yomimono: > <TImada> download http://www.cl.cam.ac.uk/~ti259/temp/netmap_v02.pdf 
+15:33 <avsm> (since you joined just after TImada posted the url) 
+15:34 <yomimono> nice, thanks :) 
+15:34 <djs55> where do you think the biggest bottlenecks in the network stack are now? 
+15:34 <TImada> avsm: No, you only need to compile the netmap and NIC drivers you want to use. 
+15:34 <djwillia> did you implement the netmap and NIC driver stuff inside ukvm? 
+15:35 <TImada> No, compiling the Netmap driver and patched-NIC drivers for the Linux host 
+15:36 <TImada> patched NIC drivers are included in the Netmap source code package. 
+15:36 <avsm> the numbers still seem to be CPU limited overall 
+15:36 <avsm> as they cap out at 300Mbps for the 1 guest case 
+15:36 <avsm> to be clear, this is going through the mirage udp stack and then through solo5? 
+15:36 <djwillia> so ukvm uses some kernel api's to talk to the netmap, instead of the tap? 
+15:37 <djs55> I wonder if we have GC problems. Perhaps some spacetime profiling would be interesting 
+15:37 <TImada> avsm: 300MB/s with 1460 sender buffer size! 
+15:37 <avsm> ahh! 
+15:37 <TImada> over 2Gbps! 
+15:38 <djs55> nice — I misread that! :) 
+15:38 <TImada> however, one problem is performance degradation under the 6 send/recv paris case 
+15:39 <TImada> shown in the page 7 
+15:39 <avsm> I'm wondeirng if that is a general netmap problem 
+15:39 <avsm> it may not have been designed for multitenancy -- so it could degrade under scheduling pressure 
+15:39 <avsm> need to re-read the netmap paper 
+15:40 <TImada> I don't think it is a netmap problem as shown in the page 8 
+15:40 <TImada> Netmap related manipulations are included solo5_net_write_sync(). However, its execution time was not so much extended. 
+15:41 <avsm> so it might be CPU pressure on the mirage stack? 
+15:41 <avsm> thats the only thing left :-) 
+15:42 <djwillia> i'm a bit confused about where things are implemented... does netmap_guest mean that the packets are showing up directly in or above solo5 so it doesn't need to exit for every packet? Or are the shared buffers with ukvm, with the same ukvm/solo5 API that there was before (1 per packet)? 
+15:43 <TImada> djwillia: I implemented shared buffers with ukvm 
+15:43 <djwillia> i see, so there is still an exit per packet for net_read_sync? 
+15:44 <djwillia> oh wait i see what you mean 
+15:44 <djwillia> you have shared buffers between solo5 and ukvm, right? 
+15:45 <TImada> Yes, shared buffers between ukvm-bin(host side) and the guest kernel (guest side) 
+15:45 <avsm> page 3 shows the batching 
+15:45 <djwillia> another question: is iperf a mirage app? I'm guessing so because of avsm's comments, but can someone point me to the iperf repo? It would be super useful to have 
+15:46 <djwillia> or did you take the iperf c code and stick it on solo5 directly? 
+15:46 <TImada> djwillia MirageOS-based iperf! https://github.com/TImada/mirage_iperf 
+15:47 <djwillia> awesome, thanks! 
+15:48 <avsm> very useful indeed, thanks TImada 
+15:48 <TImada> Welcomed! 
+15:48 <avsm> i dont have any immediate insights into the 6 vm degradation, except for bisecting down to the pieces leads to the mirage udp stack 
+15:48 <avsm> it could be cpu contention -- the only way to verify is to get a 16 core machine and try the 6 guest throughput there to see if more cores help 
+15:49 <TImada> Actually I have no idea on this issue now, so I will continue to investigate it. 
+15:49 <TImada> avsm: thanks for your comments! 
+15:50 <avsm> sounds good. Also, is there a tree where we can try the netmap branch out? I've not personally used it for a few years 
+15:50 <djwillia> you might try telling Linux to pin cores to ukvm instances in case some weird scheduling is happening 
+15:50 <hannes> TImada: maybe take the iperf C code, and see whether the performance is better than when using MirageOS? 
+15:50 <TImada> avsm: netmap source itself? 
+15:50 <mort___> (sorry, gtg— bye!) 
+15:51 <djwillia> that's a good idea, you could do an mirage-unix iperf vs. a c iperf and rule out a lot of higher-level issues 
+15:51 <avsm> TImada: just generally how to try your whole setup out so others can try to repro 
+15:52 <djwillia> although the implementations are probably sufficiently different that it might be a rathole 
+15:52 <TImada> djwillia: I have already tested pinning cpu cores ... 
+15:53 <djwillia> good luck with it TImada, it's really cool work 
+15:53 <avsm> this definitely needs more detailed investigation. TImada: a post to the devel list would also be most useful to share instructions/pointers to trees. It's very very encouraging work though -- I am keen to see the performance improvements in mainline mirage! 
+15:54 <avsm> but if there are no other comments immediately, it's time to move to AOB for a minute and otherwise wrap up 
+15:54 <TImada> avsm: I'm asking my colleague in Japan if I can make my repository available on the Web. Please wait a while. 
+15:54 <avsm> TImada: of course, thanks for checking 
+15:55 <hannes> any news on https://github.com/mirage/ns.mirage.io/issues/1 ? 
+15:55 <avsm> i promise i'll do that this evening :-) been travelling... 
+15:55 <hannes> djwillia: any plans to rebase + merge your solo5-hypervisor.framework? 
+15:56 <hannes> I've been rather busy developing a solution for deploying MirageOS (well, ukvm) unikernels on hardware 
+15:56 <djwillia> hannes: it's a bit stalled at the moment... I wanted to wait until the ARM stuff was all in after the big change that mato did for FreeBSD and ARM 
+15:56 <hannes> i.e. some unix process(es) which gather statistics, allow authorised deployments, read console output, ... 
+15:56 <djwillia> but I haven't had time to rebase to it 
+15:57 <hannes> I'm happy to announce that this allows far easier resource sharing (as in: I can give you a token which allows you to run 2 virtual machines with 3GB memory on my hardware) 
+15:57 <djwillia> there will still be a few things that will not fit well into the structure that were nasty hacks and I'm not sure yet how to go about fixing them 
+15:57 <djwillia> but the main problem is that it's fallen too low down my priority list with other things going on :( 
+15:57 <hannes> release/announce has been delayed since I wanted to get some properties right... but I just finished the revocation bits! :) 
+15:58 <avsm> really looking forward to seeing this :-) 
+15:58 <kensan> hannes: Is that code up somewhere? 
+15:58 <kensan> (Hi everyone btw :) 
+15:58 <djwillia> hannes: did you see that ricarkol ported includeOS onto solo5/ukvm? 
+15:59 <hannes> sure, it'll be online by tomorrow, together with some article describing it 
+15:59 <hannes> it's basically encoding policies about resources into authenticated tokens! (and i use my ukvm-bin, as in you provide only your vm image + config (which network devices, block devices, etc.)) 
+16:00 <hannes> djwillia: that sounds great! 
+16:00 <avsm> i gotta head off to another meeting, so heading out. Thanks everyone! 
+16:00 <kensan> hannes: http://blog.includeos.org/2017/06/23/popek-goldberg-machines-considered-harmful 
+16:00 <djwillia> thanks avsm! 
+16:02 <djwillia> i have to run too, thanks all! 
+16:05 <kensan> TImada: Thanks for the iperf link. I will try to do some iperf measurements for Solo5/Muen when I get some spare time. 
+16:06 <TImada> kensan: :-) 
+16:07 * reynir is reminded of that bot he didn't write yet 
