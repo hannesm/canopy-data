@@ -1,0 +1,148 @@
+---
+participants: djs55,demonimin,yomimono,mort___,dinosaure,mato,djwillia,thomasga,amirmc,Drup,talex5
+author: amirmc
+title: Irc discussions from #mirage on 02-08-2017
+tags: irc,log
+---
+
+You can see `whitequark`'s irclogs for a better formatted version of the logs over at https://irclog.whitequark.org/mirage/2017-08-02
+
+The logs below are copied over from there, without formatting.
+
+<hr>
+
+15:00 * djs55 waves 
+15:00 <demonimin> hi all 
+15:01 <yomimono> hi! 
+15:01 <yomimono> I see the clock's turned over, so it must be meeting time! 
+15:02 <mort___> . 
+15:02 <dinosaure> o/ 
+15:02 <mato> mort___: Hola! 
+15:03 <yomimono> The agenda's over at https://github.com/mirage/mirage-www/wiki/Call-Agenda#2nd-august-2017 , please feel free to add stuff :) 
+15:03 <djwillia> hi all! 
+15:03 <mort___> mato bon dia :) 
+15:03 <thomasga> hello! 
+15:03 <amirmc> o/ 
+15:05 <yomimono> I'd put an item on the agenda that's first - releases of mirage and functoria would be great, but mirage needs a few more bugfixes to deal with package renaming first 
+15:05 <thomasga> the new release of functoria is now merged in opam-repo 
+15:05 <yomimono> oh awesome!! 
+15:06 <yomimono> that's great news, so in that case we just need to fix names in the mirage front-end tool and then we can release that with a constraint requiring latest functoria, right? 
+15:06 <thomasga> so the only thing blocking the next release of mirage is deciding when to stop I guess :-) 
+15:06 <thomasga> so yes, I agree that we should just fix the constraints and ship it 
+15:06 <yomimono> We need a bugfix release badly, the tool is not really usable with the current opam universe 
+15:07 <yomimono> thomasga: OK, sounds good. Thanks for your work on it :) 
+15:07 <thomasga> I am still a bit uncomfortable about adding upper bounds everywhere, but I guess there is no other solution 
+15:07 <yomimono> I don't like that solution much either, but as I understand it opam2 will fix this problem? 
+15:08 <thomasga> I am not sure — upper bounds usually add a new class of problems. But I guess these are better than the current set of problems we have :-) 
+15:08 <mato> Would this be a good time to introduce some breaking changes on the Solo5 front, or is that something better left for a future release? 
+15:08 <thomasga> (and yes we should release a new version of mirage to unblock all our users lost in dependency management hell) 
+15:09 <yomimono> mato: I think that should be a 3.1 or something, not wrapped up in this 
+15:09 <thomasga> mato: probably best to wait a bit 
+15:09 <thomasga> +1 for a 3.1 with this 
+15:09 <mato> yomimono: Ok, sounds good. Some of the changes are not baked yet, so I agree. 
+15:10 <yomimono> I have some time today so I'll try to get the rename patches PR'd for mirage, rather than complaining about it any more :) 
+15:11 <yomimono> mato: We've discussed a 3.1 very vaguely before, but if you think the solo5 work is getting close enough to push for it shortly, we should write out what needs doing there 
+15:11 <yomimono> ...actually, you've already done that, haven't you? 
+15:11 <mato> yomimono: Not enough -- there are a bunch of things that are not clear yet (eg. renaming ukvm to something w/o "kvm" in it) 
+15:12 <mato> yomimono: Which would be the most user-visible change, but still need to spend some time thinking about it so as not to have to go through >1 user-visible rename... 
+15:12 <yomimono> mato: Seems wise. 
+15:13 <amirmc> mato: there was an issue for that naming thing, right? 
+15:14 <mato> amirmc: There is, but needs updating with recent oob discussions. #172 
+15:14 <thomasga> can we propose names? 
+15:14 <amirmc> maybe not right now ;) 
+15:15 <djs55> a public vote? 
+15:15 <djwillia> sounds like thomasga is eager to put in a candidate :) 
+15:15 <mato> thomasga: Feel free in the issue. We need several names, one for the unikernel "monitor" (ukvm) and one for the code in kernel/. 
+15:15 <mato> thomasga: I have a strawman which was "ubase" (kernel) and "umon" (monitor). 
+15:15 <thomasga> right, I will propose silly names in https://github.com/Solo5/solo5/issues/172 :-) 
+15:16 <thomasga> haha, I wanted to say 'umon' ;-) 
+15:16 <mato> Please do. I'll also try to update the issue with some background. Been distracted with the arm64 stuff, which is progressing nicely. 
+15:17 <mato> (As of now if you pin solo5-kernel-ukvm, ocaml-freestanding and mirage-solo5 master you can build anything which does not need mirage-entropy or nocrypto) 
+15:18 <yomimono> Moving on, unless there are objections... 
+15:18 <yomimono> samoht wanted to bring attention back to https://github.com/mirage/mirage-www/pull/562 , which I got distracted reading just now (sorry!) 
+15:19 <thomasga> yes the idea is to try to improve the general quality of the ecosystem 
+15:19 * yomimono looks frantically for LIKE button 
+15:19 <thomasga> the last proposal is to try to defines some sort of "levels" 
+15:20 <thomasga> e.g. level 1 is you have the basic files (CHANGES, LICENSE, README) + basic CI + everything set-up for odig to be happy 
+15:20 <Drup> (Does that includes cool achievement-like badges ?) 
+15:20 <thomasga> then you have tests, use ocp-indent, use a code linter, follow good practice, etc 
+15:20 <thomasga> Drup: yes!! 
+15:20 <Drup> Nice 
+15:21 <thomasga> I will try to come up with a first strawman for the levels before the end of the week, and having more feedback would be useful (I already got plenty, but the more I have the more I am happy :p) 
+15:22 <thomasga> (and level 10 would be to formally verify the library of course) 
+15:22 <thomasga> anyway, that's it for me :-) 
+15:23 <mato> Sounds good, I'll read the PR and will give feedback. 
+15:24 <yomimono> Same here. Thanks for bringing our attention to it, samoht :) 
+15:24 <thomasga> I haven't added all the feedback I got in the PR yet, I'll do it in the next days 
+15:24 <mato> Having just spent the best part of the day dealing with npm insanity (for Solo5 ARM64 CI), I'm all for quality packages! 
+15:25 <thomasga> (so read also the comments in the PR, not only the doc) 
+15:25 <yomimono> Objections to moving on? 
+15:25 <mato> thomasga: Which reminds me, one of the metrics I think we want is "Does not (unnecessarily) {depend on, vendor} C code" 
+15:26 <yomimono> I think that, along with some more general "write nice code" guidelines in the document, are better stated as goals than properties that a codebase has or doesn't have 
+15:26 <yomimono> "unnecessarily" is subjective 
+15:27 <yomimono> that particular can of worms is probably best opened in the PR, though 
+15:27 <mato> Agreed. 
+15:28 <yomimono> In that case, moving on -- 
+15:28 <yomimono> talex5, got some updates on capnp? 
+15:29 <talex5> I've created a thread on discuss to track it now: https://discuss.ocaml.org/t/mirage-capn-proto-rpc-library/658 
+15:29 <talex5> Mainly, I've been trying to improve the API a bit. That's resulted in lots of internal changes, but it's mostly done now. 
+15:30 <talex5> I'm currently working on getting the compiler changes into a state where they can be upstreamed. 
+15:30 <talex5> Then I'll make a new release of the compiler, and then a first release of the RPC library. 
+15:30 <talex5> (that's it from me) 
+15:32 <thomasga> that looks great :-) I already said it on the mailing list, but I really like capn-proto 
+15:32 <yomimono> Cool, thanks talex5 :) 
+15:32 <thomasga> especially that you can easily pass functions/callbacks around 
+15:33 <talex5> Yeah, thanks for the feedback! 
+15:33 <talex5> Hopefully there's slightly less boilerplate now. 
+15:33 <thomasga> talex5: does the multiple agents RPC thing works? 
+15:33 <Drup> Hum, I should take a look at the pipelining 
+15:34 <Drup> Is it automatic ? 
+15:34 <talex5> thomasga: 3rd-party hand-off? No that will require crypto support first. For now, it just relays messages in that case. 
+15:34 <talex5> Drup: yes. 
+15:34 <thomasga> talex: "Level 3: Three-way interactions" 
+15:34 <Drup> talex5: could you point to the part of the API that enforces that ? 
+15:34 <thomasga> I guess we don't have this yet :-) 
+15:35 <talex5> There's an example at https://github.com/mirage/capnp-rpc#pipelining 
+15:35 <talex5> A capability promise is a bit like an Lwt promise, but if it knows that the answer is coming from a remote site then it forwards all queries there, since that will be the first to know the answer. 
+15:36 <talex5> If you don't want that, you have to tell it to wait explicitly. 
+15:36 <Drup> So it is indeed similar to staging 
+15:37 <Drup> (Callback beings your explicit antiquotation) 
+15:37 <talex5> Not sure I follow that. 
+15:37 <Drup> eliom also does this form of automatic pipelining, hence my curiosity 
+15:38 <talex5> Everything here is runtime. 
+15:38 <talex5> The schema compiler is just for type safety. 
+15:38 <Drup> Well, yes and now, you have two "run times", before sending the message and after receiving it 
+15:39 <Drup> staging ≠ code generation 
+15:39 <Drup> anyway, that's off topic, I was just curious, I should take a closer look 
+15:40 <yomimono> there is one more item on the agenda: amirmc was curious about the state of our call recording 
+15:40 <yomimono> sorry, by "call recording" I mean IRC logs 
+15:40 <yomimono> Unless something changed while I was on holiday, we have nothing beyond whitequark's logger. 
+15:41 <mato> What happened to the unpurecamelbot that used to do the job? 
+15:41 <yomimono> The imaginaryfriend + canopy setup is in some bitrotted state I think, but I don't know the details 
+15:41 <yomimono> avsm and engil, I think, have keys to it and can probably say what's wrong 
+15:41 <amirmc> The logs on http://canopy.mirage.io/irclogs seem to stop in June (and the ordering is wrong). 
+15:42 <mato> Presumably whitequark's logger is running and someone can update the logs on canopy manually? 
+15:42 <mato> (By cut-n-paste) 
+15:42 <yomimono> yes, there's an outdated issue calling for folks to do that at https://github.com/mirage/canopy-data/issues/16 , but there are more dates needed now 
+15:43 <mato> Right, so that issue is just a case of "doing the cut-n-paste". Unclear what needs to be done to make the automated stuff work again. 
+15:43 <yomimono> Correct. 
+15:44 <mato> Neither avsm nor engil are here it seems. 
+15:45 <mato> So, amirmc, if you have the time to do the cut-n-paste, that would be awesome. canopy should be running (I run it now :)) 
+15:45 <yomimono> https://github.com/mirage/canopy-data/issues/22 
+15:45 <yomimono> I've created a "revive imaginary friend" issue and tagged avsm and engil there 
+15:45 <mato> Sounds good. 
+15:46 <amirmc> If there's isn't much (any) massaging needed, I can take a look at copy/pasting the July calls. 
+15:46 <amirmc> I'll have some time tomorrow to look at it. 
+15:46 <yomimono> That'd be great, amirmc :) thanks! 
+15:46 <yomimono> we have nothing else on the agenda. any other business? 
+15:47 <amirmc> We should try and fix the bot though or just switch to the Debian MeetBot. 
+15:49 <yomimono> amirmc: do you have time to investigate meetbot? 
+15:50 <amirmc> I've poked around before so I'll do that again and describe what needs to happen to get it set up. That's not a promise to set anything up btw :P 
+15:50 <yomimono> Thanks :) 
+15:51 <amirmc> I'll summarise in an issue on mirage/mirage-www 
+15:51 <yomimono> Sounds like that's all for us! 
+15:51 <yomimono> Thanks, everyone! 
+15:52 * mato 's laptop battery is at 10%, I think that means "go jump in the lake" 
+15:52 <mato> yomimono: Thanks for leading. 
+15:52 <yomimono> mato: have fun!! 
+
