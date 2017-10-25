@@ -1,16 +1,16 @@
 ---
 author: ansiwen (Sven Anderson)
-title: NetHSM - HSM application with REST-API
-abstract: HSM implementation that is accessed trough a simple JSON REST-API for running on dedicated appliances (x86/ARM) or as cloud instance.
+title: keyfender - HSM application with REST-API
+abstract: HSM implementation that is accessed through a simple JSON REST-API for running on dedicated appliances (x86/ARM) or as cloud instance.
 tags: active project, webmachine, nocrypto, json
 ---
 
-- [code](https://github.com/Nitrokey/nitrokey-nethsm)
+- [code](https://github.com/keyfender/keyfender)
 - Status: early tech-preview, PR welcome
 
 ## Description
 
-NetHSM is an software-based HSM unikernel application based on
+keyfender is a software-based HSM unikernel application based on
 MirageOS, cohttp, nocrypto, webmachine and yojson.  It is accessed
 trough a simple JSON REST-API and is designed for running on
 dedicated appliances (x86/ARM) or as cloud instances (with impaired
@@ -19,4 +19,3 @@ security).
 The project will comprise the unikernel application with a JSON based
 REST-API, a command line utility, and libraries (PKCS#11/JCE) that
 will access the REST-API as a backend.
-
