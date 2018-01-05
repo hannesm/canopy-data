@@ -8,4 +8,6 @@ tags: help needed, active project, http, social
 [Mastodon](https://en.wikipedia.org/wiki/Mastodon_(software)) is a federated social network with microblogging features.
 
 An overview of what we need to implement is [Specs and RFC used](https://github.com/tootsuite/documentation/blob/master/Specs-and-RFCs-used.md).
+The server side would enable everyone to run our their own MirageOS mastodon instance.  A mastodon client is appreciated as well.
+
 Please contact mirageos-devel@lists.xenproject.org if you'd like to start this project.
