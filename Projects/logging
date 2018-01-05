@@ -2,13 +2,13 @@
 title: Logging
 author: talex5 (Thomas Leonard)
 abstract: logging support for MirageOS
-tags: active project, core, help needed
+tags: project done, core
 ---
 
 - [log library](http://erratique.ch/software/logs)
 - [log reporter](https://github.com/mirage/mirage-logs)
 
-Many Mirage libraries use `printf` or similar to write log messages, but we now have a nice logging library.
+Many Mirage libraries used `printf` or similar to write log messages, but we now have a nice logging library.
 
 ## Ported libraries
 
@@ -29,7 +29,7 @@ Many Mirage libraries use `printf` or similar to write log messages, but we now 
 - [topkg-care](http://erratique.ch/software/topkg)
 - [mirage-net-solo5](https://github.com/mirage/mirage-net-solo5)
 
-## Libraries need porting
+## Libraries which still need attention
 
 - [mirage-unix / xen](https://github.com/mirage/mirage-platform)
 - [mirage-solo5](https://github.com/mirage/mirage-solo5)
