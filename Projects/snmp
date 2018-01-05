@@ -1,5 +1,5 @@
 ---
-title: SNMP: Simple Network Management Protocol
+title: SNMP - the Simple Network Management Protocol
 author: hannes
 abstract: MirageOS lacks a monitoring solution for internal counters
 tags: help needed, active project, network, monitoring, management
