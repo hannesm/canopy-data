@@ -5,5 +5,33 @@ abstract: develop a simple authentication and security layer
 tags: active project, help needed, protocol
 ---
 
-[SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) is used widely for authentication of users - we need it for MirageOS. Various mechanisms are available - ranging from md5 digests, over plain, towards cram/scram and external. Both the client side as well as the server side needs to be done - some preliminary client code can be adapted from the [XMPP library](https://github.com/hannesm/xmpp/blob/otr/src/sasl.ml). For the server side it is crucial to not save passwords in clear text or hashed without salt.
-TLS client certificate integration (SASL external mechanism) would be great to have as well!
+[SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer)
+is used widely for authentication of users - we need it for MirageOS.  Its
+purpose is to authenticate a user with their credentials (password, certificate,
+..).  SASL is protocol-agnostic and used in a variety of Internet protocols
+(POP3, IMAP, XMPP, SMTP, ...), always with a slightly different wire encodings.
+
+SASL is also agnostic about its authentication mechanism, ranging from `MD5`
+digests, `CRAM/SCRAM` hashing, `external` (used with X.509 client certificates
+over a TLS connection).
+
+The SASL library itself should be agnostic over the wire encoding and over the
+mechanism, but implement a solid base of each.  At the moment there is the
+[ocaml-gsasl](https://github.com/nojb/ocaml-gsasl/) library, which is an
+interface to the GNU SASL library (written in C).  The
+[erm-xmpp](https://github.com/ermine/xmpp) contains some ad-hoc SASL client code
+([here](https://github.com/hannesm/xmpp/blob/otr/src/sasl.ml).
+
+SASL nowadays also deals with Unicode in usernames and passwords by using the
+[PRECIS](https://tools.ietf.org/html/rfc8264) framework (earlier SASLprep etc.).
+I started an implementation of the PRECIS framework in OCaml using the available
+[Unicode libaries](http://erratique.ch/software/uucp), which will soon be
+published.
+
+The SASL library should be lightweight (effect-free, minimal dependencies)
+developed purely in OCaml with a reasonably sized test suite, and fuzz-based
+testing.  An initial prototype can be integrated into existing libaries that use
+SASL.
+
+If you're interested in starting this project, please drop a mail to
+mirageos-devel@lists.xenproject.org or mail hannes directly.
