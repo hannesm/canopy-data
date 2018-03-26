@@ -1,0 +1,31 @@
+---
+title: The Considerate Guide to Destructive Public API Changes
+author: yomimono (Mindy Preston)
+abstract: Steps for changing public APIs which minimize heartache and broken downstreams.
+---
+
+## The considerate guide to deprecating a publicly-exposed function in an OCaml library (even if that function is used in code generation by MirageOS).
+
+For the sake of this example it will be assumed that you are removing a function, but the same logic applies for renames, addition of non-optional arguments, changes in type signature, or other changes which require downstream code to be changed.
+
+This is a two-step process: release a version which warns of the deprecation, and release a version which removes the function.  It is considerate to change the version number of the package appropriately, if version numbers are meaningful for your project.  For instance, a project which claims to use semantic versioning should increment the major version number for any API breaking change.
+
+* Add [a `deprecated` annotation](http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#ss:builtin-attributes) and document the upgrade path for users.  The annotation should be added both to the source and to any documentation of the function.
+  * If you know the version number of the software which will remove the function, include this information.
+  * If there is an upgrade path which can coexist with the deprecation and its warning, consider releasing both in this version.  For example, if you are removing function `do_what_i_mean` and expect users to use the new `do_what_i_say` instead, consider providing `do_what_i_say` in this version if it's ready.
+    * Why? Generally it is nicer for users if there is a version which supports both the "old way" and the "new way" for changes in packages that are widely depended on. This is because it may take a while for all other packages which depended on the "old way" to adopt the "new way".  If package A is only released in versions which use the "old way", and package B is now using the "new way", it will be impossible to build software which uses both package A and versions of package B using the "new way" until package A updates and releases a new version.  If package A updates much less frequently than package B (or if package B is so new it has no releases using the "old way"), this can be a significant problem for users.  If there is a version which supports both, package A and the latest version of package B can both be usable in the same opam switch.
+
+* Release the version with the deprecation annotation, ideally some time before releasing the version which removes the function.
+  * If you expect to release the version removing the function soon after or you have downstream users which may not be building their software regularly, consider notifying users of the package -- you can discover which other packages depend on the package "do-cool-thing" in opam using `opam list --depends-on do-cool-thing`.
+
+* MirageOS: if the function is used in code directly emitted by `mirage configure`, release a version of `mirage` which places an upper bound on the version of the package.  For example, if version 0.99.1 of package `do-cool-thing` will be the last release with function `do_what_i_mean`, a `mirage` that can emit a call to `do_what_i_want` should call `package ~max:"0.99.1" do-cool-thing`.  (very widely used functions being deprecated should probably get conflicts on old opam packages too)
+  * if the `mirage` front-end tool directly uses the API that's being changed in its own code, rather than emitting code that uses it, the deprecation can be handled in the usual way for packages with straightfoward dependencies: add an upper bound to the entry in the `depends` list in the relevant `opam` file, to express that this version will not work with the new API.  For example, a dependency on `do-cool-thing { >= "0.98.0" }` should be updated to `do-cool-thing { >= "0.98.0" & <= "0.99.1" }`.
+
+* Release the version of your package removing the function.  Be sure to include information on the removal and upgrade path in an obvious, prominent place in the change notes.
+
+* If there are packages which depend on this function which don't have a new release, consider adding constraints to their expressed dependencies in opam-repository.  (Usually this should be accompanied by a pull request to the package's opam file in its development repository.)
+
+* MirageOS: if the function is used in code directly emitted by `mirage configure` (or used in `mirage/mirage` itself), release a version of `mirage` which is compatible with the new version and bound the dependency.  For example, if version 1.0 of package `do-cool-thing` now has `do_what_i_say` instead of `do_what_i_mean`, a `mirage` that can emit a call to `do_what_i_mean` should call `package ~min:"1.0" do-cool-thing`.
+  * if the `mirage` front-end tool directly uses the API, the version of `mirage` which uses the new API should be released with updated constraints on the dependency expressed directly in the opam file.  In the commit which updates `mirage` to use the new API, change the upper bound on the version with the old API to a lower bound on the version with the new API.  To continue the previous example, this commit would revise `do-cool-thing { >= "0.98.0" & <= "0.99.1" }` to `do-cool-thing { >= "1.0" }`.
+
+* An optional, but very considerate additional step is to submit pull requests to downstream libraries with the required change if it is trivial.  This usually should be done only when a version of the package where the "new way" is possible has been released, as doing so beforehand can complicate the downstream package's build process.
